@@ -1,0 +1,64 @@
+.section-cardspace {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+/* CARD */
+
+.div-Card {
+  background: #f2ebdf;
+  border: 1px solid #d9d0c1;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* TITLE */
+
+.div-Card h3 {
+  font-size: 32px;
+  line-height: 42px;
+  color: #111;
+}
+
+/* DESCRIPTION */
+
+.div-Card p {
+  font-size: 16px;
+  line-height: 28px;
+  color: #6f6b63;
+}
+
+/* CRENEAUX */
+
+.div-Card span {
+  background: #dce8c6;
+  border: 1px solid #b7c79d;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+/* BUTTON */
+
+.div-Card button {
+  margin-top: 20px;
+  border: none;
+  background: #234b2d;
+  color: white;
+  padding: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.div-Card button:hover {
+  opacity: 0.9;
+}
