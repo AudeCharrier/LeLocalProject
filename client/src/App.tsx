@@ -1,11 +1,11 @@
+import { Outlet } from "react-router";
 import "./App.css";
-import EventSection from "./components/Event/EventSection";
 
 function App() {
   return (
-    <>
-      <EventSection />
-    </>
+    <main>
+      <Outlet />
+    </main>
   );
 }
 
