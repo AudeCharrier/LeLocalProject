@@ -25,7 +25,7 @@ function CardSpace() {
           végétalisée.
         </p>
         {creneaux
-          .filter((creneau) => [2, 5, 7, 10].includes(creneau.id))
+          .filter((creneau) => [1, 3, 7, 9, 11].includes(creneau.id))
           .map((creneau) => (
             <span key={creneau.id}>{creneau.heure}</span>
           ))}
@@ -38,7 +38,7 @@ function CardSpace() {
           gamme.
         </p>
         {creneaux
-          .filter((creneau) => [2, 5, 7, 10].includes(creneau.id))
+          .filter((creneau) => [3, 5, 7, 9, 11].includes(creneau.id))
           .map((creneau) => (
             <span key={creneau.id}>{creneau.heure}</span>
           ))}
@@ -51,7 +51,7 @@ function CardSpace() {
           clients.
         </p>
         {creneaux
-          .filter((creneau) => [2, 5, 7, 10].includes(creneau.id))
+          .filter((creneau) => [2, 4, 7, 9].includes(creneau.id))
           .map((creneau) => (
             <span key={creneau.id}>{creneau.heure}</span>
           ))}
@@ -64,7 +64,7 @@ function CardSpace() {
           shoot.
         </p>
         {creneaux
-          .filter((creneau) => [2, 5, 7, 10].includes(creneau.id))
+          .filter((creneau) => [2, 4, 7, 9].includes(creneau.id))
           .map((creneau) => (
             <span key={creneau.id}>{creneau.heure}</span>
           ))}
