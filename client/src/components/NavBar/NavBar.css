@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.NavBarPage {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+  flex-wrap: wrap;
+  background-color: #f5f0e8;
+  margin: 0;
+  padding: 12px 24px;
+  gap: 8px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
+  .TitreNavBar {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .LiensNavBar {
+    display: flex;
+    gap: 5px;
+  }
+  .btnNavBar {
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: #78716b;
+    padding: 5px;
+  }
+
+  .btnNavBar:hover {
+    font-weight: 500;
+    color: #1a1a1a;
+    border-color: #2e6b44;
+    background-color: #78716b3a;
+  }
+
+  .Connexion {
+    display: flex;
+    gap: 20px;
+
+    .Connexion,
+    .btnNavBar:last-child {
+      color: white;
+      background-color: #2b4d32;
+      padding: 10px;
+    }
+  }
+}
