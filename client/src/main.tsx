@@ -1,10 +1,10 @@
-import ReactDOM from "react-dom/client";
 import React from "react";
+import ReactDOM from "react-dom/client";
 
-import { createBrowserRouter, RouterProvider } from "react-router";
-import Home from "./pages/Home/Home";
-import Space from "./components/Space/Space";
+import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
+import Space from "./components/Space/Space";
+import Home from "./pages/Home/Home";
 
 // Pages
 
