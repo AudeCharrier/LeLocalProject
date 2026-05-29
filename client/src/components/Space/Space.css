@@ -1,0 +1,31 @@
+.sectionSpace {
+  padding: 80px;
+
+  h5 {
+    color: #315233;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .Title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+
+    h2 {
+      font-size: 52px;
+      color: #111;
+      width: 500px;
+      line-height: 60px;
+    }
+
+    p {
+      color: #666;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+}
