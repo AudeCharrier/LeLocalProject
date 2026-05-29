@@ -1,10 +1,10 @@
 import "./App.css";
-import CardEvent from "./components/CardEvent";
+import EventSection from "./components/Event/EventSection";
 
 function App() {
   return (
     <>
-      <CardEvent />
+      <EventSection />
     </>
   );
 }
