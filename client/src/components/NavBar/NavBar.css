@@ -29,13 +29,13 @@
     font-size: 15px;
     color: #78716b;
     padding: 5px;
-  }
 
-  .btnNavBar:hover {
-    font-weight: 500;
-    color: #1a1a1a;
-    border-color: #2e6b44;
-    background-color: #78716b3a;
+    &:hover {
+      font-weight: 500;
+      color: #1a1a1a;
+      border-color: #2e6b44;
+      background-color: #78716b3a;
+    }
   }
 
   .Connexion {
