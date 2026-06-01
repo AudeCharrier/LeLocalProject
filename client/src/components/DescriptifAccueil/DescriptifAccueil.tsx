@@ -2,12 +2,12 @@ import "./DescriptifAccueil.css";
 
 function DescriptifAccueil() {
   return (
-    <section className="mission">
-      <div className="mission__image-wrapper">
+    <section className="mission-global-section">
+      <div className="mission-image-div">
         <img
           src="https://images.unsplash.com/photo-1777559542626-a72e0ee96eca?w=800&h=600&fit=crop&auto=format"
           alt="Espace de travail"
-          className="mission__image"
+          className="mission-image"
         />
         <div className="mission__badge">
           <span className="mission__badge-number">7</span>
@@ -35,19 +35,19 @@ function DescriptifAccueil() {
         <div className="mission__features">
           <div className="mission__feature">
             <span className="mission__feature-icon">☕</span>
-            <span>Espace détente & café bio</span>
+            <span className="mission__text">Espace détente & café bio</span>
           </div>
           <div className="mission__feature">
             <span className="mission__feature-icon">⚡</span>
-            <span>Internet fibre 1Gb</span>
+            <span className="mission__text">Internet fibre 1Gb</span>
           </div>
           <div className="mission__feature">
             <span className="mission__feature-icon">⭐</span>
-            <span>Tarifs solidaires</span>
+            <span className="mission__text">Tarifs solidaires</span>
           </div>
           <div className="mission__feature">
             <span className="mission__feature-icon">👥</span>
-            <span>Communauté active</span>
+            <span className="mission__text">Communauté active</span>
           </div>
         </div>
       </div>
