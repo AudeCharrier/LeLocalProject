@@ -1,26 +1,26 @@
-.stats {
+.stats-global-div {
   background-color: #2e5c3a;
   display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 10px 80px;
 
-  .stats__item {
+  .stats-item-div {
     display: flex;
     align-items: baseline;
     gap: 10px;
-  }
 
-  .stats__number {
-    font-family: "Georgia", serif;
-    font-size: 2.4rem;
-    font-weight: 800;
-    color: #f5efe6;
-  }
+    .stats-number {
+      font-family: "Georgia", serif;
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: #f5efe6;
+    }
 
-  .stats__label {
-    font-size: 0.8rem;
-    color: rgba(245, 239, 230, 0.7);
-    letter-spacing: 0.03em;
+    .stats-text {
+      font-size: 0.8rem;
+      color: rgba(245, 239, 230, 0.7);
+      letter-spacing: 0.03em;
+    }
   }
 }

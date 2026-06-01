@@ -2,22 +2,22 @@ import "./PresentationAccueil.css";
 
 function PresentationAcceuil() {
   return (
-    <div className="stats">
-      <div className="stats__item">
-        <span className="stats__number">8</span>
-        <span className="stats__label">espaces & ateliers</span>
+    <div className="stats-global-div">
+      <div className="stats-item-div">
+        <span className="stats-number">8</span>
+        <span className="stats-text">espaces & ateliers</span>
       </div>
-      <div className="stats__item">
-        <span className="stats__number">200+</span>
-        <span className="stats__label">membres actifs</span>
+      <div className="stats-item-div">
+        <span className="stats-number">200+</span>
+        <span className="stats-text">membres actifs</span>
       </div>
-      <div className="stats__item">
-        <span className="stats__number">40+</span>
-        <span className="stats__label">événements / an</span>
+      <div className="stats-item-div">
+        <span className="stats-number">40+</span>
+        <span className="stats-text">événements / an</span>
       </div>
-      <div className="stats__item">
-        <span className="stats__number">Paris 11e</span>
-        <span className="stats__label">en plein cœur</span>
+      <div className="stats-item-div">
+        <span className="stats-number">Paris 11e</span>
+        <span className="stats-text">en plein cœur</span>
       </div>
     </div>
   );

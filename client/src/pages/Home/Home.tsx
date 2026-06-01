@@ -6,7 +6,7 @@ import Space from "../../components/Space/Space";
 import "./Home.css";
 function Home() {
   return (
-    <section className="home-section">
+    <section className="home-global-section">
       <NavBar />
       <ImageHautPageAcceuil />
       <PresentationAccueil />
