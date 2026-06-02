@@ -30,4 +30,13 @@
       cursor: pointer;
     }
   }
+  .home-events {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    font-family: var(--secondary-font);
+  }
 }
