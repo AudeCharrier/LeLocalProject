@@ -10,24 +10,25 @@
     font-family: var(--secondary-font);
   }
 
-  .Title {
+  .home-section-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
+    width: 100%;
 
     h2 {
-      font-size: 52px;
+      font-size: clamp(0.8rem, 5vw, 3rem);
       color: #111;
-      width: 500px;
-      line-height: 60px;
+      width: auto;
       font-family: var(--Primary-font);
     }
 
     p {
       color: #666;
-      font-size: 16px;
+      font-size: 1rem;
       cursor: pointer;
+      font-family: var(--secondary-font);
     }
   }
   .home-events {
@@ -35,8 +36,15 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     width: 100%;
     gap: 2rem;
     font-family: var(--secondary-font);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-section-events {
+    padding: 40px;
   }
 }

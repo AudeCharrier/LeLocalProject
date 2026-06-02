@@ -54,7 +54,7 @@ function EventSection() {
   return (
     <section className="home-section-events">
       <h5>Agenda</h5>
-      <div className="Title">
+      <div className="home-section-title">
         <h2>Evènements à venir</h2>
         <p>Voir tout</p>
       </div>

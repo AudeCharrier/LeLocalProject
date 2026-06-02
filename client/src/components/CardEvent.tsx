@@ -33,13 +33,17 @@ function CardEvent({ fakeArrayEvent }: CardEventProps) {
         <h3>{fakeArrayEvent.name}</h3>
         <p>{fakeArrayEvent.description}</p>
         <div className="card-event-row-infos">
-          <Calendar size={16} />
+          <span className="card-event-infos">
+            <Calendar size={16} />
+          </span>
           <span className="card-event-infos">
             {fakeArrayEvent.start_day} {fakeArrayEvent.timeslot}
           </span>
         </div>
         <div className="card-event-row-infos">
-          <MapPin size={16} />
+          <span className="card-event-infos">
+            <MapPin size={16} />
+          </span>
           <span className="card-event-infos">{fakeArrayEvent.space_name}</span>
         </div>
         <div className="card-nbplaces-container">
