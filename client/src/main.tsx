@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
-import Space from "./components/Space/Space";
 import Home from "./pages/Home/Home";
+import Spaces from "./pages/Spaces/Spaces";
 
 // Pages
 
@@ -18,8 +18,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/space",
-        element: <Space />,
+        path: "/espaces",
+        element: <Spaces />,
       },
     ],
   },
