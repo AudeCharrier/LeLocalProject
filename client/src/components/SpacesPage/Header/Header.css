@@ -1,3 +1,45 @@
 .header-spaces-page-global-section {
-  background: var(--color-bg-hero);
+  .header-spaces-page-container-articles {
+    display: flex;
+    width: 100%;
+    height: 50vh;
+
+    .header-spaces-page-first-article {
+      width: 50%;
+      background: var(--color-bg-hero);
+      .header-spaces-page-first-article-main-div {
+        margin: var(--space-10);
+        .header-spaces-page-first-article-main-span-div {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-2);
+          background-color: var(--color-bg-hero);
+          padding: var(--space-2) var(--space-4);
+
+          .header-spaces-page-first-article-main-hr {
+            width: 30px;
+            height: 2px;
+            background-color: var(--color-text-accent);
+            border: var(--color-text-accent);
+          }
+        }
+        .header-spaces-page-first-article-main-span {
+          color: var(--color-text-accent);
+          font-family: var(--font-heading);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          letter-spacing: var(--tracking-wide);
+        }
+
+        .header-spaces-page-first-article-main-text {
+          width: 50%;
+        }
+      }
+    }
+    .header-spaces-page-second-article {
+      width: 50%;
+      display: grid;
+      background-color: var(--color-bg-white);
+    }
+  }
 }
