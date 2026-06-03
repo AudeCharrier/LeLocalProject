@@ -61,7 +61,7 @@
   --font-mono: "JetBrains Mono", "Courier New", monospace;
 
   /* Tailles */
-  --text-xs: 0.5rem; /*  6px — Petits titre, paraphrases */
+  --text-xs: 0.5rem; /*  8px — Petits titre, paraphrases */
   --text-sm: 0.75rem; /*  12px — Labels, captions, tags */
   --text-base: 1rem; /*  16px — Corps de texte */
   --text-lg: 1.25rem; /*  20px — Intro, sous-titres */
