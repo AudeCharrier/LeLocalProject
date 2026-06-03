@@ -1,11 +1,275 @@
-:root {
-  --Primary-font: "Fraunces", serif;
-  --secondary-font: "Epilogue", serif;
-  --background: #f3ede2;
-}
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap");
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+:root {
+  /* ----------------------------------------------------------
+     COULEURS
+  ---------------------------------------------------------- */
+
+  /* Primaires */
+  --color-primary: #a92831; /* Rouge — boutons, CTA */
+  --color-primary-dark: #8a1e26; /* Hover / états actifs */
+  --color-primary-light: #c4364a; /* Variante claire */
+
+  /* Vert forêt */
+  --color-forest: #37040e; /* Bordeaux foncé — hero, header */
+  --color-forest-mid: #620d14; /* Bordeaux — base overlay */
+
+  /* Backgrounds */
+  --color-bg-hero: #37040e; /* Hero / header — bordeaux foncé */
+  --color-bg-dark: #37040e; /* Footer / section CTA finale */
+  --color-bg-1: rgba(98, 13, 20, 0.2); /* Background 1 — 20% opacité */
+  --color-bg-2: rgba(98, 13, 20, 0.4); /* Background 2 — 40% opacité */
+  --color-bg-light: #f2eeeb; /* Fond général des sections contenu */
+  --color-bg-white: #ffffff; /* Cartes, formulaires */
+  --color-bg-card: #fafafa; /* Fond léger des cards */
+
+  /* Texte */
+  --color-text-primary: #1b1b17; /* Corps de texte principal */
+  --color-text-secondary: #4a4a42; /* Texte secondaire, légendes */
+  --color-text-muted: #8a8a80; /* Placeholders, meta-info */
+  --color-text-on-dark: #ffffff; /* Texte sur fonds sombres */
+  --color-text-on-mid: #1b1b17; /* Texte sur fonds mi-teinte */
+  --color-text-accent: #7ca85a; /* Vert — labels, tags, accents typographiques */
+
+  /* Bordures */
+  --color-border: #e0d8d3;
+  --color-border-strong: #c0b0a8;
+  --color-border-card: #e8e2de;
+
+  /* Tags / Badges */
+  --color-tag-bg: #a92831;
+  --color-tag-text: #ffffff;
+
+  /* Accent vert */
+  --color-accent: #7ca85a; /* Vert olive — mise en valeur typographique */
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHIE
+  ---------------------------------------------------------- */
+
+  /* Familles */
+  --font-display: "Fraunces", "Georgia", serif; /* Titres hero, grandes accroches */
+  --font-heading: "Fraunces", "Georgia", serif; /* Titres de section */
+  --font-body: "Inter", "Helvetica Neue", sans-serif; /* Corps de texte */
+  --font-ui: "Inter", "Helvetica Neue", sans-serif; /* Navigation, boutons, labels */
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  /* Tailles */
+  --text-sm: 0.875rem; /*  14px — Labels, captions, tags */
+  --text-base: 1rem; /*  16px — Corps de texte */
+  --text-lg: 1.25rem; /*  20px — Intro, sous-titres */
+  --text-xl: 1.5rem; /*  24px — Titres de cards */
+  --text-2xl: 2rem; /*  32px — Titres de section */
+  --text-3xl: 3rem; /*  48px — Titres principaux */
+  --text-4xl: 4rem; /*  64px — Accroche hero */
+
+  /* Poids */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Interlignage */
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+  --leading-loose: 1.9;
+
+  /* Espacement entre lettres */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.1em;
+  --tracking-widest: 0.18em;
+
+  /* ----------------------------------------------------------
+     ESPACEMENT (Spacing scale — base 4px)
+  ---------------------------------------------------------- */
+
+  --space-1: 0.25rem; /*   4px */
+  --space-2: 0.5rem; /*   8px */
+  --space-3: 0.75rem; /*  12px */
+  --space-4: 1rem; /*  16px */
+  --space-5: 1.25rem; /*  20px */
+  --space-6: 1.5rem; /*  24px */
+  --space-7: 1.75rem; /*  28px */
+  --space-8: 2rem; /*  32px */
+  --space-10: 2.5rem; /*  40px */
+  --space-12: 3rem; /*  48px */
+  --space-14: 3.5rem; /*  56px */
+  --space-16: 4rem; /*  64px */
+  --space-20: 5rem; /*  80px */
+  --space-24: 6rem; /*  96px */
+  --space-28: 7rem; /* 112px */
+  --space-32: 8rem; /* 128px */
+  --space-40: 10rem; /* 160px */
+
+  /* ----------------------------------------------------------
+     GAP (Grilles & Flex)
+  ---------------------------------------------------------- */
+
+  --gap-xs: var(--space-2); /*   8px — Éléments très proches */
+  --gap-sm: var(--space-4); /*  16px — Éléments nav, tags */
+  --gap-md: var(--space-6); /*  24px — Gap standard entre cards */
+  --gap-lg: var(--space-8); /*  32px — Gap section / colonnes */
+  --gap-xl: var(--space-12); /*  48px — Grands espacements */
+  --gap-2xl: var(--space-16); /*  64px — Écarts entre sections majeures */
+
+  /* ----------------------------------------------------------
+     LAYOUT & CONTENEURS
+  ---------------------------------------------------------- */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+  --container-2xl: 1440px;
+
+  --container-padding-x: var(--space-8); /* 32px — padding horizontal du wrapper */
+  --container-padding-x-sm: var(--space-4); /* 16px — mobile */
+
+  /* Grille cards */
+  --grid-cols-cards: repeat(4, 1fr);
+  --grid-cols-cards-md: repeat(2, 1fr);
+  --grid-cols-cards-sm: 1fr;
+
+  --grid-cols-events: repeat(3, 1fr);
+  --grid-cols-events-sm: 1fr;
+
+  /* ----------------------------------------------------------
+     BORDER RADIUS
+  ---------------------------------------------------------- */
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+
+  /* ----------------------------------------------------------
+     OMBRES
+  ---------------------------------------------------------- */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.13);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+  --shadow-card: 0 2px 12px rgba(55, 4, 14, 0.08);
+
+  /* ----------------------------------------------------------
+     BOUTONS
+  ---------------------------------------------------------- */
+
+  /* Bouton principal (rouge plein) */
+  --btn-primary-bg: #a92831;
+  --btn-primary-bg-hover: #8a1e26;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: transparent;
+
+  /* Bouton outline blanc (sur fonds sombres) */
+  --btn-outline-bg: transparent;
+  --btn-outline-bg-hover: rgba(255, 255, 255, 0.1);
+  --btn-outline-text: #ffffff;
+  --btn-outline-border: #ffffff;
+
+  /* Bouton outline rouge (sur fonds clairs) */
+  --btn-outline-dark-bg: transparent;
+  --btn-outline-dark-bg-hover: #a92831;
+  --btn-outline-dark-text: #a92831;
+  --btn-outline-dark-text-hover: #ffffff;
+  --btn-outline-dark-border: #a92831;
+
+  /* Dimensions */
+  --btn-height-sm: 36px;
+  --btn-height-md: 44px;
+  --btn-height-lg: 52px;
+  --btn-padding-x-sm: var(--space-4);
+  --btn-padding-x-md: var(--space-6);
+  --btn-padding-x-lg: var(--space-8);
+  --btn-font-size: var(--text-sm);
+  --btn-font-weight: var(--font-semibold);
+  --btn-letter-spacing: var(--tracking-wider);
+  --btn-radius: var(--radius-none);
+
+  /* ----------------------------------------------------------
+     NAVIGATION
+  ---------------------------------------------------------- */
+
+  --nav-height: 60px;
+  --nav-bg: var(--color-bg-hero);
+  --nav-text: rgba(255, 255, 255, 0.85);
+  --nav-text-hover: #ffffff;
+  --nav-text-active: var(--color-accent);
+  --nav-font-size: var(--text-sm);
+  --nav-font-weight: var(--font-medium);
+  --nav-letter-spacing: var(--tracking-wide);
+  --nav-gap: var(--gap-lg);
+  --nav-padding-x: var(--container-padding-x);
+
+  /* ----------------------------------------------------------
+     CARDS
+  ---------------------------------------------------------- */
+
+  --card-bg: var(--color-bg-white);
+  --card-border: var(--color-border-card);
+  --card-radius: var(--radius-none);
+  --card-shadow: var(--shadow-card);
+  --card-padding: var(--space-6);
+  --card-img-ratio: 56.25%;
+  --card-title-size: var(--text-base);
+  --card-title-weight: var(--font-semibold);
+  --card-meta-size: var(--text-xs);
+  --card-meta-color: var(--color-text-muted);
+  --card-gap: var(--gap-md);
+
+  /* ----------------------------------------------------------
+     SECTIONS — Padding vertical
+  ---------------------------------------------------------- */
+
+  --section-padding-y: var(--space-20);
+  --section-padding-y-md: var(--space-14);
+  --section-padding-y-sm: var(--space-10);
+
+  --section-hero-height: 600px;
+  --section-hero-height-sm: 480px;
+
+  --section-label-size: var(--text-xs);
+  --section-label-weight: var(--font-semibold);
+  --section-label-color: var(--color-accent);
+  --section-label-tracking: var(--tracking-widest);
+
+  /* ----------------------------------------------------------
+     TRANSITIONS & ANIMATIONS
+  ---------------------------------------------------------- */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition-color: color var(--transition-base), background-color
+    var(--transition-base);
+  --transition-shadow: box-shadow var(--transition-base);
+  --transition-transform: transform var(--transition-base);
+
+  /* ----------------------------------------------------------
+     Z-INDEX
+  ---------------------------------------------------------- */
+
+  --z-below: -1;
+  --z-base: 0;
+  --z-above: 1;
+  --z-overlay: 10;
+  --z-dropdown: 20;
+  --z-sticky: 30;
+  --z-modal: 40;
+  --z-toast: 50;
 }
