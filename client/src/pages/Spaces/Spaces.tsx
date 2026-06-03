@@ -1,5 +1,5 @@
 import "./Spaces.css";
-import Header from "../../components/Spaces/Header/Header";
+import Header from "../../components/SpacesPage/Header/Header";
 
 function Spaces() {
   return (
