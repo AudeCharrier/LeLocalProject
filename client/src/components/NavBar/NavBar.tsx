@@ -2,27 +2,27 @@ import "./NavBar.css";
 
 function NavBar() {
   return (
-    <div className="NavBarPage">
-      <div className="TitreNavBar">La Forge</div>
-      <div className="LiensNavBar">
-        <button type="button" className="btnNavBar">
-          Acceuil
+    <div className="navbar-global-div">
+      <div className="navbar-title">La Forge</div>
+      <div className="navbar-links-div">
+        <button type="button" className="navbar-link-button">
+          Accueil
         </button>
-        <button type="button" className="btnNavBar">
+        <button type="button" className="navbar-link-button">
           Evenement
         </button>
-        <button type="button" className="btnNavBar">
+        <button type="button" className="navbar-link-button">
           Espaces
         </button>
-        <button type="button" className="btnNavBar">
+        <button type="button" className="navbar-link-button">
           Atelier
         </button>
       </div>
-      <div className="Connexion">
-        <button type="button" className="btnNavBar">
+      <div className="navbar-connection-div">
+        <button type="button" className="navbar-connection-button">
           Se connecter
         </button>
-        <button type="button" className="btnNavBar">
+        <button type="button" className="navbar-connection-button">
           Rejoindre
         </button>
       </div>
