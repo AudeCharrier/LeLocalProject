@@ -1,18 +1,18 @@
-import DescriptifAccueil from "../../components/DescriptifAccueil/DescriptifAccueil";
 import EventSection from "../../components/Event/EventSection";
-import ImageHautPageAcceuil from "../../components/ImageHautPageAcceuil/ImageHautPageAcceuil";
+import HeaderHomePresentation from "../../components/Home/HeaderHomePresentation/HomePresentation";
+import HeaderImage from "../../components/Home/HeaderImage/HeaderImage";
+import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpion";
 import NavBar from "../../components/NavBar/NavBar";
-import PresentationAccueil from "../../components/PresentationAcceuil/PresentationAccueil";
 import Space from "../../components/Space/Space";
 
 import "./Home.css";
 function Home() {
   return (
-    <section className="home-section">
+    <section className="home-global-section">
       <NavBar />
-      <ImageHautPageAcceuil />
-      <PresentationAccueil />
-      <DescriptifAccueil />
+      <HeaderImage />
+      <HeaderHomePresentation />
+      <HomeDescritpion />
       <EventSection />
       <Space />
     </section>
