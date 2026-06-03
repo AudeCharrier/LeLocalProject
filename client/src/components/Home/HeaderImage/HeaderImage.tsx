@@ -1,4 +1,4 @@
-import "./ImageHautPageAcceuil.css";
+import "./HeaderImage.css";
 
 function ImageHautPageAcceuil() {
   return (
