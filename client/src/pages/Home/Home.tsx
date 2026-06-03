@@ -4,6 +4,7 @@ import HeaderImage from "../../components/Home/HeaderImage/HeaderImage";
 import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpion";
 import NavBar from "../../components/NavBar/NavBar";
 import Space from "../../components/Space/Space";
+import FooterHome from "../../components/FooterHome/FooterHome";
 
 import "./Home.css";
 function Home() {
@@ -15,6 +16,7 @@ function Home() {
       <HomeDescritpion />
       <EventSection />
       <Space />
+      <FooterHome />
     </section>
   );
 }
