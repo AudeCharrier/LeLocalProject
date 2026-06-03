@@ -6,7 +6,7 @@ function NavBar() {
       <div className="navbar-title">La Forge</div>
       <div className="navbar-links-div">
         <button type="button" className="navbar-link-button">
-          Acceuil
+          Accueil
         </button>
         <button type="button" className="navbar-link-button">
           Evenement

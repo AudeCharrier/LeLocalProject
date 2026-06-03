@@ -1,4 +1,4 @@
-import "./DescriptifAccueil.css";
+import "./HomeDescritpion.css";
 
 function DescriptifAccueil() {
   return (

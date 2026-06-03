@@ -6,7 +6,7 @@ function Space() {
       <h5>Espaces</h5>
       <div className="Title">
         <h2>Des lieux pour chaque usage</h2>
-        <p>Tous les espaces</p>
+        <p>Tous les espaces ›</p>
       </div>
 
       <CardSpace />
