@@ -1,4 +1,4 @@
-import CardEvent from "../CardEvent";
+import CardEvent from "./CardEvent";
 import "./EventSection.css";
 
 function EventSection() {
