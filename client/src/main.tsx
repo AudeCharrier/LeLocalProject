@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
 import Space from "./components/Space/Space";
+import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Home from "./pages/Home/Home";
 
 // Pages
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/space",
         element: <Space />,
+      },
+      {
+        path: "/dashboard-client",
+        element: <DashboardClientPage />,
       },
     ],
   },
