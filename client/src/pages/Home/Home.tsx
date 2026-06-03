@@ -1,9 +1,9 @@
+import EventSection from "../../components/Event/EventSection";
 import HeaderHomePresentation from "../../components/Home/HeaderHomePresentation/HomePresentation";
 import HeaderImage from "../../components/Home/HeaderImage/HeaderImage";
 import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpion";
 import NavBar from "../../components/NavBar/NavBar";
 import Space from "../../components/Space/Space";
-import EventSection from "../../components/Event/EventSection";
 
 import "./Home.css";
 function Home() {
