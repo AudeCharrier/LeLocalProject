@@ -3,6 +3,8 @@ import HeaderImage from "../../components/Home/HeaderImage/HeaderImage";
 import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpion";
 import NavBar from "../../components/NavBar/NavBar";
 import Space from "../../components/Space/Space";
+import EventSection from "../../components/Event/EventSection";
+
 import "./Home.css";
 function Home() {
   return (
@@ -11,6 +13,7 @@ function Home() {
       <HeaderImage />
       <HeaderHomePresentation />
       <HomeDescritpion />
+      <EventSection />
       <Space />
     </section>
   );
