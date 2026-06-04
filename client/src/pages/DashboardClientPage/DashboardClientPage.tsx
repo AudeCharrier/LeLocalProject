@@ -1,6 +1,6 @@
 import OldEventClient from "../../components/DashboardClient/OldEventClient/OldEventClient";
 import "./DashboardClientPage.css";
-
+import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 export default function DashboardClientPage() {
   return (
     <section className="dashboard-client-page">
@@ -16,6 +16,7 @@ export default function DashboardClientPage() {
           {/* Formulaire réclamation TODO */}
         </div>
       </div>
+      <FooterDashboard />
     </section>
   );
 }
