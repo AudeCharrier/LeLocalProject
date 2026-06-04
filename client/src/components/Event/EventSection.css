@@ -1,8 +1,9 @@
 .home-section-events {
   padding: 80px;
+  background-color: var(--color-bg-2);
 
   h5 {
-    color: #315233;
+    color: var(--color-forest);
     font-size: 14px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -19,13 +20,13 @@
 
     h2 {
       font-size: clamp(0.8rem, 5vw, 3rem);
-      color: #111;
+      color: var(--color-text-on-dark);
       width: auto;
       font-family: var(--Primary-font);
     }
 
     p {
-      color: #666;
+      color: var(--color-forest);
       font-size: 1rem;
       cursor: pointer;
       font-family: var(--secondary-font);
