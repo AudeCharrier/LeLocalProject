@@ -3,6 +3,7 @@
   border: 1px solid var(--color-border-card);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
+  min-height: 300px;
 
   & .old-event-client__title {
     font-family: var(--font-display);
