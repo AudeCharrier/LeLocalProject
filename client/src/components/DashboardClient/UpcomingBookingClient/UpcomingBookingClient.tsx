@@ -1,28 +1,9 @@
 import { Building2 } from "lucide-react";
-import type { Booking } from "../../../types/booking";
 import "./UpcomingBookingClient.css";
-
-const FAKE_UPCOMING_BOOKINGS: Booking[] = [
-  {
-    id: 7,
-    name: "space name",
-    space_name: "OpenSpace Principal",
-    space_type: "Coworking",
-    start_date: "2026-06-11",
-    end_date: "2026-06-11",
-    start_hour: "08:00:00",
-    end_hour: "14:00:00",
-    total_price: 8,
-    quantity: 1,
-  },
-];
-
-// TODO: remplacer les fausses data par le hook quand disponible :
-// import useBookings from "../../../hooks/useBookings";
-// const bookings = useBookings(2, "upcoming");
+import useBookingsClient from "../../../hooks/useSpacesClient";
 
 function UpcomingBookingClient() {
-  const bookings = FAKE_UPCOMING_BOOKINGS;
+  const bookings = useBookingsClient(2, "upcoming");
 
   return (
     <section className="upcoming-booking-client__container">
@@ -44,7 +25,8 @@ function UpcomingBookingClient() {
                   {booking.space_name}
                 </span>
                 <span className="upcoming-booking-client__meta">
-                  {booking.start_date} · {booking.start_hour.slice(0, 5)} -{" "}
+                  {booking.start_date.slice(0, 10)} ·{" "}
+                  {booking.start_hour.slice(0, 5)} -{" "}
                   {booking.end_hour.slice(0, 5)}
                 </span>
               </div>

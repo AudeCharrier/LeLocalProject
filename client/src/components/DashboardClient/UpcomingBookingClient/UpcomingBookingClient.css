@@ -6,7 +6,7 @@
 
   & .upcoming-booking-client__title {
     font-family: var(--font-display);
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     font-weight: var(--font-bold);
     color: var(--color-text-secondary);
     margin: 0 0 var(--space-5) 0;
