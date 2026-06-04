@@ -1,7 +1,9 @@
 function FooterDashboard() {
   return (
     <footer className="footer-dashboard">
-      <p>© 2026 Le Local — Association loi 1901 · Mentions légales </p>
+      <p className="footer-dashboard-text">
+        © 2024 Le Local. Tous droits réservés.
+      </p>
     </footer>
   );
 }
