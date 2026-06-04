@@ -1,0 +1,106 @@
+.mission-global-section {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  padding: 80px;
+  background-color: #f5f0e8;
+
+  .mission-image-div {
+    position: relative;
+    flex-shrink: 0;
+
+    .mission-image {
+      width: 420px;
+      height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+  }
+  .mission-badge-div {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background-color: #b5502a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    .mission-badge-number {
+      font-family: "Georgia", serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .mission-badge-text {
+      font-size: 0.7rem;
+      text-align: center;
+      opacity: 0.9;
+    }
+  }
+  .mission-our-mission-div {
+    max-width: 600px;
+
+    .mission-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #2e6b44;
+      margin: 0 0 16px 0;
+    }
+
+    .mission-title {
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      color: #1a1a1a;
+      margin: 0 0 28px 0;
+
+      .mission-title em {
+        font-style: italic;
+        font-weight: 700;
+      }
+    }
+    .mission-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #444;
+      margin: 0 0 16px 0;
+    }
+
+    /* --- Features en grille 2x2 --- */
+    .mission-features-list-div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+
+      .mission-feature-div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+
+      .mission-feature-icon {
+        width: 36px;
+        height: 36px;
+        background-color: #e8f0e9;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+    }
+  }
+}

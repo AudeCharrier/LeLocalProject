@@ -1,4 +1,4 @@
-.NavBarPage {
+.navbar-global-div {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -14,36 +14,36 @@
   width: 100%;
   z-index: 100;
 
-  .TitreNavBar {
+  .navbar-title {
     font-size: 20px;
     font-weight: 900;
   }
 
-  .LiensNavBar {
+  .navbar-links-div {
     display: flex;
     gap: 5px;
-  }
-  .btnNavBar {
-    background: none;
-    border: none;
-    font-size: 15px;
-    color: #78716b;
-    padding: 5px;
 
-    &:hover {
-      font-weight: 500;
-      color: #1a1a1a;
-      border-color: #2e6b44;
-      background-color: #78716b3a;
+    .navbar-link-button {
+      background: none;
+      border: none;
+      font-size: 15px;
+      color: #78716b;
+      padding: 5px;
+
+      &:hover {
+        font-weight: 500;
+        color: #1a1a1a;
+        border-color: #2e6b44;
+        background-color: #78716b3a;
+      }
     }
   }
 
-  .Connexion {
+  .navbar-connection-div {
     display: flex;
     gap: 20px;
 
-    .Connexion,
-    .btnNavBar:last-child {
+    .navbar-connection-button:last-child {
       color: white;
       background-color: #2b4d32;
       padding: 10px;
