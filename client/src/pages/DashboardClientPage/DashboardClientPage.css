@@ -1,0 +1,24 @@
+.dashboard-client-page {
+  min-height: 100vh;
+  background-color: var(--color-bg-light);
+
+  & .dashboard-client-page__content {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: var(--space-8);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gap-md);
+
+    & .dashboard-client-page__stats {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--gap-md);
+    }
+
+    & .dashboard-client-page__full {
+      grid-column: 1 / -1;
+    }
+  }
+}

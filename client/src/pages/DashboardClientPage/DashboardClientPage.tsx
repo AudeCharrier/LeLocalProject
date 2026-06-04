@@ -1,0 +1,21 @@
+import OldEventClient from "../../components/DashboardClient/OldEventClient/OldEventClient";
+import "./DashboardClientPage.css";
+
+export default function DashboardClientPage() {
+  return (
+    <section className="dashboard-client-page">
+      <div className="dashboard-client-page__content">
+        <div className="dashboard-client-page__stats">
+          {/* ici on mettra les blocs de statistiques */}
+        </div>
+        <OldEventClient />
+        <div className="dashboard-client-page__full">
+          {/* la partie facturation des activités passées */}
+        </div>
+        <div className="dashboard-client-page__full">
+          {/* Formulaire réclamation TODO */}
+        </div>
+      </div>
+    </section>
+  );
+}
