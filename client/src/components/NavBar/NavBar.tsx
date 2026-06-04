@@ -3,7 +3,7 @@ import "./NavBar.css";
 function NavBar() {
   return (
     <div className="NavBarPage">
-      <div className="TitreNavBar">La Forge</div>
+      <div className="TitreNavBar">Le Local</div>
       <div className="LiensNavBar">
         <button type="button" className="btnNavBar">
           Acceuil
