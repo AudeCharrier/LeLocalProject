@@ -59,9 +59,7 @@
     font-size: var(--btn-font-size);
     font-weight: var(--font-semibold);
     letter-spacing: var(--tracking-wide);
-    transition:
-      var(--transition-color),
-      border-color var(--transition-base);
+    transition: var(--transition-color), border-color var(--transition-base);
   }
 
   .footer-home-button-primary {

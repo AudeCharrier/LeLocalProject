@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import "./FooterDashboard.css";
 
 function FooterDashboard() {
@@ -16,50 +18,50 @@ function FooterDashboard() {
           <div className="footer-dashboard-links">
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Espaces</p>
-              <a className="footer-dashboard-link" href="/spaces/coworking">
+              <Link className="footer-dashboard-link" to="/spaces/coworking">
                 Coworking
-              </a>
-              <a className="footer-dashboard-link" href="/spaces/studios">
+              </Link>
+              <Link className="footer-dashboard-link" to="/spaces/studios">
                 Studios
-              </a>
-              <a className="footer-dashboard-link" href="/spaces/rooms">
+              </Link>
+              <Link className="footer-dashboard-link" to="/spaces/rooms">
                 Salles
-              </a>
+              </Link>
             </div>
 
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Ateliers</p>
-              <a
+              <Link
                 className="footer-dashboard-link"
-                href="/workshops/3d-printing"
+                to="/workshops/3d-printing"
               >
                 Impression 3D
-              </a>
-              <a
+              </Link>
+              <Link
                 className="footer-dashboard-link"
-                href="/workshops/electronics"
+                to="/workshops/electronics"
               >
                 Électronique
-              </a>
-              <a
+              </Link>
+              <Link
                 className="footer-dashboard-link"
-                href="/workshops/woodworking"
+                to="/workshops/woodworking"
               >
                 Menuiserie
-              </a>
+              </Link>
             </div>
 
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Liens</p>
-              <a className="footer-dashboard-link" href="/about">
+              <Link className="footer-dashboard-link" to="/about">
                 À propos
-              </a>
-              <a className="footer-dashboard-link" href="/membership">
+              </Link>
+              <Link className="footer-dashboard-link" to="/membership">
                 Adhésion
-              </a>
-              <a className="footer-dashboard-link" href="/contact">
+              </Link>
+              <Link className="footer-dashboard-link" to="/contact">
                 Contact
-              </a>
+              </Link>
             </div>
           </div>
         </section>
