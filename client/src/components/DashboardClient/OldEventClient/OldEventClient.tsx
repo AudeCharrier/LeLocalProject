@@ -2,31 +2,36 @@ import { CalendarCheck } from "lucide-react";
 import type { Activity } from "../../../types/activity";
 import "./OldEventClient.css";
 
-// Fausses data en attendant la sacrée BDD
 const FAKE_OLD_EVENTS: Activity[] = [
   {
     id: 1,
-    nom: "Rencontre Makers",
-    salle: "Salle de concert",
-    date_debut: "20-04-2026",
-    date_fin: "20-04-2026",
-    prix: 0,
+    name: "Rencontre Makers",
+    space_name: "Salle de concert",
+    start_date: "2026-04-20",
+    end_date: "2026-04-20",
+    start_hour: "18:00:00",
+    end_hour: "21:00:00",
+    price_unit: 0,
   },
   {
     id: 2,
-    nom: "Concert Intimiste",
-    salle: "Amphithéâtre",
-    date_debut: "08-03-2026",
-    date_fin: "08-03-2026",
-    prix: 15,
+    name: "Concert Intimiste",
+    space_name: "Amphithéâtre",
+    start_date: "2026-03-08",
+    end_date: "2026-03-08",
+    start_hour: "20:00:00",
+    end_hour: "23:00:00",
+    price_unit: 15,
   },
   {
     id: 3,
-    nom: "Workshop No-Code",
-    salle: "Salle de concert",
-    date_debut: "14-02-2026",
-    date_fin: "14-02-2026",
-    prix: 5,
+    name: "Workshop No-Code",
+    space_name: "Salle de concert",
+    start_date: "2026-02-14",
+    end_date: "2026-02-14",
+    start_hour: "14:00:00",
+    end_hour: "17:00:00",
+    price_unit: 5,
   },
 ];
 
@@ -50,9 +55,9 @@ function OldEventClient() {
             <li key={event.id} className="old-event-client__item">
               <CalendarCheck className="old-event-client__icon" size={18} />
               <div className="old-event-client__info">
-                <span className="old-event-client__name">{event.nom}</span>
+                <span className="old-event-client__name">{event.name}</span>
                 <span className="old-event-client__date">
-                  {event.date_debut}
+                  {event.start_date}
                 </span>
               </div>
             </li>

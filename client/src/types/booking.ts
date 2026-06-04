@@ -1,10 +1,9 @@
-export type Activity = {
+export type Booking = {
   id: number;
   name: string;
   space_name: string;
   start_date: string;
-  end_date: string;
   start_hour: string;
   end_hour: string;
-  price_unit: number;
+  total_price: number;
 };

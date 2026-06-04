@@ -1,10 +1,10 @@
-.old-event-client__container {
+.upcoming-event-client__container {
   background-color: var(--color-bg-white);
   border: 1px solid var(--color-border-card);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
 
-  & .old-event-client__title {
+  & .upcoming-event-client__title {
     font-family: var(--font-display);
     font-size: var(--text-lg);
     font-weight: var(--font-bold);
@@ -16,21 +16,21 @@
     border-bottom: 1px solid var(--color-border);
   }
 
-  & .old-event-client__empty {
+  & .upcoming-event-client__empty {
     font-family: var(--font-body);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     font-style: italic;
   }
 
-  & .old-event-client__list {
+  & .upcoming-event-client__list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
 
-    & .old-event-client__item {
+    & .upcoming-event-client__item {
       display: flex;
       align-items: center;
       gap: var(--space-3);
@@ -46,25 +46,25 @@
         padding-top: 0;
       }
 
-      & .old-event-client__icon {
+      & .upcoming-event-client__icon {
         flex-shrink: 0;
         color: var(--color-primary);
       }
 
-      & .old-event-client__info {
+      & .upcoming-event-client__info {
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: var(--space-1);
 
-        & .old-event-client__name {
+        & .upcoming-event-client__name {
           font-family: var(--font-body);
           font-size: var(--text-base);
           font-weight: var(--font-medium);
           color: var(--color-text-primary);
         }
 
-        & .old-event-client__date {
+        & .upcoming-event-client__date {
           font-family: var(--font-body);
           font-size: var(--text-sm);
           color: var(--color-text-muted);
