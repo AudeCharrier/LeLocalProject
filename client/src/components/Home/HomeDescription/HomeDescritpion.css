@@ -3,7 +3,7 @@
   align-items: center;
   gap: 64px;
   padding: 80px;
-  background-color: rgba(98, 13, 20, 0.2);
+  background-color: var(--color-bg-1);
 
   .mission-image-div {
     position: relative;
@@ -22,8 +22,8 @@
     right: 0;
     width: 120px;
     height: 120px;
-    background-color: #a92831;
-    color: white;
+    background-color: var(--color-tag-bg);
+    color: var(--color-text-on-dark);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,7 +50,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #37040e;
+      color: var(--color-bg-hero);
       margin: 0 0 16px 0;
     }
 
@@ -59,7 +59,7 @@
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 800;
       line-height: 1.15;
-      color: #1a1a1a;
+      color: var(--color-text-primary);
       margin: 0 0 28px 0;
 
       .mission-title em {
@@ -70,7 +70,7 @@
     .mission-text {
       font-size: 0.95rem;
       line-height: 1.75;
-      color: #444;
+      color: var(--color-text-secondary);
       margin: 0 0 16px 0;
     }
 
@@ -87,13 +87,13 @@
         gap: 10px;
         font-size: 0.9rem;
         font-weight: 600;
-        color: #1a1a1a;
+        color: var(--color-text-primary);
       }
 
       .mission-feature-icon {
         width: 36px;
         height: 36px;
-        background-color: #e8f0e9;
+        background-color: var(--color-bg-card);
         border-radius: 6px;
         display: flex;
         align-items: center;

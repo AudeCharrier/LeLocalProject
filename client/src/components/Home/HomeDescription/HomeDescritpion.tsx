@@ -25,7 +25,7 @@ function DescriptifAccueil() {
           qui le font vivre.
         </h2>
         <p className="mission-text">
-          La Forge est un tiers lieu associatif ouvert aux créateurs,
+          Le Local est un tiers lieu associatif ouvert aux créateurs,
           entrepreneurs, artisans et curieux. On partage des outils, des savoirs
           et des projets – dans un esprit de communs et de transition.
         </p>
