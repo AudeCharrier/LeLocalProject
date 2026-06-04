@@ -1,7 +1,11 @@
-.section-cardspace {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+.div-Card {
+  background: #f2ebdf;
+  border: 1px solid #d9d0c1;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
 
   .div-Card {
     background: var(--color-bg-card);
