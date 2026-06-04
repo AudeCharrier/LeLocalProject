@@ -5,7 +5,6 @@ import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpi
 import NavBar from "../../components/NavBar/NavBar";
 import Space from "../../components/Space/Space";
 import FooterHome from "../../components/FooterHome/FooterHome";
-import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 
 import "./Home.css";
 function Home() {
