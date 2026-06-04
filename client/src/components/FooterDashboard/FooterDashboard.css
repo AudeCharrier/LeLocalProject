@@ -106,20 +106,48 @@
 
     .footer-dashboard-content {
       flex-direction: column;
-      gap: var(--space-8);
+      gap: var(--space-6);
     }
 
     .footer-dashboard-links {
       width: 100%;
       grid-template-columns: repeat(2, minmax(140px, 1fr));
-      gap: var(--space-8);
+      gap: var(--space-6);
+    }
+
+    .footer-dashboard-brand-name {
+      font-size: var(--text-lg);
     }
   }
 
   @media screen and (max-width: 640px) {
+    padding: var(--space-8) var(--container-padding-x-sm) var(--space-6);
+
+    .footer-dashboard-content {
+      gap: var(--space-5);
+      padding-bottom: var(--space-5);
+    }
+
     .footer-dashboard-links {
       grid-template-columns: 1fr;
-      gap: var(--space-6);
+      gap: var(--space-4);
+    }
+
+    .footer-dashboard-brand-details,
+    .footer-dashboard-link {
+      font-size: var(--text-sm);
+    }
+
+    .footer-dashboard-column-title {
+      font-size: var(--text-xs);
+    }
+
+    .footer-dashboard-bottom {
+      padding-top: var(--space-3);
+    }
+
+    .footer-dashboard-legal {
+      font-size: var(--text-xs);
     }
   }
 }
