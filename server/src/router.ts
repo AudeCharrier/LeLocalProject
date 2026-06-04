@@ -28,6 +28,12 @@ router.get(
   dashboardActions.browseUpcomingEvents,
 );
 
+// Client dashboard — upcoming booking space for a specific user
+router.get(
+  "/api/dashboard/client/:userId/bookings/upcoming",
+  dashboardActions.browseUpcomingBookings,
+);
+
 /* ************************************************************************* */
 
 export default router;

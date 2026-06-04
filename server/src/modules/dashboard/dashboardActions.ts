@@ -27,4 +27,18 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browsePastEvents, browseUpcomingEvents };
+const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const bookings = await dashboardRepository.readUpcomingBookings(userId);
+    res.json(bookings);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default {
+  browsePastEvents,
+  browseUpcomingEvents,
+  browseUpcomingBookings,
+};
