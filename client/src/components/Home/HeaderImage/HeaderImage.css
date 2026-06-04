@@ -12,7 +12,7 @@
   .hero-overlay-div {
     position: absolute;
     inset: 0;
-    background: rgba(15, 15, 15, 0.65);
+    background: rgba(98, 13, 20, 0.35);
     z-index: 0;
   }
 
@@ -65,7 +65,7 @@
       }
 
       .hero-button-primary {
-        background-color: #2e6b44;
+        background-color: #a92831;
         color: white;
         border: none;
 

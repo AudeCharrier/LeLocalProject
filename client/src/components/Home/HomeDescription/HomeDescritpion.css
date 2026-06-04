@@ -3,7 +3,7 @@
   align-items: center;
   gap: 64px;
   padding: 80px;
-  background-color: #f5f0e8;
+  background-color: rgba(98, 13, 20, 0.2);
 
   .mission-image-div {
     position: relative;
@@ -22,7 +22,7 @@
     right: 0;
     width: 120px;
     height: 120px;
-    background-color: #b5502a;
+    background-color: #a92831;
     color: white;
     display: flex;
     flex-direction: column;
@@ -50,7 +50,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #2e6b44;
+      color: #37040e;
       margin: 0 0 16px 0;
     }
 
