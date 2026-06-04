@@ -14,7 +14,7 @@ CREATE TABLE `space` (
 
 LOCK TABLES `space` WRITE;
 
-INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'http',100.00,'Evenements'),(2,'OpenSpace Principal\"','\"Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'http',8.00,'Coworking'),(3,'Studio d\'enregistrement','Cabine insonorisée avec régie son et matériel haut de gamme\"',1,'\"http\"',25.00,'\"Ateliers\"'),(4,'\"Salle de réunion\"','\"Salle cofnérences équipée pour workshops, présentations et réunions client',1,'http',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'http',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'http',500.00,'Evenements');
+INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'http',100.00,'Evenements'),(2,'OpenSpace Principal','Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'http',8.00,'Coworking'),(3,`Studio d\'enregistrement`,'Cabine insonorisée avec régie son et matériel haut de gamme',1,'http',25.00,'Ateliers'),(4,'Salle de réunion','Salle cofnérences équipée pour workshops, présentations et réunions client',1,'http',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'http',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'http',500.00,'Evenements');
 
 UNLOCK TABLES;
 
@@ -85,7 +85,11 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 
+<<<<<<< HEAD
+INSERT INTO `activity` VALUES (1,2,1,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communauté Le Local. Bières artisanales offertes.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soirée Pitch & Bière'),(2,2,1,'2026-06-18','2026-06-18','Construisez votre première app sans écrire une ligne de code.',5,'https://images.unsplash.com/photo-1777559542626-a72e0ee96eca?w=800&h=600&fit=crop&auto=format','Workshop No Code'),(3,2,1,'2026-06-25','2026-06-25','Rencontre mensuelle des makers, fabbers et bricoleurs du 11e. Show and tell libre.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers'),(4,2,6,'2026-05-04','2026-05-04','Musique expérimentale et électro-acoustique dans un cadre industriel unique.',10,'http','Concert intimiste'),(5,1,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(6,2,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(7,1,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name'),(8,2,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name');
+=======
 INSERT INTO `activity` VALUES (1,2,1,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communauté Le Local. Bières artisanales offertes.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soirée Pitch & Bière\"'),(2,2,1,'2026-06-18','2026-06-18','Construisez votre première app sans écrire une ligne de code.',5,'https://images.unsplash.com/photo-1777559542626-a72e0ee96eca?w=800&h=600&fit=crop&auto=format','Workshop No Code'),(3,2,1,'2026-06-25','2026-06-25','Rencontre mensuelle des makers, fabbers et bricoleurs du 11e. Show and tell libre.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers'),(4,2,6,'2026-05-04','2026-05-04','Musique expérimentale et électro-acoustique dans un cadre industriel unique.',10,'http','Concert intimiste'),(5,1,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(6,2,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(7,1,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name'),(8,2,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name');
+>>>>>>> dev
 
 UNLOCK TABLES;
 
@@ -151,6 +155,4 @@ CREATE TABLE `claim` (
 LOCK TABLES `claim` WRITE;
 
 UNLOCK TABLES;
-
-
 
