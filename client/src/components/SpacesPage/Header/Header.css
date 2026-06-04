@@ -1,3 +1,7 @@
 .header-spaces-page-global-section {
-  background: var(--color-bg-hero);
+  .header-spaces-page-container-articles {
+    display: flex;
+    width: 100%;
+    min-height: 35vh;
+  }
 }
