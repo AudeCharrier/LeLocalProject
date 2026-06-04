@@ -1,5 +1,5 @@
 import { CalendarClock } from "lucide-react";
-import useEvents from "../../../hooks/useEvents";
+import useEvents from "../../../hooks/useEventsClient";
 import "./UpcomingEventClient.css";
 
 // l'user_id est en dur sur le 2 pour l'instant en attendant l'authentification

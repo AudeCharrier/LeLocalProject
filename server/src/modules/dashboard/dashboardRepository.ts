@@ -13,6 +13,19 @@ type Activity = {
   price_unit: number;
 };
 
+type Booking = {
+  id: number;
+  name: string;
+  space_name: string;
+  space_type: string;
+  start_date: string;
+  end_date: string;
+  start_hour: string;
+  end_hour: string;
+  total_price: number;
+  quantity: number;
+};
+
 // Pour regrouper nos différentes méthodes :
 class DashboardRepository {
   // The Rs of CRUD - Read operations
@@ -75,6 +88,32 @@ class DashboardRepository {
       [userId],
     );
     return rows as Activity[];
+  }
+
+  async readUpcomingBookings(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+        a.id,
+        a.name,
+        s.space_name,
+        s.space_type,
+        a.start_date,
+        a.end_date,
+        t.start_hour,
+        t.end_hour,
+        b.total_price,
+        b.quantity
+      FROM booking b
+      JOIN activity a ON b.id_activity = a.id
+      JOIN space s ON a.space_id = s.id
+      JOIN time_slot t ON a.time_slot_id = t.id
+      WHERE b.users_id = ?
+      AND s.space_type != 'Evenements'
+      AND a.start_date > CURDATE()
+      ORDER BY a.start_date ASC`,
+      [userId],
+    );
+    return rows as Booking[];
   }
 }
 

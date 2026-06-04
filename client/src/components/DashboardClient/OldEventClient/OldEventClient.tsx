@@ -1,5 +1,5 @@
 import { CalendarCheck } from "lucide-react";
-import useEvents from "../../../hooks/useEvents";
+import useEvents from "../../../hooks/useEventsClient";
 
 import "./OldEventClient.css";
 
