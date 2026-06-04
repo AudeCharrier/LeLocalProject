@@ -1,11 +1,11 @@
 import { CalendarCheck } from "lucide-react";
-import useEvents from "../../../hooks/useEventsClient";
+import useEventsClient from "../../../hooks/useEventsClient";
 
 import "./OldEventClient.css";
 
 // l'user_id est en dur sur le 2 pour l'instant en attendant l'authentification
 function OldEventClient() {
-  const events = useEvents(2, "past");
+  const events = useEventsClient(2, "past");
 
   return (
     <section className="old-event-client__container">

@@ -1,9 +1,9 @@
 import { Building2 } from "lucide-react";
 import "./UpcomingBookingClient.css";
-import useBookingsClient from "../../../hooks/useSpacesClient";
+import useSpacesClient from "../../../hooks/useSpacesClient";
 
 function UpcomingBookingClient() {
-  const bookings = useBookingsClient(2, "upcoming");
+  const bookings = useSpacesClient(2, "upcoming");
 
   return (
     <section className="upcoming-booking-client__container">
