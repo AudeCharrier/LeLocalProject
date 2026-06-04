@@ -24,7 +24,7 @@ function UpcomingBookingClient() {
                 <span className="upcoming-booking-client__name">
                   {booking.space_name}
                 </span>
-                <span className="upcoming-booking-client__meta">
+                <span className="upcoming-booking-client__date">
                   {booking.start_date.slice(0, 10)} ·{" "}
                   {booking.start_hour.slice(0, 5)} -{" "}
                   {booking.end_hour.slice(0, 5)}
