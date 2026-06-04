@@ -29,13 +29,22 @@ function FooterDashboard() {
 
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Ateliers</p>
-              <a className="footer-dashboard-link" href="/workshops/3d-printing">
+              <a
+                className="footer-dashboard-link"
+                href="/workshops/3d-printing"
+              >
                 Impression 3D
               </a>
-              <a className="footer-dashboard-link" href="/workshops/electronics">
+              <a
+                className="footer-dashboard-link"
+                href="/workshops/electronics"
+              >
                 Électronique
               </a>
-              <a className="footer-dashboard-link" href="/workshops/woodworking">
+              <a
+                className="footer-dashboard-link"
+                href="/workshops/woodworking"
+              >
                 Menuiserie
               </a>
             </div>
