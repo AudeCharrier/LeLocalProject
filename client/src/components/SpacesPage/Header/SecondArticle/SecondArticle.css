@@ -1,5 +1,5 @@
 .header-spaces-page-second-article {
-  background: var(--color-bg-light);
+  background: var(--color-bg-card);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
