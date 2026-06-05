@@ -16,6 +16,8 @@ type Activity = {
 type Booking = {
   id: number;
   name: string;
+  firstname: string;
+  lastname: string;
   space_name: string;
   space_type: string;
   start_date: string;
@@ -124,10 +126,9 @@ class DashboardRepository {
     return rows as Booking[];
   }
 
-  // Retrieve full billing history for a specific user
   async readBookingHistory(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
-      `SELECT 
+      `SELECT
         b.id,
         b.bills_number,
         b.quantity,
@@ -144,9 +145,6 @@ class DashboardRepository {
     );
     return rows as BookingHistory[];
   }
-
-  // Retrieve past space bookings for a specific user
-  // Filter on space_type != "Evenements" and end_date < today
   async readOldBookings(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
