@@ -26,6 +26,11 @@ router.post("/api/space", spaceActions.add); */
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
+router.get(
+  "/api/events/participants",
+  eventActions.browseSumParticipantsToEvent,
+); /* dans la table booking en vrai*/
+/*plutot avec :id ?*/
 
 /* ************************************************************************* */
 // Define dashboard-related routes
