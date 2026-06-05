@@ -5,6 +5,7 @@ import App from "./App";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
+import Cart from "./pages/cart/Cart";
 
 // Pages
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard-client",
         element: <DashboardClientPage />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

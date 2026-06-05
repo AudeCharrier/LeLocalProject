@@ -1,5 +1,6 @@
 import "./NavBar.css";
-
+import { ShoppingCart } from "lucide-react";
+import { Link } from "react-router";
 function NavBar() {
   return (
     <div className="navbar-global-div">
@@ -25,6 +26,9 @@ function NavBar() {
         <button type="button" className="navbar-connection-button">
           Rejoindre
         </button>
+        <Link to="/cart" className="cart-logo">
+          <ShoppingCart />
+        </Link>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@
   justify-content: space-around;
   list-style: none;
   flex-wrap: wrap;
-  background-color: #f5f0e8;
+  background-color: var(--color-forest);
   margin: 0;
   padding: 12px 24px;
   gap: 8px;
@@ -48,5 +48,8 @@
       background-color: #2b4d32;
       padding: 10px;
     }
+  }
+  .cart-logo {
+    color: #fff;
   }
 }
