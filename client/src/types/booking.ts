@@ -1,6 +1,8 @@
 export type Booking = {
   id: number;
   name: string;
+  firstname: string;
+  lastname: string;
   space_name: string;
   space_type: string;
   start_date: string;

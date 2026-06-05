@@ -1,6 +1,5 @@
 import express from "express";
-import dashboardActions from "./modules/dashboard/dashboardActions";
-
+import dasboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 const router = express.Router();
 
 /* ************************************************************************* */
@@ -33,31 +32,36 @@ router.get("/api/events", eventActions.browseUpcomingEvents);
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
-  dashboardActions.browsePastEvents,
+  dasboardClientActions.browsePastEvents,
 );
 
 // 2.upcoming events the user is registered for
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
-  dashboardActions.browseUpcomingEvents,
+  dasboardClientActions.browseUpcomingEvents,
 );
 
 // 3.past space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/past",
-  dashboardActions.browseOldBookings,
+  dasboardClientActions.browseOldBookings,
 );
 
 // 4.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
-  dashboardActions.browseUpcomingBookings,
+  dasboardClientActions.browseUpcomingBookings,
 );
-
-// 5.full billing history for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
-  dashboardActions.browseBookingHistory,
+  dasboardClientActions.browseBookingHistory,
+);
+
+import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
+
+router.get(
+  "/api/dashboard/admin/bookings",
+  dasboardAdminActions.browseAdminBookings,
 );
 
 /* ************************************************************************* */
