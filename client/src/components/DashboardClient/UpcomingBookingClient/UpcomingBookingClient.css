@@ -1,0 +1,86 @@
+.upcoming-booking-client__container {
+  background-color: var(--color-bg-white);
+  border: 1px solid var(--color-border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+
+  & .upcoming-booking-client__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-5) 0;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  & .upcoming-booking-client__empty {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  & .upcoming-booking-client__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+
+    & .upcoming-booking-client__item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-border);
+
+      &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      & .upcoming-booking-client__icon {
+        flex-shrink: 0;
+        color: var(--color-primary);
+      }
+
+      & .upcoming-booking-client__info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+
+        & .upcoming-booking-client__name {
+          font-family: var(--font-body);
+          font-size: var(--text-base);
+          font-weight: var(--font-medium);
+          color: var(--color-text-primary);
+        }
+
+        & .upcoming-booking-client__date {
+          font-family: var(--font-body);
+          font-size: var(--text-sm);
+          color: var(--color-text-muted);
+        }
+      }
+
+      & .upcoming-booking-client__price {
+        flex-shrink: 0;
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+        font-weight: var(--font-medium);
+        color: var(--color-primary);
+        background-color: var(--color-bg-1);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-pill);
+      }
+    }
+  }
+}

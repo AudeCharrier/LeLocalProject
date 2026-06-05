@@ -14,11 +14,7 @@ CREATE TABLE `space` (
 
 LOCK TABLES `space` WRITE;
 
-<<<<<<< HEAD
 INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'http',100.00,'Evenements'),(2,'OpenSpace Principal','Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'http',8.00,'Coworking'),(3,'Studio d\'enregistrement','Cabine insonorisée avec régie son et matériel haut de gamme',1,'http',25.00,'Ateliers'),(4,'Salle de réunion','Salle cofnérences équipée pour workshops, présentations et réunions client',1,'http',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'http',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'http',500.00,'Evenements');
-=======
-INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'http',100.00,'Evenements'),(2,'OpenSpace Principal','Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'http',8.00,'Coworking'),(3,`Studio d\'enregistrement`,'Cabine insonorisée avec régie son et matériel haut de gamme',1,'http',25.00,'Ateliers'),(4,'Salle de réunion','Salle cofnérences équipée pour workshops, présentations et réunions client',1,'http',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'http',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'http',500.00,'Evenements');
->>>>>>> dev
 
 UNLOCK TABLES;
 
