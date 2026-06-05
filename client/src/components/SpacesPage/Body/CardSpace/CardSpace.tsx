@@ -11,16 +11,20 @@ function CardSpace({ space }: CardSpaceProps) {
   console.log(timeslots);
 
   return (
-    <div className="div-Card">
-      <h3>{space.space_name}</h3>
+    <div className="card-space-card-div">
+      <h3 className="card-space-card-name">{space.space_name}</h3>
 
-      <p>{space.description}</p>
+      <p className="card-space-card-description">{space.description}</p>
 
       {timeslots.map((timeslot) => (
-        <span key={timeslot.id}>{timeslot.slot}</span>
+        <span className="card-space-card-timeslot" key={timeslot.id}>
+          {timeslot.slot}
+        </span>
       ))}
 
-      <button type="button">Réserver</button>
+      <button type="button" className="card-space-card-reservation-button">
+        Réserver
+      </button>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-.div-Card {
+.card-space-card-div {
   background: #f2ebdf;
   border: 1px solid #d9d0c1;
   padding: 28px;
@@ -7,19 +7,19 @@
   justify-content: space-between;
   width: 100%;
 
-  h3 {
+  .card-space-card-name {
     font-size: 32px;
     line-height: 42px;
     color: #111;
   }
 
-  p {
+  .card-space-card-description {
     font-size: 16px;
     line-height: 28px;
     color: #6f6b63;
   }
 
-  span {
+  .card-space-card-timeslot {
     background: #dce8c6;
     border: 1px solid #b7c79d;
     padding: 10px 14px;
@@ -29,7 +29,7 @@
     margin-bottom: 8px;
   }
 
-  button {
+  .card-space-card-reservation-button {
     margin-top: 20px;
     border: none;
     background: #234b2d;
