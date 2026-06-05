@@ -9,9 +9,11 @@ const router = express.Router();
 /* ************************************************************************* */
 
 // Define item-related routes
-router.get("/api/items", itemActions.browse);
-router.get("/api/items/:id", itemActions.read);
-router.post("/api/items", itemActions.add);
+import spaceActions from "./modules/space/spaceActions";
+
+router.get("/api/spaces", spaceActions.browse);
+/* router.get("/api/space/:id", spaceActions.read);
+router.post("/api/space", spaceActions.add); */
 
 /* ************************************************************************* */
 // Define dashboard-related routes
@@ -24,6 +26,12 @@ router.get(
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
   dashboardActions.browseUpcomingEvents,
+);
+
+// Client dashboard — upcoming booking space for a specific user
+router.get(
+  "/api/dashboard/client/:userId/bookings/upcoming",
+  dashboardActions.browseUpcomingBookings,
 );
 
 /* ************************************************************************* */
