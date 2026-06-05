@@ -12,18 +12,14 @@ export default function DashboardClientPage() {
         <div className="dashboard-client-page__stats">
           {/* ici on mettra les blocs de statistiques */}
         </div>
-
-        <UpcomingEventClient />
+        <UpcomingBookingClient />
         <div className="dashboard-client-page__past">
           <PastClient />
         </div>
-
-        <UpcomingBookingClient />
-
+        <UpcomingEventClient />
         <div className="dashboard-client-page__full">
           <BillingClient />
         </div>
-
         <div className="dashboard-client-page__full">
           {/* Formulaire réclamation TODO */}
         </div>

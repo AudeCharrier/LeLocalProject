@@ -37,13 +37,11 @@ type BookingHistory = {
 };
 
 // Pour regrouper nos différentes méthodes :
-class DashboardRepository {
+class DashboardClientRepository {
   // The Rs of CRUD - Read operations
 
-  // Sert à récupérer les évènements où l'utilisateur était inscrit
-  // On utilise le filtre space_type = "Evenements"
-  // et on rajoute la condition date < à aujourd'hui.
-
+  // Retrieve past events the user attended
+  // Filter on space_type = "Evenements" and end_date < today
   async readPastEvents(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -70,10 +68,8 @@ class DashboardRepository {
     return rows as Activity[];
   }
 
-  // Sert à récupérer les évènements futurs où l'utilisateur est inscrit
-  // On utilise le filtre space_type = "Evenements"
-  // et on rajoute la condition date > à aujourd'hui.
-
+  // Retrieve upcoming events the user is registered for
+  // Filter on space_type = "Evenements" and start_date > today
   async readUpcomingEvents(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -100,6 +96,8 @@ class DashboardRepository {
     return rows as Activity[];
   }
 
+  // Retrieve upcoming space bookings for a specific user
+  // Filter on space_type != "Evenements" and start_date > today
   async readUpcomingBookings(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -125,6 +123,8 @@ class DashboardRepository {
     );
     return rows as Booking[];
   }
+
+  // Retrieve full billing history for a specific user
   async readBookingHistory(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -144,6 +144,34 @@ class DashboardRepository {
     );
     return rows as BookingHistory[];
   }
+
+  // Retrieve past space bookings for a specific user
+  // Filter on space_type != "Evenements" and end_date < today
+  async readOldBookings(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+        a.id,
+        a.name,
+        s.space_name,
+        s.space_type,
+        a.start_date,
+        a.end_date,
+        t.start_hour,
+        t.end_hour,
+        b.total_price,
+        b.quantity
+      FROM booking b
+      JOIN activity a ON b.id_activity = a.id
+      JOIN space s ON a.space_id = s.id
+      JOIN time_slot t ON a.time_slot_id = t.id
+      WHERE b.users_id = ?
+      AND s.space_type != 'Evenements'
+      AND a.end_date < CURDATE()
+      ORDER BY a.start_date DESC`,
+      [userId],
+    );
+    return rows as Booking[];
+  }
 }
 
-export default new DashboardRepository();
+export default new DashboardClientRepository();
