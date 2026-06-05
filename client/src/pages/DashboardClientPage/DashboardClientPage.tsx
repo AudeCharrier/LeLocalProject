@@ -1,3 +1,5 @@
+import BillingClient from "../../components/DashboardClient/BillingClient/BillingClient";
+import OldBookingClient from "../../components/DashboardClient/OldBookingClient/OldBookingClient";
 import OldEventClient from "../../components/DashboardClient/OldEventClient/OldEventClient";
 import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
 import "./DashboardClientPage.css";
@@ -12,13 +14,13 @@ export default function DashboardClientPage() {
           {/* ici on mettra les blocs de statistiques */}
         </div>
         <div className="dashboard-client-page__full">
-          {/* la partie booking spaces futurs */}
           <UpcomingBookingClient />
+          <OldBookingClient />
         </div>
         <UpcomingEventClient />
         <OldEventClient />
         <div className="dashboard-client-page__full">
-          {/* la partie facturation des activités passées */}
+          <BillingClient />
         </div>
         <div className="dashboard-client-page__full">
           {/* Formulaire réclamation TODO */}

@@ -3,8 +3,7 @@ import dashboardRepository from "./dashboardRepository";
 
 // The B of BREAD - Browse (Read All) operation
 
-// Permet de récupérer les données des évènements passés en lisant la requête "readPastEvents"
-// du fichier "readPastEvents"
+// Retrieve past events the user attended
 const browsePastEvents: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
@@ -15,8 +14,7 @@ const browsePastEvents: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Permet de récupérer les données des évènements futurs en lisant la requête "readUpcomingEvents"
-// du fichier "readPastEvents"
+// Retrieve upcoming events the user is registered for
 const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
@@ -27,6 +25,7 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Retrieve upcoming space bookings for a specific user
 const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
@@ -37,8 +36,32 @@ const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Retrieve full billing history for a specific user
+const browseBookingHistory: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const bookings = await dashboardRepository.readBookingHistory(userId);
+    res.json(bookings);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Retrieve past space bookings for a specific user
+const browseOldBookings: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const bookings = await dashboardRepository.readOldBookings(userId);
+    res.json(bookings);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
   browseUpcomingBookings,
+  browseBookingHistory,
+  browseOldBookings,
 };
