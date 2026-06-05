@@ -36,7 +36,7 @@ function AdminBookings() {
                 <th>Réf.</th>
                 <th>Client</th>
                 <th>Réservation</th>
-                <th>Espace</th>
+                <th>Espaces</th>
                 <th>Date</th>
                 <th>Créneau</th>
                 <th>Montant</th>
