@@ -37,8 +37,18 @@ const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   }
 };
 
+const browseAdminBookings: RequestHandler = async (_req, res, next) => {
+  try {
+    const bookings = await dashboardRepository.readAdminBookings();
+    res.json(bookings);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
   browseUpcomingBookings,
+  browseAdminBookings,
 };

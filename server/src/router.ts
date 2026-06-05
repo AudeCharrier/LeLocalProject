@@ -46,6 +46,8 @@ router.get(
   dashboardActions.browseUpcomingBookings,
 );
 
+router.get("/api/dashboard/admin/bookings", dashboardActions.browseAdminBookings);
+
 /* ************************************************************************* */
 
 export default router;
