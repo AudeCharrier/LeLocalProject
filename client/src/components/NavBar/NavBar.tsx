@@ -1,6 +1,6 @@
 import "./NavBar.css";
-import ImgTitle from "../../assets/images/ImgTitleLeLocale.png";
 import { Link } from "react-router";
+import ImgTitle from "../../assets/images/ImgTitleLeLocale.png";
 
 function NavBar() {
   return (
