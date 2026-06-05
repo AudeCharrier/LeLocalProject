@@ -64,7 +64,7 @@ class DashboardRepository {
       AND s.space_type = 'Evenements'
       AND a.end_date < CURDATE()
       ORDER BY a.end_date DESC
-      LIMIT 3`,
+      LIMIT 6`,
       [userId],
     );
     return rows as Activity[];
@@ -94,7 +94,7 @@ class DashboardRepository {
       AND s.space_type = 'Evenements'
       AND a.start_date > CURDATE()
       ORDER BY a.start_date ASC
-      LIMIT 3`,
+      LIMIT 6`,
       [userId],
     );
     return rows as Activity[];

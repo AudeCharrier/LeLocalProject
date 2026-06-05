@@ -12,8 +12,14 @@
     padding: var(--space-8) var(--container-padding-x);
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    align-items: start;
     gap: var(--gap-md);
-    align-items: stretch;
+
+    & .dashboard-client-page__past {
+      grid-row: span 2;
+      align-self: stretch;
+    }
 
     & .dashboard-client-page__stats {
       grid-column: 1 / -1;
