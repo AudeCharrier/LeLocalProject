@@ -1,24 +1,35 @@
 import "./NavBar.css";
+import { Link } from "react-router";
 import ImgTitle from "../../assets/images/ImgTitleLeLocale.png";
 
 function NavBar() {
   return (
     <div className="navbar-global-div">
       <div className="navbar-title">
-        <img src={ImgTitle} alt="ImgTitleLeLocal" />
+        <Link to="/">
+          <img src={ImgTitle} alt="ImgTitleLeLocal" />
+        </Link>
       </div>
       <div className="navbar-links-div">
         <button type="button" className="navbar-link-button">
-          Accueil
+          <Link to="/" className="navbar-link">
+            Accueil
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Evenements
+          <Link to="/" className="navbar-link">
+            Evenements
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Espaces
+          <Link to="/espaces" className="navbar-link">
+            Espaces
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Ateliers
+          <Link to="/dashboard-client" className="navbar-link">
+            Ateliers
+          </Link>
         </button>
       </div>
       <div className="navbar-connection-div">
