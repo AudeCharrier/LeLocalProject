@@ -7,28 +7,42 @@ function NavBar() {
   return (
     <div className="navbar-global-div">
       <div className="navbar-title">
-        <img src={ImgTitle} alt="ImgTitleLeLocal" />
+        <Link to="/">
+          <img src={ImgTitle} alt="ImgTitleLeLocal" />
+        </Link>
       </div>
       <div className="navbar-links-div">
         <button type="button" className="navbar-link-button">
-          Accueil
+          <Link to="/" className="navbar-link">
+            Accueil
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Evenements
+          <Link to="/evenements" className="navbar-link">
+            Evenements
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Espaces
+          <Link to="/espaces" className="navbar-link">
+            Espaces
+          </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          Ateliers
+          <Link to="/" className="navbar-link">
+            Ateliers
+          </Link>
         </button>
       </div>
       <div className="navbar-connection-div">
         <button type="button" className="navbar-connection-button">
-          Se connecter
+          <Link to="/dashboard-client" className="navbar-link">
+            Se connecter
+          </Link>
         </button>
         <button type="button" className="navbar-connection-button">
-          Rejoindre
+          <Link to="/dashboard-admin" className="navbar-link">
+            Rejoindre
+          </Link>
         </button>
         <Link to="/cart" className="cart-logo">
           <ShoppingCart />

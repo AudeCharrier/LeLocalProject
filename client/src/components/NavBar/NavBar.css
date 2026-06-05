@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  list-style: none;
+
   flex-wrap: wrap;
   background-color: var(--color-forest);
   color: var(--color-text-on-dark);
@@ -15,21 +15,23 @@
   width: 100%;
   z-index: 100;
 
-  .navbar-title {
-    font-size: 20px;
-    font-weight: 900;
-  }
-
   .navbar-links-div {
     display: flex;
-    gap: 15px;
+    gap: var(--gap-sm);
 
-    .navbar-link-button {
+    & .navbar-link-button {
       background: none;
       border: none;
       font-size: 15px;
-      color: var(--color-text-on-dark);
       padding: 5px 10px 5px 10px;
+
+      & .navbar-link {
+        color: var(--color-text-on-dark);
+        list-style: none;
+        text-decoration: none;
+        font-family: var(--font-ui);
+        font-size: var(--text-sm);
+      }
 
       &:hover {
         font-weight: 500;
@@ -41,20 +43,30 @@
 
   .navbar-connection-div {
     display: flex;
-    gap: 20px;
+    gap: var(--gap-sm);
 
-    .navbar-connection-button:first-child {
+    & .navbar-link {
+      color: var(--color-text-on-dark);
+      list-style: none;
+      text-decoration: none;
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+    }
+
+    & .navbar-connection-button:first-child {
       background-color: var(--color-forest);
       color: var(--color-text-on-dark);
       border: none;
     }
 
-    .navbar-connection-button:last-child {
+    & .navbar-connection-button:last-child {
       color: var(--color-text-on-dark);
       background-color: var(--color-primary);
       padding: 5px 13px 5px 13px;
       border-radius: 5px;
       border: none;
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
     }
   }
   .cart-logo {

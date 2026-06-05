@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
+import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
+import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
 import Cart from "./pages/cart/Cart";
@@ -23,12 +25,20 @@ const router = createBrowserRouter([
         element: <Spaces />,
       },
       {
+        path: "/evenements",
+        element: <Events />,
+      },
+      {
         path: "/dashboard-client",
         element: <DashboardClientPage />,
       },
       {
         path: "/cart",
         element: <Cart />,
+      },
+      {
+        path: "/dashboard-admin",
+        element: <DashboardAdminPage />,
       },
     ],
   },

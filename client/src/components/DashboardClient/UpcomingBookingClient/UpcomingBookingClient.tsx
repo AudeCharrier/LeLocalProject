@@ -8,7 +8,7 @@ function UpcomingBookingClient() {
   return (
     <section className="upcoming-booking-client__container">
       <h2 className="upcoming-booking-client__title">
-        Mes réservations d'espaces
+        Mes réservations d'espaces à venir
       </h2>
 
       {bookings.length === 0 ? (
