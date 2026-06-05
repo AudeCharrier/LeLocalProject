@@ -10,6 +10,7 @@ const client = mysql.createPool({
   user: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
+  timezone: "Europe/Paris", //force le bon fuseau horaire pour les dates et les heures
 });
 
 // Ready to export

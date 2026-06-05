@@ -4,11 +4,12 @@ import type { Result, Rows } from "../../../database/client";
 
 type Activity = {
   id: number;
-  timeslot_id: number;
-  space_id: number;
+  space_name: string;
   name: string;
-  start_date: number;
-  end_date: number;
+  start_date: string;
+  end_date: string;
+  start_hour: string;
+  end_hour: string;
   description: string;
   url_image: string;
   price_unit: number;
@@ -56,7 +57,7 @@ class EventRepository {
       t.start_hour,
       t.end_hour
     FROM activity AS a
-    INNER JOIN timeslot AS t ON a.timeslot_id = t.id
+    INNER JOIN time_slot AS t ON a.time_slot_id = t.id
     INNER JOIN space AS s ON a.space_id = s.id
     WHERE s.space_type = 'Evenements'
     AND a.start_date >= CURRENT_DATE()

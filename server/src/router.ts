@@ -21,8 +21,6 @@ router.post("/api/space", spaceActions.add); */
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
-/* router.get("/api/space/:id", spaceActions.read);
-router.post("/api/space", spaceActions.add); */
 
 /* ************************************************************************* */
 // Define dashboard-related routes
