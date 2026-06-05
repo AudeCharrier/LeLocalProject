@@ -15,6 +15,13 @@ type Activity = {
   price_unit: number;
 };
 
+type SumParticipants = {
+  id_activity: number;
+  name: string;
+  sum_participants: string;
+  capacity: number;
+};
+
 class EventRepository {
   // The C of CRUD - Create operation
   /* 
@@ -55,7 +62,8 @@ class EventRepository {
       a.price_unit,
       s.space_name,
       t.start_hour,
-      t.end_hour
+      t.end_hour,
+      s.capacity
     FROM activity AS a
     INNER JOIN time_slot AS t ON a.time_slot_id = t.id
     INNER JOIN space AS s ON a.space_id = s.id
@@ -67,6 +75,24 @@ class EventRepository {
 
     // Return the array of items
     return rows as Activity[];
+  }
+
+  async browseSumParticipantsToEvent() {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `SELECT 
+    a.name,
+    b.id_activity,
+    s.capacity,
+    SUM(b.quantity) AS sum_participants
+    FROM booking as b
+    JOIN activity as a ON b.id_activity = a.id
+    JOIN space as s ON a.space_id = s.id
+    WHERE s.space_type='Evenements'
+    GROUP BY b.id_activity, a.name, s.capacity`,
+    );
+
+    // Return the array of items
+    return rows as SumParticipants[];
   }
 
   // The U of CRUD - Update operation

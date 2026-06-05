@@ -1,8 +1,9 @@
-import OldEventClient from "../../components/DashboardClient/OldEventClient/OldEventClient";
-import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
-import "./DashboardClientPage.css";
+import BillingClient from "../../components/DashboardClient/BillingClient/BillingClient";
+import PastClient from "../../components/DashboardClient/PastClient/PastClient";
 import UpcomingBookingClient from "../../components/DashboardClient/UpcomingBookingClient/UpcomingBookingClient";
+import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import "./DashboardClientPage.css";
 
 export default function DashboardClientPage() {
   return (
@@ -11,14 +12,13 @@ export default function DashboardClientPage() {
         <div className="dashboard-client-page__stats">
           {/* ici on mettra les blocs de statistiques */}
         </div>
-        <div className="dashboard-client-page__full">
-          {/* la partie booking spaces futurs */}
-          <UpcomingBookingClient />
+        <UpcomingBookingClient />
+        <div className="dashboard-client-page__past">
+          <PastClient />
         </div>
         <UpcomingEventClient />
-        <OldEventClient />
         <div className="dashboard-client-page__full">
-          {/* la partie facturation des activités passées */}
+          <BillingClient />
         </div>
         <div className="dashboard-client-page__full">
           {/* Formulaire réclamation TODO */}

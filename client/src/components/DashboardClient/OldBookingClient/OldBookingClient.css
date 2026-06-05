@@ -1,13 +1,14 @@
-.old-event-client__container {
+.old-booking-client__container {
   padding: 0;
 
-  & .old-event-client__empty {
+  & .old-booking-client__empty {
+    font-family: var(--font-body);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     font-style: italic;
   }
 
-  & .old-event-client__list {
+  & .old-booking-client__list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -15,12 +16,12 @@
     flex-direction: column;
     gap: var(--space-2);
 
-    & .old-event-client__item {
+    & .old-booking-client__item {
       display: flex;
       align-items: center;
       gap: var(--space-2);
 
-      & .old-event-client__name {
+      & .old-booking-client__name {
         flex: 1;
         font-family: var(--font-body);
         font-size: var(--text-sm);
@@ -31,7 +32,7 @@
         text-overflow: ellipsis;
       }
 
-      & .old-event-client__date {
+      & .old-booking-client__date {
         flex-shrink: 0;
         font-family: var(--font-body);
         font-size: 0.75rem;
