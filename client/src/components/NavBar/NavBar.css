@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  list-style: none;
+
   flex-wrap: wrap;
   background-color: var(--color-forest);
   color: var(--color-text-on-dark);
@@ -24,12 +24,17 @@
     display: flex;
     gap: 15px;
 
-    .navbar-link-button {
+    & .navbar-link-button {
       background: none;
       border: none;
       font-size: 15px;
-      color: var(--color-text-on-dark);
       padding: 5px 10px 5px 10px;
+
+      & .navbar-link {
+        color: var(--color-text-on-dark);
+        list-style: none;
+        text-decoration: none;
+      }
 
       &:hover {
         font-weight: 500;
@@ -43,7 +48,7 @@
     display: flex;
     gap: 20px;
 
-    .navbar-connection-button:first-child {
+    & .navbar-connection-button:first-child {
       background-color: var(--color-forest);
       color: var(--color-text-on-dark);
       border: none;
