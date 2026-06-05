@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Booking } from "../types/booking";
 
-function useBookingsClient(userId: number, type: "past" | "upcoming") {
+function useSpacesClient(userId: number, type: "past" | "upcoming") {
   const [bookings, setBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
@@ -15,4 +15,4 @@ function useBookingsClient(userId: number, type: "past" | "upcoming") {
   return bookings;
 }
 
-export default useBookingsClient;
+export default useSpacesClient;
