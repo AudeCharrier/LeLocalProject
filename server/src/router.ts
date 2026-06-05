@@ -1,13 +1,14 @@
 import express from "express";
 import dashboardActions from "./modules/dashboard/dashboardActions";
-import itemActions from "./modules/item/itemActions";
 
 const router = express.Router();
 
 /* ************************************************************************* */
 // Define Your API Routes Here
 /* ************************************************************************* */
+import timeSlotActions from "./modules/timeSlot/timeSlotActions";
 
+router.get("/api/timeslots", timeSlotActions.browse);
 // Define item-related routes
 import spaceActions from "./modules/space/spaceActions";
 
