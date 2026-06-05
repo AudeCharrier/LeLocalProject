@@ -42,13 +42,19 @@ router.get(
   dashboardActions.browseUpcomingEvents,
 );
 
-// 3.upcoming space bookings for a specific user
+// 3.past space bookings for a specific user
+router.get(
+  "/api/dashboard/client/:userId/bookings/past",
+  dashboardActions.browseOldBookings,
+);
+
+// 4.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
   dashboardActions.browseUpcomingBookings,
 );
 
-// 4.full billing history for a specific user
+// 5.full billing history for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
   dashboardActions.browseBookingHistory,
