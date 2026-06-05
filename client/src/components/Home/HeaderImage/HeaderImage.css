@@ -19,49 +19,48 @@
   .hero-content-div {
     position: relative;
     z-index: 1;
-    padding: 0 80px;
+    padding: 0 50px;
+    top: 80px;
     color: var(--color-bg-white);
 
     .hero-eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
+      font-size: var(--text-sm);
+      letter-spacing: var(--tracking-widest);
+      font-family: var(--font-heading);
       text-transform: uppercase;
       color: var(--color-bg-white);
       margin: 0 0 20px 0;
     }
 
     .hero-title {
-      font-family: "Georgia", serif;
-      font-size: clamp(2.8rem, 6.5vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.05;
+      font-family: var(--font-display);
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
       color: var(--color-text-on-dark);
       margin: 0 0 24px 0;
-
-      .hero-title em {
-        font-style: italic;
-      }
     }
 
     .hero-description {
-      font-size: 1rem;
-      line-height: 1.75;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
       color: var(--color-text-on-dark);
       margin: 0 0 36px 0;
     }
 
     .hero-buttons-div {
       display: flex;
-      gap: 12px;
+      gap: var(--gap-sm);
 
       .hero-button {
         padding: 14px 28px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        font-family: inherit;
+        font-size: var(--text-sm);
+        font-weight: var(--font-semibold);
+        font-family: var(--font-ui);
         cursor: pointer;
-        border-radius: 2px;
-        transition: background 0.2s;
+        border-radius: var(--radius-sm);
+        transition: background var(--transition-base);
       }
 
       .hero-button-primary {
@@ -73,7 +72,7 @@
       .hero-button-secondary {
         background-color: transparent;
         color: var(--color-bg-white);
-        border: 1.5px solid var(--color-border);
+        border: var(--radius-sm) solid var(--color-border);
       }
     }
   }
