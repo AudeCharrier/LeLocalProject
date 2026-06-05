@@ -1,6 +1,5 @@
 import express from "express";
-import dashboardActions from "./modules/dashboard/dashboardActions";
-
+import dasboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 const router = express.Router();
 
 /* ************************************************************************* */
@@ -18,14 +17,16 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
-/* router.get("/api/space/:id", spaceActions.read);
-router.post("/api/space", spaceActions.add); */
 
 /* ************************************************************************* */
 // Define event-related routes
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
+router.get(
+  "/api/events/participants",
+  eventActions.browseSumParticipantsToEvent,
+); /* dans la table booking en vrai*/
 
 /* ************************************************************************* */
 // Dashboard Client:
@@ -33,25 +34,36 @@ router.get("/api/events", eventActions.browseUpcomingEvents);
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
-  dashboardActions.browsePastEvents,
+  dasboardClientActions.browsePastEvents,
 );
 
 // 2.upcoming events the user is registered for
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
-  dashboardActions.browseUpcomingEvents,
+  dasboardClientActions.browseUpcomingEvents,
 );
 
-// 3.upcoming space bookings for a specific user
+// 3.past space bookings for a specific user
+router.get(
+  "/api/dashboard/client/:userId/bookings/past",
+  dasboardClientActions.browseOldBookings,
+);
+
+// 4.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
-  dashboardActions.browseUpcomingBookings,
+  dasboardClientActions.browseUpcomingBookings,
 );
-
-// 4.full billing history for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
-  dashboardActions.browseBookingHistory,
+  dasboardClientActions.browseBookingHistory,
+);
+
+import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
+
+router.get(
+  "/api/dashboard/admin/bookings",
+  dasboardAdminActions.browseAdminBookings,
 );
 
 /* ************************************************************************* */
