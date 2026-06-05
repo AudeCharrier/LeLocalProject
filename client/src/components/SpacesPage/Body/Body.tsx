@@ -4,7 +4,10 @@ import useSpaces from "../../../hooks/useSpaces";
 
 function Body() {
   const spaces = useSpaces();
-
+  const filterSpace = spaces.filter(
+    (space) => space.space_type !== "Evenements",
+  );
+  console.log(filterSpace);
   return (
     <section className="body-spaces-page-global-section">
       <div className="body-spaces-page-container-div">
@@ -14,15 +17,11 @@ function Body() {
         </div>
 
         <div className="body-spaces-page-spaces-list-div">
-          {spaces
-            .filter(
-              (space) =>
-                space.space_name !== "Amphithéâtre" &&
-                space.space_name !== "Salle de concert",
-            )
-            .map((space) => (
+          {filterSpace.map((space, i) => (
+            <div className={`card-space-${i}-div`} key={space.id}>
               <CardSpace key={space.id} space={space} />
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </section>

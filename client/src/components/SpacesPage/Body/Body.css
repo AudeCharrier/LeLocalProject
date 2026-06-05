@@ -3,4 +3,32 @@
   .body-spaces-page-container-div {
     padding: var(--space-20) var(--space-40);
   }
+  .body-spaces-page-spaces-list-div {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-rows: 50px;
+    gap: 1rem;
+
+    .card-space-0-div {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      flex: 1;
+    }
+    .card-space-1-div {
+      grid-column: 2;
+      grid-row: 1;
+      flex: 1;
+    }
+    .card-space-2-div {
+      grid-column: 1 / 3;
+      grid-row: 3;
+      height: 100%;
+    }
+    .card-space-3-div {
+      grid-column: 2;
+      grid-row: 2;
+      height: 100%;
+    }
+  }
 }
