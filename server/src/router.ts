@@ -1,4 +1,5 @@
 import express from "express";
+import cartActions from "./modules/cart/cartAction";
 import dashboardActions from "./modules/dashboard/dashboardActions";
 import itemActions from "./modules/item/itemActions";
 
@@ -35,5 +36,21 @@ router.get(
 );
 
 /* ************************************************************************* */
+// À ajouter dans ton router.ts existant
+// -------------------------------------------
 
+// Panier — récupère tous les articles d'un utilisateur (avec détail des events)
+router.get("/api/cart/:userId", cartActions.browse);
+
+// Panier — ajoute un article (ou incrémente si déjà présent)
+router.post("/api/cart", cartActions.add);
+
+// Panier — modifie la quantité d'un article
+router.patch("/api/cart/:id", cartActions.edit);
+
+// Panier — supprime un article précis
+router.delete("/api/cart/:id", cartActions.destroy);
+
+// Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
+router.delete("/api/cart/user/:userId", cartActions.destroyAll);
 export default router;

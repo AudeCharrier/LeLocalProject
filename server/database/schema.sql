@@ -102,8 +102,8 @@ CREATE TABLE `booking` (
   `id_activity` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `bills_number_UNIQUE` (`bills_number`),
-  KEY `fk_booking_users1_idx` (`users_id`),
-  CONSTRAINT `fk_booking_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+  KEY `fk_booking_users_idx` (`users_id`),
+  CONSTRAINT `fk_booking_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -123,8 +123,8 @@ CREATE TABLE `cart` (
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_cart_users1_idx` (`users_id`),
-  CONSTRAINT `fk_cart_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+  KEY `fk_cart_users_idx` (`users_id`),
+  CONSTRAINT `fk_cart_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `cart` WRITE;
@@ -143,8 +143,8 @@ CREATE TABLE `claim` (
   `activity_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_claim_users_idx` (`users_id`),
-  KEY `fk_claim_activity1_idx` (`activity_id`),
-  CONSTRAINT `fk_claim_activity1` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`),
+  KEY `fk_claim_activity_idx` (`activity_id`),
+  CONSTRAINT `fk_claim_activity` FOREIGN KEY (`activity_id`) REFERENCES `activity` (`id`),
   CONSTRAINT `fk_claim_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
