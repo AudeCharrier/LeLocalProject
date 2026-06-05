@@ -16,22 +16,30 @@ router.get("/api/spaces", spaceActions.browse);
 router.post("/api/space", spaceActions.add); */
 
 /* ************************************************************************* */
-// Define dashboard-related routes
+// Client dashboard routes
 
-// Client dashboard — past and upcoming events for a specific user
+// 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
   dashboardActions.browsePastEvents,
 );
+
+// 2.upcoming events the user is registered for
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
   dashboardActions.browseUpcomingEvents,
 );
 
-// Client dashboard — upcoming booking space for a specific user
+// 3.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
   dashboardActions.browseUpcomingBookings,
+);
+
+// 4.full billing history for a specific user
+router.get(
+  "/api/dashboard/client/:userId/billing",
+  dashboardActions.browseBookingHistory,
 );
 
 /* ************************************************************************* */

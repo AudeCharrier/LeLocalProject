@@ -26,6 +26,16 @@ type Booking = {
   quantity: number;
 };
 
+type BookingHistory = {
+  id: number;
+  bills_number: number;
+  quantity: number;
+  total_price: number;
+  name: string;
+  start_date: string;
+  space_name: string;
+};
+
 // Pour regrouper nos différentes méthodes :
 class DashboardRepository {
   // The Rs of CRUD - Read operations
@@ -114,6 +124,25 @@ class DashboardRepository {
       [userId],
     );
     return rows as Booking[];
+  }
+  async readBookingHistory(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT 
+        b.id,
+        b.bills_number,
+        b.quantity,
+        b.total_price,
+        a.name,
+        a.start_date,
+        s.space_name
+      FROM booking b
+      JOIN activity a ON b.id_activity = a.id
+      JOIN space s ON a.space_id = s.id
+      WHERE b.users_id = ?
+      ORDER BY a.start_date DESC`,
+      [userId],
+    );
+    return rows as BookingHistory[];
   }
 }
 
