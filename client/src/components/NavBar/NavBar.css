@@ -48,6 +48,12 @@
     display: flex;
     gap: 20px;
 
+    & .navbar-link {
+      color: var(--color-text-on-dark);
+      list-style: none;
+      text-decoration: none;
+    }
+
     & .navbar-connection-button:first-child {
       background-color: var(--color-forest);
       color: var(--color-text-on-dark);

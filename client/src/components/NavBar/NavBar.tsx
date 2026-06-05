@@ -27,14 +27,16 @@ function NavBar() {
           </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          <Link to="/dashboard-client" className="navbar-link">
+          <Link to="/" className="navbar-link">
             Ateliers
           </Link>
         </button>
       </div>
       <div className="navbar-connection-div">
         <button type="button" className="navbar-connection-button">
-          Se connecter
+          <Link to="/dashboard-client" className="navbar-link">
+            Se connecter
+          </Link>
         </button>
         <button type="button" className="navbar-connection-button">
           Rejoindre
