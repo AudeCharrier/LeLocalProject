@@ -47,12 +47,15 @@ function AdminBookings() {
               {bookings.map((booking) => (
                 <tr key={booking.id}>
                   <td>{formatReference(booking.id)}</td>
-                  <td>{formatClientName(booking.firstname, booking.lastname)}</td>
+                  <td>
+                    {formatClientName(booking.firstname, booking.lastname)}
+                  </td>
                   <td>{booking.name}</td>
                   <td>{booking.space_name}</td>
                   <td>{formatDate(booking.start_date)}</td>
                   <td>
-                    {booking.start_hour.slice(0, 5)}–{booking.end_hour.slice(0, 5)}
+                    {booking.start_hour.slice(0, 5)}–
+                    {booking.end_hour.slice(0, 5)}
                   </td>
                   <td>{booking.total_price}€</td>
                   <td>{booking.quantity}</td>
