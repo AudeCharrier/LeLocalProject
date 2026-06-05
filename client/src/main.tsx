@@ -4,9 +4,9 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
+import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
-
 // Pages
 
 // Router
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/espaces",
         element: <Spaces />,
+      },
+      {
+        path: "/evenements",
+        element: <Events />,
       },
       {
         path: "/dashboard-client",

@@ -27,7 +27,7 @@
   --color-bg-2: rgba(98, 13, 20, 0.4); /* Background 2 — 40% opacité */
   --color-bg-light: #f2eeeb; /* Fond général des sections contenu */
   --color-bg-white: #ffffff; /* Cartes, formulaires */
-  --color-bg-card: #fafafa; /* Fond léger des cards */
+  --color-bg-card: #f2ebdf; /* Fond léger des cards */
 
   /* Texte */
   --color-text-primary: #1b1b17; /* Corps de texte principal */
