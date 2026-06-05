@@ -98,10 +98,8 @@ function Cart() {
   );
 
   return (
-    <>
+    <section className="container-cart">
       <section className="section-card-cart">
-        <h2>Total panier : {totalPrice} €</h2>
-        {message && <p className="deleted-message">{message}</p>}
         {events.map((event) => (
           <div key={event.id} className="card-cart">
             <img src={event.image} width="200" alt={event.title} />
@@ -156,7 +154,21 @@ function Cart() {
           </div>
         ))}
       </section>
-    </>
+      <section className="process-to-payment">
+        <section className="container-process-to-payment">
+          <h2>Récapitulatif</h2>
+          <p>sous-total {totalPrice} €</p>
+          <h2>Total TTC {totalPrice} €</h2>
+          <label htmlFor="">CODE PROMO</label>
+          <div>
+            <input type="text" placeholder="saissisez votre code promo..." />
+            <button type="button">Appliquer</button>
+          </div>
+          <button type="submit">Procéder au paiement ›</button>
+        </section>
+        {message && <p className="deleted-message">{message}</p>}
+      </section>
+    </section>
   );
 }
 
