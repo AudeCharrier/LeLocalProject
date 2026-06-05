@@ -1,5 +1,5 @@
-import { Link } from "react-router";
 import { Calendar, MapPin } from "lucide-react";
+import { Link } from "react-router";
 
 import "./CardEvent.css";
 

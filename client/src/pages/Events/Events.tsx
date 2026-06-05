@@ -1,8 +1,8 @@
 import "./Events.css";
 
 import CardEvent from "../../components/Event/CardEvent";
-import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import useSumParticipants from "../../hooks/useSumParticipants";
+import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 
 function Events() {
   const upcomingEvents = useUpcomingEvents();
