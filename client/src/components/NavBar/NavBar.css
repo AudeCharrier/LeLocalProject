@@ -59,7 +59,7 @@
       border: none;
     }
 
-    .navbar-connection-button:last-child {
+    & .navbar-connection-button:last-child {
       color: var(--color-text-on-dark);
       background-color: var(--color-primary);
       padding: 5px 13px 5px 13px;
