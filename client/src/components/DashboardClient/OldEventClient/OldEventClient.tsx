@@ -1,42 +1,11 @@
 import { CalendarCheck } from "lucide-react";
-import type { Activity } from "../../../types/activity";
+import useEventsClient from "../../../hooks/useEventsClient";
+
 import "./OldEventClient.css";
 
-// Fausses data en attendant la sacrée BDD
-const FAKE_OLD_EVENTS: Activity[] = [
-  {
-    id: 1,
-    nom: "Rencontre Makers",
-    salle: "Salle de concert",
-    date_debut: "20-04-2026",
-    date_fin: "20-04-2026",
-    prix: 0,
-  },
-  {
-    id: 2,
-    nom: "Concert Intimiste",
-    salle: "Amphithéâtre",
-    date_debut: "08-03-2026",
-    date_fin: "08-03-2026",
-    prix: 15,
-  },
-  {
-    id: 3,
-    nom: "Workshop No-Code",
-    salle: "Salle de concert",
-    date_debut: "14-02-2026",
-    date_fin: "14-02-2026",
-    prix: 5,
-  },
-];
-
-// TODO: remplacer les fausses data par un import du hook quand le back sera prêt :
-// import useEvents from "../../../hooks/useEvents";
-// const events = useEvents(1, "past"); -----> 1 = userId en dur, à remplacer par l'id du user connecté
-// quand on aura fait l'authentification!
-
+// l'user_id est en dur sur le 2 pour l'instant en attendant l'authentification
 function OldEventClient() {
-  const events = FAKE_OLD_EVENTS;
+  const events = useEventsClient(2, "past");
 
   return (
     <section className="old-event-client__container">
@@ -50,9 +19,9 @@ function OldEventClient() {
             <li key={event.id} className="old-event-client__item">
               <CalendarCheck className="old-event-client__icon" size={18} />
               <div className="old-event-client__info">
-                <span className="old-event-client__name">{event.nom}</span>
+                <span className="old-event-client__name">{event.name}</span>
                 <span className="old-event-client__date">
-                  {event.date_debut}
+                  {event.start_date.slice(0, 10)}
                 </span>
               </div>
             </li>

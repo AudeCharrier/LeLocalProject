@@ -1,5 +1,18 @@
 import "./CardSpace.css";
-function CardSpace() {
+
+interface CardSpaceProps {
+  fakeArraySpace: {
+    id: number;
+    space_name: string;
+    description: string;
+    url_image: string;
+    price: number;
+    capacity: number;
+    space_type: string;
+  };
+}
+
+function CardSpace({ fakeArraySpace }: CardSpaceProps) {
   const creneaux = [
     { id: 1, heure: "8h-10h" },
     { id: 2, heure: "9h-11h" },
@@ -17,60 +30,16 @@ function CardSpace() {
   ];
 
   return (
-    <section className="section-cardspace">
-      <div className="div-Card">
-        <h3>Openspace Principal</h3>
-        <p>
-          Grand espace lumineux de 200m² avec vue sur la cour intérieure
-          végétalisée.
-        </p>
-        {creneaux
-          .filter((creneau) => [1, 3, 7, 9, 11].includes(creneau.id))
-          .map((creneau) => (
-            <span key={creneau.id}>{creneau.heure}</span>
-          ))}
-        <button type="button">Réserver</button>
-      </div>
-      <div className="div-Card">
-        <h3>Studio d'Enregistrement</h3>
-        <p>
-          Cabine insonorisée professionnelle avec régie son et matériel haut de
-          gamme.
-        </p>
-        {creneaux
-          .filter((creneau) => [3, 5, 7, 9, 11].includes(creneau.id))
-          .map((creneau) => (
-            <span key={creneau.id}>{creneau.heure}</span>
-          ))}
-        <button type="button">Réserver</button>
-      </div>
-      <div className="div-Card">
-        <h3>Salle de Réunion</h3>
-        <p>
-          Salle conférence équipée pour workshops, présentations et réunions
-          clients.
-        </p>
-        {creneaux
-          .filter((creneau) => [2, 4, 7, 9].includes(creneau.id))
-          .map((creneau) => (
-            <span key={creneau.id}>{creneau.heure}</span>
-          ))}
-        <button type="button">Réserver</button>
-      </div>
-      <div className="div-Card">
-        <h3>Studio Photo</h3>
-        <p>
-          Studio photo pro avec fonds colorés, lumières Profoto et espace de
-          shoot.
-        </p>
-        {creneaux
-          .filter((creneau) => [2, 4, 7, 9].includes(creneau.id))
-          .map((creneau) => (
-            <span key={creneau.id}>{creneau.heure}</span>
-          ))}
-        <button type="button">Réserver</button>
-      </div>
-    </section>
+    <div className="div-Card">
+      <h3>{fakeArraySpace.space_name}</h3>
+      <p>{fakeArraySpace.description}</p>
+      {creneaux
+        .filter((creneau) => [1, 3, 7, 9, 11].includes(creneau.id))
+        .map((creneau) => (
+          <span key={creneau.id}>{creneau.heure}</span>
+        ))}
+      <button type="button">Réserver</button>
+    </div>
   );
 }
 

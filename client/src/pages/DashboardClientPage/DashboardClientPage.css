@@ -1,14 +1,19 @@
 .dashboard-client-page {
   min-height: 100vh;
   background-color: var(--color-bg-light);
+  display: flex;
+  flex-direction: column;
 
   & .dashboard-client-page__content {
-    max-width: var(--container-lg);
+    flex: 1;
+    max-width: var(--container-xl);
+    width: 100%;
     margin: 0 auto;
-    padding: var(--space-8);
+    padding: var(--space-8) var(--container-padding-x);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--gap-md);
+    align-items: stretch;
 
     & .dashboard-client-page__stats {
       grid-column: 1 / -1;
