@@ -1,7 +1,7 @@
 .mission-global-section {
   display: flex;
   align-items: center;
-  gap: 64px;
+  gap: var(--gap-2xl);
   padding: 80px;
   background-color: var(--color-bg-1);
 
@@ -28,7 +28,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: var(--gap-xs);
 
     .mission-badge-number {
       font-family: "Georgia", serif;
@@ -38,7 +38,7 @@
     }
 
     .mission-badge-text {
-      font-size: 0.7rem;
+      font-size: var(--text-sm);
       text-align: center;
       opacity: 0.9;
     }
@@ -47,29 +47,26 @@
     max-width: 600px;
 
     .mission-eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
+      font-size: var(--text-sm);
+      font-family: var(--font-heading);
+      letter-spacing: var(--tracking-widest);
       text-transform: uppercase;
       color: var(--color-bg-hero);
       margin: 0 0 16px 0;
     }
 
     .mission-title {
-      font-family: "Georgia", serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      line-height: 1.15;
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
       color: var(--color-text-primary);
       margin: 0 0 28px 0;
-
-      .mission-title em {
-        font-style: italic;
-        font-weight: 700;
-      }
     }
+
     .mission-text {
-      font-size: 0.95rem;
-      line-height: 1.75;
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
       color: var(--color-text-secondary);
       margin: 0 0 16px 0;
     }
@@ -78,15 +75,15 @@
     .mission-features-list-div {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: var(--gap-sm);
       margin-top: 32px;
 
       .mission-feature-div {
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-size: 0.9rem;
-        font-weight: 600;
+        gap: var(--gap-xs);
+        font-size: var(--text-base);
+        font-weight: var(--font-semibold);
         color: var(--color-text-primary);
       }
 
@@ -94,11 +91,11 @@
         width: 36px;
         height: 36px;
         background-color: var(--color-bg-card);
-        border-radius: 6px;
+        border-radius: var(--radius-lg);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        font-size: var(--text-base);
         flex-shrink: 0;
       }
     }
