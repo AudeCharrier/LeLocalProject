@@ -16,6 +16,18 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
+const browseSumParticipantsToEvent: RequestHandler = async (req, res, next) => {
+  try {
+    // Fetch all items
+    const participants = await eventRepository.browseSumParticipantsToEvent();
+
+    // Respond with the items in JSON format
+    res.json(participants);
+  } catch (err) {
+    // Pass any errors to the error-handling middleware
+    next(err);
+  }
+};
 
 // The R of BREAD - Read operation
 const read: RequestHandler = async (req, res, next) => {
@@ -57,4 +69,4 @@ const read: RequestHandler = async (req, res, next) => {
   }
 }; */
 
-export default { browseUpcomingEvents, read };
+export default { browseUpcomingEvents, browseSumParticipantsToEvent, read };
