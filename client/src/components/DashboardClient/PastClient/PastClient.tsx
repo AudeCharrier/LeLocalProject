@@ -1,3 +1,4 @@
+import OldBookingClient from "../OldBookingClient/OldBookingClient";
 import OldEventClient from "../OldEventClient/OldEventClient";
 import "./PastClient.css";
 
@@ -12,7 +13,7 @@ function PastClient() {
         </div>
         <div className="past-client__section">
           <span className="past-client__pill">Espaces</span>
-          {/* <OldBookingClient /> */}
+          <OldBookingClient />
         </div>
       </div>
     </section>
