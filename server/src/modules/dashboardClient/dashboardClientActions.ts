@@ -13,16 +13,6 @@ const browsePastEvents: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-// Retrieve past space bookings for a specific user
-const browseOldBookings: RequestHandler = async (req, res, next) => {
-  try {
-    const userId = Number(req.params.userId);
-    const bookings = await dashboardClientRepository.readOldBookings(userId);
-    res.json(bookings);
-  } catch (err) {
-    next(err);
-  }
-};
 
 // Retrieve upcoming events the user is registered for
 const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
@@ -47,10 +37,22 @@ const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Retrieve full billing history for a specific user
 const browseBookingHistory: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
     const bookings = await dashboardClientRepository.readBookingHistory(userId);
+    res.json(bookings);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Retrieve past space bookings for a specific user
+const browseOldBookings: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const bookings = await dashboardClientRepository.readOldBookings(userId);
     res.json(bookings);
   } catch (err) {
     next(err);
