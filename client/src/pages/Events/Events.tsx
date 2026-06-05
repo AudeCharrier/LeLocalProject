@@ -1,36 +1,30 @@
 import "./Events.css";
 
+import CardEvent from "../../components/Event/CardEvent";
+import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 
 function Events() {
   const upcomingEvents = useUpcomingEvents();
+  const participants = useSumParticipants();
+
   return (
-    <>
-      {upcomingEvents.map((upcomingEvent) => (
-        <article key={upcomingEvent.id}>
-          <p>name = {upcomingEvent.name}</p>
-          <p>start date = {upcomingEvent.start_date}</p>
-          <p>end date = {upcomingEvent.end_date}</p>
-          <p>start hour = {upcomingEvent.start_hour}</p>
-          <p>end hour = {upcomingEvent.end_hour}</p>
-          <p>space name = {upcomingEvent.space_name}</p>
-          <p>price unit = {upcomingEvent.price_unit}</p>
-          <p>url img = {upcomingEvent.url_image}</p>
-        </article>
-      ))}
-    </>
+    <div className="home-events">
+      {upcomingEvents.map((upcomingEvent) => {
+        const eventParticipants = participants.find(
+          (p) => p.id_activity === upcomingEvent.id,
+        );
+        return (
+          <CardEvent
+            key={upcomingEvent.id}
+            event={upcomingEvent}
+            participants={eventParticipants}
+          />
+        );
+      })}
+    </div>
   );
 }
+/*code repris de EventSection pour la demo-> voir pour refacto, faire un composant */
 
 export default Events;
-
-/* id: number;
-  name: string;
-  space_name: string;
-  space_type: string;
-  start_date: string;
-  end_date: string;
-  start_hour: string;
-  end_hour: string;
-  price_unit: number;
-  url_image?: string; */
