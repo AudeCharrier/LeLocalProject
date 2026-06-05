@@ -16,9 +16,9 @@ type Activity = {
 };
 
 type SumParticipants = {
-  activity_id: number;
+  id_activity: number;
   name: string;
-  sum_participants: number;
+  sum_participants: string;
   capacity: number;
 };
 
@@ -81,14 +81,14 @@ class EventRepository {
     const [rows] = await databaseLeLocal.query<Rows>(
       `SELECT 
     a.name,
-    b.activity_id,
+    b.id_activity,
     s.capacity,
     SUM(b.quantity) AS sum_participants
     FROM booking as b
-    JOIN activity as a ON b.activity_id = a.id
+    JOIN activity as a ON b.id_activity = a.id
     JOIN space as s ON a.space_id = s.id
     WHERE s.space_type='Evenements'
-    GROUP BY b.activity_id, a.name, s.capacity`,
+    GROUP BY b.id_activity, a.name, s.capacity`,
     );
 
     // Return the array of items

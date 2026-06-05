@@ -1,7 +1,7 @@
 import { Link } from "react-router";
-import "./CardEvent.css";
-
 import { Calendar, MapPin } from "lucide-react";
+
+import "./CardEvent.css";
 
 interface CardEventProps {
   event: {
@@ -17,19 +17,25 @@ interface CardEventProps {
     capacity: number;
   };
   participants?: {
-    activity_id: number;
+    id_activity: number;
     name: string;
-    sum_participants: number;
+    sum_participants: string;
     capacity: number;
   };
 }
 
 function CardEvent({ event, participants }: CardEventProps) {
   const capacity = participants?.capacity ?? 0;
-  const sumParticipants = participants?.sum_participants ?? 0;
+  const sumParticipants = Number.parseInt(
+    participants?.sum_participants ?? "0",
+    10,
+  );
+  /*on redéfinit sumParticipants, c'est plus simple car "participants" peut etre null (aucun inscrit, aucun calcul possible en bdd)*/
+  /*on recoit une string, on le transforme en number avec parseInt et on le type
+  mais si c'est vide, ça doit rester une string "0" 
+  et 10 précise qu'on est en base10*/
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
   const remaining = Math.max(capacity - sumParticipants, 0);
-  /*on redéfinit sumParticipants, c'est plus simple car "participants" peut etre null (aucun inscrit, aucun calcul possible en bdd)*/
 
   return (
     <article className="card-event-container">

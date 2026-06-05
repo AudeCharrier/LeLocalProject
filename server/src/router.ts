@@ -18,8 +18,6 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
-/* router.get("/api/space/:id", spaceActions.read);
-router.post("/api/space", spaceActions.add); */
 
 /* ************************************************************************* */
 // Define event-related routes
@@ -30,7 +28,6 @@ router.get(
   "/api/events/participants",
   eventActions.browseSumParticipantsToEvent,
 ); /* dans la table booking en vrai*/
-/*plutot avec :id ?*/
 
 /* ************************************************************************* */
 // Define dashboard-related routes

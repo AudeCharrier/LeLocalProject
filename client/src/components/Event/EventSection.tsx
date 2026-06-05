@@ -7,6 +7,7 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 function EventSection() {
   const upcomingEvents = useUpcomingEvents();
   const participants = useSumParticipants();
+
   return (
     <section className="home-section-events">
       <h5>Agenda</h5>
@@ -17,7 +18,7 @@ function EventSection() {
       <div className="home-events">
         {upcomingEvents.map((upcomingEvent) => {
           const eventParticipants = participants.find(
-            (p) => p.activity_id === upcomingEvent.id,
+            (p) => p.id_activity === upcomingEvent.id,
           );
           return (
             <CardEvent

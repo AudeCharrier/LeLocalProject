@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-type SumParticipants = {
-  activity_id: number;
-  name: string;
-  sum_participants: number;
-  capacity: number;
-};
+import type { SumParticipants } from "../types/sumparticipants";
+
 function useSumParticipants() {
   const [participants, setParticipants] = useState<SumParticipants[]>([]);
   useEffect(() => {
