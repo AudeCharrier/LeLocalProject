@@ -12,3 +12,13 @@ export type Booking = {
   total_price: number;
   quantity: number;
 };
+
+export type BookingHistory = {
+  id: number;
+  bills_number: number;
+  quantity: number;
+  total_price: string;
+  name: string;
+  start_date: string;
+  space_name: string;
+};

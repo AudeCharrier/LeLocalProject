@@ -28,14 +28,22 @@ type Booking = {
   quantity: number;
 };
 
+type BookingHistory = {
+  id: number;
+  bills_number: number;
+  quantity: number;
+  total_price: number;
+  name: string;
+  start_date: string;
+  space_name: string;
+};
+
 // Pour regrouper nos différentes méthodes :
 class DashboardRepository {
   // The Rs of CRUD - Read operations
 
-  // Sert à récupérer les évènements où l'utilisateur était inscrit
-  // On utilise le filtre space_type = "Evenements"
-  // et on rajoute la condition date < à aujourd'hui.
-
+  // Retrieve past events the user attended
+  // Filter on space_type = "Evenements" and end_date < today
   async readPastEvents(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -62,10 +70,8 @@ class DashboardRepository {
     return rows as Activity[];
   }
 
-  // Sert à récupérer les évènements futurs où l'utilisateur est inscrit
-  // On utilise le filtre space_type = "Evenements"
-  // et on rajoute la condition date > à aujourd'hui.
-
+  // Retrieve upcoming events the user is registered for
+  // Filter on space_type = "Evenements" and start_date > today
   async readUpcomingEvents(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -92,6 +98,8 @@ class DashboardRepository {
     return rows as Activity[];
   }
 
+  // Retrieve upcoming space bookings for a specific user
+  // Filter on space_type != "Evenements" and start_date > today
   async readUpcomingBookings(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
@@ -118,13 +126,30 @@ class DashboardRepository {
     return rows as Booking[];
   }
 
-  async readAdminBookings() {
+  async readBookingHistory(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+        b.id,
+        b.bills_number,
+        b.quantity,
+        b.total_price,
+        a.name,
+        a.start_date,
+        s.space_name
+      FROM booking b
+      JOIN activity a ON b.id_activity = a.id
+      JOIN space s ON a.space_id = s.id
+      WHERE b.users_id = ?
+      ORDER BY a.start_date DESC`,
+      [userId],
+    );
+    return rows as BookingHistory[];
+  }
+  async readOldBookings(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 
-        b.id,
+        a.id,
         a.name,
-        u.firstname,
-        u.lastname,
         s.space_name,
         s.space_type,
         a.start_date,
@@ -135,10 +160,13 @@ class DashboardRepository {
         b.quantity
       FROM booking b
       JOIN activity a ON b.id_activity = a.id
-      JOIN users u ON b.users_id = u.id
       JOIN space s ON a.space_id = s.id
       JOIN time_slot t ON a.time_slot_id = t.id
-      ORDER BY a.start_date ASC, t.start_hour ASC`,
+      WHERE b.users_id = ?
+      AND s.space_type != 'Evenements'
+      AND a.end_date < CURDATE()
+      ORDER BY a.start_date DESC`,
+      [userId],
     );
     return rows as Booking[];
   }
