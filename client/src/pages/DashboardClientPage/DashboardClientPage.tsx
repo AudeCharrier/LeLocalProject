@@ -1,3 +1,4 @@
+import BillingClient from "../../components/DashboardClient/BillingClient/BillingClient";
 import OldEventClient from "../../components/DashboardClient/OldEventClient/OldEventClient";
 import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
 import "./DashboardClientPage.css";
@@ -18,7 +19,7 @@ export default function DashboardClientPage() {
         <UpcomingEventClient />
         <OldEventClient />
         <div className="dashboard-client-page__full">
-          {/* la partie facturation des activités passées */}
+          <BillingClient />
         </div>
         <div className="dashboard-client-page__full">
           {/* Formulaire réclamation TODO */}

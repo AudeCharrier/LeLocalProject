@@ -8,4 +8,5 @@ export type Activity = {
   start_hour: string;
   end_hour: string;
   price_unit: number;
+  url_image?: string;
 };
