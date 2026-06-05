@@ -1,0 +1,6 @@
+.body-spaces-page-global-section {
+  background-color: var(--color-bg-1);
+  .body-spaces-page-container-div {
+    padding: var(--space-20) var(--space-40);
+  }
+}

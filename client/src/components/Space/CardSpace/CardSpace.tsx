@@ -6,7 +6,7 @@ interface CardSpaceProps {
     space_name: string;
     description: string;
     url_image: string;
-    price: number;
+    price_unit: number;
     capacity: number;
     space_type: string;
   };
