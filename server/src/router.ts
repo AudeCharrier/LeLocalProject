@@ -1,5 +1,4 @@
 import express from "express";
-import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
 const router = express.Router();
 
@@ -29,6 +28,7 @@ router.get("/api/events", eventActions.browseUpcomingEvents);
 
 /* ************************************************************************* */
 // Dashboard Client:
+import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
 // 1.past events the user attended
 router.get(
@@ -54,10 +54,19 @@ router.get(
   dashboardClientActions.browseUpcomingBookings,
 );
 
-// 5.full billing history for a specific user
+// 5.bills for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
   dashboardClientActions.browseBookingHistory,
+);
+
+/* ************************************************************************* */
+// Dashboard Admin:
+import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
+
+router.get(
+  "/api/dashboard/admin/bookings",
+  dasboardAdminActions.browseAdminBookings,
 );
 
 /* ************************************************************************* */

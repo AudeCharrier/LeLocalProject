@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import dashboardRepository from "./dashboardRepository";
+import dashboardClientRepository from "./dashboardClientRepository";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -7,7 +7,7 @@ import dashboardRepository from "./dashboardRepository";
 const browsePastEvents: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
-    const events = await dashboardRepository.readPastEvents(userId);
+    const events = await dashboardClientRepository.readPastEvents(userId);
     res.json(events);
   } catch (err) {
     next(err);
@@ -18,7 +18,7 @@ const browsePastEvents: RequestHandler = async (req, res, next) => {
 const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
-    const events = await dashboardRepository.readUpcomingEvents(userId);
+    const events = await dashboardClientRepository.readUpcomingEvents(userId);
     res.json(events);
   } catch (err) {
     next(err);
@@ -29,7 +29,8 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
 const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
-    const bookings = await dashboardRepository.readUpcomingBookings(userId);
+    const bookings =
+      await dashboardClientRepository.readUpcomingBookings(userId);
     res.json(bookings);
   } catch (err) {
     next(err);
@@ -40,7 +41,7 @@ const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
 const browseBookingHistory: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
-    const bookings = await dashboardRepository.readBookingHistory(userId);
+    const bookings = await dashboardClientRepository.readBookingHistory(userId);
     res.json(bookings);
   } catch (err) {
     next(err);
@@ -51,7 +52,7 @@ const browseBookingHistory: RequestHandler = async (req, res, next) => {
 const browseOldBookings: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
-    const bookings = await dashboardRepository.readOldBookings(userId);
+    const bookings = await dashboardClientRepository.readOldBookings(userId);
     res.json(bookings);
   } catch (err) {
     next(err);

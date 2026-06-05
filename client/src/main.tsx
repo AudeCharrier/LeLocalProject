@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
+import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard-client",
         element: <DashboardClientPage />,
+      },
+      {
+        path: "/dashboard-admin",
+        element: <DashboardAdminPage />,
       },
     ],
   },
