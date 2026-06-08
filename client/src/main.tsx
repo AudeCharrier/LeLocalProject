@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
+import RegisterEventForm from "./components/RegisterEventForm/RegisterEventForm";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "/dashboard-admin",
         element: <DashboardAdminPage />,
       },
+      {
+        path: "/register-event",
+        element: <RegisterEventForm />,
+      } /*juste pour tester le composant*/,
     ],
   },
 ]);
