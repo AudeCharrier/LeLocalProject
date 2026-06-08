@@ -2,12 +2,15 @@
   grid-column: 1 / -1;
   display: flex;
   gap: var(--gap-md);
+  width: 100%;
 
   & .stats-client__card {
     flex: 1;
+    min-width: 0;
     background-color: var(--color-bg-white);
     border: 1px solid var(--color-border-card);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xs);
     padding: var(--space-6);
     display: flex;
     flex-direction: column;
@@ -16,8 +19,9 @@
 
     & .stats-client__value {
       font-family: var(--font-display);
-      font-size: var(--text-3xl);
+      font-size: clamp(2rem, 3vw, 2.75rem);
       font-weight: var(--font-bold);
+      line-height: var(--leading-tight);
       color: var(--color-forest);
     }
 
@@ -25,10 +29,28 @@
       font-family: var(--font-ui);
       font-size: var(--text-sm);
       font-weight: var(--font-semibold);
-      color: var(--color-text-muted);
+      color: var(--color-text-secondary);
       text-align: center;
       text-transform: uppercase;
       letter-spacing: var(--tracking-wide);
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .stats-client__container {
+    flex-direction: column;
+
+    & .stats-client__card {
+      padding: var(--space-4);
+
+      & .stats-client__value {
+        font-size: clamp(1.75rem, 9vw, 2.2rem);
+      }
+
+      & .stats-client__label {
+        font-size: var(--text-sm);
+      }
     }
   }
 }

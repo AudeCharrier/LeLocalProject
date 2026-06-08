@@ -12,21 +12,29 @@ export default function DashboardClientPage() {
       <div className="dashboard-client-page__header">
         <h1 className="dashboard-client-page__heading">Mon récap</h1>
       </div>
-      <div className="dashboard-client-page__content">
-        <StatsClient />
-        <UpcomingBookingClient />
-        <div className="dashboard-client-page__past">
-          <PastClient />
+      <div className="dashboard-client-content">
+        <div className="dashboard-client-section">
+          <StatsClient />
         </div>
-        <UpcomingEventClient />
-        <div className="dashboard-client-page__full">
+        <div className="dashboard-client-section">
+          <div className="dashboard-client-grid">
+            <UpcomingBookingClient />
+            <div className="dashboard-client-past">
+              <PastClient />
+            </div>
+            <UpcomingEventClient />
+          </div>
+        </div>
+        <div className="dashboard-client-section">
           <BillingClient />
         </div>
-        <div className="dashboard-client-page__full">
+        <div className="dashboard-client-section">
           {/* Formulaire réclamation TODO */}
         </div>
       </div>
-      <FooterDashboard />
+      <div className="dashboard-client-footer">
+        <FooterDashboard />
+      </div>
     </section>
   );
 }

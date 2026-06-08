@@ -1,5 +1,5 @@
 .dashboard-admin-page {
-  background: var(--color-bg-1);
+  background: var(--color-bg-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
