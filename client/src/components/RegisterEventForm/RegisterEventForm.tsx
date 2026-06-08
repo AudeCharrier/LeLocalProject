@@ -5,10 +5,16 @@ interface QuantityConfig {
   max: number;
   error: "MIN_ERROR" | "MAX_ERROR" | null;
 }
-interface CartPayload {
+/* interface CartPayload {
   event_name: string;
   event_date: string;
   user_email: string;
+  quantity: number;
+} */
+interface CartItem {
+  id: number;
+  users_id: number;
+  event_id: number;
   quantity: number;
 }
 
@@ -26,20 +32,17 @@ function RegisterEventForm() {
     // Bloque le rechargement automatique de la page par le navigateur
     event.preventDefault();
 
-    // À remplacer plus tard par l'ID utilisateur connecté
-    const userId = "42";
-
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
-    const payload: CartPayload = {
-      event_name: "Nom de ton événement récupéré",
-      event_date: "2026-07-15",
-      user_email: "email.du.user@test.com",
+    const payload: CartItem = {
+      id: 1,
+      users_id: 2,
+      event_id: 2,
       quantity: quantityConfig.value,
     };
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/cart/${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/cart/`,
         {
           method: "POST",
           headers: {
@@ -48,10 +51,6 @@ function RegisterEventForm() {
           body: JSON.stringify(payload), // On transforme notre objet JavaScript en chaîne de texte JSON
         },
       );
-
-      if (!response.ok) {
-        throw new Error("Impossible d'ajouter l'événement au panier.");
-      }
 
       const data = await response.json();
       console.log("Réponse du serveur réussie :", data);
@@ -178,7 +177,9 @@ function RegisterEventForm() {
         </div>
       </div>
 
-      <button type="submit">Je m'inscris !</button>
+      <button type="submit" className="sr-only">
+        Je m'inscris !
+      </button>
     </form>
   );
 }
