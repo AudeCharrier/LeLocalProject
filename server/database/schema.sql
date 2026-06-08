@@ -76,10 +76,10 @@ CREATE TABLE `activity` (
   `url_image` varchar(255) NOT NULL,
   `name` varchar(155) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_time_slot_has_space_space1_idx` (`space_id`),
-  KEY `fk_time_slot_has_space_time_slot1_idx` (`time_slot_id`),
-  CONSTRAINT `fk_time_slot_has_space_space1` FOREIGN KEY (`space_id`) REFERENCES `space` (`id`),
-  CONSTRAINT `fk_time_slot_has_space_time_slot1` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`id`)
+  KEY `fk_time_slot_has_space_space_idx` (`space_id`),
+  KEY `fk_time_slot_has_space_time_slot_idx` (`time_slot_id`),
+  CONSTRAINT `fk_time_slot_has_space_space` FOREIGN KEY (`space_id`) REFERENCES `space` (`id`),
+  CONSTRAINT `fk_time_slot_has_space_time_slot` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

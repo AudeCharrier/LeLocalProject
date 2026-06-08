@@ -68,8 +68,8 @@
       font-family: var(--font-ui);
       font-size: var(--text-sm);
     }
-  }
-  .cart-logo {
-    color: #fff;
+    .cart-logo {
+      color: #fff;
+    }
   }
 }
