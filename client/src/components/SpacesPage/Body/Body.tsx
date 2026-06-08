@@ -14,9 +14,11 @@ const CATEGORY_ORDER = [
 function Body() {
   const spaces = useSpaces();
   const filterSpace = spaces.filter(
-    (space) => space.space_type !== "Evenements",
+    (space) =>
+      space.space_type !== "Evenements" && space.space_category !== "Atelier",
   );
 
+  //IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
   const groupedSpaces = filterSpace.reduce(
     (acc, space) => {
       const category = space.space_category;
@@ -30,6 +32,7 @@ function Body() {
   const categories = CATEGORY_ORDER.filter((cat) => groupedSpaces[cat]).map(
     (cat) => [cat, groupedSpaces[cat]] as [string, typeof filterSpace],
   );
+  //IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 
   return (
     <section className="body-spaces-page-global-section">

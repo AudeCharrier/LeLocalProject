@@ -6,6 +6,7 @@ type CardSpaceProps = {
   categoryName: string;
 };
 
+//IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 function CardSpace({ spaces, categoryName }: CardSpaceProps) {
   const firstSpace = spaces[0];
   const totalCapacity = spaces.reduce((acc, space) => acc + space.capacity, 0);
@@ -39,6 +40,7 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
         </span>
       );
     }
+    // IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 
     return (
       <>
