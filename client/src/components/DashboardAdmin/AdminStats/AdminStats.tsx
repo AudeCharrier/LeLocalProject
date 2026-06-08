@@ -2,7 +2,7 @@ import "./AdminStats.css";
 
 const stats = [
   { label: "Taux d'occupation", value: "74%", detail: "+8% vs sem. dernière" },
-  { label: "Réservations auj.", value: "18", detail: "+3 depuis hier" },
+  { label: "Total Réservations", value: "18", detail: "+3 depuis hier" },
   { label: "Membres actifs", value: "247", detail: "+12 ce mois" },
   { label: "Réclamations", value: "2", detail: "Non traitées" },
 ];
