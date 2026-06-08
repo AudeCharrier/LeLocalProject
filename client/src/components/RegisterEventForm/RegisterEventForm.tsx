@@ -5,20 +5,35 @@ interface QuantityConfig {
   max: number;
   error: "MIN_ERROR" | "MAX_ERROR" | null;
 }
-/* interface CartPayload {
-  event_name: string;
-  event_date: string;
-  user_email: string;
-  quantity: number;
-} */
+
 interface CartItem {
-  id: number;
   users_id: number;
   event_id: number;
   quantity: number;
 }
 
-function RegisterEventForm() {
+interface CardEventProps {
+  event: {
+    id: number;
+    name: string;
+    description: string;
+    space_name: string;
+    url_image: string;
+    price_unit: number;
+    start_date: string;
+    start_hour: string;
+    end_hour: string;
+    capacity: number;
+  };
+  participants?: {
+    id_activity: number;
+    name: string;
+    sum_participants: string;
+    capacity: number;
+  };
+}
+
+function RegisterEventForm({ event }: CardEventProps) {
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
     min: 1,
@@ -28,15 +43,14 @@ function RegisterEventForm() {
 
   const { value, min, max, error } = quantityConfig;
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Bloque le rechargement automatique de la page par le navigateur
-    event.preventDefault();
+    e.preventDefault();
 
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
     const payload: CartItem = {
-      id: 1,
-      users_id: 2,
-      event_id: 2,
+      users_id: 2, //en dur pour l'instant
+      event_id: event.id,
       quantity: quantityConfig.value,
     };
 
@@ -100,13 +114,18 @@ function RegisterEventForm() {
       method="post"
       onSubmit={handleSubmit}
     >
-      <h2>S'inscire à l'évènement</h2>
+      <h2>S'inscrire à l'évènement</h2>
       <ul>
-        <li>insérer nom event depuis cardevent</li>
-        <li>insérer date event depuis cardevent</li>
-        <li>insérer heure event depuis cardevent</li>
-        <li>insérer lieu event depuis cardevent</li>
-        <li>insérer prix event depuis cardevent</li>
+        <li>{event.name}</li>
+        <li>
+          {event.start_date &&
+            `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}
+        </li>
+        <li>
+          {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
+        </li>
+        <li>{event.space_name}</li>
+        <li> {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}</li>
       </ul>
       <div>
         <label htmlFor="lastname">Nom</label>

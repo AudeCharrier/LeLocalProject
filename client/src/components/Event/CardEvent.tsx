@@ -1,7 +1,8 @@
 import { Calendar, MapPin } from "lucide-react";
-import { Link } from "react-router";
+import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 
 import "./CardEvent.css";
+import { useState } from "react";
 
 interface CardEventProps {
   event: {
@@ -37,55 +38,67 @@ function CardEvent({ event, participants }: CardEventProps) {
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
   const remaining = Math.max(capacity - sumParticipants, 0);
 
+  const [isForm, setIsForm] = useState<boolean>(false);
+
   return (
-    <article className="card-event-container">
-      <div className="card-img-container">
-        <img src={event.url_image} alt="" className="card-img" />
-      </div>
-      <span className="card-badge-price">
-        {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}
-      </span>
-      <div className="card-text-flex">
-        <h3>{event.name}</h3>
-        <p>{event.description}</p>
-        <div className="card-event-row-infos">
-          <span className="card-event-infos">
-            <Calendar size={16} />
-          </span>
-          <span className="card-event-infos">
-            {event.start_date &&
-              `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}{" "}
-            {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
-          </span>{" "}
-          {/*event.start_hour? : si end_hour est null/undefined, il court-circuite et retourne undefined. Sinon, il appelle .slice(0, 5)*/}
+    <>
+      <article className="card-event-container">
+        <div className="card-img-container">
+          <img src={event.url_image} alt="" className="card-img" />
         </div>
-        <div className="card-event-row-infos">
-          <span className="card-event-infos">
-            <MapPin size={16} />
-          </span>
-          <span className="card-event-infos">{event.space_name}</span>
-        </div>
-        <div className="card-nbplaces-container">
-          <p>{sumParticipants} inscrit.es</p>
-          <p>{remaining} places restantes</p>
-        </div>
-        <div className="card-progressbar-wrapper">
-          <div
-            className="card-progressbar"
-            style={{ width: `${progress}%` }}
-            aria-valuenow={progress}
-            aria-valuemin={0}
-            aria-valuemax={100}
-          />
-          {/*
+        <span className="card-badge-price">
+          {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}
+        </span>
+        <div className="card-text-flex">
+          <h3>{event.name}</h3>
+          <p>{event.description}</p>
+          <div className="card-event-row-infos">
+            <span className="card-event-infos">
+              <Calendar size={16} />
+            </span>
+            <span className="card-event-infos">
+              {event.start_date &&
+                `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}{" "}
+              {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
+            </span>{" "}
+            {/*event.start_hour? : si end_hour est null/undefined, il court-circuite et retourne undefined. Sinon, il appelle .slice(0, 5)*/}
+          </div>
+          <div className="card-event-row-infos">
+            <span className="card-event-infos">
+              <MapPin size={16} />
+            </span>
+            <span className="card-event-infos">{event.space_name}</span>
+          </div>
+          <div className="card-nbplaces-container">
+            <p>{sumParticipants} inscrit.es</p>
+            <p>{remaining} places restantes</p>
+          </div>
+          <div className="card-progressbar-wrapper">
+            <div
+              className="card-progressbar"
+              style={{ width: `${progress}%` }}
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            />
+            {/*
             progressbar est une balise vide de contenu : biome préfère utiliser des aria
           */}
+          </div>
+
+          <button
+            type="button"
+            className="sr-only card-btn-register"
+            onClick={() => {
+              setIsForm(true);
+            }}
+          >
+            S'inscrire
+          </button>
         </div>
-        <Link to="/evenements" className="card-link-register">
-          <span className="sr-only">S'inscrire</span>
-        </Link>
-      </div>
-    </article>
+      </article>
+      {isForm && <RegisterEventForm event={event} />}
+    </>
   );
 }
 

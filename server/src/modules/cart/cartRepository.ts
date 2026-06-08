@@ -2,7 +2,6 @@ import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 
 type CartItem = {
-  id: number;
   users_id: number;
   id_activity: number;
   quantity: number;
