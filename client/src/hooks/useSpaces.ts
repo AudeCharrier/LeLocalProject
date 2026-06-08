@@ -8,7 +8,7 @@ function useSpaces() {
       .then((res) => res.json())
       .then((data) => setSpaces(data));
   }, []);
-
+  console.log(spaces);
   return spaces;
 }
 
