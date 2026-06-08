@@ -1,4 +1,5 @@
 import "./NavBar.css";
+import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router";
 import ImgTitle from "../../assets/images/ImgTitleLeLocale.png";
 
@@ -43,6 +44,9 @@ function NavBar() {
             Rejoindre
           </Link>
         </button>
+        <Link to="/cart" className="cart-logo">
+          <ShoppingCart />
+        </Link>
       </div>
     </div>
   );

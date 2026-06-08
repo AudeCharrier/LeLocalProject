@@ -7,6 +7,8 @@ import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
+import Cart from "./pages/cart/Cart";
+
 // Pages
 
 // Router
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard-client",
         element: <DashboardClientPage />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
       {
         path: "/dashboard-admin",
