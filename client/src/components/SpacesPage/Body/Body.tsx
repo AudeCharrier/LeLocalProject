@@ -2,8 +2,37 @@ import CardSpace from "../../../components/SpacesPage/Body/CardSpace/CardSpace";
 import "./Body.css";
 import useSpaces from "../../../hooks/useSpaces";
 
+const CATEGORY_ORDER = [
+  "Openspace",
+  "Studio d'enregistrement",
+  "Studio photo",
+  "Atelier",
+  "Salle de réunion",
+  "Local modulable",
+];
+
 function Body() {
   const spaces = useSpaces();
+  const filterSpace = spaces.filter(
+    (space) =>
+      space.space_type !== "Evenements" && space.space_category !== "Atelier",
+  );
+
+  //IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
+  const groupedSpaces = filterSpace.reduce(
+    (acc, space) => {
+      const category = space.space_category;
+      if (!acc[category]) acc[category] = [];
+      acc[category].push(space);
+      return acc;
+    },
+    {} as Record<string, typeof filterSpace>,
+  );
+
+  const categories = CATEGORY_ORDER.filter((cat) => groupedSpaces[cat]).map(
+    (cat) => [cat, groupedSpaces[cat]] as [string, typeof filterSpace],
+  );
+  //IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 
   return (
     <section className="body-spaces-page-global-section">
@@ -14,15 +43,11 @@ function Body() {
         </div>
 
         <div className="body-spaces-page-spaces-list-div">
-          {spaces
-            .filter(
-              (space) =>
-                space.space_name !== "Amphithéâtre" &&
-                space.space_name !== "Salle de concert",
-            )
-            .map((space) => (
-              <CardSpace key={space.id} space={space} />
-            ))}
+          {categories.map(([category, spaceList], i) => (
+            <div className={`card-space-${i}-div`} key={category}>
+              <CardSpace spaces={spaceList} categoryName={category} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
