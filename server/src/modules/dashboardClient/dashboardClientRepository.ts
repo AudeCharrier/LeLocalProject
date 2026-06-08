@@ -165,7 +165,8 @@ class DashboardClientRepository {
       WHERE b.users_id = ?
       AND s.space_type != 'Evenements'
       AND a.end_date < CURDATE()
-      ORDER BY a.start_date DESC`,
+      ORDER BY a.start_date DESC
+      LIMIT 6`,
       [userId],
     );
     return rows as Booking[];

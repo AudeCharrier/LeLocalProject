@@ -1,5 +1,6 @@
 import BillingClient from "../../components/DashboardClient/BillingClient/BillingClient";
 import PastClient from "../../components/DashboardClient/PastClient/PastClient";
+import StatsClient from "../../components/DashboardClient/StatsClient/StatsClient";
 import UpcomingBookingClient from "../../components/DashboardClient/UpcomingBookingClient/UpcomingBookingClient";
 import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
@@ -10,7 +11,7 @@ export default function DashboardClientPage() {
     <section className="dashboard-client-page">
       <div className="dashboard-client-page__content">
         <div className="dashboard-client-page__stats">
-          {/* ici on mettra les blocs de statistiques */}
+          <StatsClient />
         </div>
         <UpcomingBookingClient />
         <div className="dashboard-client-page__past">
