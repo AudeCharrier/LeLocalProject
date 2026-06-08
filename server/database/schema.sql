@@ -8,13 +8,34 @@ CREATE TABLE `space` (
   `url_image` varchar(255) NOT NULL,
   `price_unit` decimal(10,2) NOT NULL,
   `space_type` varchar(45) NOT NULL,
+  `space_category` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 LOCK TABLES `space` WRITE;
 
-INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'/assets/images/amphitheater.png',100.00,'Evenements'),(2,'OpenSpace Principal','Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'/assets/images/openspace.png',8.00,'Coworking'),(3,'Studio d\'enregistrement','Cabine insonorisée avec régie son et matériel haut de gamme',1,'http',25.00,'Ateliers'),(4,'Salle de réunion','Salle cofnérences équipée pour workshops, présentations et réunions client',1,'/assets/images/meeting-room.png',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'/assets/images/photo-studio.png',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'/assets/images/concert-hall.png',500.00,'Evenements');
+INSERT INTO `space` VALUES 
+(1,'L\'Agora','Openspace pensé pour accueillir les coworkers dans un environnement ouvert, dynamique et propice aux échanges.',50,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
+(2,'Le Forum','Openspace spacieux et modulable offrant de nombreuses places de travail dans un cadre confortable favorisant la collaboration et la convivialité.',50,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
+(3,'L\'Atrium','Openspace lumineux à capacité réduite, idéal pour celles et ceux qui recherchent un environnement de travail plus calme tout en bénéficiant de la vie du Local.',20,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
+(4,'Le Parvis','Openspace accueillant et accessible, proposant une ambiance sereine et un nombre limité de postes pour un confort de travail optimal.',20,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
+(5,'L\'Hémicycle','Grande salle de réunion du Local, conçue pour accueillir des présentations, séminaires, ateliers et rencontres professionnelles dans un cadre confortable et fonctionnel.',40,'/assets/images/meeting-room.png',20.00,'Coworking','Salle de réunion'),
+(6,'Le Sénat','Salle de réunion dédiée aux échanges professionnels, idéale pour les comités de pilotage, réunions d\'équipe et rendez-vous avec des partenaires ou clients.',10,'/assets/images/meeting-room.png',20.00,'Coworking','Salle de réunion'),
+(7,'La Rotonde','Salle de réunion à taille humaine offrant un cadre propice aux discussions, à la prise de décision et aux réunions de travail en petit groupe.',8,'/assets/images/meeting-room.png',20.00,'Coworking','Salle de réunion'),
+(8,'L\'Annexe I','Local vide de 30 m² permettant d\'accueillir une activité professionnelle, associative, artisanale ou commerciale selon vos besoins.',1,'/assets/images/local.png',200.00,'Coworking','Local modulable'),
+(9,'L\'Annexe II','Local vide de 30 m² offrant un espace flexible pour développer vos projets et activités.',1,'/assets/images/local.png',200.00,'Coworking','Local modulable'),
+(10,'Le Pavillon I','Local vide de 60 m² permettant l\'installation d\'une activité, d\'un bureau, d\'un showroom ou d\'un espace de travail personnalisé.',1,'/assets/images/local.png',350.00,'Coworking','Local modulable'),
+(11,'Le Pavillon II','Local vide de 60 m² offrant un espace modulable adapté aux entreprises, associations et porteurs de projets.',1,'/assets/images/local.png',350.00,'Coworking','Local modulable'),
+(12,'L\'Odéon','Salle de concert du Local pouvant accueillir jusqu\'à 250 personnes pour des spectacles, concerts, conférences et événements culturels.',250,'/assets/images/concert-hall.png',500.00,'Evenements','Salle de concert'),
+(13,'L\'Amphithéâtre','Amphithéâtre conçu pour les conférences, formations, projections et présentations publiques dans un cadre adapté aux grands rassemblements.',150,'/assets/images/amphitheater.png',100.00,'Evenements','Amphithéâtre'),
+(14,'L\'Atelier Voltaire','Espace dédié à l\'impression 3D, au prototypage et à la fabrication numérique.',1,'/assets/images/atelier.png',15.00,'Ateliers','Atelier'),
+(15,'L\'Atelier des Couleurs','Espace créatif dédié à la peinture, aux arts plastiques et aux activités artistiques.',1,'/assets/images/atelier.png',15.00,'Ateliers','Atelier'),
+(16,'L\'Atelier des Étoffes','Espace équipé pour la couture, la création textile et les travaux de confection.',1,'/assets/images/atelier.png',15.00,'Ateliers','Atelier'),
+(17,'L\'Atelier Gutenberg','Espace dédié à l\'impression, à la reprographie et à la production de documents.',1,'/assets/images/atelier.png',15.00,'Ateliers','Atelier'),
+(18,'Le Conservatoire','Studio d\'enregistrement premium du Local, équipé pour la production musicale, les podcasts et les créations audio professionnelles dans un environnement haut de gamme.',1,'/assets/images/studio.png',50.00,'Ateliers','Studio d\'enregistrement'),
+(19,'L\'Acoustique','Studio d\'enregistrement conçu pour les prises de son, les répétitions et les productions audio dans un cadre confortable et performant.',1,'/assets/images/studio.png',30.00,'Ateliers','Studio d\'enregistrement'),
+(20,'La Chambre Noire','Studio photo équipé pour les séances de prise de vue, la création de contenus visuels et les projets photographiques professionnels ou créatifs.',1,'/assets/images/photo-studio.png',35.00,'Ateliers','Studio photo');
 
 UNLOCK TABLES;
 
