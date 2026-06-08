@@ -1,86 +1,145 @@
 .card-space-card-div {
   height: 100%;
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-strong);
-  padding: var(--space-6);
   display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  overflow: hidden;
-  border-radius: 1em;
-  .card-space-card-img-div {
-    flex-shrink: 0;
-    width: 35%;
-    overflow: hidden;
+  flex-direction: column;
 
-    .card-space-card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+
+  box-shadow: var(--card-shadow);
+
+  overflow: hidden;
+
+  transition: var(--transition-shadow), var(--transition-transform);
+}
+
+.card-space-card-div:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-space-card-img-div {
+  position: relative;
+  flex: 0 0 50%;
+  overflow: hidden;
+}
+
+.card-space-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  transition: transform var(--transition-slow);
+}
+
+.card-space-card-div:hover .card-space-card-img {
+  transform: scale(1.05);
+}
+
+.card-space-card-capacity {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+
+  background: var(--color-bg-white);
+  color: var(--color-text-primary);
+
+  padding: var(--space-2) var(--space-3);
+
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.card-space-card-name {
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+
+  margin: 0;
+
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+
+  color: var(--color-text-on-dark);
+
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.card-space-card-info-div {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: var(--space-3);
+
+  background: var(--color-bg-card);
+
+  gap: var(--gap-xs);
+}
+
+.card-space-card-description {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+
+  color: var(--color-text-secondary);
+}
+
+.card-space-card-timeslot {
+  display: block;
+
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+
+  color: var(--color-text-muted);
+
+  padding-bottom: var(--space-2);
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-space-card-timeslot:last-of-type {
+  border-bottom: none;
+}
+
+.card-space-card-reservation-button {
+  margin-top: auto;
+  align-self: flex-end;
+
+  height: var(--btn-height-sm);
+
+  padding-inline: var(--btn-padding-x-sm);
+
+  border: none;
+
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+
+  font-family: var(--font-ui);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+
+  cursor: pointer;
+
+  transition: var(--transition-color);
+}
+
+.card-space-card-reservation-button:hover {
+  background: var(--btn-primary-bg-hover);
+}
+
+@media (max-width: 768px) {
+  .card-space-card-name {
+    font-size: var(--text-lg);
   }
 
   .card-space-card-info-div {
-    flex: 1;
-    min-width: 0;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border-strong);
     padding: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-
-    .card-space-card-name {
-      font-size: var(--text-lg);
-      font-family: var(--font-display);
-      padding: var(--space-1) 0;
-      color: var(--color-text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-space-card-description {
-      font-size: var(--text-sm);
-      padding: var(--space-1) 0;
-      color: var(--color-text-muted);
-      font-family: var(--font-body);
-    }
-
-    .card-space-card-timeslot {
-      background: var(--color-bg-1);
-      border: 1px solid var(--color-bg-2);
-      padding: var(--space-2) var(--space-3);
-      margin: var(--space-1) 0;
-      border-radius: var(--radius-lg);
-      font-size: var(--text-sm);
-      font-weight: var(--font-semibold);
-      color: var(--color-text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-space-card-reservation-button {
-      margin-top: auto;
-      align-self: flex-end;
-      border: none;
-      background: var(--btn-primary-bg);
-      color: var(--btn-primary-text);
-      padding: var(--space-2);
-      font-size: var(--text-sm);
-      font-weight: var(--font-bold);
-      cursor: pointer;
-      transition: 0.2s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      &:hover {
-        background: var(--btn-primary-bg-hover);
-      }
-    }
   }
 }
