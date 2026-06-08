@@ -118,8 +118,8 @@ DROP TABLE IF EXISTS `cart`;
 
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `quantity` varchar(45) DEFAULT NULL,
-  `total_price` varchar(45) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `total_price` int DEFAULT NULL,
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),

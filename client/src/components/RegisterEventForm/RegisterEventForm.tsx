@@ -204,3 +204,6 @@ function RegisterEventForm({ event }: CardEventProps) {
 }
 
 export default RegisterEventForm;
+//changer en bdd le type de quantity et total price (cart) -> int !!
+//calculer en backend la quantity*price_unit pour total_price
+//css du formulaire
