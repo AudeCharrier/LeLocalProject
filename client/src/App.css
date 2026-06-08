@@ -36,11 +36,14 @@
   --color-text-on-dark: #ffffff; /* Texte sur fonds sombres */
   --color-text-on-mid: #1b1b17; /* Texte sur fonds mi-teinte */
   --color-text-accent: #7ca85a; /* Vert — labels, tags, accents typographiques */
+  --color-text-search: rgba(243, 237, 226, 0.341);
 
   /* Bordures */
   --color-border: #e0d8d3;
   --color-border-strong: #c0b0a8;
   --color-border-card: #e8e2de;
+  --color-border-tag-1: #f3ede21a;
+  --color-border-tag-2: #f3ede20f;
 
   /* Tags / Badges */
   --color-tag-bg: #a92831;
