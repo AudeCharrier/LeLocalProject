@@ -38,7 +38,12 @@ type BookingHistory = {
   space_name: string;
 };
 
-// Pour regrouper nos différentes méthodes :
+type Stats = {
+  bookings_count: number;
+  events_count: number;
+  total_spent: number;
+};
+
 class DashboardClientRepository {
   // The Rs of CRUD - Read operations
 
@@ -170,6 +175,22 @@ class DashboardClientRepository {
       [userId],
     );
     return rows as Booking[];
+  }
+
+  // une seule requête pour les 3 stats (COUNT + SUM x2)
+  async readStats(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+      COUNT(DISTINCT b.id) AS bookings_count,
+      SUM(CASE WHEN s.space_type = 'Evenements' THEN 1 ELSE 0 END) AS events_count,
+      SUM(b.total_price) AS total_spent
+    FROM booking b
+    JOIN activity a ON b.id_activity = a.id
+    JOIN space s ON a.space_id = s.id
+    WHERE b.users_id = ?`,
+      [userId],
+    );
+    return rows[0] as Stats;
   }
 }
 

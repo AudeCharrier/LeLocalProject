@@ -9,10 +9,11 @@ import "./DashboardClientPage.css";
 export default function DashboardClientPage() {
   return (
     <section className="dashboard-client-page">
+      <div className="dashboard-client-page__header">
+        <h1 className="dashboard-client-page__heading">Mon récap</h1>
+      </div>
       <div className="dashboard-client-page__content">
-        <div className="dashboard-client-page__stats">
-          <StatsClient />
-        </div>
+        <StatsClient />
         <UpcomingBookingClient />
         <div className="dashboard-client-page__past">
           <PastClient />
