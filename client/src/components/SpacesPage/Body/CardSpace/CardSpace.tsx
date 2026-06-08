@@ -6,27 +6,31 @@ type CardSpaceProps = {
   categoryName: string;
 };
 
-//IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 function CardSpace({ spaces, categoryName }: CardSpaceProps) {
   const firstSpace = spaces[0];
+
   const totalCapacity = spaces.reduce((acc, space) => acc + space.capacity, 0);
 
   const spaceCategory = firstSpace.space_category;
 
   const isStudio = spaceCategory.toLowerCase().includes("studio");
-  const isLocal = spaceCategory === "Local modulable";
 
+  const isLocal = spaceCategory === "Local vide";
+  const minPrice = Math.min(...spaces.map((space) => space.price_unit));
   const renderSlots = () => {
     if (isStudio) {
       return (
         <>
           <span className="card-space-card-timeslot">
-            Matin — {spaces.length} studio{spaces.length > 1 ? "s" : ""}{" "}
-            disponible{spaces.length > 1 ? "s" : ""}
+            Matin — {spaces.length}/{spaces.length} studio
+            {spaces.length > 1 ? "s" : ""} disponible
+            {spaces.length > 1 ? "s" : ""}
           </span>
+
           <span className="card-space-card-timeslot">
-            Après-midi — {spaces.length} studio{spaces.length > 1 ? "s" : ""}{" "}
-            disponible{spaces.length > 1 ? "s" : ""}
+            Après-midi — {spaces.length}/{spaces.length} studio
+            {spaces.length > 1 ? "s" : ""} disponible
+            {spaces.length > 1 ? "s" : ""}
           </span>
         </>
       );
@@ -35,21 +39,20 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
     if (isLocal) {
       return (
         <span className="card-space-card-timeslot">
-          {spaces.length} local{spaces.length > 1 ? "aux" : ""} disponible
-          {spaces.length > 1 ? "s" : ""} ce mois-ci
+          {spaces.length} loca{spaces.length > 1 ? "ux" : ""} disponible
+          {spaces.length > 1 ? "s" : ""}
         </span>
       );
     }
-    // IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA IA
 
     return (
       <>
         <span className="card-space-card-timeslot">
-          Matin — {totalCapacity}/{totalCapacity} places disponibles aujourd'hui
+          Matin — {totalCapacity}/{totalCapacity} places
         </span>
+
         <span className="card-space-card-timeslot">
-          Après-midi — {totalCapacity}/{totalCapacity} places disponibles
-          aujourd'hui
+          Après-midi — {totalCapacity}/{totalCapacity} places
         </span>
       </>
     );
@@ -63,19 +66,19 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
           src={`${import.meta.env.VITE_API_URL}${firstSpace.url_image}`}
           alt={categoryName}
         />
-      </div>
-      <div className="card-space-card-info-div">
-        <h3 className="card-space-card-name">{categoryName}</h3>
 
-        <p className="card-space-card-description">
-          {spaces.length} espace{spaces.length > 1 ? "s" : ""} disponible
-          {spaces.length > 1 ? "s" : ""}
-        </p>
+        <span className="card-space-card-capacity">Dès {minPrice}€</span>
+
+        <h3 className="card-space-card-name">{categoryName}</h3>
+      </div>
+
+      <div className="card-space-card-info-div">
+        <p className="card-space-card-description">Aujourd'hui</p>
 
         {renderSlots()}
 
         <button type="button" className="card-space-card-reservation-button">
-          Voir tous les {categoryName}s
+          Réserver
         </button>
       </div>
     </div>
