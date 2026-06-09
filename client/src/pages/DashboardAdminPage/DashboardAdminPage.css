@@ -1,13 +1,28 @@
 .dashboard-admin-page {
-  background: var(--color-bg-1);
+  background: var(--color-bg-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 
+  .dashboard-admin-page__header {
+    background-color: var(--color-bg-hero);
+    padding: var(--space-8) var(--container-padding-x);
+  }
+
+  .dashboard-admin-page__heading {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-text-on-dark);
+  }
+
   .dashboard-admin-content {
     flex: 1;
     width: 100%;
-    padding: var(--space-6) var(--container-padding-x) var(--space-8);
+    padding: var(--space-8) var(--container-padding-x) var(--space-8);
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
