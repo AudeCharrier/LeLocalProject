@@ -91,7 +91,7 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
         {renderSlots()}
 
         <button type="button" className="card-space-card-reservation-button">
-          Réserver
+          Voir les espaces
         </button>
       </div>
     </div>
