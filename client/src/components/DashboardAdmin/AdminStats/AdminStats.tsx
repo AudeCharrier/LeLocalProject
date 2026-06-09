@@ -1,23 +1,35 @@
 import "./AdminStats.css";
-
-const stats = [
-  { label: "Taux d'occupation", value: "74%", detail: "+8% vs sem. dernière" },
-  { label: "Total Réservations", value: "18", detail: "+3 depuis hier" },
-  { label: "Membres actifs", value: "247", detail: "+12 ce mois" },
-  { label: "Réclamations", value: "2", detail: "Non traitées" },
-];
+import useAdminStats from "../../../hooks/useAdminStats";
 
 function AdminStats() {
+  const { occupancy_rate, bookings_count, active_members } = useAdminStats();
+
   return (
     <section className="admin-stats" aria-label="Admin dashboard statistics">
       <div className="admin-stats__grid">
-        {stats.map((stat) => (
-          <article key={stat.label} className="admin-stats__card">
-            <p className="admin-stats__label">{stat.label}</p>
-            <p className="admin-stats__value">{stat.value}</p>
-            <p className="admin-stats__detail">{stat.detail}</p>
-          </article>
-        ))}
+        <article className="admin-stats__card">
+          <p className="admin-stats__label">Taux d&apos;occupation</p>
+          <p className="admin-stats__value">{occupancy_rate}%</p>
+          <p className="admin-stats__detail">Espaces réservés</p>
+        </article>
+
+        <article className="admin-stats__card">
+          <p className="admin-stats__label">Total Réservations</p>
+          <p className="admin-stats__value">{bookings_count}</p>
+          <p className="admin-stats__detail">Toutes périodes</p>
+        </article>
+
+        <article className="admin-stats__card">
+          <p className="admin-stats__label">Membres actifs</p>
+          <p className="admin-stats__value">{active_members}</p>
+          <p className="admin-stats__detail">Rôle client</p>
+        </article>
+
+        <article className="admin-stats__card">
+          <p className="admin-stats__label">Réclamations</p>
+          <p className="admin-stats__value">2</p>
+          <p className="admin-stats__detail">Non traitées</p>
+        </article>
       </div>
     </section>
   );
