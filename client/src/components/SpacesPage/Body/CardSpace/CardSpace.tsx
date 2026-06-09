@@ -1,6 +1,10 @@
 import "./CardSpace.css";
+import localVideImg from "../../../../assets/images/empty-space.png";
+import sallereunionImg from "../../../../assets/images/meeting-room.png";
+import openspaceImg from "../../../../assets/images/openspace.png";
+import studioPhotoImg from "../../../../assets/images/photo-studio.png";
+import studioEnregImg from "../../../../assets/images/studios.png";
 import type { Space } from "../../../../types/space";
-
 type CardSpaceProps = {
   spaces: Space[];
   categoryName: string;
@@ -17,6 +21,15 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
 
   const isLocal = spaceCategory === "Local vide";
   const minPrice = Math.min(...spaces.map((space) => space.price_unit));
+  const CATEGORY_IMAGES: Record<string, string> = {
+    "Open space": openspaceImg,
+    "Studio photo": studioPhotoImg,
+    "Studio d'enregistrement": studioEnregImg,
+    "Salle de réunion": sallereunionImg,
+    "Local vide": localVideImg,
+  };
+
+  const fallbackImg = openspaceImg; // image par défaut
   const renderSlots = () => {
     if (isStudio) {
       return (
@@ -63,11 +76,11 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
       <div className="card-space-card-img-div">
         <img
           className="card-space-card-img"
-          src={`${import.meta.env.VITE_API_URL}${firstSpace.url_image}`}
+          src={CATEGORY_IMAGES[spaceCategory] ?? fallbackImg}
           alt={categoryName}
         />
 
-        <span className="card-space-card-capacity">Dès {minPrice}€</span>
+        <span className="card-space-card-badge-price">Dès {minPrice}€</span>
 
         <h3 className="card-space-card-name">{categoryName}</h3>
       </div>
@@ -78,7 +91,7 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
         {renderSlots()}
 
         <button type="button" className="card-space-card-reservation-button">
-          Réserver
+          Voir les espaces
         </button>
       </div>
     </div>

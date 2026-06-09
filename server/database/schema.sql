@@ -16,27 +16,28 @@ CREATE TABLE `space` (
 LOCK TABLES `space` WRITE;
 
 INSERT INTO `space` VALUES 
-(1,'L\'Agora','Openspace pensé pour accueillir les coworkers dans un environnement ouvert, dynamique et propice aux échanges.',50,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
-(2,'Le Forum','Openspace spacieux et modulable offrant de nombreuses places de travail dans un cadre confortable favorisant la collaboration et la convivialité.',50,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
-(3,'L\'Atrium','Openspace lumineux à capacité réduite, idéal pour celles et ceux qui recherchent un environnement de travail plus calme tout en bénéficiant de la vie du Local.',20,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
-(4,'Le Parvis','Openspace accueillant et accessible, proposant une ambiance sereine et un nombre limité de postes pour un confort de travail optimal.',20,'/assets/images/openspace.png',8.00,'Coworking','Openspace'),
-(5,'L\'Hémicycle','Grande salle de réunion du Local, conçue pour accueillir des présentations, séminaires, ateliers et rencontres professionnelles dans un cadre confortable et fonctionnel.',40,'/assets/images/meeting-room.png',80.00,'Coworking','Salle de réunion'),
-(6,'Le Sénat','Salle de réunion dédiée aux échanges professionnels, idéale pour les comités de pilotage, réunions d\'équipe et rendez-vous avec des partenaires ou clients.',10,'/assets/images/meeting-room.png',60.00,'Coworking','Salle de réunion'),
-(7,'La Rotonde','Salle de réunion à taille humaine offrant un cadre propice aux discussions, à la prise de décision et aux réunions de travail en petit groupe.',8,'/assets/images/meeting-room.png',40.00,'Coworking','Salle de réunion'),
-(8,'L\'Annexe I','Local vide de 30 m² permettant d\'accueillir une activité professionnelle, associative, artisanale ou commerciale selon vos besoins.',1,'/assets/images/local.png',450.00,'Coworking','Local vide'),
-(9,'L\'Annexe II','Local vide de 30 m² offrant un espace flexible pour développer vos projets et activités.',1,'/assets/images/local.png',450.00,'Coworking','Local vide'),
-(10,'Le Pavillon I','Local vide de 60 m² permettant l\'installation d\'une activité, d\'un bureau, d\'un showroom ou d\'un espace de travail personnalisé.',1,'/assets/images/local.png',700.00,'Coworking','Local vide'),
-(11,'Le Pavillon II','Local vide de 60 m² offrant un espace modulable adapté aux entreprises, associations et porteurs de projets.',1,'/assets/images/local.png',700.00,'Coworking','Local vide'),
-(12,'L\'Odéon','Salle de concert du Local pouvant accueillir jusqu\'à 250 personnes pour des spectacles, concerts, conférences et événements culturels.',250,'/assets/images/concert-hall.png',500.00,'Evenements','Salle de concert'),
-(13,'L\'Amphithéâtre','Amphithéâtre conçu pour les conférences, formations, projections et présentations publiques dans un cadre adapté aux grands rassemblements.',150,'/assets/images/amphitheater.png',100.00,'Evenements','Amphithéâtre'),
-(14,'L\'Atelier Voltaire','Espace dédié à l\'impression 3D, au prototypage et à la fabrication numérique.',1,'/assets/images/atelier.png',10.00,'Ateliers','Atelier'),
-(15,'L\'Atelier des Couleurs','Espace créatif dédié à la peinture, aux arts plastiques et aux activités artistiques.',1,'/assets/images/atelier.png',10.00,'Ateliers','Atelier'),
-(16,'L\'Atelier des Étoffes','Espace équipé pour la couture, la création textile et les travaux de confection.',1,'/assets/images/atelier.png',15.00,'Ateliers','Atelier'),
-(17,'L\'Atelier Gutenberg','Espace dédié à l\'impression, à la reprographie et à la production de documents.',1,'/assets/images/atelier.png',2.00,'Ateliers','Atelier'),
-(18,'Le Conservatoire','Studio d\'enregistrement premium du Local, équipé pour la production musicale, les podcasts et les créations audio professionnelles dans un environnement haut de gamme.',1,'/assets/images/studio.png',500.00,'Ateliers','Studio d\'enregistrement'),
-(19,'L\'Acoustique','Studio d\'enregistrement conçu pour les prises de son, les répétitions et les productions audio dans un cadre confortable et performant.',1,'/assets/images/studio.png',250.00,'Ateliers','Studio d\'enregistrement'),
-(20,'La Chambre Noire','Studio photo équipé pour les séances de prise de vue, la création de contenus visuels et les projets photographiques professionnels ou créatifs.',1,'/assets/images/photo-studio.png',50.00,'Ateliers','Studio photo');
-
+(1,'L\'Agora','Openspace pensé pour accueillir les coworkers dans un environnement ouvert, dynamique et propice aux échanges.',50,'/assets/images/spaces/openspace/agora.png',8.00,'Coworking','Openspace'),
+(2,'Le Forum','Openspace spacieux et modulable offrant de nombreuses places de travail dans un cadre confortable favorisant la collaboration et la convivialité.',50,'/assets/images/spaces/openspace/forum.png',8.00,'Coworking','Openspace'),
+(3,'L\'Atrium','Openspace lumineux à capacité réduite, idéal pour celles et ceux qui recherchent un environnement de travail plus calme tout en bénéficiant de la vie du Local.',20,'/assets/images/spaces/atrium.png',8.00,'Coworking','Openspace'),
+(4,'Le Parvis','Openspace accueillant et accessible, proposant une ambiance sereine et un nombre limité de postes pour un confort de travail optimal.',20,'/assets/images/spaces/openspace/parvis.png',8.00,'Coworking','Openspace'),
+(5,'L\'Hémicycle','Grande salle de réunion du Local, conçue pour accueillir des présentations, séminaires, ateliers et rencontres professionnelles dans un cadre confortable et fonctionnel.',40,'/assets/images/spaces/meeting-room/hemicycle.png',80.00,'Coworking','Salle de réunion'),
+(6,'Le Sénat','Salle de réunion dédiée aux échanges professionnels, idéale pour les comités de pilotage, réunions d\'équipe et rendez-vous avec des partenaires ou clients.',10,'/assets/images/spaces/meeting-room/senat.png',60.00,'Coworking','Salle de réunion'),
+(7,'La Rotonde','Salle de réunion à taille humaine offrant un cadre propice aux discussions, à la prise de décision et aux réunions de travail en petit groupe.',8,'/assets/images/spaces/meeting-room/rotonde.png',40.00,'Coworking','Salle de réunion'),
+(8,'L\'Annexe I','Local vide de 30 m² permettant d\'accueillir une activité professionnelle, associative, artisanale ou commerciale selon vos besoins.',1,'/assets/images/spaces/empty-space/annexe-1.png',450.00,'Coworking','Local vide'),
+(9,'L\'Annexe II','Local vide de 30 m² offrant un espace flexible pour développer vos projets et activités.',1,'/assets/images/spaces/empty-space/annexe-2.png',450.00,'Coworking','Local vide'),
+(10,'Le Pavillon I','Local vide de 60 m² permettant l\'installation d\'une activité, d\'un bureau, d\'un showroom ou d\'un espace de travail personnalisé.',1,'/assets/images/spaces/empty-space/pavillon-1.png',700.00,'Coworking','Local vide'),
+(11,'Le Pavillon II','Local vide de 60 m² offrant un espace modulable adapté aux entreprises, associations et porteurs de projets.',1,'/assets/images/spaces/empty-space/pavillon-2.png',700.00,'Coworking','Local vide'),
+(12,'L\'Odéon','Salle de concert du Local pouvant accueillir jusqu\'à 250 personnes pour des spectacles, concerts, conférences et événements culturels.',250,'/assets/images/spaces/events/odeon.png',500.00,'Evenements','Salle de concert'),
+(13,'L\'Amphithéâtre','Amphithéâtre conçu pour les conférences, formations, projections et présentations publiques dans un cadre adapté aux grands rassemblements.',150,'/assets/images/spaces/events/amphitheatre.png',100.00,'Evenements','Amphithéâtre'),
+(14,'L\'Atelier Voltaire','Espace dédié à l\'impression 3D, au prototypage et à la fabrication numérique.',1,'/assets/images/spaces/workshop/voltaire.png',10.00,'Ateliers','Atelier'),
+(15,'L\'Atelier des Couleurs','Espace créatif dédié à la peinture, aux arts plastiques et aux activités artistiques.',1,'/assets/images/spaces/workshop/couleurs.png',10.00,'Ateliers','Atelier'),
+(16,'L\'Atelier des Étoffes','Espace équipé pour la couture, la création textile et les travaux de confection.',1,'/assets/images/spaces/workshop/etoffes.png',15.00,'Ateliers','Atelier'),
+(17,'L\'Atelier Gutenberg','Espace dédié à l\'impression, à la reprographie et à la production de documents.',1,'/assets/images/spaces/workshop/atelier.png',2.00,'Ateliers','Atelier'),
+(18,'Le Conservatoire','Studio d\'enregistrement premium du Local, équipé pour la production musicale, les podcasts et les créations audio professionnelles dans un environnement haut de gamme.',1,'/assets/images/spaces/studio/conservatoire.png',500.00,'Ateliers','Studio d\'enregistrement'),
+(19,'L\'Acoustique','Studio d\'enregistrement conçu pour les prises de son, les répétitions et les productions audio dans un cadre confortable et performant.',1,'/assets/images/spaces/studio/acoustique.png',250.00,'Ateliers','Studio d\'enregistrement'),
+(20,'La Chambre Noire','Studio photo équipé pour les séances de prise de vue, la création de contenus visuels et les projets photographiques professionnels ou créatifs.',1,'/assets/images/spaces/studio/chambre-noire.png',50.00,'Ateliers','Studio photo'),
+(21,'L\'Escale','Espace détente du Local, pensé comme une bulle de calme et de lumière, idéal pour se reposer, échanger informellement ou faire une pause entre deux temps de travail dans un cadre apaisant.',50,'/assets/images/spaces/break-room/escale.png',0,'Détente','Salle détente'),
+(22,'La Serre','Espace détente du Local, chaleureux et végétalisé, offrant un environnement calme et ressourçant pour se relaxer, discuter ou simplement souffler au cœur de la journée.',50,'/assets/images/spaces/break-room/serre.png',0,'Détente','Salle détente');
 UNLOCK TABLES;
 
 

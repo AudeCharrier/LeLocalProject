@@ -8,7 +8,6 @@ const CATEGORY_ORDER = [
   "Studio photo",
   "Salle de réunion",
   "Local vide",
-  "Atelier",
 ];
 
 function Body() {
@@ -60,7 +59,6 @@ function Body() {
         </div>
 
         <div className="body-spaces-page-spaces-list-div">
-          {/* LEFT */}
           <div className="body-spaces-page-spaces-list-left-column">
             {leftCategories.map(([category, spaceList]) => (
               <CardSpace
@@ -71,7 +69,6 @@ function Body() {
             ))}
           </div>
 
-          {/* RIGHT */}
           <div className="body-spaces-page-spaces-list-right-column">
             {rightCategories.map(([category, spaceList]) => (
               <CardSpace

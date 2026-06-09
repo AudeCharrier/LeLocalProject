@@ -1,61 +1,47 @@
 import "./SecondArticle.css";
+import useSpaces from "../../../../hooks/useSpaces";
+import type { Space } from "../../../../types/space";
+import CardCategorySecondArticle from "./CardCategorySecondArticle/CardCategorySecondArticle";
 
-//Header creation
 function SecondArticle() {
+  const spaces = useSpaces();
+  const filteredSpaces = spaces.filter(
+    (space) =>
+      space.space_type !== "Evenements" &&
+      space.space_type !== "Détente" &&
+      space.space_category !== "Atelier",
+  );
+  const groupedSpaces = filteredSpaces.reduce(
+    (acc, space) => {
+      const category =
+        space.space_category === "Studio d'enregistrement" ||
+        space.space_category === "Studio photo"
+          ? "Studio"
+          : space.space_category;
+
+      if (!acc[category]) {
+        acc[category] = {
+          spaces: [],
+        };
+      }
+
+      acc[category].spaces.push(space);
+
+      return acc;
+    },
+    {} as Record<string, { spaces: Space[] }>,
+  );
+
   return (
     <article className="header-spaces-page-second-article">
-      <div className="header-spaces-page-second-article-space-type-div">
-        <div className="header-spaces-page-second-article-space-type-number">
-          01
-        </div>
-        <div className="header-spaces-page-second-article-space-type-info">
-          <h3 className="header-spaces-page-second-article-space-type-info-type">
-            Open Space
-          </h3>
-          <p className="header-spaces-page-second-article-space-type-info-availability">
-            24/140 postes
-          </p>
-        </div>
-      </div>
-      <div className="header-spaces-page-second-article-space-type-div">
-        <div className="header-spaces-page-second-article-space-type-number">
-          02
-        </div>
-        <div className="header-spaces-page-second-article-space-type-info">
-          <h3 className="header-spaces-page-second-article-space-type-info-type">
-            Salle de réunion
-          </h3>
-          <p className="header-spaces-page-second-article-space-type-info-availability">
-            1/3 salles
-          </p>
-        </div>
-      </div>
-      <div className="header-spaces-page-second-article-space-type-div">
-        <div className="header-spaces-page-second-article-space-type-number">
-          03
-        </div>
-        <div className="header-spaces-page-second-article-space-type-info">
-          <h3 className="header-spaces-page-second-article-space-type-info-type">
-            Local vide
-          </h3>
-          <p className="header-spaces-page-second-article-space-type-info-availability">
-            4/4 locales
-          </p>
-        </div>
-      </div>
-      <div className="header-spaces-page-second-article-space-type-div">
-        <div className="header-spaces-page-second-article-space-type-number">
-          04
-        </div>
-        <div className="header-spaces-page-second-article-space-type-info">
-          <h3 className="header-spaces-page-second-article-space-type-info-type">
-            Studio
-          </h3>
-          <p className="header-spaces-page-second-article-space-type-info-availability">
-            1/2 studio d'enregistrement / 1/1 Studio photo
-          </p>
-        </div>
-      </div>
+      {Object.entries(groupedSpaces).map(([category, { spaces }], index) => (
+        <CardCategorySecondArticle
+          key={category}
+          spaces={spaces}
+          categoryName={category}
+          categoryId={index + 1}
+        />
+      ))}
     </article>
   );
 }
