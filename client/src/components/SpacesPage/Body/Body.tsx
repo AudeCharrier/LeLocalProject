@@ -8,7 +8,6 @@ const CATEGORY_ORDER = [
   "Studio photo",
   "Salle de réunion",
   "Local vide",
-  "Atelier",
 ];
 
 function Body() {
