@@ -2,11 +2,11 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
 
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--shadow-lg);
 
   overflow: hidden;
 
@@ -15,12 +15,12 @@
 
 .card-space-card-div:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
 }
 
 .card-space-card-img-div {
   position: relative;
-  flex: 0 0 50%;
+
   overflow: hidden;
 }
 
@@ -37,13 +37,13 @@
   transform: scale(1.05);
 }
 
-.card-space-card-capacity {
+.card-space-card-badge-price {
   position: absolute;
   top: var(--space-4);
   right: var(--space-4);
-
-  background: var(--color-bg-white);
-  color: var(--color-text-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-dark);
+  color: var(--color-text-on-dark);
 
   padding: var(--space-2) var(--space-3);
 
