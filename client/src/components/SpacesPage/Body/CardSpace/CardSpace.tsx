@@ -1,10 +1,14 @@
 import "./CardSpace.css";
+import { useState } from "react";
 import localVideImg from "../../../../assets/images/empty-space.png";
 import sallereunionImg from "../../../../assets/images/meeting-room.png";
 import openspaceImg from "../../../../assets/images/openspace.png";
 import studioPhotoImg from "../../../../assets/images/photo-studio.png";
 import studioEnregImg from "../../../../assets/images/studios.png";
 import type { Space } from "../../../../types/space";
+import Modal from "../../SpaceModal/SpaceModal";
+import SpaceModalContent from "../../SpaceModal/SpaceModalContent/SpaceModalContent";
+
 type CardSpaceProps = {
   spaces: Space[];
   categoryName: string;
@@ -12,7 +16,7 @@ type CardSpaceProps = {
 
 function CardSpace({ spaces, categoryName }: CardSpaceProps) {
   const firstSpace = spaces[0];
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const totalCapacity = spaces.reduce((acc, space) => acc + space.capacity, 0);
 
   const spaceCategory = firstSpace.space_category;
@@ -72,29 +76,38 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
   };
 
   return (
-    <div className="card-space-card-div">
-      <div className="card-space-card-img-div">
-        <img
-          className="card-space-card-img"
-          src={CATEGORY_IMAGES[spaceCategory] ?? fallbackImg}
-          alt={categoryName}
-        />
+    <>
+      <div className="card-space-card-div">
+        <div className="card-space-card-img-div">
+          <img
+            className="card-space-card-img"
+            src={CATEGORY_IMAGES[spaceCategory] ?? fallbackImg}
+            alt={categoryName}
+          />
 
-        <span className="card-space-card-badge-price">Dès {minPrice}€</span>
+          <span className="card-space-card-badge-price">Dès {minPrice}€</span>
 
-        <h3 className="card-space-card-name">{categoryName}</h3>
+          <h3 className="card-space-card-name">{categoryName}</h3>
+        </div>
+
+        <div className="card-space-card-info-div">
+          <p className="card-space-card-description">Aujourd'hui</p>
+
+          {renderSlots()}
+
+          <button
+            type="button"
+            className="card-space-card-reservation-button"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Voir les espaces
+          </button>
+        </div>
       </div>
-
-      <div className="card-space-card-info-div">
-        <p className="card-space-card-description">Aujourd'hui</p>
-
-        {renderSlots()}
-
-        <button type="button" className="card-space-card-reservation-button">
-          Voir les espaces
-        </button>
-      </div>
-    </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <SpaceModalContent spaces={spaces} categoryName={categoryName} />
+      </Modal>
+    </>
   );
 }
 

@@ -1,0 +1,65 @@
+.space-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.space-modal-content-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.space-modal-content-carousel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.space-modal-content-carousel-slide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.space-modal-content-carousel-slide-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.space-modal-content-carousel-slide-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.space-modal-content-carousel-slide-price {
+  font-weight: 500;
+}
+
+.space-modal-content-carousel-slide-capacity {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.space-modal-content-carousel-arrow {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.space-modal-content-carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.space-modal-content-counter {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+}
