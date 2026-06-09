@@ -60,7 +60,6 @@ function Body() {
         </div>
 
         <div className="body-spaces-page-spaces-list-div">
-          {/* LEFT */}
           <div className="body-spaces-page-spaces-list-left-column">
             {leftCategories.map(([category, spaceList]) => (
               <CardSpace
@@ -71,7 +70,6 @@ function Body() {
             ))}
           </div>
 
-          {/* RIGHT */}
           <div className="body-spaces-page-spaces-list-right-column">
             {rightCategories.map(([category, spaceList]) => (
               <CardSpace
