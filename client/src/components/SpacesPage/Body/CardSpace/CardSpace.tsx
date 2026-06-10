@@ -1,4 +1,5 @@
 import "./CardSpace.css";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import localVideImg from "../../../../assets/images/empty-space.png";
 import sallereunionImg from "../../../../assets/images/meeting-room.png";
@@ -6,25 +7,23 @@ import openspaceImg from "../../../../assets/images/openspace.png";
 import studioPhotoImg from "../../../../assets/images/photo-studio.png";
 import studioEnregImg from "../../../../assets/images/studios.png";
 import type { Space } from "../../../../types/space";
-import Modal from "../../SpaceModal/SpaceModal";
-import SpaceModalContent from "../../SpaceModal/SpaceModalContent/SpaceModalContent";
-
+import SpaceModal from "../SpaceModal/SpaceModal";
+import SpaceModalContent from "../SpaceModal/SpaceModalContent/SpaceModalContent";
 type CardSpaceProps = {
   spaces: Space[];
   categoryName: string;
 };
 
 function CardSpace({ spaces, categoryName }: CardSpaceProps) {
+  if (spaces.length === 0) return null;
   const firstSpace = spaces[0];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const totalCapacity = spaces.reduce((acc, space) => acc + space.capacity, 0);
-
   const spaceCategory = firstSpace.space_category;
-
   const isStudio = spaceCategory.toLowerCase().includes("studio");
-
   const isLocal = spaceCategory === "Local vide";
   const minPrice = Math.min(...spaces.map((space) => space.price_unit));
+
   const CATEGORY_IMAGES: Record<string, string> = {
     "Open space": openspaceImg,
     "Studio photo": studioPhotoImg,
@@ -33,7 +32,8 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
     "Local vide": localVideImg,
   };
 
-  const fallbackImg = openspaceImg; // image par défaut
+  const fallbackImg = openspaceImg;
+
   const renderSlots = () => {
     if (isStudio) {
       return (
@@ -104,9 +104,20 @@ function CardSpace({ spaces, categoryName }: CardSpaceProps) {
           </button>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <SpaceModalContent spaces={spaces} categoryName={categoryName} />
-      </Modal>
+      <AnimatePresence>
+        {isModalOpen && (
+          <SpaceModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
+            <SpaceModalContent
+              spaces={spaces}
+              categoryName={categoryName}
+              onClose={() => setIsModalOpen(false)}
+            />
+          </SpaceModal>
+        )}
+      </AnimatePresence>
     </>
   );
 }
