@@ -73,6 +73,8 @@ router.get(
 // Dashboard Admin:
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
 
+router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
+
 router.get(
   "/api/dashboard/admin/bookings",
   dasboardAdminActions.browseAdminBookings,
