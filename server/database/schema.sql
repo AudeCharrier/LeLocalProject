@@ -78,6 +78,7 @@ CREATE TABLE `activity` (
   `price_unit` int DEFAULT '0',
   `url_image` varchar(255) NOT NULL,
   `name` varchar(155) DEFAULT NULL,
+  `users_id` int NOT NULL, 
   PRIMARY KEY (`id`),
   KEY `fk_time_slot_has_space_space_idx` (`space_id`),
   KEY `fk_time_slot_has_space_time_slot_idx` (`time_slot_id`),
@@ -89,18 +90,18 @@ CREATE TABLE `activity` (
 LOCK TABLES `activity` WRITE;
 
 INSERT INTO `activity` VALUES 
-(1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soiree Pitch et Biere'),
-(2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Jazz en soiree'),
-(3,2,12,'2026-03-20','2026-03-20','Projection suivie d un debat sur le cinema independant.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cine-debat mars'),
-(4,2,13,'2026-06-25','2026-06-25','Rencontre mensuelle des makers et bricoleurs du 11e.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers'),
-(5,2,12,'2026-07-10','2026-07-10','Grande soiree musicale avec plusieurs artistes locaux.',12,'https://images.unsplash.com/photo-1501386761578-eaa54b21a0f8?w=800&h=600&fit=crop&auto=format','Festival local juillet'),
-(6,1,13,'2026-08-05','2026-08-05','Atelier d ecriture creative ouvert a tous les niveaux.',0,'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format','Atelier ecriture aout'),
-(7,1,3,'2026-05-05','2026-05-05','Session de travail matinale dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking matin - Atrium'),
-(8,2,3,'2026-05-20','2026-05-20','Session de travail apres-midi dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Atrium'),
-(9,1,2,'2026-04-10','2026-04-10','Session de travail matinale dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking matin - Forum'),
-(10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum'),
-(11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D'),
-(12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement');
+(1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soiree Pitch et Biere', 2),
+(2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Jazz en soiree', 2),
+(3,2,12,'2026-03-20','2026-03-20','Projection suivie d un debat sur le cinema independant.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cine-debat mars', 2),
+(4,2,13,'2026-06-25','2026-06-25','Rencontre mensuelle des makers et bricoleurs du 11e.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers', 2),
+(5,2,12,'2026-07-10','2026-07-10','Grande soiree musicale avec plusieurs artistes locaux.',12,'https://images.unsplash.com/photo-1501386761578-eaa54b21a0f8?w=800&h=600&fit=crop&auto=format','Festival local juillet', 2),
+(6,1,13,'2026-08-05','2026-08-05','Atelier d ecriture creative ouvert a tous les niveaux.',0,'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format','Atelier ecriture aout', 2),
+(7,1,3,'2026-05-05','2026-05-05','Session de travail matinale dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking matin - Atrium', 2),
+(8,2,3,'2026-05-20','2026-05-20','Session de travail apres-midi dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Atrium', 2),
+(9,1,2,'2026-04-10','2026-04-10','Session de travail matinale dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking matin - Forum', 2),
+(10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum', 2),
+(11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
+(12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2);
 
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `booking`;
