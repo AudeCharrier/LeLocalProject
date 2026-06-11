@@ -28,19 +28,6 @@ function BookingForm({ space, onBack }: BookingFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const bookingData = {
-      spaceId: space.id,
-      date,
-      timeSlot,
-      name,
-      email,
-      seats: isOpenSpace ? seats : undefined,
-      months: isLocal ? months : undefined,
-      totalPrice,
-    };
-
-    console.log(bookingData);
   };
 
   return (
