@@ -69,6 +69,12 @@ router.get(
   dashboardClientActions.browseStats,
 );
 
+// Create a claim for a specific user
+router.post(
+  "/api/dashboard/client/:userId/claims",
+  dashboardClientActions.addClaim,
+);
+
 /* ************************************************************************* */
 // Dashboard Admin:
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";

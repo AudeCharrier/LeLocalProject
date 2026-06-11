@@ -144,7 +144,16 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 
-INSERT INTO `booking` VALUES (1,2,1,1,0.00,1),(2,2,2,1,5.00,2),(3,2,3,1,0.00,3),(4,2,4,5,50.00,4),(5,2,5,1,25.00,5),(6,2,6,1,25.00,8);
+INSERT INTO `booking` VALUES 
+(1,2,1,1,0.00,1),
+(2,2,2,1,5.00,2),
+(3,2,3,1,0.00,3),
+(4,2,4,5,50.00,4),
+(5,2,5,1,25.00,5),
+(6,2,6,1,25.00,8),
+(7,2,7,1,8.00,10),
+(8,2,8,1,10.00,11),
+(9,2,9,1,50.00,12);
 
 UNLOCK TABLES;
 
@@ -172,7 +181,7 @@ CREATE TABLE `claim` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `category` varchar(150) NOT NULL,
-  `message` varchar(100) NOT NULL,
+  `message` TEXT NOT NULL,
   `claim_date` varchar(100) NOT NULL,
   `users_id` int NOT NULL,
   `activity_id` int NOT NULL,
@@ -184,6 +193,11 @@ CREATE TABLE `claim` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `claim` WRITE;
+
+INSERT INTO `claim` VALUES 
+(1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
+(2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
 
 UNLOCK TABLES;
 
