@@ -1,0 +1,114 @@
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  animation: booking-form-fade-in 0.35s ease;
+
+  .booking-form-back {
+    align-self: flex-start;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .booking-form-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-forest);
+  }
+
+  .booking-form-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    font-weight: var(--font-semibold);
+    font-size: var(--text-sm);
+  }
+
+  .booking-form-input {
+    padding: var(--space-2);
+
+    border: 1px solid var(--color-bg-light);
+    border-radius: var(--radius-md);
+
+    font-size: var(--text-sm);
+  }
+
+  .booking-form-price {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-primary);
+  }
+
+  .booking-form-submit {
+    margin-top: var(--space-2);
+
+    height: 44px;
+
+    border: none;
+
+    background: var(--btn-primary-bg);
+    color: white;
+
+    font-weight: var(--font-semibold);
+
+    cursor: pointer;
+
+    transition: var(--transition-base);
+
+    &:hover {
+      background: var(--btn-primary-bg-hover);
+    }
+  }
+}
+
+@keyframes booking-form-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1500px) {
+  .booking-form {
+    gap: var(--space-4);
+
+    .booking-form-back {
+      font-size: var(--text-base);
+    }
+
+    .booking-form-title {
+      font-size: var(--text-xl);
+    }
+
+    .booking-form-label {
+      gap: var(--space-3);
+      font-size: var(--text-base);
+    }
+
+    .booking-form-input {
+      padding: var(--space-2);
+      border: 2px solid var(--color-bg-light);
+    }
+
+    .booking-form-price {
+      font-size: var(--text-xl);
+    }
+
+    .booking-form-submit {
+      margin-top: var(--space-2);
+      height: 44px;
+    }
+  }
+}
