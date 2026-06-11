@@ -2,7 +2,6 @@ import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 
 type CartItem = {
-  id: number;
   users_id: number;
   id_activity: number;
   quantity: number;
@@ -61,6 +60,17 @@ const updateQuantity = async (cartItemId: number, quantity: number) => {
 
   return result.affectedRows;
 };
+
+/* const updateTotalPrice = async (
+  cartItemId: number,
+  quantity: number,
+  total_price: number,
+) => {
+  const [result] = await databaseClient.query<ResultSetHeader>(
+    "UPDATE cart AS c JOIN activity AS a ON a.id = c.id_activity SET c.total_price = c.quantity * a.price_unit WHERE c.id = ?",
+  );
+  return result.affectedRows;
+}; */
 
 const destroy = async (cartItemId: number) => {
   const [result] = await databaseClient.query<ResultSetHeader>(

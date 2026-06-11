@@ -98,4 +98,5 @@ router.delete("/api/cart/:id", cartActions.destroy);
 
 // Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
 router.delete("/api/cart/user/:userId", cartActions.destroyAll);
+
 export default router;

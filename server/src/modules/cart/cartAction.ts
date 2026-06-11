@@ -22,7 +22,6 @@ const add: RequestHandler = async (req, res, next) => {
       id_activity: Number(req.body.event_id),
       quantity: Number(req.body.quantity) || 1,
     };
-
     const insertId = await cartRepository.create(newItem);
     res.status(201).json({ insertId });
   } catch (err) {
