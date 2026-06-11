@@ -16,9 +16,8 @@ function DescriptifAccueil() {
       </div>
 
       <div className="mission-our-mission-div">
-        <p className="mission-eyebrow">
-          <h2>Notre Mission</h2>
-        </p>
+        <h2 className="mission-eyebrow">Notre Mission</h2>
+
         <h2 className="mission-title">
           Un lieu qui <br />
           <em>appartient à ceux</em> <br />

@@ -8,14 +8,36 @@ CREATE TABLE `space` (
   `url_image` varchar(255) NOT NULL,
   `price_unit` decimal(10,2) NOT NULL,
   `space_type` varchar(45) NOT NULL,
+  `space_category` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 LOCK TABLES `space` WRITE;
 
-INSERT INTO `space` VALUES (1,'Amphithéâtre','Espace ouvert pour rencontres et conférences',300,'/assets/images/amphitheater.png',100.00,'Evenements'),(2,'OpenSpace Principal','Grand espace lumineux de 200m² avec vue sur la cour intérieure végétalisée',60,'/assets/images/openspace.png',8.00,'Coworking'),(3,'Studio d\'enregistrement','Cabine insonorisée avec régie son et matériel haut de gamme',1,'http',25.00,'Ateliers'),(4,'Salle de réunion','Salle cofnérences équipée pour workshops, présentations et réunions client',1,'/assets/images/meeting-room.png',20.00,'Coworking'),(5,'Studio photo','Studio photo avec fonds colorés, lumières Profoto et espace de shoot',1,'/assets/images/photo-studio.png',35.00,'Ateliers'),(6,'Salle de concert','Grande salle pour show musical avec scène surélevée.',150,'/assets/images/concert-hall.png',500.00,'Evenements');
-
+INSERT INTO `space` VALUES 
+(1,'L\'Atrium','Openspace lumineux à capacité réduite, idéal pour celles et ceux qui recherchent un environnement de travail plus calme tout en bénéficiant de la vie du Local.',20,'/assets/images/spaces/openspace/atrium.png',8.00,'Coworking','Openspace'),
+(2,'Le Parvis','Openspace accueillant et accessible, proposant une ambiance sereine et un nombre limité de postes pour un confort de travail optimal.',20,'/assets/images/spaces/openspace/parvis.png',8.00,'Coworking','Openspace'),
+(3,'L\'Agora','Openspace pensé pour accueillir les coworkers dans un environnement ouvert, dynamique et propice aux échanges.',50,'/assets/images/spaces/openspace/agora.png',8.00,'Coworking','Openspace'),
+(4,'L\'Hémicycle','Grande salle de réunion du Local, conçue pour accueillir des présentations, séminaires, ateliers et rencontres professionnelles dans un cadre confortable et fonctionnel.',40,'/assets/images/spaces/meeting-room/hemicycle.png',80.00,'Coworking','Salle de réunion'),
+(5,'La Rotonde','Salle de réunion à taille humaine offrant un cadre propice aux discussions, à la prise de décision et aux réunions de travail en petit groupe.',8,'/assets/images/spaces/meeting-room/rotonde.png',40.00,'Coworking','Salle de réunion'),
+(6,'Le Sénat','Salle de réunion dédiée aux échanges professionnels, idéale pour les comités de pilotage, réunions d\'équipe et rendez-vous avec des partenaires ou clients.',10,'/assets/images/spaces/meeting-room/senat.png',60.00,'Coworking','Salle de réunion'),
+(7,'Le Forum','Openspace spacieux et modulable offrant de nombreuses places de travail dans un cadre confortable favorisant la collaboration et la convivialité.',50,'/assets/images/spaces/openspace/forum.png',8.00,'Coworking','Openspace'),
+(8,'L\'Annexe I','Local vide de 30 m² permettant d\'accueillir une activité professionnelle, associative, artisanale ou commerciale selon vos besoins.',1,'/assets/images/spaces/empty-space/annexe-1.png',450.00,'Coworking','Local vide'),
+(9,'L\'Annexe II','Local vide de 30 m² offrant un espace flexible pour développer vos projets et activités.',1,'/assets/images/spaces/empty-space/annexe-2.png',450.00,'Coworking','Local vide'),
+(10,'Le Pavillon I','Local vide de 60 m² permettant l\'installation d\'une activité, d\'un bureau, d\'un showroom ou d\'un espace de travail personnalisé.',1,'/assets/images/spaces/empty-space/pavillon-1.png',700.00,'Coworking','Local vide'),
+(11,'Le Pavillon II','Local vide de 60 m² offrant un espace modulable adapté aux entreprises, associations et porteurs de projets.',1,'/assets/images/spaces/empty-space/pavillon-2.png',700.00,'Coworking','Local vide'),
+(12,'L\'Odéon','Salle de concert du Local pouvant accueillir jusqu\'à 250 personnes pour des spectacles, concerts, conférences et événements culturels.',250,'/assets/images/spaces/events/odeon.png',500.00,'Evenements','Salle de concert'),
+(13,'L\'Amphithéâtre','Amphithéâtre conçu pour les conférences, formations, projections et présentations publiques dans un cadre adapté aux grands rassemblements.',150,'/assets/images/spaces/events/amphitheatre.png',100.00,'Evenements','Amphithéâtre'),
+(14,'L\'Atelier Voltaire','Espace dédié à l\'impression 3D, au prototypage et à la fabrication numérique.',1,'/assets/images/spaces/workshop/voltaire.png',10.00,'Ateliers','Atelier'),
+(15,'L\'Atelier des Couleurs','Espace créatif dédié à la peinture, aux arts plastiques et aux activités artistiques.',1,'/assets/images/spaces/workshop/couleurs.png',10.00,'Ateliers','Atelier'),
+(16,'L\'Atelier des Étoffes','Espace équipé pour la couture, la création textile et les travaux de confection.',1,'/assets/images/spaces/workshop/etoffes.png',15.00,'Ateliers','Atelier'),
+(17,'L\'Atelier Gutenberg','Espace dédié à l\'impression, à la reprographie et à la production de documents.',1,'/assets/images/spaces/workshop/atelier.png',2.00,'Ateliers','Atelier'),
+(18,'L\'Acoustique','Studio d\'enregistrement conçu pour les prises de son, les répétitions et les productions audio dans un cadre confortable et performant.',1,'/assets/images/spaces/studio/acoustique.png',250.00,'Ateliers','Studio d\'enregistrement'),
+(19,'Le Conservatoire','Studio d\'enregistrement premium du Local, équipé pour la production musicale, les podcasts et les créations audio professionnelles dans un environnement haut de gamme.',1,'/assets/images/spaces/studio/conservatoire.png',500.00,'Ateliers','Studio d\'enregistrement'),
+(20,'La Chambre Noire','Studio photo équipé pour les séances de prise de vue, la création de contenus visuels et les projets photographiques professionnels ou créatifs.',1,'/assets/images/spaces/studio/chambre-noire.png',50.00,'Ateliers','Studio photo'),
+(21,'L\'Escale','Espace détente du Local, pensé comme une bulle de calme et de lumière, idéal pour se reposer, échanger informellement ou faire une pause entre deux temps de travail dans un cadre apaisant.',50,'/assets/images/spaces/break-room/escale.png',0,'Détente','Salle détente'),
+(22,'La Serre','Espace détente du Local, chaleureux et végétalisé, offrant un environnement calme et ressourçant pour se relaxer, discuter ou simplement souffler au cœur de la journée.',50,'/assets/images/spaces/break-room/serre.png',0,'Détente','Salle détente');
 UNLOCK TABLES;
 
 
@@ -75,6 +97,7 @@ CREATE TABLE `activity` (
   `price_unit` int DEFAULT '0',
   `url_image` varchar(255) NOT NULL,
   `name` varchar(155) DEFAULT NULL,
+  `users_id` int NOT NULL, 
   PRIMARY KEY (`id`),
   KEY `fk_time_slot_has_space_space_idx` (`space_id`),
   KEY `fk_time_slot_has_space_time_slot_idx` (`time_slot_id`),
@@ -85,7 +108,19 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 
-INSERT INTO `activity` VALUES (1,2,1,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communauté Le Local. Bières artisanales offertes.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soirée Pitch & Bière'),(2,2,1,'2026-06-18','2026-06-18','Construisez votre première app sans écrire une ligne de code.',5,'https://images.unsplash.com/photo-1777559542626-a72e0ee96eca?w=800&h=600&fit=crop&auto=format','Workshop No Code'),(3,2,1,'2026-06-25','2026-06-25','Rencontre mensuelle des makers, fabbers et bricoleurs du 11e. Show and tell libre.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers'),(4,2,6,'2026-05-04','2026-05-04','Musique expérimentale et électro-acoustique dans un cadre industriel unique.',10,'http','Concert intimiste'),(5,1,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(6,2,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(7,1,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name'),(8,2,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name');
+INSERT INTO `activity` VALUES 
+(1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soiree Pitch et Biere', 2),
+(2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Jazz en soiree', 2),
+(3,2,12,'2026-03-20','2026-03-20','Projection suivie d un debat sur le cinema independant.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cine-debat mars', 2),
+(4,2,13,'2026-06-25','2026-06-25','Rencontre mensuelle des makers et bricoleurs du 11e.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers', 2),
+(5,2,12,'2026-07-10','2026-07-10','Grande soiree musicale avec plusieurs artistes locaux.',12,'https://images.unsplash.com/photo-1501386761578-eaa54b21a0f8?w=800&h=600&fit=crop&auto=format','Festival local juillet', 2),
+(6,1,13,'2026-08-05','2026-08-05','Atelier d ecriture creative ouvert a tous les niveaux.',0,'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format','Atelier ecriture aout', 2),
+(7,1,3,'2026-05-05','2026-05-05','Session de travail matinale dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking matin - Atrium', 2),
+(8,2,3,'2026-05-20','2026-05-20','Session de travail apres-midi dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Atrium', 2),
+(9,1,2,'2026-04-10','2026-04-10','Session de travail matinale dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking matin - Forum', 2),
+(10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum', 2),
+(11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
+(12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2);
 
 UNLOCK TABLES;
 
@@ -109,7 +144,16 @@ CREATE TABLE `booking` (
 
 LOCK TABLES `booking` WRITE;
 
-INSERT INTO `booking` VALUES (1,2,1,1,0.00,1),(2,2,2,1,5.00,2),(3,2,3,1,0.00,3),(4,2,4,5,50.00,4),(5,2,5,1,25.00,5),(6,2,6,1,25.00,8);
+INSERT INTO `booking` VALUES 
+(1,2,1,1,0.00,1),
+(2,2,2,1,5.00,2),
+(3,2,3,1,0.00,3),
+(4,2,4,5,50.00,4),
+(5,2,5,1,25.00,5),
+(6,2,6,1,25.00,8),
+(7,2,7,1,8.00,10),
+(8,2,8,1,10.00,11),
+(9,2,9,1,50.00,12);
 
 UNLOCK TABLES;
 
@@ -118,8 +162,8 @@ DROP TABLE IF EXISTS `cart`;
 
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `quantity` varchar(45) DEFAULT NULL,
-  `total_price` varchar(45) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `total_price` int DEFAULT NULL,
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -137,7 +181,7 @@ CREATE TABLE `claim` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `category` varchar(150) NOT NULL,
-  `message` varchar(100) NOT NULL,
+  `message` TEXT NOT NULL,
   `claim_date` varchar(100) NOT NULL,
   `users_id` int NOT NULL,
   `activity_id` int NOT NULL,
@@ -149,6 +193,11 @@ CREATE TABLE `claim` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `claim` WRITE;
+
+INSERT INTO `claim` VALUES 
+(1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
+(2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
 
 UNLOCK TABLES;
 

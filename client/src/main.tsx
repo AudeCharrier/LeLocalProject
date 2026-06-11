@@ -7,6 +7,7 @@ import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
+import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
 
 // Pages
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard-admin",
         element: <DashboardAdminPage />,
+      },
+      {
+        path: "/workshop-page",
+        element: <WorkshopPage />,
       },
     ],
   },
