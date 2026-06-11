@@ -8,11 +8,11 @@ function PastClient() {
       <h2 className="past-client__title">Déjà fait !</h2>
       <div className="past-client__content">
         <div className="past-client__section">
-          <span className="past-client__pill">Événements</span>
+          <h3 className="past-client__section-title">Événements</h3>
           <OldEventClient />
         </div>
         <div className="past-client__section">
-          <span className="past-client__pill">Espaces</span>
+          <h3 className="past-client__section-title">Espaces</h3>
           <OldBookingClient />
         </div>
       </div>

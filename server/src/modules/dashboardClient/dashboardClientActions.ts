@@ -59,10 +59,21 @@ const browseOldBookings: RequestHandler = async (req, res, next) => {
   }
 };
 
+const browseStats: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    const stats = await dashboardClientRepository.readStats(userId);
+    res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
   browseUpcomingBookings,
   browseBookingHistory,
   browseOldBookings,
+  browseStats,
 };

@@ -1,47 +1,123 @@
 .card-space-card-div {
-  background: #f2ebdf;
-  border: 1px solid #d9d0c1;
-  padding: 28px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transition: var(--transition-shadow), var(--transition-transform);
 
-  .card-space-card-name {
-    font-size: 32px;
-    line-height: 42px;
-    color: #111;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+  &:hover .card-space-card-img {
+    transform: scale(1.05);
   }
 
-  .card-space-card-description {
-    font-size: 16px;
-    line-height: 28px;
-    color: #6f6b63;
-  }
+  .card-space-card-img-div {
+    position: relative;
+    overflow: hidden;
 
-  .card-space-card-timeslot {
-    background: #dce8c6;
-    border: 1px solid #b7c79d;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 8px;
-  }
+    .card-space-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
 
-  .card-space-card-reservation-button {
-    margin-top: 20px;
-    border: none;
-    background: #234b2d;
-    color: white;
-    padding: 18px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &:hover {
-      opacity: 0.9;
+      transition: transform var(--transition-slow);
     }
+
+    .card-space-card-badge-price {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--color-bg-dark);
+      color: var(--color-text-on-dark);
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-space-card-name {
+      position: absolute;
+      left: var(--space-5);
+      bottom: var(--space-5);
+
+      margin: 0;
+
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+
+      color: var(--color-text-on-dark);
+
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+  }
+  .card-space-card-info-div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3);
+    background: var(--color-bg-card);
+    gap: var(--gap-xs);
+
+    .card-space-card-description {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: var(--leading-normal);
+      color: var(--color-text-secondary);
+    }
+
+    .card-space-card-timeslot {
+      display: block;
+
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+
+      color: var(--color-text-muted);
+
+      padding-bottom: var(--space-2);
+
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .card-space-card-timeslot:last-of-type {
+      border-bottom: none;
+    }
+
+    .card-space-card-reservation-button {
+      margin-top: auto;
+      align-self: flex-end;
+      height: var(--btn-height-sm);
+      padding-inline: var(--btn-padding-x-sm);
+      border: none;
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      font-family: var(--font-ui);
+      font-size: var(--btn-font-size);
+      font-weight: var(--btn-font-weight);
+      cursor: pointer;
+      transition: var(--transition-color);
+
+      &:hover {
+        background: var(--btn-primary-bg-hover);
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .card-space-card-name {
+    font-size: var(--text-lg);
+  }
+
+  .card-space-card-info-div {
+    padding: var(--space-4);
   }
 }

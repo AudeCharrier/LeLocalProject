@@ -63,9 +63,17 @@ router.get(
   dashboardClientActions.browseBookingHistory,
 );
 
+// 6.stats for a specific user
+router.get(
+  "/api/dashboard/client/:userId/stats",
+  dashboardClientActions.browseStats,
+);
+
 /* ************************************************************************* */
 // Dashboard Admin:
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
+
+router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
 
 router.get(
   "/api/dashboard/admin/bookings",

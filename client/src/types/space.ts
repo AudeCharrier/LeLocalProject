@@ -6,4 +6,5 @@ export type Space = {
   price_unit: number;
   capacity: number;
   space_type: string;
+  space_category: string;
 };

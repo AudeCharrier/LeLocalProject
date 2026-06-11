@@ -33,14 +33,14 @@ function AdminBookings() {
           <table className="admin-bookings__table">
             <thead>
               <tr>
-                <th>Réf.</th>
+                <th>Référence</th>
                 <th>Client</th>
-                <th>Réservation</th>
+                <th>Description</th>
                 <th>Espaces</th>
                 <th>Date</th>
-                <th>Créneau</th>
+                <th>Horaire</th>
                 <th>Montant</th>
-                <th>Qté</th>
+                <th>Quantité</th>
               </tr>
             </thead>
             <tbody>

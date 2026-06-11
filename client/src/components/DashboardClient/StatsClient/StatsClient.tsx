@@ -1,0 +1,31 @@
+import useStatsClient from "../../../hooks/useStatsClient";
+import "./StatsClient.css";
+
+function StatsClient() {
+  const stats = useStatsClient(2);
+
+  if (!stats) return null;
+
+  return (
+    <section className="stats-client__container">
+      <div className="stats-client__card">
+        <span className="stats-client__value">{stats.bookings_count}</span>
+        <span className="stats-client__label">Réservations au total</span>
+      </div>
+      <div className="stats-client__card">
+        <span className="stats-client__value">
+          {Number(stats.events_count)}
+        </span>
+        <span className="stats-client__label">Événements inscrits</span>
+      </div>
+      <div className="stats-client__card">
+        <span className="stats-client__value">
+          {Number(stats.total_spent)} €
+        </span>
+        <span className="stats-client__label">Total dépensé</span>
+      </div>
+    </section>
+  );
+}
+
+export default StatsClient;

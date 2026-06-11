@@ -28,7 +28,7 @@ function NavBar() {
           </Link>
         </button>
         <button type="button" className="navbar-link-button">
-          <Link to="/" className="navbar-link">
+          <Link to="/workshop-page" className="navbar-link">
             Ateliers
           </Link>
         </button>
@@ -39,7 +39,7 @@ function NavBar() {
             Se connecter
           </Link>
         </button>
-        <button type="button" className="navbar-connection-button">
+        <button type="button" className="navbar-connection-button-2">
           <Link to="/dashboard-admin" className="navbar-link">
             Rejoindre
           </Link>

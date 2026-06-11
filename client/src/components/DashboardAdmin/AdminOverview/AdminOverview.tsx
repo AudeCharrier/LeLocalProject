@@ -56,11 +56,6 @@ const notifications = [
     detail: "Hier",
     variant: "normal",
   },
-  {
-    title: "Inscription Hackathon: +8 nouveaux membres",
-    detail: "Avant-hier",
-    variant: "normal",
-  },
 ] as const;
 
 const occupancyData = [
