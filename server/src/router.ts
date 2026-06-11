@@ -90,4 +90,9 @@ router.delete("/api/cart/:id", cartActions.destroy);
 
 // Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
 router.delete("/api/cart/user/:userId", cartActions.destroyAll);
+
+import createEventFormAction from "./modules/createEventForm/createEventFormAction";
+
+router.get("/api/createEvent", createEventFormAction.browse);
+router.post("/api/createEvent", createEventFormAction.create);
 export default router;
