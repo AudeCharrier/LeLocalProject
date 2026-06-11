@@ -1,5 +1,5 @@
 import databaseClient from "../../../database/client";
-import type { Rows } from "../../../database/client";
+import type { Result, Rows } from "../../../database/client";
 
 type Activity = {
   id: number;
@@ -42,6 +42,14 @@ type Stats = {
   bookings_count: number;
   events_count: number;
   total_spent: number;
+};
+
+type Claim = {
+  title: string;
+  category: string;
+  message: string;
+  users_id: number;
+  activity_id: number;
 };
 
 class DashboardClientRepository {
@@ -177,7 +185,7 @@ class DashboardClientRepository {
     return rows as Booking[];
   }
 
-  // une seule requête pour les 3 stats (COUNT + SUM x2)
+  // 3 stats (COUNT + SUM x2)
   async readStats(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
@@ -191,6 +199,24 @@ class DashboardClientRepository {
       [userId],
     );
     return rows[0] as Stats;
+  }
+
+  // for add claim_row on BDD
+  async createClaim(claim: Claim) {
+    const claimDate = new Date().toISOString().slice(0, 10);
+    const [result] = await databaseClient.query<Result>(
+      `INSERT INTO claim (title, category, message, claim_date, users_id, activity_id)
+    VALUES (?, ?, ?, ?, ?, ?)`,
+      [
+        claim.title,
+        claim.category,
+        claim.message,
+        claimDate,
+        claim.users_id,
+        claim.activity_id,
+      ],
+    );
+    return result.insertId;
   }
 }
 

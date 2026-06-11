@@ -152,7 +152,7 @@ CREATE TABLE `claim` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `category` varchar(150) NOT NULL,
-  `message` varchar(100) NOT NULL,
+  `message` TEXT NOT NULL,
   `claim_date` varchar(100) NOT NULL,
   `users_id` int NOT NULL,
   `activity_id` int NOT NULL,
