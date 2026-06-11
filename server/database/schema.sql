@@ -108,9 +108,6 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 
-<<<<<<< HEAD
-INSERT INTO `activity` VALUES (1,2,1,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communauté Le Local. Bières artisanales offertes.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soirée Pitch & Bière'),(2,2,1,'2026-06-18','2026-06-18','Construisez votre première app sans écrire une ligne de code.',5,'https://images.unsplash.com/photo-1777559542626-a72e0ee96eca?w=800&h=600&fit=crop&auto=format','Workshop No Code'),(3,2,1,'2026-06-25','2026-06-25','Rencontre mensuelle des makers, fabbers et bricoleurs du 11e. Show and tell libre.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers'),(4,2,6,'2026-05-04','2026-05-04','Musique expérimentale et électro-acoustique dans un cadre industriel unique.',10,'http','Concert intimiste'),(5,1,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(6,2,3,'2026-06-01','2026-06-01','space descr... meme pb space price',25,'http','space name'),(7,1,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name'),(8,2,2,'2026-06-11','2026-06-11','space descr... meme pb space price',8,'http','space name');
-=======
 INSERT INTO `activity` VALUES 
 (1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soiree Pitch et Biere', 2),
 (2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Jazz en soiree', 2),
@@ -124,7 +121,6 @@ INSERT INTO `activity` VALUES
 (10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum', 2),
 (11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
 (12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2);
->>>>>>> dev
 
 UNLOCK TABLES;
 
