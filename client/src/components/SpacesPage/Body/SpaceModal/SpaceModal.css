@@ -11,13 +11,10 @@
   .modal-content {
     width: min(900px, 92vw);
     height: min(750px, 90vh);
-
     background: var(--color-bg-white);
     border-radius: var(--radius-xl);
-
     overflow: hidden;
     box-shadow: var(--shadow-xl);
-
     position: relative;
   }
 
