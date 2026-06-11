@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import type { Space } from "../../../../../types/space";
+import BookingForm from "../BookingForm/BookingForm";
 import "./SpaceModalContent.css";
 
 type SpaceModalContentProps = {
@@ -14,6 +16,7 @@ function SpaceModalContent({
   onClose,
 }: SpaceModalContentProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showBookingForm, setShowBookingForm] = useState(false);
 
   const currentSpace = spaces[currentIndex];
 
@@ -32,87 +35,135 @@ function SpaceModalContent({
     setCurrentIndex((i) => (i === spaces.length - 1 ? 0 : i + 1));
 
   return (
-    <div className="space-modal-content">
-      <div className="space-modal-image-wrapper">
+    <motion.div className="space-modal-content" layout>
+      <motion.div
+        className="space-modal-image-wrapper"
+        animate={{
+          height: showBookingForm ? 100 : 180,
+        }}
+        transition={{
+          duration: 0.35,
+          ease: "easeInOut",
+        }}
+      >
         <button type="button" className="space-modal-close" onClick={onClose}>
           ✕
         </button>
 
-        <img
+        <motion.img
           className="space-modal-image"
           src={`${import.meta.env.VITE_API_URL}${currentSpace.url_image}`}
           alt={currentSpace.space_name}
+          animate={{
+            scale: showBookingForm ? 1.05 : 1,
+          }}
+          transition={{
+            duration: 0.35,
+            ease: "easeInOut",
+          }}
         />
-      </div>
+      </motion.div>
 
-      <div className="space-modal-body">
-        <h2 className="space-modal-content-title">{categoryName}</h2>
-
-        <div className="space-modal-content-carousel">
-          {spaces.length > 1 && (
-            <button
-              type="button"
-              onClick={handlePrev}
-              className="space-modal-content-carousel-arrow"
+      <motion.div className="space-modal-body" layout>
+        <AnimatePresence mode="wait">
+          {showBookingForm ? (
+            <motion.div
+              key="booking"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
             >
-              ‹
-            </button>
-          )}
-
-          <section className="space-modal-content-carousel-slide">
-            <h3 className="space-modal-content-carousel-slide-name">
-              {currentSpace.space_name}
-            </h3>
-
-            <p className="space-modal-content-carousel-slide-description">
-              {currentSpace.description}
-            </p>
-
-            <p className="space-modal-content-carousel-slide-price">
-              {currentSpace.price_unit}€
-              {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
-            </p>
-
-            <p className="space-modal-content-carousel-slide-capacity">
-              Capacité : {currentSpace.capacity} personnes
-            </p>
-          </section>
-
-          {spaces.length > 1 && (
-            <button
-              type="button"
-              onClick={handleNext}
-              className="space-modal-content-carousel-arrow"
+              <BookingForm
+                space={currentSpace}
+                onBack={() => setShowBookingForm(false)}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="details"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25 }}
             >
-              ›
-            </button>
-          )}
-        </div>
+              <h2 className="space-modal-content-title">{categoryName}</h2>
 
-        {spaces.length > 1 && (
-          <>
-            <p className="space-modal-content-counter">
-              {currentIndex + 1} / {spaces.length}
-            </p>
+              <div className="space-modal-content-carousel">
+                {spaces.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="space-modal-content-carousel-arrow"
+                  >
+                    ‹
+                  </button>
+                )}
 
-            <div className="space-modal-content-dots">
-              {spaces.map((space, index) => (
+                <section className="space-modal-content-carousel-slide">
+                  <h3 className="space-modal-content-carousel-slide-name">
+                    {currentSpace.space_name}
+                  </h3>
+
+                  <p className="space-modal-content-carousel-slide-description">
+                    {currentSpace.description}
+                  </p>
+
+                  <p className="space-modal-content-carousel-slide-price">
+                    {currentSpace.price_unit}€
+                    {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
+                  </p>
+
+                  <p className="space-modal-content-carousel-slide-capacity">
+                    Capacité : {currentSpace.capacity} personnes
+                  </p>
+                </section>
+
+                {spaces.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="space-modal-content-carousel-arrow"
+                  >
+                    ›
+                  </button>
+                )}
+              </div>
+              <div className="space-modal-content-counter-book-button-div">
+                {spaces.length > 1 && (
+                  <>
+                    <p className="space-modal-content-counter">
+                      {currentIndex + 1} / {spaces.length}
+                    </p>
+
+                    <div className="space-modal-content-dots">
+                      {spaces.map((space, index) => (
+                        <button
+                          key={space.id}
+                          type="button"
+                          className={
+                            index === currentIndex ? "dot active" : "dot"
+                          }
+                          onClick={() => setCurrentIndex(index)}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+
                 <button
-                  key={space.id}
                   type="button"
-                  className={index === currentIndex ? "dot active" : "dot"}
-                  onClick={() => setCurrentIndex(index)}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        <button type="button" className="space-modal-content-book-button">
-          Réserver cet espace
-        </button>
-      </div>
-    </div>
+                  className="space-modal-content-book-button"
+                  onClick={() => setShowBookingForm(true)}
+                >
+                  Réserver cet espace
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }
 

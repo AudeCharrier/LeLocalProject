@@ -9,8 +9,8 @@
   z-index: var(--z-modal);
 
   .modal-content {
-    width: min(900px, 92vw);
-    height: min(750px, 90vh);
+    width: clamp(600px, 70vw, 1100px);
+    height: clamp(500px, 80vh, 800px);
     background: var(--color-bg-white);
     border-radius: var(--radius-xl);
     overflow: hidden;
@@ -24,5 +24,15 @@
     border: none;
     background: transparent;
     cursor: default;
+  }
+}
+@media (max-width: 1280px) {
+  .modal-overlay {
+    .modal-content {
+      width: 100vw;
+      height: 100vh;
+      max-height: 100dvh;
+      border-radius: 0;
+    }
   }
 }

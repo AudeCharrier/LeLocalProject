@@ -69,6 +69,22 @@ const browseStats: RequestHandler = async (req, res, next) => {
   }
 };
 
+const addClaim: RequestHandler = async (req, res, next) => {
+  try {
+    const claim = {
+      title: req.body.title,
+      category: req.body.category,
+      message: req.body.message,
+      users_id: Number(req.params.userId),
+      activity_id: Number(req.body.activity_id),
+    };
+    const insertId = await dashboardClientRepository.createClaim(claim);
+    res.status(201).json({ insertId });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
@@ -76,4 +92,5 @@ export default {
   browseBookingHistory,
   browseOldBookings,
   browseStats,
+  addClaim,
 };
