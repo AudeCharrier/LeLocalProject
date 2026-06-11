@@ -40,8 +40,6 @@ function Body() {
       [category, groupedSpaces[category]] as [string, typeof filteredSpaces],
   );
 
-  /* ===== SPLIT LOGIQUE ===== */
-
   const leftCategories = categories.filter(
     ([category]) => category === "Openspace" || category === "Salle de réunion",
   );
