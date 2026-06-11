@@ -37,14 +37,13 @@
     }
   }
 
-  & .past-client__pill {
-    display: inline-block;
+  & .past-client__section-title {
     font-family: var(--font-ui);
-    font-size: 0.75rem;
+    font-size: var(--text-sm);
     font-weight: var(--font-semibold);
-    color: var(--color-text-on-dark);
-    background-color: var(--color-forest);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-pill);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    margin: 0;
   }
 }
