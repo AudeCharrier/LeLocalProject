@@ -1,12 +1,27 @@
-import "./BillingClient.css";
+import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
+import "./BillingClient.css";
 
 function BillingClient() {
   const billing = useBillingClient(2);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedBilling = showAll ? billing : billing.slice(0, 8);
 
   return (
     <section className="billing-client__container">
-      <h2 className="billing-client__title">Historique des factures</h2>
+      <div className="billing-client__header">
+        <h2 className="billing-client__title">Historique des factures</h2>
+        {billing.length > 8 && (
+          <button
+            type="button"
+            className="billing-client__toggle"
+            onClick={() => setShowAll(!showAll)}
+          >
+            {showAll ? "Réduire" : "Afficher tout"}
+          </button>
+        )}
+      </div>
 
       {billing.length === 0 ? (
         <p className="billing-client__empty">Aucune facture.</p>
@@ -24,7 +39,7 @@ function BillingClient() {
               </tr>
             </thead>
             <tbody>
-              {billing.map((item) => (
+              {displayedBilling.map((item) => (
                 <tr key={item.id} className="billing-client__tr">
                   <td className="billing-client__td">
                     FAC-{item.bills_number}

@@ -4,16 +4,38 @@
   border-radius: var(--radius-lg);
   padding: var(--space-6);
 
-  & .billing-client__title {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: var(--font-bold);
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-5) 0;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wider);
+  & .billing-client__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-bottom: var(--space-5);
     border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-5);
+
+    & .billing-client__title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin: 0;
+    }
+
+    & .billing-client__toggle {
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: var(--color-text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
   }
 
   & .billing-client__empty {
