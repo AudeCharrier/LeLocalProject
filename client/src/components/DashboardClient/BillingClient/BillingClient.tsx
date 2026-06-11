@@ -1,3 +1,4 @@
+import { ReceiptText } from "lucide-react";
 import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
 import "./BillingClient.css";
@@ -11,7 +12,10 @@ function BillingClient() {
   return (
     <section className="billing-client__container">
       <div className="billing-client__header">
-        <h2 className="billing-client__title">Historique des factures</h2>
+        <h2 className="billing-client__title">
+          <ReceiptText size={20} color="var(--color-primary)" />
+          Historique des factures
+        </h2>
         {billing.length > 8 && (
           <button
             type="button"

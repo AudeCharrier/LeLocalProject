@@ -1,3 +1,4 @@
+import { MessageSquareWarning } from "lucide-react";
 import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
 import "./ClaimClient.css";
@@ -24,7 +25,10 @@ function ClaimClient() {
 
   return (
     <section className="claim-client__container">
-      <h2 className="claim-client__title">Faire une réclamation</h2>
+      <h2 className="claim-client__title">
+        <MessageSquareWarning size={20} color="var(--color-primary)" /> Faire
+        une réclamation
+      </h2>
       <p className="claim-client__subtitle">
         Notre équipe vous répondra dans les 48h.
       </p>
@@ -37,7 +41,7 @@ function ClaimClient() {
           id="claim-title"
           type="text"
           className="claim-client__input"
-          placeholder="Résumez votre problème en quelques mots..."
+          placeholder="Objet de votre réclamation..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
