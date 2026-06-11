@@ -1,3 +1,5 @@
+import "./RegisterEventForm.css";
+
 import { useState } from "react";
 interface QuantityConfig {
   value: number;
@@ -43,6 +45,8 @@ function RegisterEventForm({ event }: CardEventProps) {
 
   const { value, min, max, error } = quantityConfig;
 
+  const [message, setMessage] = useState<string>("");
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Bloque le rechargement automatique de la page par le navigateur
     e.preventDefault();
@@ -60,23 +64,25 @@ function RegisterEventForm({ event }: CardEventProps) {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // On indique au back qu'on lui envoie du JSON
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload), // On transforme notre objet JavaScript en chaîne de texte JSON
+          body: JSON.stringify(payload),
         },
       );
 
-      const data = await response.json();
-      console.log("Réponse du serveur réussie :", data);
-
-      // Optionnel : ajouter ici un message de succès à l'écran ou une redirection
-      alert("Inscription ajoutée au panier !");
-    } catch (error) {
-      console.error("Erreur lors du fetch :", error);
-      alert("Une erreur est survenue, veuillez réessayer.");
+      if (response.status === 201) {
+        setMessage("Inscription ajoutée au panier !");
+        e.currentTarget.reset();
+        // remettre la quantité à 1 après succès
+        setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
+      } else {
+        setMessage("Une erreur est survenue, veuillez réessayer.");
+      }
+    } catch (err) {
+      // Gère le cas où le serveur est injoignable ou crashé
+      setMessage("Impossible de contacter le serveur.");
     }
   }
-
   function decreaseQuantity() {
     if (value === min) {
       // Si on est déjà au minimum, on déclenche l'erreur
@@ -108,102 +114,115 @@ function RegisterEventForm({ event }: CardEventProps) {
   }
 
   return (
-    <form
-      className="register-form"
-      action="#"
-      method="post"
-      onSubmit={handleSubmit}
-    >
-      <h2>S'inscrire à l'évènement</h2>
-      <ul>
-        <li>{event.name}</li>
-        <li>
-          {event.start_date &&
-            `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}
-        </li>
-        <li>
-          {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
-        </li>
-        <li>{event.space_name}</li>
-        <li> {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}</li>
-      </ul>
-      <div>
-        <label htmlFor="lastname">Nom</label>
-        <input
-          type="text"
-          id="lastname"
-          name="lastname"
-          placeholder="nom user rempli auto si connecté"
-          required
-        />
-
-        <label htmlFor="firstname">Prénom</label>
-        <input
-          type="text"
-          id="firstname"
-          name="firstname"
-          placeholder="prénom user rempli auto si connecté"
-          required
-        />
-
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email user rempli auto si connecté"
-          required
-        />
-
-        <div className="register-quantity-selector">
-          {/*bouton -1 */}
-          <button
-            type="button"
-            onClick={decreaseQuantity}
-            aria-label="Retirer une place" //accessibilité, lit le bouton
-            aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
-          >
-            -
-          </button>
-
-          <label htmlFor="quantity">Nombre de places</label>
+    <>
+      <form
+        className="register-form"
+        action="#"
+        method="post"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="register-form-title">S'inscrire à l'évènement</h2>
+        <ul className="register-form-events-infos-container">
+          <li className="register-form-events-infos-row">{event.name}</li>
+          <li className="register-form-events-infos-row">
+            {event.start_date &&
+              `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}
+          </li>
+          <li className="register-form-events-infos-row">
+            {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
+          </li>
+          <li className="register-form-events-infos-row">{event.space_name}</li>
+          <li className="register-form-events-infos-row">
+            {" "}
+            {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}
+          </li>
+        </ul>
+        <div className="register-form-customer-infos-container">
+          <label htmlFor="lastname">Nom</label>
           <input
-            type="number"
-            id="quantity"
-            name="quantity"
-            value={quantityConfig.value}
-            min={min}
-            max={max}
-            readOnly
+            type="text"
+            id="lastname"
+            name="lastname"
+            placeholder="nom user rempli auto si connecté"
+            required
+            className="register-form-customer-infos-row"
           />
 
-          {/*bouton +1 */}
-          <button
-            type="button"
-            onClick={increaseQuantity}
-            aria-label="Ajouter une place" //accessibilité, lit le bouton
-            aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
-          >
-            +
-          </button>
+          <label htmlFor="firstname">Prénom</label>
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            placeholder="prénom user rempli auto si connecté"
+            required
+            className="register-form-customer-infos-row"
+          />
 
-          {/* affichage conditionnel des messages d'erreur*/}
-          {error === "MIN_ERROR" && <span>Réservez au moins {min} place.</span>}
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email user rempli auto si connecté"
+            required
+            className="register-form-customer-infos-row"
+          />
 
-          {error === "MAX_ERROR" && (
-            <span>Vous ne pouvez pas réserver plus de {max} places.</span>
-          )}
+          <div className="register-quantity-selector">
+            <label htmlFor="quantity">Nombre de places</label>
+            {/*bouton -1 */}
+            <button
+              type="button"
+              onClick={decreaseQuantity}
+              aria-label="Retirer une place" //accessibilité, lit le bouton
+              aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
+            >
+              -
+            </button>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={quantityConfig.value}
+              min={min}
+              max={max}
+              readOnly
+            />
+
+            {/*bouton +1 */}
+            <button
+              type="button"
+              onClick={increaseQuantity}
+              aria-label="Ajouter une place" //accessibilité, lit le bouton
+              aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
+            >
+              +
+            </button>
+
+            {/* affichage conditionnel des messages d'erreur*/}
+            {error === "MIN_ERROR" && (
+              <span className="register-form-span-msg">
+                Réservez au moins {min} place.
+              </span>
+            )}
+
+            {error === "MAX_ERROR" && (
+              <span className="register-form-span-msg">
+                Vous ne pouvez pas réserver plus de {max} places.
+              </span>
+            )}
+          </div>
         </div>
-      </div>
 
-      <button type="submit" className="sr-only">
-        Je m'inscris !
-      </button>
-    </form>
+        <button type="submit" className="sr-only">
+          Je m'inscris !
+        </button>
+      </form>
+      {message && <span>{message}</span>}
+    </>
   );
 }
 
 export default RegisterEventForm;
-//changer en bdd le type de quantity et total price (cart) -> int !!
-//calculer en backend la quantity*price_unit pour total_price
+
 //css du formulaire
