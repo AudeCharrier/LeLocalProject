@@ -1,18 +1,8 @@
 import "./RegisterEventForm.css";
 
 import { useState } from "react";
-interface QuantityConfig {
-  value: number;
-  min: number;
-  max: number;
-  error: "MIN_ERROR" | "MAX_ERROR" | null;
-}
-
-interface CartItem {
-  users_id: number;
-  event_id: number;
-  quantity: number;
-}
+import type { CartItem } from "../../types/cartitem";
+import type { QuantityConfig } from "../../types/quantityconfig";
 
 interface CardEventProps {
   event: {
