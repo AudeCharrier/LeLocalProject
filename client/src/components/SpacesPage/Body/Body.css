@@ -1,39 +1,66 @@
 .body-spaces-page-global-section {
-  background-color: var(--color-bg-1);
+  background: var(--color-bg-1);
 
   .body-spaces-page-container-div {
-    padding: var(--space-20) var(--space-40);
-  }
+    padding: var(--space-10) var(--space-32);
 
+    .body-spaces-title-div {
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      gap: var(--space-4);
+      .body-spaces-title {
+        color: var(--color-text-secondary);
+        font-family: var(--font-heading);
+      }
+      .body-spaces-page-hr {
+        flex: 1;
+        height: 1px;
+        border: none;
+        background-color: var(--color-text-secondary);
+      }
+    }
+  }
   .body-spaces-page-spaces-list-div {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 300px 300px 300px 300px;
+    grid-template-columns: 2fr 1fr;
+    height: 800px;
     gap: 1rem;
 
-    .card-space-0-div {
-      grid-column: 1 / 3;
-      grid-row: 1 / 3;
+    .body-spaces-page-spaces-list-left-column {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 1rem;
+      min-height: 0;
     }
-    .card-space-1-div {
-      grid-column: 3;
-      grid-row: 1;
+
+    .body-spaces-page-spaces-list-right-column {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 1rem;
+      min-height: 0;
     }
-    .card-space-2-div {
-      grid-column: 3;
-      grid-row: 2;
+  }
+  @media (max-width: 900px) {
+    .body-spaces-page-spaces-list-div {
+      display: flex;
+      flex-direction: column;
+      height: auto;
     }
-    .card-space-3-div {
-      grid-column: 1;
-      grid-row: 3;
+
+    .body-spaces-page-spaces-list-left-column,
+    .body-spaces-page-spaces-list-right-column {
+      display: flex;
+      flex-direction: column;
     }
+
+    .card-space-0-div,
+    .card-space-1-div,
+    .card-space-2-div,
+    .card-space-3-div,
     .card-space-4-div {
-      grid-column: 1;
-      grid-row: 4;
-    }
-    .card-space-5-div {
-      grid-column: 2 / 4;
-      grid-row: 3 / 5;
+      height: 350px;
     }
   }
 }

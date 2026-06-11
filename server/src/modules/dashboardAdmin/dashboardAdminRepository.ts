@@ -16,8 +16,47 @@ type Booking = {
   quantity: number;
 };
 
+type AdminStats = {
+  occupancy_rate: number;
+  bookings_count: number;
+  active_members: number;
+};
+
 // Pour regrouper nos différentes méthodes :
+// calcul des statistiques d'occupation, du nombre de réservations et du nombre de membres actifs
 class DashboardAdminRepository {
+  async readAdminStats() {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+        (                      
+          SELECT ROUND(
+            COUNT(DISTINCT a.space_id) * 100 / NULLIF(
+              (SELECT COUNT(*) FROM space WHERE space_type != 'Evenements'),
+              0
+            )
+          )
+          FROM booking b
+          JOIN activity a ON b.id_activity = a.id
+          JOIN space s ON a.space_id = s.id
+          WHERE s.space_type != 'Evenements'
+        ) AS occupancy_rate,
+        (
+          SELECT COUNT(*)
+          FROM booking b
+          JOIN activity a ON b.id_activity = a.id
+          JOIN space s ON a.space_id = s.id
+          WHERE s.space_type != 'Evenements'
+        ) AS bookings_count,
+        (
+          SELECT COUNT(*)
+          FROM users
+          WHERE role = 'client'
+        ) AS active_members`,
+    );
+
+    return rows[0] as AdminStats;
+  }
+
   async readAdminBookings() {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT 

@@ -1,0 +1,41 @@
+.register-form {
+  background-color: var(--color-bg-card);
+  z-index: 1;
+  position: absolute; /* trouver le bon parent pour mettre position relative*/
+  .register-form-events-infos-container {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .register-form-customer-infos-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    /*supprimer le style par défaut de input number et btn*/
+    input[type="number"] {
+      border: none;
+      background: transparent;
+      outline: none;
+    }
+    /* Pour Chrome, Safari, Edge et Opera */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Pour Firefox */
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield; /* Standard de l'industrie */
+    }
+    .register-form btn {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+  }
+}
