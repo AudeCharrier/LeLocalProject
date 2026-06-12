@@ -8,6 +8,7 @@ type NewEvent = {
   end_date: string;
   space_id: number;
   time_slot_id: number;
+  url_image: string | null;
 };
 
 class CreateEventFormRepository {
@@ -19,9 +20,10 @@ class CreateEventFormRepository {
         start_date,
         end_date,
         space_id,
-        time_slot_id
+        time_slot_id,
+        url_image
       )
-      VALUES (?, ?, ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
         event.name,
         event.description,
@@ -29,9 +31,9 @@ class CreateEventFormRepository {
         event.end_date,
         event.space_id,
         event.time_slot_id,
+        event.url_image,
       ],
     );
-
     return result.insertId;
   }
 }

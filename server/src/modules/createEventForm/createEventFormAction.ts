@@ -1,39 +1,38 @@
-import { log } from "node:console";
 import type { RequestHandler } from "express";
 import createEventRepository from "./createEventFormRepository";
+
 type NewEvent = {
   name: string;
   description: string;
   start_date: string;
-  username: string;
-  people: number;
   end_date: string;
   space_id: number;
   time_slot_id: number;
+  url_image: string | null;
 };
-const browse: RequestHandler = async (_req, res) => {
+const browse: RequestHandler = async (_req, res): Promise<void> => {
   res.json({
     message: "Create Event endpoint",
   });
 };
 
-const create: RequestHandler = async (req, res, next) => {
+const create: RequestHandler = async (req, res, next): Promise<void> => {
   try {
-    console.log("BODY =", req.body);
+    const imageUrl: string | null = req.file
+      ? `/uploads/${req.file.filename}`
+      : null;
 
     const event: NewEvent = {
-      name: req.body.titre,
-      description: req.body.description,
-      start_date: req.body.startDate,
-      end_date: req.body.endDate,
-      space_id: req.body.salle,
-      time_slot_id: req.body.creneau,
-      username: req.body.nom,
-      people: req.body.participants,
+      name: req.body.titre as string,
+      description: req.body.description as string,
+      start_date: req.body.startDate as string,
+      end_date: req.body.endDate as string,
+      space_id: Number(req.body.salle),
+      time_slot_id: Number(req.body.creneau),
+      url_image: imageUrl,
     };
 
-    const insertId = await createEventRepository.create(event);
-
+    const insertId: number = await createEventRepository.create(event);
     res.status(201).json({ insertId });
   } catch (err) {
     console.error("ERREUR SQL =", err);
@@ -41,7 +40,4 @@ const create: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default {
-  browse,
-  create,
-};
+export default { browse, create };
