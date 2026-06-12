@@ -78,6 +78,10 @@
       letter-spacing: var(--tracking-wide);
     }
 
+    & .claim-client__required {
+      color: var(--color-primary);
+    }
+
     & .claim-client__input {
       font-family: var(--font-body);
       font-size: var(--text-sm);
@@ -136,6 +140,16 @@
     }
   }
 
+  & .claim-client__success {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: #2d6a2d;
+    background-color: #e6f4e6;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+  }
+
   & .claim-client__submit {
     align-self: flex-start;
     font-family: var(--font-ui);
@@ -151,6 +165,11 @@
 
     &:hover {
       background-color: var(--color-primary-dark);
+    }
+
+    &:disabled {
+      background-color: var(--color-text-muted);
+      cursor: not-allowed;
     }
   }
 }
