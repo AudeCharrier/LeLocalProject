@@ -14,6 +14,9 @@ router.get("/api/timeslots", timeSlotActions.browse);
 
 /* ************************************************************************* */
 // Define space-related routes
+import bookingActions from "./modules/bookingActions/bookingActions";
+
+router.post("/api/bookings", bookingActions.add);
 
 import spaceActions from "./modules/space/spaceActions";
 
