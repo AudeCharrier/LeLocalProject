@@ -77,6 +77,7 @@ function SpaceModalContent({
               <BookingForm
                 space={currentSpace}
                 onBack={() => setShowBookingForm(false)}
+                userId={2}
               />
             </motion.div>
           ) : (
