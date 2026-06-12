@@ -80,6 +80,10 @@ router.post(
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
 
 router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
+router.get(
+  "/api/dashboard/admin/claims",
+  dasboardAdminActions.browseAdminClaimNotifications,
+);
 
 router.get(
   "/api/dashboard/admin/bookings",

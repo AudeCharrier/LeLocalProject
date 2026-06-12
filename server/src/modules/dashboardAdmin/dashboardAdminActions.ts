@@ -10,6 +10,16 @@ const browseAdminStats: RequestHandler = async (_req, res, next) => {
   }
 };
 
+const browseAdminClaimNotifications: RequestHandler = async (_req, res, next) => {
+  try {
+    const notifications =
+      await dashboardAdminRepository.readAdminClaimNotifications();
+    res.json(notifications);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const browseAdminBookings: RequestHandler = async (_req, res, next) => {
   try {
     const bookings = await dashboardAdminRepository.readAdminBookings();
@@ -21,5 +31,6 @@ const browseAdminBookings: RequestHandler = async (_req, res, next) => {
 
 export default {
   browseAdminStats,
+  browseAdminClaimNotifications,
   browseAdminBookings,
 };
