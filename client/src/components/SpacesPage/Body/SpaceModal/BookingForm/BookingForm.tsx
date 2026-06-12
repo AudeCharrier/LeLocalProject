@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { Space } from "../../../../../types/space";
 import "./BookingForm.css";
+import { useNavigate } from "react-router";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
-import { useNavigate } from "react-router";
 type BookingFormProps = {
   space: Space;
   onBack: () => void;
