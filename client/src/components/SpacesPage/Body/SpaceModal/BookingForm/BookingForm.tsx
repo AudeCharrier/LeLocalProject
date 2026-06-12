@@ -3,7 +3,7 @@ import type { Space } from "../../../../../types/space";
 import "./BookingForm.css";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
-
+import { useNavigate } from "react-router";
 type BookingFormProps = {
   space: Space;
   onBack: () => void;
@@ -19,17 +19,21 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
   const timeSlots = useTimeSlot();
   const timeSlot = timeSlots.filter((time) => time.slot !== "Soir");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("");
   const isOpenSpace = space.space_category.toLowerCase().includes("open");
   const isLocal = space.space_category === "Local vide";
+  const navigate = useNavigate();
 
   const isFullDay =
     timeSlots.find((s) => String(s.id) === selectedTimeSlot)?.slot ===
     "Journée";
-
+  const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const totalPrice = isOpenSpace
     ? space.price_unit * seats * (isFullDay ? 1.75 : 1)
     : isLocal
@@ -83,14 +87,23 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
   if (success) {
     return (
       <div className="booking-form">
-        <h2 className="booking-form-title">Ajouté au panier ✅</h2>
+        <h2 className="booking-form-title">Ajouté au panier</h2>
         <p>
-          Votre réservation pour {space.space_name} a été ajoutée à votre
-          panier.
+          Votre réservation pour {space.space_name} le {formattedDate} a été
+          ajoutée à votre panier.
         </p>
-        <button type="button" className="booking-form-back" onClick={onBack}>
-          ‹ Retour
-        </button>
+        <div className="booking-form-button-div">
+          <button
+            type="button"
+            className="booking-form-go-cart"
+            onClick={() => navigate("/cart")}
+          >
+            ‹ Voir votre panier
+          </button>
+          <button type="button" className="booking-form-back" onClick={onBack}>
+            ‹ Retour
+          </button>
+        </div>
       </div>
     );
   }
