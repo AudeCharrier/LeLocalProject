@@ -1,0 +1,333 @@
+.create-event-page {
+  display: flex;
+
+  gap: 4rem;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 6rem;
+  background-color: var(--color-bg-light);
+  font-family: var(--font-heading);
+  box-sizing: border-box;
+
+  @media (max-width: 820px) {
+    flex-direction: column;
+    padding: 3rem 3rem;
+    gap: 3rem;
+  }
+
+  /* ── Sidebar ────────────────────────────────────────── */
+  & .create-event-sidebar {
+    max-width: 50%;
+    padding-top: 1rem;
+
+    @media (max-width: 820px) {
+      max-width: 100%;
+    }
+
+    & .create-event-sidebar-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin: 0 0 1rem;
+    }
+
+    & .create-event-sidebar-title {
+      font-size: clamp(3rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: var(--color-text-primary);
+      margin: 0 0 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    & .create-event-sidebar-description {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      max-width: 80%;
+      line-height: 1.65;
+      color: var(--color-text-secondary);
+      margin: 0 0 2rem;
+    }
+
+    & .create-event-benefits-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      & .create-event-benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--color-text-primary);
+
+        & .create-event-benefit-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.5rem;
+          height: 1.5rem;
+          background-color: var(--color-primary);
+          color: var(--color-bg-white);
+          border-radius: 4px;
+          font-size: 11px;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  /* ── Formulaire ─────────────────────────────────────── */
+  & .create-event-form-container {
+    max-width: 50%;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: 0.625rem;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-sizing: border-box;
+
+    @media (max-width: 820px) {
+      max-width: 100%;
+      padding: 1.5rem 1.5rem;
+    }
+
+    /* ── Messages ────────────────────────────────────────── */
+    & .create-event-message {
+      padding: 1rem 1rem;
+      border-radius: 0.25rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+
+      &.create-event-message--success {
+        background-color: var(--color-border-card);
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+      }
+
+      &.create-event-message--error {
+        background-color: #fdecea;
+        color: #c62828;
+        border: 1px solid #ef9a9a;
+      }
+    }
+
+    /* ── Lignes ───────────────────────────────────────── */
+    & .create-event-form-row {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: space-between;
+
+      @media (max-width: 820px) {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      & > div {
+        flex: 1;
+      }
+    }
+
+    /* ── Labels ───────────────────────────────────────── */
+    & label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+
+    & .create-event-required {
+      color: var(--color-primary-light);
+    }
+
+    /* ── Champs ───────────────────────────────────────── */
+    & .create-event-name-field,
+    & .create-event-email-field,
+    & .create-event-title-field,
+    & .create-event-date-field,
+    & .create-event-participants-field,
+    & .create-event-space-field,
+    & .create-event-slot-field,
+    & .create-event-image-field,
+    & .create-event-description-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    /* ── Wrappers avec icônes ────────────────────────── */
+    & .create-event-date-input-wrapper,
+    & .create-event-participants-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    & .create-event-date-icon,
+    & .create-event-participants-icon {
+      position: absolute;
+      left: 0.75rem;
+      font-size: 1rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Inputs ───────────────────────────────────────── */
+    & .create-event-name-input,
+    & .create-event-email-input,
+    & .create-event-title-input,
+    & .create-event-date-input,
+    & .create-event-participants-input,
+    & .create-event-space-select,
+    & .create-event-slot-select {
+      width: 100%;
+      padding: 1rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.25rem;
+      background-color: var(--color-bg-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-text-primary);
+      box-sizing: border-box;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      outline: none;
+
+      &:focus {
+        border-color: var(--color-bg-hero);
+        box-shadow: 0 0 0 0.25rem var(--color-bg-2);
+      }
+
+      &::placeholder {
+        color: #aaa89d;
+      }
+    }
+
+    & .create-event-date-input,
+    & .create-event-participants-input {
+      padding-left: 2rem;
+    }
+
+    & .create-event-space-select,
+    & .create-event-slot-select {
+      cursor: pointer;
+    }
+
+    /* ── Image ──────────────────────────────────────────── */
+    & .create-event-image-field {
+      & .create-event-image-input {
+        display: none;
+      }
+
+      & .create-event-image-upload-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px dashed var(--color-border);
+        border-radius: 0.25rem;
+        background-color: var(--color-bg-light);
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: border-color 0.15s ease, background-color 0.15s ease;
+
+        &:hover {
+          border-color: var(--color-primary);
+          background-color: var(--color-bg-2);
+        }
+
+        & .create-event-image-upload-icon {
+          font-size: 1rem;
+          flex-shrink: 0;
+        }
+
+        & .create-event-image-upload-text {
+          font-family: var(--font-body);
+          font-size: 1rem;
+          color: #aaa89d;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    /* ── Textarea ────────────────────────────────────── */
+    & .create-event-description-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--color-border-strong);
+      border-radius: 0.25rem;
+      background-color: var(--color-bg-light);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--color-text-primary);
+      resize: vertical;
+      box-sizing: border-box;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      outline: none;
+      line-height: 1.6;
+
+      &:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.25rem rgba(61, 107, 62, 0.12);
+      }
+
+      &::placeholder {
+        color: #aaa89d;
+      }
+    }
+
+    /* ── Bouton ─────────────────────────────────────── */
+    & .create-event-submit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--color-primary);
+      color: var(--color-bg-white);
+      border: none;
+      border-radius: 0.25rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+
+      &:hover {
+        background-color: var(--color-primary-dark);
+      }
+
+      &:active {
+        transform: scale(0.99);
+      }
+
+      & .create-event-submit-icon {
+        font-size: 1rem;
+      }
+    }
+
+    /* ── Footer ─────────────────────────────────────── */
+    & .create-event-form-footnote {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      text-align: center;
+      margin: -0.5rem 0 0;
+    }
+  }
+}

@@ -54,7 +54,7 @@ CREATE TABLE `time_slot` (
 
 LOCK TABLES `time_slot` WRITE;
 
-INSERT INTO `time_slot` VALUES (1,'morning','08:00:00','14:00:00'),(2,'afternoon','14:00:00','20:00:00');
+INSERT INTO `time_slot` VALUES (1,'Matin','08:00:00','14:00:00'),(2,'Après-midi','14:00:00','20:00:00'),(3,'Soir','20:00:00','00:00:00');
 
 UNLOCK TABLES;
 
@@ -97,7 +97,7 @@ CREATE TABLE `activity` (
   `price_unit` int DEFAULT '0',
   `url_image` varchar(255) NOT NULL,
   `name` varchar(155) DEFAULT NULL,
-  `users_id` int NOT NULL, 
+  `users_id` int , 
   PRIMARY KEY (`id`),
   KEY `fk_time_slot_has_space_space_idx` (`space_id`),
   KEY `fk_time_slot_has_space_time_slot_idx` (`time_slot_id`),
