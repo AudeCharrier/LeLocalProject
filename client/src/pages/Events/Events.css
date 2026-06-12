@@ -1,20 +1,20 @@
-.home-events {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 2rem;
-  /*   font-family: var(--font-body); */
-}
+/* =============== AGENDA ====================*/
 
+.react-calendar {
+  background: var(--color-bg-card);
+  border: none;
+}
 .react-calendar__navigation {
   background: var(--color-primary);
   color: var(--color-tag-text);
 }
+.react-calendar__navigation__arrow {
+  color: var(--color-tag-text);
+}
 .react-calendar__navigation__label__labelText {
   font-family: var(--font-body);
+  color: var(--color-tag-text);
+  font-weight: var(--font-semibold);
   text-transform: uppercase;
 }
 
@@ -22,7 +22,8 @@
   font-family: var(--font-body);
 }
 .react-calendar__tile.has-event {
-  background: rgb(208, 243, 208);
+  background: rgba(220, 255, 220, 0.8);
+  border-radius: var(--radius-md);
   font-family: var(--font-body);
   font-weight: var(--font-semibold);
 }
@@ -37,4 +38,56 @@
   &:hover {
     transform: scale(1.1);
   }
+}
+
+/* ================== SECTIONS ======================*/
+
+.events-section-hero {
+  background: var(--color-bg-hero);
+}
+.events-big-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-4);
+  h1 {
+    color: var(--color-text-secondary);
+    font-family: var(--font-heading);
+  }
+  .events-page-hr {
+    flex: 1;
+    height: 1px;
+    border: none;
+    background-color: var(--color-text-secondary);
+  }
+}
+.events-section-AGENDA {
+  padding: var(--space-5) var(--space-20);
+  background: var(--color-bg-2);
+}
+.events-section-ALAUNE,
+.events-section-NEXT {
+  padding: var(--space-5) var(--space-20);
+  background-color: var(--color-bg-1);
+}
+.events-div-next-events {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.events-title {
+  padding: var(--space-4);
+}
+/* =================== CARDS EVENTS ===================== */
+.home-events {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 2rem;
+  /*   font-family: var(--font-body); */
 }
