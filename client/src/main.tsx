@@ -9,8 +9,7 @@ import Home from "./pages/Home/Home";
 import Spaces from "./pages/Spaces/Spaces";
 import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
-
-// Pages
+import CalendarEvents from "./components/Calendar/Calendar";
 
 // Router
 const router = createBrowserRouter([
@@ -44,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/workshop-page",
         element: <WorkshopPage />,
+      },
+      {
+        path: "/calendar",
+        element: <CalendarEvents />,
       },
     ],
   },

@@ -103,6 +103,29 @@ INSERT INTO `activity` VALUES
 (11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
 (12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2);
 
+UPDATE activity
+SET `url_image`='/assets/images/events/20261205_pitch_biere.webp'
+WHERE id=1;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260415_concert_jazz.webp'
+WHERE id=2;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260320_cinedebat.webp'
+WHERE id=3;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260625_makers.webp'
+WHERE id = 4;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260710_festival.webp'
+WHERE id = 5;
+
+UPDATE activity
+SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
+WHERE id=6;
+
+
+
+
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `booking`;
 CREATE TABLE `booking` (

@@ -6,5 +6,35 @@
   flex-wrap: wrap;
   width: 100%;
   gap: 2rem;
-  font-family: var(--secondary-font);
+  /*   font-family: var(--font-body); */
+}
+
+.react-calendar__navigation {
+  background: var(--color-primary);
+  color: var(--color-tag-text);
+}
+.react-calendar__navigation__label__labelText {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  font-family: var(--font-body);
+}
+.react-calendar__tile.has-event {
+  background: rgb(208, 243, 208);
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+}
+.react-calendar__tile.no-event {
+  font-family: var(--font-body);
+}
+.events-btn-see-all {
+  font-family: var(--font-body);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
