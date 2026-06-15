@@ -9,23 +9,38 @@ type CartItem = {
 
 const readAll = async (userId: number) => {
   const [rows] = await databaseClient.query<RowDataPacket[]>(
-    `SELECT 
+    `
+    SELECT
       c.id,
       c.quantity,
-      c.total_price,
-      a.id        AS id_activity,
+
+      a.id AS id_activity,
       a.name,
       a.description,
       a.start_date,
       a.end_date,
-      a.time_slot_id,
-      a.url_image,
-      a.price_unit
+      a.price_unit,
+
+      s.id AS id_space,
+      s.space_name,
+      s.url_image,
+      s.capacity,
+      s.space_type,
+      s.space_category
+
     FROM cart c
-    JOIN activity a ON c.id_activity = a.id
-    WHERE c.users_id = ?`,
+
+    JOIN activity a
+      ON c.id_activity = a.id
+
+    JOIN space s
+      ON a.space_id = s.id
+
+    WHERE c.users_id = ?
+    `,
     [userId],
   );
+
   return rows;
 };
 

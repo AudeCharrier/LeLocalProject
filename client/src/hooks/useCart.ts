@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Cart } from "../types/cart";
+import type { CartItem } from "../types/cart";
 
 function useCart(user_id: number) {
-  const [cart, setCart] = useState<Cart[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/cart/${user_id}`)
