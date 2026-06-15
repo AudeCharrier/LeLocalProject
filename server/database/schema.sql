@@ -126,6 +126,29 @@ INSERT INTO `activity` VALUES
 (15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2),
 (16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2);
 
+UPDATE activity
+SET `url_image`='/assets/images/events/20261205_pitch_biere.webp'
+WHERE id=1;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260415_concert_jazz.webp'
+WHERE id=2;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260320_cinedebat.webp'
+WHERE id=3;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260625_makers.webp'
+WHERE id = 4;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260710_festival.webp'
+WHERE id = 5;
+
+UPDATE activity
+SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
+WHERE id=6;
+
+
+
+
 UNLOCK TABLES;
 
 
