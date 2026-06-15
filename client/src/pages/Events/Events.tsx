@@ -4,10 +4,28 @@ import CardEvent from "../../components/Event/CardEvent";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 
+import FooterHome from "../../components/FooterHome/FooterHome";
+import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
+import type { FirstArticleProps } from "../../types/firstarticleprops";
 
 function Events() {
+  const EventFirstArticle: FirstArticleProps = {
+    bigtitle: "AGENDA DU TIERS LIEU",
+    sloganBegin: "Des",
+    sloganItalic: "évènements",
+    sloganEnd: "qui créent du lien",
+    description:
+      "Conférences, concerts, expositions, workshops ouverts... Le Local anime son espace avec une programmation variée et inclusive",
+    info1: 28,
+    info1text: "CE MOIS-CI",
+    info2: 340,
+    info2text: "PARTICIPANTS / MOIS",
+    info3: "12",
+    info3text: "ORGANISATIONS",
+  };
+
   //données bdd
   const upcomingEvents = useUpcomingEvents();
   const participants = useSumParticipants();
@@ -57,7 +75,7 @@ function Events() {
   return (
     <>
       <section className="events-section-hero">
-        <div>HERO TO DO</div>
+        <FirstArticle pageData={EventFirstArticle} />
       </section>
       <section className="events-section-ALAUNE">
         <div className="events-big-title">
@@ -106,9 +124,11 @@ function Events() {
           })}
         </div>
       </section>
+      <FooterHome />
     </>
   );
 }
-/*code repris de EventSection pour la demo-> voir pour refacto, faire un composant */
 
 export default Events;
+
+/*code repris de EventSection pour la demo-> voir pour refacto, faire un composant */
