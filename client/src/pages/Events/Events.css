@@ -3,6 +3,9 @@
 .react-calendar {
   background: var(--color-bg-card);
   border: none;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: max-content;
 }
 .react-calendar__navigation {
   background: var(--color-primary);
@@ -18,18 +21,46 @@
   text-transform: uppercase;
 }
 
-.react-calendar__month-view__weekdays__weekday abbr {
-  font-family: var(--font-body);
+.react-calendar__month-view__weekdays__day {
+  abbr {
+    font-family: var(--font-body);
+  }
 }
-.react-calendar__tile.has-event {
-  background: rgba(220, 255, 220, 0.8);
-  border-radius: var(--radius-md);
-  font-family: var(--font-body);
-  font-weight: var(--font-semibold);
+
+.react-calendar__month-view__days {
+  .react-calendar__tile.has-event {
+    font-family: var(--font-body);
+    font-weight: var(--font-semibold);
+
+    /* On transforme la case en container Flexbox */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+
+    &::before {
+      content: "*";
+
+      /* plus besoin de position absolute */
+      display: inline-block;
+
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+
+      background-color: rgb(150, 188, 150);
+      border: none;
+
+      /* Sécurité pour éviter que le flexbox n'écrase le rond */
+      flex-shrink: 0;
+    }
+  }
+  .react-calendar__tile.no-event {
+    font-family: var(--font-body);
+  }
 }
-.react-calendar__tile.no-event {
-  font-family: var(--font-body);
-}
+
 .events-btn-see-all {
   font-family: var(--font-body);
   background-color: transparent;
@@ -50,9 +81,11 @@
   flex-direction: row;
   align-items: center;
   gap: var(--space-4);
-  h1 {
+  margin-bottom: var(--space-8);
+  .events-page-title {
     color: var(--color-text-secondary);
     font-family: var(--font-heading);
+    text-transform: uppercase;
   }
   .events-page-hr {
     flex: 1;
@@ -62,16 +95,21 @@
   }
 }
 .events-section-AGENDA {
-  padding: var(--space-5) var(--space-20);
+  padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
+  .events-calendar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
 }
 .events-section-ALAUNE,
 .events-section-NEXT {
-  padding: var(--space-5) var(--space-20);
+  padding: var(--space-10) var(--space-20);
   background-color: var(--color-bg-1);
 }
 .events-div-next-events {
-  display: flex;
+  display: grid;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -81,10 +119,24 @@
   text-transform: uppercase;
   font-family: var(--font-heading);
   color: var(--color-text-secondary);
-  padding: var(--space-4);
+  padding-bottom: var(--space-8);
+}
+.events-calendar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+/* =================== CARDS EVENTS ===================== */
+
+.home-events-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24vw, 1fr));
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
 }
 
-/* =================== CARDS EVENTS ===================== */
 .home-events {
   display: flex;
   flex-direction: row;

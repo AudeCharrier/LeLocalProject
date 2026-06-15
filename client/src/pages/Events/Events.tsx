@@ -4,11 +4,11 @@ import CardEvent from "../../components/Event/CardEvent";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 
-import FooterHome from "../../components/FooterHome/FooterHome";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import type { FirstArticleProps } from "../../types/firstarticleprops";
+import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
@@ -29,7 +29,7 @@ function Events() {
   //données bdd
   const upcomingEvents = useUpcomingEvents();
   const participants = useSumParticipants();
-
+  const maxCards = 6;
   //sélection de date pour filtrer les events
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -79,7 +79,7 @@ function Events() {
       </section>
       <section className="events-section-ALAUNE">
         <div className="events-big-title">
-          <h2 className="events-title">Nos évènements</h2>
+          <h2 className="events-page-title">Nos évènements</h2>
           <hr className="events-page-hr" />
         </div>
         <h2 className="events-title">A la une</h2>
@@ -87,16 +87,34 @@ function Events() {
       </section>
       <section className="events-section-AGENDA">
         <h2 className="events-title">Agenda</h2>
-        <Calendar
-          onChange={(value) => {
-            if (value instanceof Date) {
-              chooseDate(value);
-            }
-          }}
-          value={selectedDate}
-          tileClassName={dynamicTileClassName}
-        />
-        {/*tileClassName est une propriété de calendar pour le css*/}
+        <div className="events-calendar-container">
+          <Calendar
+            onChange={(value) => {
+              if (value instanceof Date) {
+                chooseDate(value);
+              }
+            }}
+            value={selectedDate}
+            tileClassName={dynamicTileClassName}
+          />
+          {/*tileClassName est une propriété de calendar pour le css*/}
+          <div className="events-div-selected-events">
+            <div className="home-events">
+              {selectedEvents.map((selectedEvent) => {
+                const eventParticipants = participants.find(
+                  (p) => p.id_activity === selectedEvent.id,
+                );
+                return (
+                  <CardEvent
+                    key={selectedEvent.id}
+                    event={selectedEvent}
+                    participants={eventParticipants}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </section>
       <section className="events-section-NEXT">
         <div className="events-div-next-events">
@@ -109,22 +127,22 @@ function Events() {
             Voir tous les évènements
           </button>
         </div>
-        <div className="home-events">
-          {selectedEvents.map((selectedEvent) => {
+        <div className="home-events-grid-container">
+          {upcomingEvents.slice(0, maxCards).map((upcomingEvent) => {
             const eventParticipants = participants.find(
-              (p) => p.id_activity === selectedEvent.id,
+              (p) => p.id_activity === upcomingEvent.id,
             );
             return (
               <CardEvent
-                key={selectedEvent.id}
-                event={selectedEvent}
+                key={upcomingEvent.id}
+                event={upcomingEvent}
                 participants={eventParticipants}
               />
             );
           })}
         </div>
       </section>
-      <FooterHome />
+      <FooterDashboard />
     </>
   );
 }
