@@ -1,23 +1,38 @@
 import { Building2 } from "lucide-react";
-import "./UpcomingBookingClient.css";
+import { useState } from "react";
 import useSpacesClient from "../../../hooks/useSpacesClient";
+import AllActivitiesModal from "../AllActivitiesModal/AllActivitiesModal";
+import "./UpcomingBookingClient.css";
 
 function UpcomingBookingClient() {
   const bookings = useSpacesClient(2, "upcoming");
+  const [showModal, setShowModal] = useState(false);
+  const displayed = bookings.slice(0, 3);
 
   return (
     <section className="upcoming-booking-client__container">
-      <h2 className="upcoming-booking-client__title">
-        Mes réservations d'espaces à venir
-      </h2>
+      <div className="upcoming-booking-client__header">
+        <h2 className="upcoming-booking-client__title">
+          Mes réservations d'espaces à venir
+        </h2>
+        {bookings.length > 0 && (
+          <button
+            type="button"
+            className="upcoming-booking-client__toggle"
+            onClick={() => setShowModal(true)}
+          >
+            Voir tout
+          </button>
+        )}
+      </div>
 
-      {bookings.length === 0 ? (
+      {displayed.length === 0 ? (
         <p className="upcoming-booking-client__empty">
           Aucune réservation à venir.
         </p>
       ) : (
         <ul className="upcoming-booking-client__list">
-          {bookings.map((booking) => (
+          {displayed.map((booking) => (
             <li key={booking.id} className="upcoming-booking-client__item">
               <Building2 className="upcoming-booking-client__icon" size={18} />
               <div className="upcoming-booking-client__info">
@@ -36,6 +51,15 @@ function UpcomingBookingClient() {
             </li>
           ))}
         </ul>
+      )}
+
+      {showModal && (
+        <AllActivitiesModal
+          title="Tous mes espaces à venir"
+          items={bookings}
+          onClose={() => setShowModal(false)}
+          type="booking"
+        />
       )}
     </section>
   );
