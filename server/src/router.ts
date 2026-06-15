@@ -14,6 +14,9 @@ router.get("/api/timeslots", timeSlotActions.browse);
 
 /* ************************************************************************* */
 // Define space-related routes
+import bookingActions from "./modules/bookingActions/bookingActions";
+
+router.post("/api/bookings", bookingActions.add);
 
 import spaceActions from "./modules/space/spaceActions";
 
@@ -69,6 +72,12 @@ router.get(
   dashboardClientActions.browseStats,
 );
 
+// Create a claim for a specific user
+router.post(
+  "/api/dashboard/client/:userId/claims",
+  dashboardClientActions.addClaim,
+);
+
 /* ************************************************************************* */
 // Dashboard Admin:
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
@@ -99,4 +108,14 @@ router.delete("/api/cart/:id", cartActions.destroy);
 // Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
 router.delete("/api/cart/user/:userId", cartActions.destroyAll);
 
+import createEventFormAction from "./modules/createEventForm/createEventFormAction";
+
+import { upload } from "../public/upload/upload";
+
+router.get("/api/createEvent", createEventFormAction.browse);
+router.post(
+  "/api/createEvent",
+  upload.single("image"),
+  createEventFormAction.create,
+);
 export default router;

@@ -1,6 +1,7 @@
 import { MessageSquareWarning } from "lucide-react";
 import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
+import useCreateClaim from "../../../hooks/useCreateClaim";
 import "./ClaimClient.css";
 
 const CATEGORIES = [
@@ -17,10 +18,20 @@ function ClaimClient() {
   const [activityId, setActivityId] = useState("");
   const [message, setMessage] = useState("");
   const billing = useBillingClient(2);
+  const { createClaim } = useCreateClaim();
+  const [success, setSuccess] = useState(false);
 
   function handleSubmit() {
-    console.log({ title, category, activityId, message });
-    // TODO: envoyer les données à l'API
+    createClaim({ title, category, message, activity_id: activityId }).then(
+      () => {
+        setTitle("");
+        setMessage("");
+        setActivityId("");
+        setCategory("Espace");
+        setSuccess(true);
+        setTimeout(() => setSuccess(false), 3000);
+      },
+    );
   }
 
   return (
@@ -93,11 +104,16 @@ function ClaimClient() {
           rows={5}
         />
       </div>
-
+      {success && (
+        <p className="claim-client__success">
+          ✓ Votre réclamation a bien été envoyée !
+        </p>
+      )}
       <button
         type="button"
         className="claim-client__submit"
         onClick={handleSubmit}
+        disabled={!title || !message || !activityId}
       >
         Envoyer la réclamation →
       </button>

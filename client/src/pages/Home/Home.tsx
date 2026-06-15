@@ -1,3 +1,4 @@
+import CreateEventForm from "../../components/CreateEventForm/CreateEventForm";
 import EventSection from "../../components/Event/EventSection";
 import FooterHome from "../../components/FooterHome/FooterHome";
 import HeaderHomePresentation from "../../components/Home/HeaderHomePresentation/HomePresentation";
@@ -6,6 +7,7 @@ import HomeDescritpion from "../../components/Home/HomeDescription/HomeDescritpi
 import SpaceSection from "../../components/Space/Space";
 
 import "./Home.css";
+
 function Home() {
   return (
     <section className="home-global-section">
@@ -14,6 +16,7 @@ function Home() {
       <HomeDescritpion />
       <EventSection />
       <SpaceSection />
+      <CreateEventForm />
       <FooterHome />
     </section>
   );
