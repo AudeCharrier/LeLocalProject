@@ -62,7 +62,7 @@ export default function CreateEventForm() {
 
         setMessage({
           type: "error",
-          text: `Erreur serveur : ${errorText}`,
+          text: "Une erreur est survenue",
         });
 
         return;
