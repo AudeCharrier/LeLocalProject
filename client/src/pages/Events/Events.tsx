@@ -7,8 +7,8 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
-import type { FirstArticleProps } from "../../types/firstarticleprops";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import type { FirstArticleProps } from "../../types/firstarticleprops";
 
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
