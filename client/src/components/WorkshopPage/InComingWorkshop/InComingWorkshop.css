@@ -19,6 +19,11 @@
       flex-direction: column;
       justify-content: space-between;
 
+      .imgWorkshopCard {
+        width: 100%;
+        z-index: -1;
+      }
+
       .Box-Img-Top-Row {
         display: flex;
         justify-content: space-between;

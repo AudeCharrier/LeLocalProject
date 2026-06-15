@@ -1,6 +1,19 @@
 import "./InComingWorkshop.css";
-
-function InComingWorkshop() {
+interface WorkshopProps {
+  workshop: {
+    id: number;
+    name: string;
+    description: string;
+    space_name: string;
+    url_image: string;
+    price_unit: number;
+    start_date: string;
+    start_hour: string;
+    end_hour: string;
+    capacity: number;
+  };
+}
+function InComingWorkshop({ workshop }: WorkshopProps) {
   return (
     <div className="Parent-Container-In-Coming-Workshop">
       <h3 className="Title-Workshop-Section">PROCHAINS ATELIERS</h3>
@@ -8,33 +21,36 @@ function InComingWorkshop() {
         {/* top vert */}
         <div className="Box-Img-Top">
           <div className="Box-Img-Top-Row">
+            <img
+              src={workshop.url_image}
+              alt={workshop.name}
+              className="imgWorkshopCard"
+            />
             <span className="Badge-In-Coming-Workshop-Level">DÉBUTANT</span>
             <span className="Badge-In-Coming-Workshop-Places">
-              8 places libres
+              {workshop.capacity}
             </span>
           </div>
           <div className="Badge-In-Coming-Workshop-Date">
-            <span className="Badge-In-Coming-Workshop-Date-Day">24</span>
-            <span className="Badge-In-Coming-Workshop-Date-Month">JUIN</span>
+            <span className="Badge-In-Coming-Workshop-Date-Day">
+              {workshop.start_date}
+              <span className="Badge-In-Coming-Workshop-Date-Month">JUIN</span>
+            </span>
           </div>
         </div>
 
         {/* bas crème */}
         <div className="Description-In-Coming-Workshop">
           <span className="Category-Pill">NUMÉRIQUE</span>
-          <h1>Python pour les créatifs : automatiser le répétitif</h1>
-          <p>
-            3h pour comprendre les bases de Python et construire ses premiers
-            scripts de traitement d'images, renommage en masse, et export de
-            données.
-          </p>
+          <h1>{workshop.name}</h1>
+          <p>{workshop.description}</p>
         </div>
 
         <div className="Teacher-For-The-Workshop-Of-The-Week">
           <div className="Teacher-Avatar">TC</div>
           <div className="Teacher-Info">
             <span className="Name-Of-The-Teacher-Of-The-Week">Thomas C.</span>
-            <span className="Price">25€</span>
+            <span className="Price">{workshop.price_unit}€</span>
           </div>
         </div>
       </div>

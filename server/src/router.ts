@@ -118,4 +118,9 @@ router.post(
   upload.single("image"),
   createEventFormAction.create,
 );
+
+import workshopActions from "./modules/activity/activityActions";
+
+router.get("/api/activity", workshopActions.browse);
+
 export default router;
