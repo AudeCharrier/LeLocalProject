@@ -118,4 +118,9 @@ router.post(
   upload.single("image"),
   createEventFormAction.create,
 );
+
+import paymentActions from "./modules/Payment/PaymentAction";
+
+router.post("/api/payment/create-intent", paymentActions.createIntent);
+
 export default router;

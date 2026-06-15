@@ -1,6 +1,7 @@
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import "./Cart.css";
+import { Link } from "react-router";
 import useCart from "../../hooks/useCart";
 import type { CartItem } from "../../types/cart";
 
@@ -185,10 +186,11 @@ function Cart() {
               <button type="button">Appliquer</button>
             </div>
           </div>
-
-          <button type="button" className="cart-payment-button">
-            Procéder au paiement
-          </button>
+          <Link to="/payment" state={{ totalPrice }}>
+            <button type="button" className="cart-payment-button">
+              Procéder au paiement
+            </button>
+          </Link>
         </div>
 
         {message && <p className="cart-notification">{message}</p>}
