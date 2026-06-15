@@ -78,8 +78,12 @@
 }
 
 .events-title {
+  text-transform: uppercase;
+  font-family: var(--font-heading);
+  color: var(--color-text-secondary);
   padding: var(--space-4);
 }
+
 /* =================== CARDS EVENTS ===================== */
 .home-events {
   display: flex;

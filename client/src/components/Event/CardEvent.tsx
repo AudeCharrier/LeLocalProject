@@ -1,8 +1,8 @@
 import { Calendar, MapPin } from "lucide-react";
+import { useState } from "react";
 import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 
 import "./CardEvent.css";
-import { useState } from "react";
 
 interface CardEventProps {
   event: {

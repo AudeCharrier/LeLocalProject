@@ -61,7 +61,7 @@ function Events() {
       </section>
       <section className="events-section-ALAUNE">
         <div className="events-big-title">
-          <h1 className="events-title">Nos évènements</h1>
+          <h2 className="events-title">Nos évènements</h2>
           <hr className="events-page-hr" />
         </div>
         <h2 className="events-title">A la une</h2>
