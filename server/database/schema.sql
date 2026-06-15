@@ -208,7 +208,8 @@ LOCK TABLES `claim` WRITE;
 INSERT INTO `claim` VALUES 
 (1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
 (2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
-(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8),
+(4, 'Test connexion BDD', 'Autre', 'Ceci est un test', '2026-06-15', 2, 1);
 
 UNLOCK TABLES;
 
