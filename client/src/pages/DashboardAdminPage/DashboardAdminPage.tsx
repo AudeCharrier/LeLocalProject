@@ -2,6 +2,7 @@ import { useLocation } from "react-router";
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
 import AdminEvents from "../../components/DashboardAdmin/AdminEvents/AdminEvents";
 import DashboardAdminNav from "../../components/DashboardAdmin/DashboardAdminNav/DashboardAdminNav";
+import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
 import AdminOverview from "../../components/DashboardAdmin/AdminOverview/AdminOverview";
 import AdminReservations from "../../components/DashboardAdmin/AdminReservations/AdminReservations";
 import AdminSpaces from "../../components/DashboardAdmin/AdminSpaces/AdminSpaces";
@@ -12,6 +13,7 @@ function DashboardAdminPage() {
   const location = useLocation();
   const isSpacesTab = location.hash === "#admin-spaces";
   const isBookingsTab = location.hash === "#admin-bookings";
+  const isClaimsTab = location.hash === "#admin-claims";
   const isEventsTab = location.hash === "#admin-events";
 
   return (
@@ -25,13 +27,17 @@ function DashboardAdminPage() {
           <div className="dashboard-admin-section" id="admin-spaces">
             <AdminSpaces />
           </div>
-        ) : isEventsTab ? (
-          <div className="dashboard-admin-section" id="admin-events">
-            <AdminEvents />
-          </div>
         ) : isBookingsTab ? (
           <div className="dashboard-admin-section" id="admin-bookings">
             <AdminReservations />
+          </div>
+        ) : isClaimsTab ? (
+          <div className="dashboard-admin-section" id="admin-claims">
+            <AdminClaims />
+          </div>
+        ) : isEventsTab ? (
+          <div className="dashboard-admin-section" id="admin-events">
+            <AdminEvents />
           </div>
         ) : (
           <>
@@ -42,7 +48,7 @@ function DashboardAdminPage() {
               <AdminOverview />
             </div>
             <div className="dashboard-admin-section" id="admin-bookings">
-              <AdminBookings />
+              <AdminBookings previewLimit={4} />
             </div>
           </>
         )}

@@ -1,82 +1,59 @@
 import { CalendarPlus } from "lucide-react";
+import { useMemo } from "react";
+import useUpcomingEvents from "../../../hooks/useUpcomingEvents";
+import useEventParticipants from "../../../hooks/useEventParticipants";
 import "./AdminEvents.css";
 
-const adminEvents = [
-  {
-    name: "Soirée Pitch & Bière",
-    category: "Networking",
-    date: "12 juin 2026",
-    time: "19h–22h",
-    space: "Salle d'événements",
-    registered: 54,
-    capacity: 80,
-    price: "Gratuit",
-    status: "Ouvert",
-    tone: "open",
-  },
-  {
-    name: "Workshop No-Code",
-    category: "Formation",
-    date: "18 juin 2026",
-    time: "14h–17h",
-    space: "Lab Numérique",
-    registered: 12,
-    capacity: 15,
-    price: "5€",
-    status: "Presque complet",
-    tone: "warning",
-  },
-  {
-    name: "Rencontre Makers",
-    category: "Communauté",
-    date: "25 juin 2026",
-    time: "18h–21h",
-    space: "Openspace Principal",
-    registered: 38,
-    capacity: 60,
-    price: "Gratuit",
-    status: "Ouvert",
-    tone: "open",
-  },
-  {
-    name: "Concert Intimiste",
-    category: "Culture",
-    date: "5 juillet 2026",
-    time: "20h–23h",
-    space: "Salle d'événements",
-    registered: 87,
-    capacity: 100,
-    price: "Gratuit",
-    status: "Presque complet",
-    tone: "warning",
-  },
-  {
-    name: "Hackathon Transition Écologique",
-    category: "Hackathon",
-    date: "19–20 juillet 2026",
-    time: "9h–21h",
-    space: "Toute La Forge",
-    registered: 73,
-    capacity: 120,
-    price: "Gratuit",
-    status: "Ouvert",
-    tone: "open",
-  },
-  {
-    name: "Atelier Sérigraphie",
-    category: "Art",
-    date: "2 août 2026",
-    time: "10h–13h",
-    space: "Atelier Menuiserie",
-    registered: 5,
-    capacity: 8,
-    price: "12€",
-    status: "Ouvert",
-    tone: "open",
-  },
-] as const;
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function formatPrice(price: number) {
+  return price === 0 ? "Gratuit" : `${price}€`;
+}
+
+function getStatus(registered: number, capacity: number) {
+  if (capacity === 0) {
+    return { label: "Ouvert", tone: "open" };
+  }
+
+  const ratio = registered / capacity;
+
+  if (ratio >= 0.8) {
+    return { label: "Presque complet", tone: "warning" };
+  }
+
+  return { label: "Ouvert", tone: "open" };
+}
 
 function AdminEvents() {
+  const events = useUpcomingEvents();
+  const participants = useEventParticipants();
+
+  const eventsWithParticipants = useMemo(
+    () =>
+      events.map((event) => {
+        const participantData = participants.find(
+          (participant) => participant.id_activity === event.id,
+        );
+
+        const registered = Number(participantData?.sum_participants ?? 0);
+        const status = getStatus(registered, event.capacity);
+
+        return {
+          ...event,
+          registered,
+          statusLabel: status.label,
+          statusTone: status.tone,
+        };
+      }),
+    [events, participants],
+  );
+
   return (
     <section className="admin-events">
       <header className="admin-events__header">
@@ -104,35 +81,39 @@ function AdminEvents() {
             </tr>
           </thead>
           <tbody>
-            {adminEvents.map((event) => (
-              <tr key={event.name}>
+            {eventsWithParticipants.map((event) => (
+              <tr key={event.id}>
                 <td>
                   <div className="admin-events__event">
                     <p className="admin-events__event-name">{event.name}</p>
                     <p className="admin-events__event-category">
-                      {event.category}
+                      {event.description}
                     </p>
                   </div>
                 </td>
                 <td>
                   <div className="admin-events__date-cell">
-                    <p>{event.date}</p>
-                    <p>{event.time}</p>
+                    <p>{formatDate(event.start_date)}</p>
+                    <p>
+                      {event.start_hour.slice(0, 5)}–{event.end_hour.slice(0, 5)}
+                    </p>
                   </div>
                 </td>
-                <td>{event.space}</td>
+                <td>{event.space_name}</td>
                 <td>
                   <div className="admin-events__registered">
                     <p>{event.registered}</p>
                     <p>/ {event.capacity}</p>
                   </div>
                 </td>
-                <td className="admin-events__price">{event.price}</td>
+                <td className="admin-events__price">
+                  {formatPrice(event.price_unit)}
+                </td>
                 <td>
                   <span
-                    className={`admin-events__status admin-events__status--${event.tone}`}
+                    className={`admin-events__status admin-events__status--${event.statusTone}`}
                   >
-                    {event.status}
+                    {event.statusLabel}
                   </span>
                 </td>
               </tr>

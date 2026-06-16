@@ -1,6 +1,7 @@
 import {
   BarChart3,
   CalendarDays,
+  Inbox,
   LayoutGrid,
   ReceiptText,
 } from "lucide-react";
@@ -24,6 +25,11 @@ const adminNavItems = [
     to: "/dashboard-admin#admin-bookings",
   },
   {
+    label: "Réclamations",
+    icon: Inbox,
+    to: "/dashboard-admin#admin-claims",
+  },
+  {
     label: "Événements",
     icon: CalendarDays,
     to: "/dashboard-admin#admin-events",
@@ -42,18 +48,22 @@ function DashboardAdminNav() {
             item.to === "/dashboard-admin"
               ? location.pathname === "/dashboard-admin" &&
                 location.hash !== "#admin-bookings" &&
+                location.hash !== "#admin-claims" &&
                 location.hash !== "#admin-spaces" &&
                 location.hash !== "#admin-events"
               : item.to === "/dashboard-admin#admin-bookings"
                 ? location.pathname === "/dashboard-admin" &&
                   location.hash === "#admin-bookings"
+                : item.to === "/dashboard-admin#admin-claims"
+                  ? location.pathname === "/dashboard-admin" &&
+                    location.hash === "#admin-claims"
                 : item.to === "/dashboard-admin#admin-spaces"
                   ? location.pathname === "/dashboard-admin" &&
                     location.hash === "#admin-spaces"
                   : item.to === "/dashboard-admin#admin-events"
                     ? location.pathname === "/dashboard-admin" &&
                       location.hash === "#admin-events"
-                : location.pathname === item.to;
+                  : location.pathname === item.to;
 
           return (
             <li key={item.label} className="dashboard-admin-nav__item">

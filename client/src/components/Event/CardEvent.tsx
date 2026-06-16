@@ -1,8 +1,8 @@
 import { Calendar, MapPin } from "lucide-react";
+import { useState } from "react";
 import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 
 import "./CardEvent.css";
-import { useState } from "react";
 
 interface CardEventProps {
   event: {
@@ -44,7 +44,11 @@ function CardEvent({ event, participants }: CardEventProps) {
     <>
       <article className="card-event-container">
         <div className="card-img-container">
-          <img src={event.url_image} alt="" className="card-img" />
+          <img
+            src={`${import.meta.env.VITE_API_URL}/${event.url_image}`}
+            alt=""
+            className="card-img"
+          />
         </div>
         <span className="card-badge-price">
           {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}

@@ -93,9 +93,14 @@ router.get(
   dasboardAdminActions.browseAdminBookings,
 );
 
+router.get(
+  "/api/dashboard/admin/bookings",
+  dasboardAdminActions.browseAdminBookings,
+);
+
+router.get("/api/dashboard/admin/claims", dasboardAdminActions.browseClaims);
+
 /* ************************************************************************* */
-// À ajouter dans ton router.ts existant
-// -------------------------------------------
 
 // Panier — récupère tous les articles d'un utilisateur (avec détail des events)
 router.get("/api/cart/:userId", cartActions.browse);

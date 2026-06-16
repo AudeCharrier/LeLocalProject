@@ -1,141 +1,108 @@
 import { Users } from "lucide-react";
+import { useMemo } from "react";
+import useAdminBookings from "../../../hooks/useAdminBookings";
+import useSpaces from "../../../hooks/useSpaces";
+import useTimeSlot from "../../../hooks/useTimeSlot";
 import "./AdminSpaces.css";
 
-const spaceGroups = [
-  {
-    title: "Espaces",
-    items: [
-      {
-        category: "Coworking",
-        name: "Openspace Principal",
-        occupancy: 72,
-        tone: "danger",
-        capacity: "40 places",
-        summary: "3/5 créneaux",
-        slots: [
-          { time: "8h–10h", status: "Sophie L." },
-          { time: "10h–12h", status: "Marc B." },
-          { time: "14h–16h", status: "libre" },
-          { time: "16h–18h", status: "libre" },
-          { time: "18h–20h", status: "Studio Friche" },
-        ],
-      },
-      {
-        category: "Studio",
-        name: "Studio d'Enregistrement",
-        occupancy: 60,
-        tone: "danger",
-        capacity: "4 places",
-        summary: "2/5 créneaux",
-        slots: [
-          { time: "10h–12h", status: "Léa K." },
-          { time: "12h–14h", status: "libre" },
-          { time: "14h–16h", status: "libre" },
-          { time: "16h–18h", status: "Collectif Son" },
-          { time: "18h–20h", status: "libre" },
-        ],
-      },
-      {
-        category: "Réunion",
-        name: "Salle de Réunion",
-        occupancy: 50,
-        tone: "danger",
-        capacity: "8 places",
-        summary: "2/4 créneaux",
-        slots: [
-          { time: "9h–11h", status: "libre" },
-          { time: "11h–13h", status: "Design Sprint Co." },
-          { time: "14h–16h", status: "Pitch Investisseurs" },
-          { time: "16h–18h", status: "libre" },
-        ],
-      },
-      {
-        category: "Studio",
-        name: "Studio Photo",
-        occupancy: 85,
-        tone: "success",
-        capacity: "6 places",
-        summary: "2/4 créneaux",
-        slots: [
-          { time: "9h–12h", status: "Camille P." },
-          { time: "12h–14h", status: "libre" },
-          { time: "14h–17h", status: "libre" },
-          { time: "17h–19h", status: "Mode Paris 11" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Ateliers",
-    items: [
-      {
-        category: "Fabrication",
-        name: "Atelier Impression 3D",
-        occupancy: 40,
-        tone: "danger",
-        capacity: "10 places",
-        summary: "1/3 créneaux",
-        slots: [
-          { time: "9h–12h", status: "libre" },
-          { time: "13h–16h", status: "Archi Students ENSA" },
-          { time: "16h–19h", status: "libre" },
-        ],
-      },
-      {
-        category: "Électronique",
-        name: "Labo Électronique",
-        occupancy: 33,
-        tone: "neutral",
-        capacity: "12 places",
-        summary: "1/3 créneaux",
-        slots: [
-          { time: "10h–13h", status: "Repair Café Paris" },
-          { time: "14h–17h", status: "libre" },
-          { time: "17h–20h", status: "libre" },
-        ],
-      },
-      {
-        category: "Bois & Matières",
-        name: "Atelier Menuiserie",
-        occupancy: 25,
-        tone: "neutral",
-        capacity: "8 places",
-        summary: "1/3 créneaux",
-        slots: [
-          { time: "9h–12h", status: "libre" },
-          { time: "13h–16h", status: "libre" },
-          { time: "16h–19h", status: "Jean-Paul D." },
-        ],
-      },
-      {
-        category: "Numérique",
-        name: "Lab Numérique",
-        occupancy: 66,
-        tone: "danger",
-        capacity: "15 places",
-        summary: "2/4 créneaux",
-        slots: [
-          { time: "9h–11h", status: "Formation UX Design" },
-          { time: "11h–13h", status: "libre" },
-          { time: "14h–17h", status: "HackÉco Team" },
-          { time: "17h–19h", status: "libre" },
-        ],
-      },
-    ],
-  },
-];
+function formatDateLabel() {
+  return new Date().toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function formatClientName(firstname: string, lastname: string) {
+  return `${firstname} ${lastname.charAt(0)}.`;
+}
+
+function getTone(occupancy: number) {
+  if (occupancy >= 75) return "success";
+  if (occupancy >= 40) return "danger";
+  return "neutral";
+}
 
 function AdminSpaces() {
+  const spaces = useSpaces();
+  const bookings = useAdminBookings();
+  const timeSlots = useTimeSlot();
+
+  const slotTemplates = useMemo(
+    () =>
+      timeSlots.map((slot) => ({
+        time: `${slot.start_hour.slice(0, 5)}–${slot.end_hour.slice(0, 5)}`,
+        status: "libre",
+      })),
+    [timeSlots],
+  );
+
+  const groupedSpaces = useMemo(() => {
+    const filteredSpaces = spaces.filter(
+      (space) =>
+        space.space_type === "Coworking" || space.space_type === "Ateliers",
+    );
+
+    const mappedSpaces = filteredSpaces.map((space) => {
+      const relatedBookings = bookings
+        .filter((booking) => booking.space_name === space.space_name)
+        .slice(0, Math.max(slotTemplates.length, 1));
+
+      const maxSlots = slotTemplates.length || 4;
+      const slots =
+        slotTemplates.length > 0
+          ? slotTemplates.map((template) => ({ ...template }))
+          : Array.from({ length: 4 }, (_, index) => ({
+              time: `Créneau ${index + 1}`,
+              status: "libre",
+            }));
+
+      relatedBookings.forEach((booking, index) => {
+        if (!slots[index]) return;
+
+        slots[index] = {
+          time: `${booking.start_hour.slice(0, 5)}–${booking.end_hour.slice(0, 5)}`,
+          status: formatClientName(booking.firstname, booking.lastname),
+        };
+      });
+
+      const occupancy = Math.round((relatedBookings.length / maxSlots) * 100);
+
+      return {
+        category: space.space_category,
+        name: space.space_name,
+        occupancy,
+        tone: getTone(occupancy),
+        capacity: `${space.capacity} places`,
+        summary: `${relatedBookings.length}/${maxSlots} créneaux`,
+        slots,
+        space_type: space.space_type,
+      };
+    });
+
+    return [
+      {
+        title: "Espaces",
+        items: mappedSpaces.filter((space) => space.space_type === "Coworking"),
+      },
+      {
+        title: "Ateliers",
+        items: mappedSpaces.filter((space) => space.space_type === "Ateliers"),
+      },
+    ];
+  }, [bookings, slotTemplates, spaces]);
+
   return (
     <section className="admin-spaces">
       <header className="admin-spaces__header">
         <div>
           <h2 className="admin-spaces__title">Occupation des espaces</h2>
         </div>
-        <p className="admin-spaces__date">Mercredi 21 mai 2026</p>
+        <p className="admin-spaces__date">{formatDateLabel()}</p>
       </header>
 
-      {spaceGroups.map((group) => (
+      {groupedSpaces.map((group) => (
         <section key={group.title} className="admin-spaces__group">
           <h3 className="admin-spaces__group-title">{group.title}</h3>
 

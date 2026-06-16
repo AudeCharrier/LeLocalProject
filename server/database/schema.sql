@@ -120,7 +120,34 @@ INSERT INTO `activity` VALUES
 (9,1,2,'2026-04-10','2026-04-10','Session de travail matinale dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking matin - Forum', 2),
 (10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum', 2),
 (11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
-(12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2);
+(12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2),
+(13,1,12,'2026-09-10','2026-09-10','Soiree cinema en plein air avec projection sur grand ecran.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cinema plein air septembre', 2),
+(14,2,13,'2026-09-25','2026-09-25','Concert acoustique avec artistes emergents du quartier.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Concert acoustique septembre', 2),
+(15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2),
+(16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2);
+
+UPDATE activity
+SET `url_image`='/assets/images/events/20261205_pitch_biere.webp'
+WHERE id=1;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260415_concert_jazz.webp'
+WHERE id=2;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260320_cinedebat.webp'
+WHERE id=3;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260625_makers.webp'
+WHERE id = 4;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260710_festival.webp'
+WHERE id = 5;
+
+UPDATE activity
+SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
+WHERE id=6;
+
+
+
 
 UNLOCK TABLES;
 
@@ -148,12 +175,19 @@ INSERT INTO `booking` VALUES
 (1,2,1,1,0.00,1),
 (2,2,2,1,5.00,2),
 (3,2,3,1,0.00,3),
-(4,2,4,5,50.00,4),
-(5,2,5,1,25.00,5),
-(6,2,6,1,25.00,8),
-(7,2,7,1,8.00,10),
-(8,2,8,1,10.00,11),
-(9,2,9,1,50.00,12);
+(4,2,4,5,0.00,4),
+(5,2,5,1,12.00,5),
+(6,2,6,1,0.00,6),
+(7,2,7,1,8.00,7),
+(8,2,8,1,8.00,8),
+(9,2,9,1,8.00,9),
+(10,2,10,1,8.00,10),
+(11,2,11,1,10.00,11),
+(12,2,12,1,50.00,12),
+(13,2,13,1,15.00,15),
+(14,2,14,1,15.00,16),
+(15,2,15,1,5.00,13),
+(16,2,16,1,8.00,14);
 
 UNLOCK TABLES;
 
@@ -197,7 +231,8 @@ LOCK TABLES `claim` WRITE;
 INSERT INTO `claim` VALUES 
 (1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
 (2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
-(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8),
+(4, 'Test connexion BDD', 'Autre', 'Ceci est un test', '2026-06-15', 2, 1);
 
 UNLOCK TABLES;
 

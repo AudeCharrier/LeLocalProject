@@ -5,16 +5,42 @@
   padding: var(--space-6);
   min-height: 300px;
 
-  & .upcoming-booking-client__title {
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: var(--font-bold);
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-5) 0;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wider);
+  & .upcoming-booking-client__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: nowrap;
     padding-bottom: var(--space-5);
     border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-5);
+
+    & .upcoming-booking-client__title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      min-width: 0;
+      flex: 1;
+      font-weight: var(--font-bold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      margin: 0;
+    }
+
+    & .upcoming-booking-client__toggle {
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      color: var(--color-text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
   }
 
   & .upcoming-booking-client__empty {
