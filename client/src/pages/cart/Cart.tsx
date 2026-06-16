@@ -1,173 +1,198 @@
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Cart.css";
-
-type EventType = {
-  id: number;
-  title: string;
-  description: string;
-  location: string;
-  date: string;
-  image: string;
-  category: string;
-  price: number;
-  quantity: number;
-};
+import useCart from "../../hooks/useCart";
+import type { CartItem } from "../../types/cart";
 
 function Cart() {
-  const [events, setEvents] = useState<EventType[]>([
-    {
-      id: 1,
-      title: "Festival de Musique de Bordeaux",
-      description:
-        "Trois jours de concerts avec des artistes locaux et internationaux.",
-      location: "Bordeaux",
-      date: "2026-07-15",
-      image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
-      category: "Musique",
-      price: 45,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      title: "Salon du Développement Web",
-      description:
-        "Conférences, ateliers et rencontres autour des technologies web.",
-      location: "Paris",
-      date: "2026-09-10",
-      image: "https://images.unsplash.com/photo-1511578314322-379afb476865",
-      category: "Tech",
-      price: 20,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      title: "Marathon de Lyon",
-      description: "Course annuelle ouverte aux amateurs et professionnels.",
-      location: "Lyon",
-      date: "2026-10-04",
-      image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5",
-      category: "Sport",
-      price: 10,
-      quantity: 1,
-    },
-    {
-      id: 4,
-      title: "Marché de Noël",
-      description: "Artisanat local, animations et spécialités gourmandes.",
-      location: "Strasbourg",
-      date: "2026-12-05",
-      image: "https://images.unsplash.com/photo-1482517967863-00e15c9b44be",
-      category: "Culture",
-      price: 0,
-      quantity: 1,
-    },
-  ]);
-  const [message, setMessage] = useState<string>("");
+  const cart = useCart(2);
 
-  const increaseQuantity = (id: number) => {
-    setEvents(
-      events.map((event) =>
-        event.id === id ? { ...event, quantity: event.quantity + 1 } : event,
-      ),
-    );
+  const [carts, setCarts] = useState<CartItem[]>([]);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    setCarts(cart);
+  }, [cart]);
+  useEffect(() => {
+    console.log(carts);
+  }, [carts]);
+  const increaseQuantity = async (id: number) => {
+    const item = carts.find((i) => i.id === id);
+    if (!item) return;
+
+    const newQuantity = item.quantity + 1;
+
+    try {
+      await fetch(`http://localhost:3310/api/cart/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+
+      setCarts((prev) =>
+        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
+      );
+    } catch (error) {
+      console.error("Erreur augmentation quantité :", error);
+    }
   };
 
-  const decreaseQuantity = (id: number) => {
-    setEvents(
-      events.map((event) =>
-        event.id === id && event.quantity > 1
-          ? { ...event, quantity: event.quantity - 1 }
-          : event,
-      ),
-    );
+  const decreaseQuantity = async (id: number) => {
+    const item = carts.find((i) => i.id === id);
+    if (!item || item.quantity <= 1) return;
+
+    const newQuantity = item.quantity - 1;
+
+    try {
+      await fetch(`http://localhost:3310/api/cart/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+
+      setCarts((prev) =>
+        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
+      );
+    } catch (error) {
+      console.error("Erreur diminution quantité :", error);
+    }
   };
 
-  const deleteEvent = (id: number) => {
-    setEvents(events.filter((event) => event.id !== id));
+  const deleteItem = async (id: number) => {
+    try {
+      await fetch(`http://localhost:3310/api/cart/${id}`, {
+        method: "DELETE",
+      });
 
-    setMessage("Article supprimé");
-    setTimeout(() => {
-      setMessage("");
-    }, 3000);
+      setCarts((prev) => prev.filter((item) => item.id !== id));
+      setMessage("Article supprimé");
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      console.error("Erreur suppression :", error);
+    }
   };
 
-  const totalPrice = events.reduce(
-    (total, event) => total + event.price * event.quantity,
+  const totalPrice = carts.reduce(
+    (total, item) => total + item.price_unit * item.quantity,
     0,
   );
 
+  if (carts.length === 0) {
+    return (
+      <section className="cart-page">
+        <p className="cart-empty">Votre panier est vide.</p>
+      </section>
+    );
+  }
+
   return (
-    <section className="container-cart">
-      <section className="section-card-cart">
-        {events.map((event) => (
-          <div key={event.id} className="card-cart">
-            <img src={event.image} width="200" alt={event.title} />
+    <section className="cart-page">
+      <section className="cart-items-list">
+        {carts.map((item) => (
+          <article key={item.id} className="cart-item-card">
+            <img
+              src={
+                item.url_image.startsWith("http")
+                  ? item.url_image
+                  : `http://localhost:3310${item.url_image}`
+              }
+              alt={item.space_name}
+              className="cart-item-image"
+            />
+            <div className="cart-item-content">
+              <div className="cart-item-header">
+                <div>
+                  <p className="cart-space-name">{item.space_name}</p>
 
-            <div className="card-cart-text">
-              <div className="card-cart-high-text">
-                <p className="card-cart-high-text-title">{event.title}</p>
-
-                <span className="card-cart-high-text-price">
-                  {event.price === 0
-                    ? "Gratuit"
-                    : `${event.price * event.quantity} €`}
-                </span>
+                  <h2 className="cart-activity-title">{item.name}</h2>
+                </div>
 
                 <button
-                  className="delete-button"
                   type="button"
-                  onClick={() => deleteEvent(event.id)}
+                  className="cart-delete-button"
+                  onClick={() => deleteItem(item.id)}
                 >
                   <Trash2 />
                 </button>
               </div>
 
-              <p className="card-cart-text-description">{event.description}</p>
+              <p className="cart-activity-description">{item.description}</p>
 
-              <div className="card-cart-low-text">
-                <p>{event.location}</p>
-                <p>{event.date}</p>
-                <p>{event.category}</p>
-              </div>
+              <div className="cart-item-footer">
+                <div className="cart-item-informations">
+                  <span>
+                    Du {new Date(item.start_date).toLocaleDateString("fr-FR")}
+                  </span>
 
-              <div className="quantity-controls">
-                <button
-                  type="button"
-                  onClick={() => decreaseQuantity(event.id)}
-                  className="decreaseQuantity-button"
-                >
-                  <p>-</p>
-                </button>
+                  <span>
+                    au {new Date(item.end_date).toLocaleDateString("fr-FR")}
+                  </span>
+                </div>
 
-                <span>{event.quantity}</span>
+                <div className="cart-item-actions">
+                  <div className="cart-quantity-selector">
+                    <button
+                      type="button"
+                      onClick={() => decreaseQuantity(item.id)}
+                    >
+                      -
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={() => increaseQuantity(event.id)}
-                  className="increaseQuantity-button"
-                >
-                  <p>+</p>
-                </button>
+                    <span>{item.quantity}</span>
+
+                    <button
+                      type="button"
+                      onClick={() => increaseQuantity(item.id)}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <span className="cart-item-price">
+                    {item.price_unit * item.quantity} €
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </section>
-      <section className="process-to-payment">
-        <section className="container-process-to-payment">
+
+      <aside className="cart-summary">
+        <div className="cart-summary-card">
           <h2>Récapitulatif</h2>
-          <p>sous-total {totalPrice} €</p>
-          <h2>Total TTC {totalPrice} €</h2>
-          <label htmlFor="">CODE PROMO</label>
-          <div>
-            <input type="text" placeholder="saissisez votre code promo..." />
-            <button type="button">Appliquer</button>
+
+          <div className="cart-summary-row">
+            <span>Sous-total</span>
+            <span>{totalPrice} €</span>
           </div>
-          <button type="submit">Procéder au paiement ›</button>
-        </section>
-        {message && <p className="deleted-message">{message}</p>}
-      </section>
+
+          <div className="cart-summary-total">
+            <span>Total TTC</span>
+            <span>{totalPrice} €</span>
+          </div>
+
+          <div className="cart-promo-section">
+            <label htmlFor="promo">Code promo</label>
+
+            <div className="cart-promo-field">
+              <input
+                id="promo"
+                type="text"
+                placeholder="Saisissez votre code..."
+              />
+
+              <button type="button">Appliquer</button>
+            </div>
+          </div>
+
+          <button type="button" className="cart-payment-button">
+            Procéder au paiement
+          </button>
+        </div>
+
+        {message && <p className="cart-notification">{message}</p>}
+      </aside>
     </section>
   );
 }

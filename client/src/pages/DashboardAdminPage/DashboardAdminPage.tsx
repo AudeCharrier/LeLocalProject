@@ -1,4 +1,5 @@
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
+import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
 import AdminOverview from "../../components/DashboardAdmin/AdminOverview/AdminOverview";
 import AdminStats from "../../components/DashboardAdmin/AdminStats/AdminStats";
 import "./DashboardAdminPage.css";
@@ -18,6 +19,7 @@ function DashboardAdminPage() {
         </div>
         <div className="dashboard-admin-section">
           <AdminBookings />
+          <AdminClaims />
         </div>
       </div>
       <div className="dashboard-admin-footer">

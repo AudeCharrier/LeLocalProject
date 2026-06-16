@@ -126,6 +126,29 @@ INSERT INTO `activity` VALUES
 (15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2),
 (16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2);
 
+UPDATE activity
+SET `url_image`='/assets/images/events/20261205_pitch_biere.webp'
+WHERE id=1;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260415_concert_jazz.webp'
+WHERE id=2;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260320_cinedebat.webp'
+WHERE id=3;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260625_makers.webp'
+WHERE id = 4;
+UPDATE activity
+SET `url_image`='/assets/images/events/20260710_festival.webp'
+WHERE id = 5;
+
+UPDATE activity
+SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
+WHERE id=6;
+
+
+
+
 UNLOCK TABLES;
 
 
@@ -208,7 +231,8 @@ LOCK TABLES `claim` WRITE;
 INSERT INTO `claim` VALUES 
 (1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
 (2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
-(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8),
+(4, 'Test connexion BDD', 'Autre', 'Ceci est un test', '2026-06-15', 2, 1);
 
 UNLOCK TABLES;
 

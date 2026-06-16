@@ -18,8 +18,17 @@ const browseAdminBookings: RequestHandler = async (_req, res, next) => {
     next(err);
   }
 };
+const browseClaims: RequestHandler = async (_req, res, next) => {
+  try {
+    const claims = await dashboardAdminRepository.readAllClaims();
+    res.json(claims);
+  } catch (err) {
+    next(err);
+  }
+};
 
 export default {
   browseAdminStats,
   browseAdminBookings,
+  browseClaims,
 };
