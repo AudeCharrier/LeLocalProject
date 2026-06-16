@@ -137,12 +137,16 @@
   }
 }
 
-.Center-Of-Workshop-Page {
-  background-color: #f0eae6; /* fond rose-beige du screenshot */
-  padding: 2rem 3rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.Workshop-Grid-Section {
+  background-color: #f0eae6;
+  padding: 2rem 3rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  & .Parent-Container-In-Coming-Workshop {
+    width: 100%;
+  }
 }
 
 /* ── Filter Bar ── */

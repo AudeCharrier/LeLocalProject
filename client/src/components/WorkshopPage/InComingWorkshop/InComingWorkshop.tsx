@@ -1,4 +1,5 @@
 import "./InComingWorkshop.css";
+
 interface WorkshopProps {
   workshop: {
     id: number;
@@ -13,29 +14,39 @@ interface WorkshopProps {
     capacity: number;
   };
 }
+
+function formatDate(isoDate: string) {
+  const d = new Date(isoDate);
+  return {
+    day: d.getDate().toString(),
+    month: d.toLocaleDateString("fr-FR", { month: "short" }).toUpperCase(),
+  };
+}
+
 function InComingWorkshop({ workshop }: WorkshopProps) {
+  const { day, month } = formatDate(workshop.start_date);
+
   return (
     <div className="Parent-Container-In-Coming-Workshop">
-      <h3 className="Title-Workshop-Section">PROCHAINS ATELIERS</h3>
       <div className="Box-Img-In-Coming-Workshop">
-        {/* top vert */}
-        <div className="Box-Img-Top">
+        {/* top — image en background */}
+        <div
+          className="Box-Img-Top"
+          style={{
+            backgroundImage: workshop.url_image
+              ? `url(${workshop.url_image})`
+              : undefined,
+          }}
+        >
           <div className="Box-Img-Top-Row">
-            <img
-              src={workshop.url_image}
-              alt={workshop.name}
-              className="imgWorkshopCard"
-            />
             <span className="Badge-In-Coming-Workshop-Level">DÉBUTANT</span>
             <span className="Badge-In-Coming-Workshop-Places">
-              {workshop.capacity}
+              {workshop.capacity} places libres
             </span>
           </div>
           <div className="Badge-In-Coming-Workshop-Date">
-            <span className="Badge-In-Coming-Workshop-Date-Day">
-              {workshop.start_date}
-              <span className="Badge-In-Coming-Workshop-Date-Month">JUIN</span>
-            </span>
+            <span className="Badge-In-Coming-Workshop-Date-Day">{day}</span>
+            <span className="Badge-In-Coming-Workshop-Date-Month">{month}</span>
           </div>
         </div>
 
