@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS `booking`;
 CREATE TABLE `booking` (
   `id` int NOT NULL AUTO_INCREMENT,
   `users_id` int NOT NULL,
-  `bills_number` int NOT NULL,
+  `bills_number` bigint NOT NULL UNIQUE,
   `quantity` int NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `id_activity` int NOT NULL,
