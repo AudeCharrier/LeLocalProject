@@ -7,10 +7,12 @@ import { useState } from "react";
 
 interface Props {
   totalPrice: number;
+  userId: number;
+  cartItems: { id_activity: number; quantity: number; price_unit: number }[];
   onSuccess: () => void;
 }
 
-function CheckoutForm({ totalPrice, onSuccess }: Props) {
+function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -35,6 +37,18 @@ function CheckoutForm({ totalPrice, onSuccess }: Props) {
     if (error) {
       setErrorMessage(error.message ?? "Une erreur est survenue.");
     } else {
+      console.log("Paiement réussi, envoi vers /api/booking...");
+      console.log("userId :", userId);
+      console.log("cartItems :", cartItems);
+
+      const response = await fetch("http://localhost:3310/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, cartItems }),
+      });
+
+      console.log("Réponse booking :", response.status);
+
       onSuccess();
     }
 

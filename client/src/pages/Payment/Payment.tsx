@@ -1,7 +1,7 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
 import "./Payment.css";
 
@@ -9,7 +9,9 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
   const location = useLocation();
+  const navigate = useNavigate();
   const totalPrice = location.state?.totalPrice ?? 0;
+  const cartItems = location.state?.cartItems ?? [];
 
   const [clientSecret, setClientSecret] = useState("");
 
@@ -37,10 +39,9 @@ function Payment() {
       <Elements stripe={stripePromise} options={{ clientSecret }}>
         <CheckoutForm
           totalPrice={totalPrice}
-          onSuccess={() => {
-            // redirige vers une page de confirmation
-            window.location.href = "/confirmation";
-          }}
+          userId={1}
+          cartItems={cartItems}
+          onSuccess={() => navigate("/confirmation")}
         />
       </Elements>
     </section>
