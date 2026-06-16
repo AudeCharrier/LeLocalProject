@@ -128,42 +128,51 @@ function RegisterEventForm({ event }: CardEventProps) {
           </li>
         </ul>
         <div className="register-form-customer-infos-container">
-          <label htmlFor="lastname">Nom</label>
+          <label htmlFor="lastname" className="register-form-label">
+            Nom
+          </label>
           <input
             type="text"
             id="lastname"
             name="lastname"
             placeholder="nom user rempli auto si connecté"
             required
-            className="register-form-customer-infos-row"
+            className="register-form-input"
           />
 
-          <label htmlFor="firstname">Prénom</label>
+          <label htmlFor="firstname" className="register-form-label">
+            Prénom
+          </label>
           <input
             type="text"
             id="firstname"
             name="firstname"
             placeholder="prénom user rempli auto si connecté"
             required
-            className="register-form-customer-infos-row"
+            className="register-form-input"
           />
 
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="register-form-label">
+            Email
+          </label>
           <input
             type="email"
             id="email"
             name="email"
             placeholder="email user rempli auto si connecté"
             required
-            className="register-form-customer-infos-row"
+            className="register-form-input"
           />
 
           <div className="register-quantity-selector">
-            <label htmlFor="quantity">Nombre de places</label>
+            <label htmlFor="quantity" className="register-form-label">
+              Nombre de places
+            </label>
             {/*bouton -1 */}
             <button
               type="button"
               onClick={decreaseQuantity}
+              className="btn-quantity"
               aria-label="Retirer une place" //accessibilité, lit le bouton
               aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
             >
@@ -183,6 +192,7 @@ function RegisterEventForm({ event }: CardEventProps) {
             <button
               type="button"
               onClick={increaseQuantity}
+              className="btn-quantity"
               aria-label="Ajouter une place" //accessibilité, lit le bouton
               aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
             >
@@ -204,7 +214,7 @@ function RegisterEventForm({ event }: CardEventProps) {
           </div>
         </div>
 
-        <button type="submit" className="sr-only">
+        <button type="submit" className="register-form-submit">
           Je m'inscris !
         </button>
       </form>
