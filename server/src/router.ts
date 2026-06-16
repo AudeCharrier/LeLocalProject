@@ -17,7 +17,7 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import bookingActions from "./modules/bookingActions/bookingActions";
 
 router.post("/api/bookings", bookingActions.add);
-
+router.post("/api/booking", bookingActions.create);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
@@ -89,9 +89,14 @@ router.get(
   dasboardAdminActions.browseAdminBookings,
 );
 
+router.get(
+  "/api/dashboard/admin/bookings",
+  dasboardAdminActions.browseAdminBookings,
+);
+
+router.get("/api/dashboard/admin/claims", dasboardAdminActions.browseClaims);
+
 /* ************************************************************************* */
-// À ajouter dans ton router.ts existant
-// -------------------------------------------
 
 // Panier — récupère tous les articles d'un utilisateur (avec détail des events)
 router.get("/api/cart/:userId", cartActions.browse);
@@ -118,4 +123,9 @@ router.post(
   upload.single("image"),
   createEventFormAction.create,
 );
+
+import paymentActions from "./modules/Payment/PaymentAction";
+
+router.post("/api/payment/create-intent", paymentActions.createIntent);
+
 export default router;
