@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
+import CalendarEvents from "./components/Calendar/Calendar";
 import Confirmation from "./components/Confirmation/Confirmation";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
@@ -11,8 +12,6 @@ import Payment from "./pages/Payment/Payment";
 import Spaces from "./pages/Spaces/Spaces";
 import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
-
-// Pages
 
 // Router
 const router = createBrowserRouter([
@@ -54,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/confirmation",
         element: <Confirmation />,
+      },
+      {
+        path: "/calendar",
+        element: <CalendarEvents />,
       },
     ],
   },

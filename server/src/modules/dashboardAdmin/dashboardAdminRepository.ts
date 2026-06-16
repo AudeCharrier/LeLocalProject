@@ -22,6 +22,16 @@ type AdminStats = {
   active_members: number;
 };
 
+type Claim = {
+  id: number;
+  title: string;
+  category: string;
+  message: string;
+  claim_date: string;
+  firstname: string;
+  lastname: string;
+};
+
 // Pour regrouper nos différentes méthodes :
 // calcul des statistiques d'occupation, du nombre de réservations et du nombre de membres actifs
 class DashboardAdminRepository {
@@ -80,6 +90,23 @@ class DashboardAdminRepository {
       ORDER BY a.start_date ASC, t.start_hour ASC`,
     );
     return rows as Booking[];
+  }
+
+  async readAllClaims() {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+      c.id,
+      c.title,
+      c.category,
+      c.message,
+      c.claim_date,
+      u.firstname,
+      u.lastname
+    FROM claim c
+    JOIN users u ON c.users_id = u.id
+    ORDER BY c.claim_date DESC`,
+    );
+    return rows as Claim[];
   }
 }
 export default new DashboardAdminRepository();
