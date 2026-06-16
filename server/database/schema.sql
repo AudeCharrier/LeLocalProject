@@ -146,11 +146,7 @@ UPDATE activity
 SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
 WHERE id=6;
 
-
-
-
 UNLOCK TABLES;
-
 
 
 DROP TABLE IF EXISTS `booking`;
@@ -168,6 +164,20 @@ CREATE TABLE `booking` (
   CONSTRAINT `fk_booking_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TRIGGER before_insert_booking
+BEFORE INSERT ON booking
+FOR EACH ROW
+BEGIN
+    DECLARE max_current_year_id INT DEFAULT 0;
+    
+    -- On cherche si des factures existent déjà pour l'année en cours
+    SELECT COUNT(*) INTO max_current_year_id 
+    FROM booking 
+    WHERE bills_number LIKE CONCAT(YEAR(CURDATE()), '-%');
+    
+    -- On assigne le nouveau numéro (ex: 2026-1, 2026-2...)
+    SET NEW.bills_number = CONCAT(YEAR(CURDATE()), '-', max_current_year_id + 1);
+END
 
 LOCK TABLES `booking` WRITE;
 
