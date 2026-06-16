@@ -17,7 +17,7 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import bookingActions from "./modules/bookingActions/bookingActions";
 
 router.post("/api/bookings", bookingActions.add);
-
+router.post("/api/booking", bookingActions.create);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
@@ -127,5 +127,9 @@ router.post(
 import workshopActions from "./modules/activity/activityActions";
 
 router.get("/api/activity", workshopActions.browse);
+
+import paymentActions from "./modules/Payment/PaymentAction";
+
+router.post("/api/payment/create-intent", paymentActions.createIntent);
 
 export default router;
