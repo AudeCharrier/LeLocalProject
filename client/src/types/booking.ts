@@ -17,8 +17,11 @@ export type BookingHistory = {
   id: number;
   bills_number: number;
   quantity: number;
-  total_price: string;
+  total_price: number;
   name: string;
   start_date: string;
   space_name: string;
+  firstname: string;
+  lastname: string;
+  email: string;
 };

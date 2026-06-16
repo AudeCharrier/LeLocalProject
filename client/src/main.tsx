@@ -7,12 +7,17 @@ import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
+import InvoicePage from "./pages/InvoicePage/InvoicePage";
 import Spaces from "./pages/Spaces/Spaces";
 import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
 
 // Router
 const router = createBrowserRouter([
+  {
+    path: "/invoice/:bookingId",
+    element: <InvoicePage />,
+  },
   {
     element: <App />,
     children: [
