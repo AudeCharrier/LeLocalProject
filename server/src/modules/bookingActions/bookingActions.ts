@@ -1,6 +1,7 @@
 import type { RequestHandler } from "express";
 import databaseLeLocal from "../../../database/client";
 import type { Result, Rows } from "../../../database/client";
+import bookingRepository from "./bookingRepository";
 
 const add: RequestHandler = async (req, res, next) => {
   try {
@@ -64,4 +65,14 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+const create: RequestHandler = async (req, res, next) => {
+  try {
+    const { userId, cartItems } = req.body;
+    await bookingRepository.create(userId, cartItems);
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { add, create };

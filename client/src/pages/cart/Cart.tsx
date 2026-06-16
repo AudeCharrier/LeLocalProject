@@ -1,21 +1,52 @@
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import "./Cart.css";
+import { Link } from "react-router";
 import useCart from "../../hooks/useCart";
 import type { CartItem } from "../../types/cart";
+
+const PROMO_CODES: Record<string, number> = {
+  PROMO10: 10,
+  PROMO15: 15,
+};
 
 function Cart() {
   const cart = useCart(2);
 
   const [carts, setCarts] = useState<CartItem[]>([]);
   const [message, setMessage] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [promoMessage, setPromoMessage] = useState("");
 
+  const applyPromo = () => {
+    const code = promoCode.trim().toUpperCase();
+
+    if (PROMO_CODES[code]) {
+      const percentage = PROMO_CODES[code];
+      setDiscount(percentage);
+      setPromoMessage(`Code appliqué : -${percentage}%`);
+    } else {
+      setDiscount(0);
+      setPromoMessage("Code invalide");
+    }
+  };
+
+  const totalPrice = carts.reduce(
+    (total, item) => total + item.price_unit * item.quantity,
+    0,
+  );
+
+  const discountAmount = (totalPrice * discount) / 100;
+  const discountedTotal = totalPrice - discountAmount;
   useEffect(() => {
     setCarts(cart);
   }, [cart]);
+
   useEffect(() => {
     console.log(carts);
   }, [carts]);
+
   const increaseQuantity = async (id: number) => {
     const item = carts.find((i) => i.id === id);
     if (!item) return;
@@ -72,11 +103,6 @@ function Cart() {
     }
   };
 
-  const totalPrice = carts.reduce(
-    (total, item) => total + item.price_unit * item.quantity,
-    0,
-  );
-
   if (carts.length === 0) {
     return (
       <section className="cart-page">
@@ -103,7 +129,6 @@ function Cart() {
               <div className="cart-item-header">
                 <div>
                   <p className="cart-space-name">{item.space_name}</p>
-
                   <h2 className="cart-activity-title">{item.name}</h2>
                 </div>
 
@@ -123,7 +148,6 @@ function Cart() {
                   <span>
                     Du {new Date(item.start_date).toLocaleDateString("fr-FR")}
                   </span>
-
                   <span>
                     au {new Date(item.end_date).toLocaleDateString("fr-FR")}
                   </span>
@@ -137,9 +161,7 @@ function Cart() {
                     >
                       -
                     </button>
-
                     <span>{item.quantity}</span>
-
                     <button
                       type="button"
                       onClick={() => increaseQuantity(item.id)}
@@ -164,12 +186,19 @@ function Cart() {
 
           <div className="cart-summary-row">
             <span>Sous-total</span>
-            <span>{totalPrice} €</span>
+            <span>{totalPrice.toFixed(2)} €</span>
           </div>
+
+          {discount > 0 && (
+            <div className="cart-summary-row cart-summary-discount">
+              <span>Remise -{discount}%</span>
+              <span>-{discountAmount.toFixed(2)} €</span>
+            </div>
+          )}
 
           <div className="cart-summary-total">
             <span>Total TTC</span>
-            <span>{totalPrice} €</span>
+            <span>{discountedTotal.toFixed(2)} €</span>
           </div>
 
           <div className="cart-promo-section">
@@ -180,17 +209,43 @@ function Cart() {
                 id="promo"
                 type="text"
                 placeholder="Saisissez votre code..."
+                value={promoCode}
+                onChange={(e) => setPromoCode(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && applyPromo()}
               />
-
-              <button type="button">Appliquer</button>
+              <button type="button" onClick={applyPromo}>
+                Appliquer
+              </button>
             </div>
+
+            {promoMessage && (
+              <p
+                className={
+                  discount > 0 ? "cart-promo-success" : "cart-promo-error"
+                }
+              >
+                {promoMessage}
+              </p>
+            )}
           </div>
 
-          <button type="button" className="cart-payment-button">
-            Procéder au paiement
-          </button>
-        </div>
-
+          <Link
+            to="/payment"
+            state={{
+              totalPrice: discountedTotal,
+              cartItems: carts.map((item) => ({
+                id_activity: item.id_activity,
+                quantity: item.quantity,
+                price_unit: item.price_unit,
+              })),
+            }}
+          >
+            <button type="button" className="cart-payment-button">
+              Procéder au paiement
+            </button>
+          </Link>
+        </div>{" "}
+        {/* ← fermeture de cart-summary-card */}
         {message && <p className="cart-notification">{message}</p>}
       </aside>
     </section>
