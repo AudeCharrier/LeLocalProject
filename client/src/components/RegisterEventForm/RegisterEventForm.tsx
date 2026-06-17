@@ -41,6 +41,9 @@ function RegisterEventForm({ event }: CardEventProps) {
     // Bloque le rechargement automatique de la page par le navigateur
     e.preventDefault();
 
+    // on sauvegarde le formulaire avant le await
+    const form = e.currentTarget;
+
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
     const payload: CartItem = {
       users_id: 2, //en dur pour l'instant
@@ -62,7 +65,8 @@ function RegisterEventForm({ event }: CardEventProps) {
 
       if (response.status === 201) {
         setMessage("Inscription ajoutée au panier !");
-        e.currentTarget.reset();
+        form.reset();
+
         // remettre la quantité à 1 après succès
         setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
       } else {
