@@ -57,7 +57,13 @@ function BillingClient() {
                     <span className="billing-client__badge">Payé</span>
                   </td>
                   <td className="billing-client__td">
-                    <button type="button" className="billing-client__pdf">
+                    <button
+                      type="button"
+                      className="billing-client__pdf"
+                      onClick={() =>
+                        window.open(`/invoice/${item.id}`, "_blank")
+                      }
+                    >
                       PDF
                     </button>
                   </td>

@@ -3,16 +3,23 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
 import CalendarEvents from "./components/Calendar/Calendar";
+import Confirmation from "./components/Confirmation/Confirmation";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
+import InvoicePage from "./pages/InvoicePage/InvoicePage";
+import Payment from "./pages/Payment/Payment";
 import Spaces from "./pages/Spaces/Spaces";
 import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
 
 // Router
 const router = createBrowserRouter([
+  {
+    path: "/invoice/:bookingId",
+    element: <InvoicePage />,
+  },
   {
     element: <App />,
     children: [
@@ -43,6 +50,14 @@ const router = createBrowserRouter([
       {
         path: "/workshop-page",
         element: <WorkshopPage />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
+      },
+      {
+        path: "/confirmation",
+        element: <Confirmation />,
       },
       {
         path: "/calendar",

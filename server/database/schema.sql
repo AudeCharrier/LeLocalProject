@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `cart`;
 DROP TABLE IF EXISTS `space`;
 
 CREATE TABLE `space` (
@@ -11,9 +12,6 @@ CREATE TABLE `space` (
   `space_category` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
-LOCK TABLES `space` WRITE;
 
 INSERT INTO `space` VALUES 
 (1,'L\'Atrium','Openspace lumineux à capacité réduite, idéal pour celles et ceux qui recherchent un environnement de travail plus calme tout en bénéficiant de la vie du Local.',20,'/assets/images/spaces/openspace/atrium.png',8.00,'Coworking','Openspace'),
@@ -38,8 +36,6 @@ INSERT INTO `space` VALUES
 (20,'La Chambre Noire','Studio photo équipé pour les séances de prise de vue, la création de contenus visuels et les projets photographiques professionnels ou créatifs.',1,'/assets/images/spaces/studio/chambre-noire.png',50.00,'Ateliers','Studio photo'),
 (21,'L\'Escale','Espace détente du Local, pensé comme une bulle de calme et de lumière, idéal pour se reposer, échanger informellement ou faire une pause entre deux temps de travail dans un cadre apaisant.',50,'/assets/images/spaces/break-room/escale.png',0,'Détente','Salle détente'),
 (22,'La Serre','Espace détente du Local, chaleureux et végétalisé, offrant un environnement calme et ressourçant pour se relaxer, discuter ou simplement souffler au cœur de la journée.',50,'/assets/images/spaces/break-room/serre.png',0,'Détente','Salle détente');
-UNLOCK TABLES;
-
 
 DROP TABLE IF EXISTS `time_slot`;
 
@@ -52,12 +48,7 @@ CREATE TABLE `time_slot` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-LOCK TABLES `time_slot` WRITE;
-
 INSERT INTO `time_slot` VALUES (1,'Matin','08:00:00','14:00:00'),(2,'Après-midi','14:00:00','20:00:00'),(3,'Soir','20:00:00','00:00:00'),(4,'Journée','8:00:00','20:00:00');
-
-UNLOCK TABLES;
-
 
 DROP TABLE IF EXISTS `users`;
 
@@ -76,14 +67,11 @@ CREATE TABLE `users` (
   `signing_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `phonr_number_UNIQUE` (`phone_number`)
+  UNIQUE KEY `phone_number_UNIQUE` (`phone_number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES users WRITE;
 
 INSERT INTO users VALUES (1,'0123456789','nina.richard@lelocal.fr','Richard','gfgfgd','gfgfdgfd',NULL,NULL,'admin',NULL,'Nina','2026-05-01 00:00:00'),(2,'9876543210','bob.arley@gmail.com','Marley','fgfdgdfgfd','gfgfdgf',NULL,NULL,'client',NULL,'Bob','2026-05-04 00:00:00');
-
-UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `activity`;
 
@@ -105,16 +93,13 @@ CREATE TABLE `activity` (
   CONSTRAINT `fk_time_slot_has_space_time_slot` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-LOCK TABLES `activity` WRITE;
-
 INSERT INTO `activity` VALUES 
-(1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'https://images.unsplash.com/photo-1767475048019-4cbf6d914472?w=800&h=600&fit=crop&auto=format','Soiree Pitch et Biere', 2),
-(2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Jazz en soiree', 2),
-(3,2,12,'2026-03-20','2026-03-20','Projection suivie d un debat sur le cinema independant.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cine-debat mars', 2),
-(4,2,13,'2026-06-25','2026-06-25','Rencontre mensuelle des makers et bricoleurs du 11e.',0,'https://images.unsplash.com/photo-1715593948000-adbdf0cee759?w=800&h=600&fit=crop&auto=format','Rencontres Makers', 2),
-(5,2,12,'2026-07-10','2026-07-10','Grande soiree musicale avec plusieurs artistes locaux.',12,'https://images.unsplash.com/photo-1501386761578-eaa54b21a0f8?w=800&h=600&fit=crop&auto=format','Festival local juillet', 2),
-(6,1,13,'2026-08-05','2026-08-05','Atelier d ecriture creative ouvert a tous les niveaux.',0,'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format','Atelier ecriture aout', 2),
+(1,2,13,'2026-05-12','2026-05-12','Pitchez votre projet en 3 minutes devant la communaute Le Local.',0,'/assets/images/events/20261205_pitch_biere.webp','Soiree Pitch et Biere', 2),
+(2,2,13,'2026-04-15','2026-04-15','Concert de jazz dans un cadre intimiste et chaleureux.',8,'/assets/images/events/20260415_concert_jazz.webp','Jazz en soiree', 2),
+(3,2,12,'2026-03-20','2026-03-20','Projection suivie d un debat sur le cinema independant.',5,'/assets/images/events/20260320_cinedebat.webp','Cine-debat mars', 2),
+(4,2,13,'2026-06-25','2026-06-25','Rencontre mensuelle des makers et bricoleurs du 11e.',0,'/assets/images/events/20260625_makers.webp','Rencontres Makers', 2),
+(5,2,12,'2026-07-10','2026-07-10','Grande soiree musicale avec plusieurs artistes locaux.',12,'/assets/images/events/20260710_festival.webp','Festival local juillet', 2),
+(6,1,13,'2026-08-05','2026-08-05','Atelier d ecriture creative ouvert a tous les niveaux.',0,'/assets/images/events/20260805_atelier_ecriture.webp','Atelier ecriture aout', 2),
 (7,1,3,'2026-05-05','2026-05-05','Session de travail matinale dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking matin - Atrium', 2),
 (8,2,3,'2026-05-20','2026-05-20','Session de travail apres-midi dans un espace calme.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Atrium', 2),
 (9,1,2,'2026-04-10','2026-04-10','Session de travail matinale dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking matin - Forum', 2),
@@ -126,39 +111,13 @@ INSERT INTO `activity` VALUES
 (15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2),
 (16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2);
 
-UPDATE activity
-SET `url_image`='/assets/images/events/20261205_pitch_biere.webp'
-WHERE id=1;
-UPDATE activity
-SET `url_image`='/assets/images/events/20260415_concert_jazz.webp'
-WHERE id=2;
-UPDATE activity
-SET `url_image`='/assets/images/events/20260320_cinedebat.webp'
-WHERE id=3;
-UPDATE activity
-SET `url_image`='/assets/images/events/20260625_makers.webp'
-WHERE id = 4;
-UPDATE activity
-SET `url_image`='/assets/images/events/20260710_festival.webp'
-WHERE id = 5;
-
-UPDATE activity
-SET `url_image`='/assets/images/events/20260805_atelier_ecriture.webp'
-WHERE id=6;
-
-
-
-
-UNLOCK TABLES;
-
-
 
 DROP TABLE IF EXISTS `booking`;
 
 CREATE TABLE `booking` (
   `id` int NOT NULL AUTO_INCREMENT,
   `users_id` int NOT NULL,
-  `bills_number` int NOT NULL,
+  `bills_number` varchar(45) NOT NULL UNIQUE,
   `quantity` int NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `id_activity` int NOT NULL,
@@ -169,44 +128,26 @@ CREATE TABLE `booking` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-LOCK TABLES `booking` WRITE;
+CREATE TRIGGER before_insert_booking
+BEFORE INSERT ON booking
+FOR EACH ROW
+SET NEW.bills_number = CONCAT(
+    YEAR(CURDATE()), 
+    '-', 
+    (SELECT COUNT(*) + 1 FROM booking WHERE bills_number LIKE CONCAT(YEAR(CURDATE()), '-%'))
+);
 
-INSERT INTO `booking` VALUES 
-(1,2,1,1,0.00,1),
-(2,2,2,1,5.00,2),
-(3,2,3,1,0.00,3),
-(4,2,4,5,0.00,4),
-(5,2,5,1,12.00,5),
-(6,2,6,1,0.00,6),
-(7,2,7,1,8.00,7),
-(8,2,8,1,8.00,8),
-(9,2,9,1,8.00,9),
-(10,2,10,1,8.00,10),
-(11,2,11,1,10.00,11),
-(12,2,12,1,50.00,12),
-(13,2,13,1,15.00,15),
-(14,2,14,1,15.00,16),
-(15,2,15,1,5.00,13),
-(16,2,16,1,8.00,14);
-
-UNLOCK TABLES;
-
-
-DROP TABLE IF EXISTS `cart`;
-
+-- drop table if exists en haut du doc, doit intervenir avant drop users
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quantity` int DEFAULT NULL,
-  `total_price` int DEFAULT NULL,
+  `total_price` decimal(10,2) DEFAULT NULL,
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cart_users_idx` (`users_id`),
   CONSTRAINT `fk_cart_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `cart` WRITE;
-UNLOCK TABLES;
 
 
 DROP TABLE IF EXISTS `claim`;
@@ -226,14 +167,13 @@ CREATE TABLE `claim` (
   CONSTRAINT `fk_claim_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `claim` WRITE;
 
 INSERT INTO `claim` VALUES 
 (1, 'Enceinte défectueuse', 'Équipement', 'Bonjour, lors de ma session du 5 mai matin, l enceinte de la salle était défectueuse. Le son grésillait constamment, ce qui a rendu le travail difficile.', '2026-05-06', 2, 7),
 (2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
-(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8);
+(3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8),
+(4, 'Test connexion BDD', 'Autre', 'Ceci est un test', '2026-06-15', 2, 1);
 
-UNLOCK TABLES;
 
 
 
