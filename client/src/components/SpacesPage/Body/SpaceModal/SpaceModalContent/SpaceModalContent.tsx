@@ -113,7 +113,7 @@ function SpaceModalContent({
                     {currentSpace.price_unit}€
                     {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
                   </p>
-                  {!isStudio && !isEmptyLocal && (
+                  {!isStudio && !isEmptyLocal && isMeetRoom && (
                     <p className="space-modal-content-carousel-slide-capacity">
                       Capacité : {currentSpace.capacity} personnes
                     </p>
