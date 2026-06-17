@@ -39,6 +39,7 @@ const add: RequestHandler = async (req, res, next) => {
 
   try {
     await connection.beginTransaction();
+
     const space = await spaceRepository.readForUpdate(
       connection,
       body.space_id,
@@ -46,6 +47,86 @@ const add: RequestHandler = async (req, res, next) => {
     if (space == null) {
       await connection.rollback();
       res.status(404).json({ message: "Espace introuvable" });
+      return;
+    }
+
+    const isOpenSpace = space.space_category.toLowerCase().includes("open");
+    const isLocal = space.space_category === "Local vide";
+
+    if (isLocal) {
+      const overlapping = await spaceRepository.hasOverlappingDateRange(
+        connection,
+        body.space_id,
+        body.start_date,
+        body.end_date,
+      );
+      if (overlapping) {
+        await connection.rollback();
+        res.status(409).json({
+          message:
+            "Ce local est déjà réservé sur une période qui chevauche les dates demandées",
+        });
+        return;
+      }
+
+      const activity = await activityRepository.create({
+        timeSlotId: effectiveTimeSlotId,
+        spaceId: body.space_id,
+        startDate: body.start_date,
+        endDate: body.end_date,
+        priceUnit: space.price_unit,
+        urlImage: space.url_image,
+      });
+
+      const [result] = await connection.query(
+        `INSERT INTO cart (quantity, total_price, users_id, id_activity)
+         VALUES (?, ?, ?, ?)`,
+        [quantity, body.total_price, body.users_id, activity.id],
+      );
+
+      await connection.commit();
+      res.status(201).json({
+        cartItemId: (result as { insertId: number }).insertId,
+        activityId: activity.id,
+      });
+      return;
+    }
+
+    if (!isOpenSpace) {
+      const taken = await spaceRepository.isSlotTaken(
+        connection,
+        body.space_id,
+        body.start_date,
+        effectiveTimeSlotId,
+      );
+      if (taken) {
+        await connection.rollback();
+        res.status(409).json({
+          message: "Ce créneau est déjà réservé pour cet espace",
+        });
+        return;
+      }
+
+      const activity = await activityRepository.findOrCreate(connection, {
+        timeSlotId: effectiveTimeSlotId,
+        spaceId: body.space_id,
+        startDate: body.start_date,
+        endDate: body.end_date,
+        priceUnit: space.price_unit,
+        urlImage: space.url_image,
+      });
+
+      const [result] = await connection.query(
+        `INSERT INTO cart (quantity, total_price, users_id, id_activity)
+         VALUES (?, ?, ?, ?)`,
+        [quantity, body.total_price, body.users_id, activity.id],
+      );
+
+      await connection.commit();
+      res.status(201).json({
+        cartItemId: (result as { insertId: number }).insertId,
+        activityId: activity.id,
+      });
       return;
     }
 
@@ -98,6 +179,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-// TODO: collez ici votre fonction `create` actuelle (POST /api/booking)
-
-export default { add /*, create */ };
+export default { add };

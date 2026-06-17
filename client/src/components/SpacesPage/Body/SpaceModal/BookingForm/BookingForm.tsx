@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import useSpaceAvailability from "../../../../../hooks/useSpaceAvailability";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
-
 type BookingFormProps = {
   space: Space;
   onBack: () => void;
@@ -28,29 +27,47 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
   const isOpenSpace = space.space_category.toLowerCase().includes("open");
   const isLocal = space.space_category === "Local vide";
   const navigate = useNavigate();
+
+  const previewEndDate =
+    isLocal && date
+      ? (() => {
+          const start = new Date(date);
+          start.setMonth(start.getMonth() + months);
+          return start.toISOString().split("T")[0];
+        })()
+      : undefined;
+
   const { availability, loading: availabilityLoading } = useSpaceAvailability(
-    isOpenSpace ? space.id : undefined,
+    space.id,
     date,
-    isOpenSpace ? selectedTimeSlot : undefined,
+    isLocal ? undefined : selectedTimeSlot,
+    isLocal ? previewEndDate : undefined,
   );
+  const isExclusiveSpace = !isOpenSpace;
+  const isUnavailable =
+    isExclusiveSpace && availability != null && availability.available === 0;
 
   const maxSeats = isOpenSpace
     ? Math.min(space.capacity, availability?.available ?? space.capacity)
     : space.capacity;
 
   useEffect(() => {
-    if (isOpenSpace && availability && seats > availability.available) {
-      setSeats(availability.available > 0 ? availability.available : 1);
+    if (isOpenSpace && availability && seats > (availability?.available ?? 0)) {
+      setSeats(
+        (availability?.available ?? 0) > 0 ? (availability?.available ?? 0) : 1,
+      );
     }
   }, [availability, isOpenSpace, seats]);
   const isFullDay =
     timeSlots.find((s) => String(s.id) === selectedTimeSlot)?.slot ===
     "Journée";
+
   const formattedDate = new Date(date).toLocaleDateString("fr-FR", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
+
   const totalPrice = isOpenSpace
     ? space.price_unit * seats * (isFullDay ? 1.75 : 1)
     : isLocal
@@ -90,9 +107,6 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
       });
 
       if (!res.ok) {
-        // En cas de places insuffisantes (409), le serveur renvoie un
-        // message précis : on l'affiche plutôt qu'un message générique,
-        // pour que l'utilisateur comprenne qu'il doit réduire la quantité.
         const data = await res.json().catch(() => null);
         throw new Error(data?.message ?? "Erreur lors de la réservation");
       }
@@ -171,7 +185,7 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         </label>
       )}
 
-      {isOpenSpace && (
+      {isOpenSpace && (availability?.available ?? 0) > 0 && (
         <label className="booking-form-label">
           Nombre de places
           <input
@@ -182,66 +196,85 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
             onChange={(e) => {
               const raw = Number(e.target.value);
               if (Number.isNaN(raw)) return;
-              // L'attribut `max` HTML n'empêche pas la saisie clavier d'une
-              // valeur supérieure : on clampe nous-mêmes à chaque frappe,
-              // pas seulement quand `availability` est mis à jour par l'API.
               const clamped = Math.min(Math.max(raw, 1), maxSeats);
               setSeats(clamped);
             }}
             className="booking-form-input"
           />
-          {date && selectedTimeSlot && (
-            <span className="booking-form-availability">
-              {availabilityLoading
-                ? "Vérification des disponibilités..."
-                : availability
-                  ? availability.available > 0
-                    ? `${availability.available} place${availability.available > 1 ? "s" : ""} disponible${availability.available > 1 ? "s" : ""} sur ${availability.capacity}`
-                    : "Aucune place disponible pour ce créneau"
-                  : null}
-            </span>
-          )}
         </label>
       )}
-
-      <label className="booking-form-label">
-        Nom
-        <input
-          type="text"
-          className="booking-form-input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-
-      <label className="booking-form-label">
-        Email
-        <input
-          type="email"
-          className="booking-form-input"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-
-      <p className="booking-form-price">
-        {isOpenSpace &&
-          `${seats} place${seats > 1 ? "s" : ""} : ${totalPrice}€`}
-        {isLocal && `${months} mois : ${totalPrice}€`}
-        {!isOpenSpace && !isLocal && `${totalPrice}€`}
-      </p>
-
+      {date && selectedTimeSlot && (
+        <span className="booking-form-availability">
+          {availabilityLoading
+            ? "Vérification des disponibilités..."
+            : availability
+              ? (availability?.available ?? 0) > 0
+                ? `${availability.available} place${(availability?.available ?? 0) > 1 ? "s" : ""} disponible${(availability?.available ?? 0) > 1 ? "s" : ""} sur ${availability.capacity}`
+                : "Aucune place disponible pour ce créneau"
+              : null}
+        </span>
+      )}
+      {isExclusiveSpace && date && (selectedTimeSlot || previewEndDate) && (
+        <p className="booking-form-availability">
+          {availabilityLoading
+            ? "Vérification des disponibilités..."
+            : availability
+              ? (availability?.available ?? 0) > 0
+                ? isLocal
+                  ? "Cette période est disponible"
+                  : "Ce créneau est disponible"
+                : isLocal
+                  ? "Cet espace est déjà réservé sur une période qui chevauche ces dates"
+                  : "Ce créneau est déjà réservé pour cet espace"
+              : null}
+        </p>
+      )}
+      {(availability?.available ?? 0) > 0 && (
+        <label className="booking-form-label">
+          Nom
+          <input
+            type="text"
+            className="booking-form-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </label>
+      )}
+      {(availability?.available ?? 0) > 0 && (
+        <label className="booking-form-label">
+          Email
+          <input
+            type="email"
+            className="booking-form-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+      )}
+      {(availability?.available ?? 0) > 0 && (
+        <p className="booking-form-price">
+          {isOpenSpace &&
+            `${seats} place${seats > 1 ? "s" : ""} : ${totalPrice}€`}
+          {isLocal && `${months} mois : ${totalPrice}€`}
+          {!isOpenSpace && !isLocal && `${totalPrice}€`}
+        </p>
+      )}
       {errorMsg && <p className="booking-form-error">{errorMsg}</p>}
-
-      <button
-        type="submit"
-        className="booking-form-submit"
-        disabled={submitting || (isOpenSpace && availability?.available === 0)}
-      >
-        {submitting ? "Envoi..." : "Confirmer la réservation"}
-      </button>
+      {!isUnavailable && (
+        <button
+          type="submit"
+          className="booking-form-submit"
+          disabled={
+            submitting ||
+            (isOpenSpace && availability?.available === 0) ||
+            isUnavailable
+          }
+        >
+          {submitting ? "Envoi..." : "Confirmer la réservation"}
+        </button>
+      )}
     </form>
   );
 }

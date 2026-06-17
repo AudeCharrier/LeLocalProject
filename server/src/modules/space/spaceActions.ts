@@ -30,16 +30,62 @@ const read: RequestHandler = async (req, res, next) => {
 const readAvailability: RequestHandler = async (req, res, next) => {
   try {
     const spaceId = Number(req.params.id);
-    const { date, timeSlotId } = req.query;
+    const { date, timeSlotId, endDate } = req.query;
 
-    if (!date || !timeSlotId) {
-      res.status(400).json({ message: "date et timeSlotId sont requis" });
+    if (!date) {
+      res.status(400).json({ message: "date est requis" });
       return;
     }
 
     const space = await spaceRepository.read(spaceId);
     if (space == null) {
       res.sendStatus(404);
+      return;
+    }
+
+    const isOpenSpace = space.space_category.toLowerCase().includes("open");
+    const isLocal = space.space_category === "Local vide";
+
+    if (isLocal) {
+      if (!endDate) {
+        res
+          .status(400)
+          .json({ message: "endDate est requis pour un local vide" });
+        return;
+      }
+      const overlapping = await spaceRepository.hasOverlappingDateRange(
+        databaseLeLocal,
+        spaceId,
+        String(date),
+        String(endDate),
+      );
+      res.json({
+        spaceId,
+        startDate: String(date),
+        endDate: String(endDate),
+        available: overlapping ? 0 : 1,
+      });
+      return;
+    }
+
+    if (!timeSlotId) {
+      res.status(400).json({ message: "timeSlotId est requis" });
+      return;
+    }
+
+    if (!isOpenSpace) {
+      const taken = await spaceRepository.isSlotTaken(
+        databaseLeLocal,
+        spaceId,
+        String(date),
+        Number(timeSlotId),
+      );
+      res.json({
+        spaceId,
+        date: String(date),
+        timeSlotId: Number(timeSlotId),
+        available: taken ? 0 : 1,
+      });
       return;
     }
 

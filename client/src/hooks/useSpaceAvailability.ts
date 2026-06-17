@@ -5,6 +5,7 @@ function useSpaceAvailability(
   spaceId: number | undefined,
   date: string,
   timeSlotId: string | number | undefined,
+  endDate?: string,
 ) {
   const [availability, setAvailability] = useState<SpaceAvailability | null>(
     null,
@@ -13,7 +14,10 @@ function useSpaceAvailability(
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!spaceId || !date || !timeSlotId) {
+    const hasSlotMode = Boolean(timeSlotId);
+    const hasRangeMode = Boolean(endDate);
+
+    if (!spaceId || !date || (!hasSlotMode && !hasRangeMode)) {
       setAvailability(null);
       return;
     }
@@ -22,8 +26,15 @@ function useSpaceAvailability(
     setLoading(true);
     setError(null);
 
+    const params = new URLSearchParams({ date });
+    if (hasRangeMode) {
+      params.set("endDate", endDate as string);
+    } else {
+      params.set("timeSlotId", String(timeSlotId));
+    }
+
     fetch(
-      `${import.meta.env.VITE_API_URL}/api/spaces/${spaceId}/availability?date=${date}&timeSlotId=${timeSlotId}`,
+      `${import.meta.env.VITE_API_URL}/api/spaces/${spaceId}/availability?${params.toString()}`,
       { signal: controller.signal },
     )
       .then((res) => {
@@ -38,7 +49,7 @@ function useSpaceAvailability(
       .finally(() => setLoading(false));
 
     return () => controller.abort();
-  }, [spaceId, date, timeSlotId]);
+  }, [spaceId, date, timeSlotId, endDate]);
 
   return { availability, loading, error };
 }
