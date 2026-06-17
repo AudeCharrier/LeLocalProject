@@ -1,30 +1,35 @@
-.Top-Page-of-Workshop {
+.header-spaces-page-global-section {
   background-color: var(--color-bg-hero);
-  padding: 2rem 1.5rem 2.5rem;
+  padding: 4rem 5rem;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 0.5px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   /* --- Introduction --- */
 
-  .Workshop-Introduction {
+  .header-spaces-page-container-articles {
+    display: flex;
     width: 100%;
     min-height: 35vh;
   }
 
-  /* --- Search Bar --- */
+  /* --- Search Filter --- */
 
   .Search-Filter-Section {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
     .Search-Bar {
       display: flex;
       align-items: center;
-      border: 2px solid var(--color-border-tag-1);
+      border: 1.5px solid var(--color-border-tag-1);
       border-radius: var(--radius-md);
       overflow: hidden;
-      margin-bottom: 1.25rem;
 
       input {
         flex: 1;
@@ -45,12 +50,14 @@
       button {
         background: transparent;
         border: none;
+        border-left: 1.5px solid var(--color-border-tag-1);
         color: var(--color-text-on-dark);
         font-size: var(--text-sm);
         font-weight: var(--font-semibold);
-        padding: .65rem 1.1rem;
+        padding: 0.65rem 1.25rem;
         cursor: pointer;
         letter-spacing: var(--tracking-wide);
+        white-space: nowrap;
 
         &:hover {
           background: rgba(255, 255, 255, 0.08);
@@ -64,7 +71,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: var(--gap-xs);
-      padding-bottom: 1rem;
 
       .tag {
         border: 1.5px solid var(--color-border-tag-1);
@@ -72,45 +78,13 @@
         color: var(--color-text-search);
         font-size: var(--text-sm);
         padding: 0.3rem 0.75rem;
-        background: var(--color-border-tag-2);
+        background: transparent;
         cursor: pointer;
         transition: background var(--transition-fast);
 
         &:hover {
           background: rgba(255, 255, 255, 0.08);
         }
-      }
-    }
-
-    .Stats-Global-Workshop-Page {
-      background-color: var(--color-forest);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      border-top: 3px solid var(--color-border-tag-1);
-
-      & .Stats-Workshop {
-        display: flex;
-        flex-direction: column;
-        align-items: baseline;
-        gap: var(--gap-sm);
-        line-height: 1rem;
-      }
-
-      .Stats-Workshop-Number {
-        font-size: var(--text-2xl);
-        font-weight: var(--font-bold);
-        color: var(--color-text-on-dark);
-        font-family: var(--font-display);
-      }
-
-      .Stats-Workshop-Text {
-        color: var(--color-text-search);
-        letter-spacing: var(--tracking-wide);
-        font-size: var(--text-lg);
-        font-family: var(--font-display);
-        font-weight: var(--font-regular);
       }
     }
   }
