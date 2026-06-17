@@ -2,6 +2,7 @@ import type { Pool, PoolConnection } from "mysql2/promise";
 import databaseLeLocal from "../../../database/client";
 import type { Rows } from "../../../database/client";
 
+// Une connexion "Queryable" peut être soit le pool global, soit une connexion dédiée (utilisée dans une transaction, ex: readForUpdate)
 type Queryable = Pool | PoolConnection;
 
 type Space = {
@@ -15,7 +16,11 @@ type Space = {
   space_category: string;
 };
 
+/**
+ * Accès aux données de la table `space` ainsi qu'aux calculs de disponibilité (croisement avec les tables `activity` et `cart`).
+ */
 class SpaceRepository {
+  /** Récupère un espace par son id. */
   async read(id: number) {
     const [rows] = await databaseLeLocal.query<Rows>(
       "select * from space where id = ?",
@@ -24,11 +29,16 @@ class SpaceRepository {
     return rows[0] as Space;
   }
 
+  /** Récupère tous les espaces. */
   async readAll() {
     const [rows] = await databaseLeLocal.query<Rows>("select * from space");
     return rows as Space[];
   }
 
+  /**
+   * Récupère un espace en posant un verrou ligne (FOR UPDATE).
+   * À utiliser uniquement à l'intérieur d'une transaction (ex: lors de la création d'une réservation) afin d'empêcher une autre requête concurrente de lire/modifier la disponibilité de ce même espace en même temps (évite le double-booking).
+   */
   async readForUpdate(
     connection: PoolConnection,
     id: number,
@@ -40,6 +50,10 @@ class SpaceRepository {
     return (rows[0] as Space) ?? null;
   }
 
+  /**
+   * Compte le nombre total de places déjà réservées (somme des quantités du panier) pour un espace, une date et un créneau donnés.
+   * Utilisé pour les espaces "open" (plusieurs places par créneau).
+   */
   async countBookedSeats(
     connection: PoolConnection,
     spaceId: number,
@@ -56,6 +70,10 @@ class SpaceRepository {
     return Number((rows[0] as { booked: number })?.booked) || 0;
   }
 
+  /**
+   * Indique si un créneau est déjà occupé pour un espace "exclusif" (un seul occupant possible par créneau : salle de réunion, studio...).
+   * Prend en compte le chevauchement entre créneaux via getOverlappingSlotIds (ex: si "Journée" est réservée, "Matin" et "Après-midi" sont aussi considérés occupés, et inversement).
+   */
   async isSlotTaken(
     connection: Queryable,
     spaceId: number,
@@ -77,6 +95,12 @@ class SpaceRepository {
     return booked > 0;
   }
 
+  /**
+   * Renvoie la liste des créneaux qui entrent en conflit avec le créneau demandé. Règle métier : la "Journée" couvre à la fois le "Matin" et l'"Après-midi", donc :
+   * - réserver la Journée bloque Matin, Après-midi ET Journée
+   * - réserver le Matin (ou l'Après-midi) bloque aussi la Journée (la réserver empièterait sur ce demi-créneau déjà pris)
+   * - tout autre créneau (ex: Soir) ne chevauche que lui-même
+   */
   private getOverlappingSlotIds(timeSlotId: number): number[] {
     const MATIN = 1;
     const APRES_MIDI = 2;
@@ -92,6 +116,10 @@ class SpaceRepository {
     return [timeSlotId];
   }
 
+  /**
+   * Indique si une plage de dates [startDate, endDate] chevauche une réservation déjà existante pour ce "Local vide".
+   * Condition de chevauchement classique entre deux intervalles : (a.start_date < endDate) ET (startDate < a.end_date)
+   */
   async hasOverlappingDateRange(
     connection: Queryable,
     spaceId: number,
