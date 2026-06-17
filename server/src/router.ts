@@ -43,6 +43,9 @@ router.post(
 // Dashboard Client:
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
+// Invoice
+router.get("/api/invoice/:bookingId", dashboardClientActions.readInvoice);
+
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
@@ -90,11 +93,6 @@ router.post(
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
 
 router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
-
-router.get(
-  "/api/dashboard/admin/bookings",
-  dasboardAdminActions.browseAdminBookings,
-);
 
 router.get(
   "/api/dashboard/admin/bookings",
