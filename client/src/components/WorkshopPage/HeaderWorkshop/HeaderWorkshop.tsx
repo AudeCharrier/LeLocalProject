@@ -1,4 +1,6 @@
 import "./HeaderWorkshop.css";
+import type { FirstArticleProps } from "../../../types/firstarticleprops";
+import FirstArticle from "../../SpacesPage/Header/FirstArticle/FirstArticle";
 
 const tags = [
   "Céramique",
@@ -12,21 +14,25 @@ const tags = [
 ];
 
 function HeaderWorkshop() {
+  const WorkshopHeaderFirstArticle: FirstArticleProps = {
+    bigtitle: "APPRENDRE & CREER ENSEMBLE",
+    sloganBegin: "Des",
+    sloganItalic: "ateliers",
+    sloganEnd: "qui vous font grandir",
+    description:
+      "Sérigraphie, code, poterie, podcast, cuisine, photographie… Des formations courtes animées par des experts passionnés, dans nos espaces.",
+    info1: 16,
+    info1text: "ESPACES",
+    info2: 1400,
+    info2text: "M² TOTAL",
+    info3: "6/7",
+    info3text: "ACCES",
+  };
+
   return (
     <section className="Top-Page-of-Workshop">
       <div className="Workshop-Introduction">
-        <h3 className="First-Sentence">APPRENDRE & CREER ENSEMBLE</h3>
-        <h1 className="Title-Workshop-Page">
-          Des <em className="Word-Ateliers">ateliers</em> qui vous
-          <br />
-          font grandir
-        </h1>
-        <p className="Description-Workshop-Page">
-          Sérigraphie, code, poterie, podcast, cuisine, photographie… Des
-          formations
-          <br />
-          courtes animées par des experts passionnés, dans nos espaces.
-        </p>
+        <FirstArticle pageData={WorkshopHeaderFirstArticle} />
       </div>
 
       <div className="Search-Filter-Section">
