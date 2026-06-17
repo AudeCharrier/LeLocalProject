@@ -1,78 +1,103 @@
 import type { RequestHandler } from "express";
+
 import databaseLeLocal from "../../../database/client";
-import type { Result, Rows } from "../../../database/client";
-import bookingRepository from "./bookingRepository";
+import activityRepository from "../activity/activityRepository";
+import spaceRepository from "../space/spaceRepository";
+
+type BookingPayload = {
+  space_id: number;
+  time_slot_id: number | null;
+  start_date: string;
+  end_date: string;
+  seats: number | null;
+  months: number | null;
+  users_id: number;
+  total_price: number;
+  name?: string;
+  email?: string;
+};
+
+const DEFAULT_TIME_SLOT_ID = 4;
 
 const add: RequestHandler = async (req, res, next) => {
+  const body = req.body as BookingPayload;
+
+  if (!body.space_id || !body.start_date || !body.end_date || !body.users_id) {
+    res.status(400).json({ message: "Champs requis manquants" });
+    return;
+  }
+
+  const effectiveTimeSlotId = body.time_slot_id ?? DEFAULT_TIME_SLOT_ID;
+  const quantity = body.seats ?? 1;
+
+  if (quantity < 1) {
+    res.status(400).json({ message: "Quantité invalide" });
+    return;
+  }
+
+  const connection = await databaseLeLocal.getConnection();
+
   try {
-    const {
-      space_id,
-      time_slot_id,
-      start_date,
-      end_date,
-      seats,
-      months,
-      users_id,
-      total_price,
-    } = req.body;
-
-    const [existing] = await databaseLeLocal.query<Rows>(
-      "SELECT * FROM activity WHERE space_id = ? AND start_date = ? AND time_slot_id = ?",
-      [space_id, start_date, time_slot_id],
+    await connection.beginTransaction();
+    const space = await spaceRepository.readForUpdate(
+      connection,
+      body.space_id,
     );
-
-    let activityId: number;
-
-    if (existing.length > 0) {
-      activityId = (existing[0] as { id: number }).id;
-    } else {
-      const [spaceRows] = await databaseLeLocal.query<Rows>(
-        "SELECT * FROM space WHERE id = ?",
-        [space_id],
-      );
-      const space = spaceRows[0] as {
-        space_name: string;
-        price_unit: number;
-        url_image: string;
-      };
-
-      const [insertResult] = await databaseLeLocal.query<Result>(
-        "INSERT INTO activity (time_slot_id, space_id, start_date, end_date, description, price_unit, url_image, name, users_id) VALUES (?, ?, ?, ?, NULL, ?, ?, ?, NULL)",
-        [
-          time_slot_id,
-          space_id,
-          start_date,
-          end_date ?? start_date,
-          space.price_unit,
-          space.url_image,
-          `Réservation - ${space.space_name}`,
-        ],
-      );
-
-      activityId = insertResult.insertId;
+    if (space == null) {
+      await connection.rollback();
+      res.status(404).json({ message: "Espace introuvable" });
+      return;
     }
 
-    const quantity = seats ?? months ?? 1;
+    const activity = await activityRepository.findOrCreate(connection, {
+      timeSlotId: effectiveTimeSlotId,
+      spaceId: body.space_id,
+      startDate: body.start_date,
+      endDate: body.end_date,
+      priceUnit: space.price_unit,
+      urlImage: space.url_image,
+    });
 
-    await databaseLeLocal.query(
-      "INSERT INTO cart (quantity, total_price, users_id, id_activity) VALUES (?, ?, ?, ?)",
-      [quantity, total_price, users_id, activityId],
+    const booked = await spaceRepository.countBookedSeats(
+      connection,
+      body.space_id,
+      body.start_date,
+      effectiveTimeSlotId,
+    );
+    const available = Math.max(space.capacity - booked, 0);
+
+    if (quantity > available) {
+      await connection.rollback();
+      res.status(409).json({
+        message:
+          available > 0
+            ? `Plus que ${available} place${available > 1 ? "s" : ""} disponible${available > 1 ? "s" : ""} pour ce créneau`
+            : "Plus aucune place disponible pour ce créneau",
+        available,
+      });
+      return;
+    }
+
+    const [result] = await connection.query(
+      `INSERT INTO cart (quantity, total_price, users_id, id_activity)
+       VALUES (?, ?, ?, ?)`,
+      [quantity, body.total_price, body.users_id, activity.id],
     );
 
-    res.status(201).json({ activityId });
+    await connection.commit();
+
+    res.status(201).json({
+      cartItemId: (result as { insertId: number }).insertId,
+      activityId: activity.id,
+    });
   } catch (err) {
+    await connection.rollback();
     next(err);
+  } finally {
+    connection.release();
   }
 };
 
-const create: RequestHandler = async (req, res, next) => {
-  try {
-    const { userId, cartItems } = req.body;
-    await bookingRepository.create(userId, cartItems);
-    res.sendStatus(201);
-  } catch (err) {
-    next(err);
-  }
-};
+// TODO: collez ici votre fonction `create` actuelle (POST /api/booking)
 
-export default { add, create };
+export default { add /*, create */ };

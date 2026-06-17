@@ -21,12 +21,11 @@ function SpaceModalContent({
   const currentSpace = spaces[currentIndex];
 
   const isLocal = currentSpace.space_category === "Local vide";
-
-  const isStudio = [
-    "Studio d'enregistrement",
-    "Studio photo",
-    "Salle de réunion",
-  ].includes(currentSpace.space_category);
+  const isMeetRoom = currentSpace.space_category === "Salle de réunion";
+  const isEmptyLocal = currentSpace.space_category === "Local vide";
+  const isStudio = ["Studio d'enregistrement", "Studio photo"].includes(
+    currentSpace.space_category,
+  );
 
   const handlePrev = () =>
     setCurrentIndex((i) => (i === 0 ? spaces.length - 1 : i - 1));
@@ -114,10 +113,11 @@ function SpaceModalContent({
                     {currentSpace.price_unit}€
                     {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
                   </p>
-
-                  <p className="space-modal-content-carousel-slide-capacity">
-                    Capacité : {currentSpace.capacity} personnes
-                  </p>
+                  {!isStudio && !isEmptyLocal && (
+                    <p className="space-modal-content-carousel-slide-capacity">
+                      Capacité : {currentSpace.capacity} personnes
+                    </p>
+                  )}
                 </section>
 
                 {spaces.length > 1 && (

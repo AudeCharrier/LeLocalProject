@@ -17,10 +17,12 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import bookingActions from "./modules/bookingActions/bookingActions";
 
 router.post("/api/bookings", bookingActions.add);
-router.post("/api/booking", bookingActions.create);
+router.post("/api/booking", bookingActions.add);
+
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
+router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
 // Define event-related routes
