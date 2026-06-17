@@ -36,6 +36,9 @@ type BookingHistory = {
   name: string;
   start_date: string;
   space_name: string;
+  firstname: string;
+  lastname: string;
+  email: string;
 };
 
 type Stats = {
@@ -148,10 +151,14 @@ class DashboardClientRepository {
         b.total_price,
         a.name,
         a.start_date,
-        s.space_name
+        s.space_name,
+        u.firstname,
+        u.lastname,
+        u.email        
       FROM booking b
       JOIN activity a ON b.id_activity = a.id
       JOIN space s ON a.space_id = s.id
+      JOIN users u ON b.users_id = u.id
       WHERE b.users_id = ?
       ORDER BY a.start_date DESC`,
       [userId],
@@ -217,6 +224,29 @@ class DashboardClientRepository {
       ],
     );
     return result.insertId;
+  }
+
+  async readInvoiceById(bookingId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+      b.id,
+      b.bills_number,
+      b.quantity,
+      b.total_price, 
+      a.name,
+      a.start_date,
+      s.space_name,
+      u.firstname,
+      u.lastname,
+      u.email
+      FROM booking b
+      JOIN activity a ON b.id_activity = a.id
+      JOIN space s ON a.space_id = s.id
+      JOIN users u ON b.users_id = u.id
+      WHERE b.id = ?`,
+      [bookingId],
+    );
+    return rows[0] as BookingHistory;
   }
 }
 
