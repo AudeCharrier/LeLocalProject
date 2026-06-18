@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import type { AdminClaim } from "../types/claim";
+import { apiFetch } from "./apiFetch";
 
 function useAdminClaims() {
   const [claims, setClaims] = useState<AdminClaim[]>([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/dashboard/admin/claims`)
+    apiFetch("/api/dashboard/admin/claims")
       .then((response) => response.json())
-      .then((data: AdminClaim[]) => setClaims(data));
+      .then((data: AdminClaim[]) => setClaims(Array.isArray(data) ? data : []));
   }, []);
 
   return claims;

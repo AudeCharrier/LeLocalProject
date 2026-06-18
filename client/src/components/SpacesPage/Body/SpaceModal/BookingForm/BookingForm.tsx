@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Space } from "../../../../../types/space";
 import "./BookingForm.css";
 import { useNavigate } from "react-router";
+import { apiFetch } from "../../../../../hooks/apiFetch";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
 type BookingFormProps = {
@@ -60,13 +61,13 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         end_date: endDate,
         seats: isOpenSpace ? seats : null,
         months: isLocal ? months : null,
-        users_id: userId ?? 2,
+        users_id: userId,
         total_price: totalPrice,
         name,
         email,
       };
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
+      const res = await apiFetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

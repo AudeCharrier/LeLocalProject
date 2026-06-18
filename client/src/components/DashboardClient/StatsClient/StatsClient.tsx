@@ -1,8 +1,10 @@
+import { useAuthContext } from "../../../context/AuthContext";
 import useStatsClient from "../../../hooks/useStatsClient";
 import "./StatsClient.css";
 
 function StatsClient() {
-  const stats = useStatsClient(2);
+  const user = useAuthContext();
+  const stats = useStatsClient(user?.id ?? 0);
 
   if (!stats) return null;
 

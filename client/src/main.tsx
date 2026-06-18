@@ -4,14 +4,17 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
 import CalendarEvents from "./components/Calendar/Calendar";
 import Confirmation from "./components/Confirmation/Confirmation";
+import { AuthProvider } from "./context/AuthContext";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
+import LogIn from "./pages/Login/Login";
 import Payment from "./pages/Payment/Payment";
 import Spaces from "./pages/Spaces/Spaces";
 import WorkshopPage from "./pages/WorkshopPage/WorkshopPage";
 import Cart from "./pages/cart/Cart";
+import SignIn from "./pages/signIn/SignIn";
 
 // Router
 const router = createBrowserRouter([
@@ -58,6 +61,14 @@ const router = createBrowserRouter([
         path: "/calendar",
         element: <CalendarEvents />,
       },
+      {
+        path: "/log-in",
+        element: <LogIn />,
+      },
+      {
+        path: "/sign-in",
+        element: <SignIn />,
+      },
     ],
   },
 ]);
@@ -67,7 +78,9 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </React.StrictMode>,
   );
 }

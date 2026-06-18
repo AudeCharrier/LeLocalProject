@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
 import "./Payment.css";
+import { useAuthContext } from "../../context/AuthContext";
+import { apiFetch } from "../../hooks/apiFetch";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
+  const user = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
   const totalPrice = location.state?.totalPrice ?? 0;
@@ -16,7 +19,7 @@ function Payment() {
   const [clientSecret, setClientSecret] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3310/api/payment/create-intent", {
+    apiFetch("/api/payment/create-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: totalPrice }),
@@ -39,7 +42,7 @@ function Payment() {
       <Elements stripe={stripePromise} options={{ clientSecret }}>
         <CheckoutForm
           totalPrice={totalPrice}
-          userId={1}
+          userId={user?.id ?? 0}
           cartItems={cartItems}
           onSuccess={() => navigate("/confirmation")}
         />

@@ -16,7 +16,9 @@ const create = async (
     );
   }
 
-  await databaseLeLocal.query("DELETE FROM cart WHERE users_id = ?", [userId]);
+  await databaseLeLocal.query("DELETE * FROM cart WHERE users_id = ?", [
+    userId,
+  ]);
 };
 
 export default { create };

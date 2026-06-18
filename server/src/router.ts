@@ -3,129 +3,160 @@ import cartActions from "./modules/cart/cartAction";
 
 const router = express.Router();
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
-// Define time_slot-related routes
+import authMiddleware from "./Middlewares/authMiddleware";
+import authActions from "./modules/Authentification/AuthentificationAction";
 
+/* ************************************************************************* */
+// Auth routes (publiques)
+/* ************************************************************************* */
+router.post("/api/auth/register", authActions.register);
+router.post("/api/auth/login/client", authActions.loginClient);
+router.post("/api/auth/login/admin", authActions.loginAdmin);
+router.get("/api/auth/me", authMiddleware.requireAuth, authActions.me);
+
+/* ************************************************************************* */
+// Time slots (public)
+/* ************************************************************************* */
 import timeSlotActions from "./modules/timeSlot/timeSlotActions";
 
 router.get("/api/timeslots", timeSlotActions.browse);
 
 /* ************************************************************************* */
-// Define space-related routes
-import bookingActions from "./modules/bookingActions/bookingActions";
-
-router.post("/api/bookings", bookingActions.add);
-router.post("/api/booking", bookingActions.create);
+// Spaces (public)
+/* ************************************************************************* */
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
 
 /* ************************************************************************* */
-// Define event-related routes
+// Bookings (protégé client)
+/* ************************************************************************* */
+import bookingActions from "./modules/bookingActions/bookingActions";
+
+router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
+router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
+
+/* ************************************************************************* */
+// Events (public)
+/* ************************************************************************* */
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
 router.get(
   "/api/events/participants",
   eventActions.browseSumParticipantsToEvent,
-); /* dans la table booking en vrai*/
+);
 
 /* ************************************************************************* */
-// Dashboard Client:
+// Dashboard Client (protégé client)
+/* ************************************************************************* */
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
-// 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
+  authMiddleware.requireAuth,
   dashboardClientActions.browsePastEvents,
 );
 
-// 2.upcoming events the user is registered for
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseUpcomingEvents,
 );
 
-// 3.past space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/past",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseOldBookings,
 );
 
-// 4.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseUpcomingBookings,
 );
 
-// 5.bills for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseBookingHistory,
 );
 
-// 6.stats for a specific user
 router.get(
   "/api/dashboard/client/:userId/stats",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseStats,
 );
 
-// Create a claim for a specific user
 router.post(
   "/api/dashboard/client/:userId/claims",
+  authMiddleware.requireAuth,
   dashboardClientActions.addClaim,
 );
 
 /* ************************************************************************* */
-// Dashboard Admin:
+// Dashboard Admin (protégé admin)
+/* ************************************************************************* */
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
 
-router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
-
 router.get(
-  "/api/dashboard/admin/bookings",
-  dasboardAdminActions.browseAdminBookings,
+  "/api/dashboard/admin/stats",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminStats,
 );
 
 router.get(
   "/api/dashboard/admin/bookings",
+  authMiddleware.requireAdmin,
   dasboardAdminActions.browseAdminBookings,
 );
 
-router.get("/api/dashboard/admin/claims", dasboardAdminActions.browseClaims);
+router.get(
+  "/api/dashboard/admin/claims",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseClaims,
+);
 
 /* ************************************************************************* */
-
-// Panier — récupère tous les articles d'un utilisateur (avec détail des events)
-router.get("/api/cart/:userId", cartActions.browse);
-
-// Panier — ajoute un article (ou incrémente si déjà présent)
-router.post("/api/cart", cartActions.add);
-
-// Panier — modifie la quantité d'un article
-router.patch("/api/cart/:id", cartActions.edit);
-
-// Panier — supprime un article précis
-router.delete("/api/cart/:id", cartActions.destroy);
-
-// Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
-router.delete("/api/cart/user/:userId", cartActions.destroyAll);
-
-import createEventFormAction from "./modules/createEventForm/createEventFormAction";
+// Panier (protégé client)
+/* ************************************************************************* */
+router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
+router.post("/api/cart", authMiddleware.requireAuth, cartActions.add);
+router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);
+router.delete("/api/cart/:id", authMiddleware.requireAuth, cartActions.destroy);
+router.delete(
+  "/api/cart/user/:userId",
+  authMiddleware.requireAuth,
+  cartActions.destroyAll,
+);
 
 import { upload } from "../public/upload/upload";
+/* ************************************************************************* */
+// Create Event (protégé admin)
+/* ************************************************************************* */
+import createEventFormAction from "./modules/createEventForm/createEventFormAction";
 
-router.get("/api/createEvent", createEventFormAction.browse);
+router.get(
+  "/api/createEvent",
+  authMiddleware.requireAdmin,
+  createEventFormAction.browse,
+);
 router.post(
   "/api/createEvent",
+  authMiddleware.requireAdmin,
   upload.single("image"),
   createEventFormAction.create,
 );
 
+/* ************************************************************************* */
+// Payment (protégé client)
+/* ************************************************************************* */
 import paymentActions from "./modules/Payment/PaymentAction";
 
-router.post("/api/payment/create-intent", paymentActions.createIntent);
+router.post(
+  "/api/payment/create-intent",
+  authMiddleware.requireAuth,
+  paymentActions.createIntent,
+);
 
 export default router;

@@ -1,8 +1,10 @@
+import { useAuthContext } from "../../../context/AuthContext";
 import useSpacesClient from "../../../hooks/useSpacesClient";
 import "./OldBookingClient.css";
 
 function OldBookingClient() {
-  const bookings = useSpacesClient(2, "past");
+  const user = useAuthContext();
+  const bookings = useSpacesClient(user?.id ?? 0, "past");
 
   return (
     <section className="old-booking-client__container">
