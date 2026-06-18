@@ -127,7 +127,8 @@
     }
   }
 }
-.register-form-span-places-msg {
+.register-form-span-places-msg,
+.register-form-confirmation-message {
   font-family: var(--font-body);
   font-size: var(--text-sm);
 }
