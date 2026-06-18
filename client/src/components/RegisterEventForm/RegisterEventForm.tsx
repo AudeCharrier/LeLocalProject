@@ -3,6 +3,7 @@ import "./RegisterEventForm.css";
 import { useState } from "react";
 import type { CartItem } from "../../types/cartitem";
 import type { QuantityConfig } from "../../types/quantityconfig";
+import { useEventModalContext } from "../../hooks/useEventModalContext";
 
 interface CardEventProps {
   event: {
@@ -40,6 +41,8 @@ function RegisterEventForm({ event }: CardEventProps) {
     : "Gratuit";
 
   const [message, setMessage] = useState<string>("");
+
+  const { setIsForm } = useEventModalContext();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Bloque le rechargement automatique de la page par le navigateur
@@ -124,6 +127,7 @@ function RegisterEventForm({ event }: CardEventProps) {
           type="button"
           className="register-event-modal-close"
           aria-label="Fermer la pop-up d'inscription"
+          onClick={() => setIsForm(false)}
         >
           ✕
         </button>

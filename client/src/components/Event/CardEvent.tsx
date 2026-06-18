@@ -1,7 +1,6 @@
 import { Calendar, MapPin } from "lucide-react";
-import { useState } from "react";
 import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
-
+import { useEventModalContext } from "../../hooks/useEventModalContext";
 import "./CardEvent.css";
 
 interface CardEventProps {
@@ -38,8 +37,7 @@ function CardEvent({ event, participants }: CardEventProps) {
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
   const remaining = Math.max(capacity - sumParticipants, 0);
 
-  const [isForm, setIsForm] = useState<boolean>(false);
-
+  const { isForm, setIsForm } = useEventModalContext();
   return (
     <>
       <article className="card-event-container">

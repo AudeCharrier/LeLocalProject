@@ -3,6 +3,7 @@ import "./EventSection.css";
 
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
+import { ModalEventProvider } from "../../context/CloseEventModalContext";
 
 function EventSection() {
   const upcomingEvents = useUpcomingEvents();
@@ -21,11 +22,13 @@ function EventSection() {
             (p) => p.id_activity === upcomingEvent.id,
           );
           return (
-            <CardEvent
-              key={upcomingEvent.id}
-              event={upcomingEvent}
-              participants={eventParticipants}
-            />
+            <ModalEventProvider key={upcomingEvent.id}>
+              <CardEvent
+                /* key={upcomingEvent.id} */
+                event={upcomingEvent}
+                participants={eventParticipants}
+              />
+            </ModalEventProvider>
           );
         })}
       </div>
