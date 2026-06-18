@@ -14,13 +14,10 @@ router.get("/api/timeslots", timeSlotActions.browse);
 
 /* ************************************************************************* */
 // Define space-related routes
-import bookingActions from "./modules/bookingActions/bookingActions";
-
-router.post("/api/bookings", bookingActions.add);
-router.post("/api/booking", bookingActions.create);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
+router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
 // Define event-related routes
@@ -32,9 +29,23 @@ router.get(
   eventActions.browseSumParticipantsToEvent,
 ); /* dans la table booking en vrai*/
 
+import createEventFormAction from "./modules/createEventForm/createEventFormAction";
+
+import { upload } from "../public/upload/upload";
+
+router.get("/api/createEvent", createEventFormAction.browse);
+router.post(
+  "/api/createEvent",
+  upload.single("image"),
+  createEventFormAction.create,
+);
+
 /* ************************************************************************* */
 // Dashboard Client:
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
+
+// Invoice
+router.get("/api/invoice/:bookingId", dashboardClientActions.readInvoice);
 
 // 1.past events the user attended
 router.get(
@@ -89,14 +100,10 @@ router.get(
   dasboardAdminActions.browseAdminBookings,
 );
 
-router.get(
-  "/api/dashboard/admin/bookings",
-  dasboardAdminActions.browseAdminBookings,
-);
-
 router.get("/api/dashboard/admin/claims", dasboardAdminActions.browseClaims);
 
 /* ************************************************************************* */
+// Define cart-related routes
 
 // Panier — récupère tous les articles d'un utilisateur (avec détail des events)
 router.get("/api/cart/:userId", cartActions.browse);
@@ -113,16 +120,8 @@ router.delete("/api/cart/:id", cartActions.destroy);
 // Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
 router.delete("/api/cart/user/:userId", cartActions.destroyAll);
 
-import createEventFormAction from "./modules/createEventForm/createEventFormAction";
-
-import { upload } from "../public/upload/upload";
-
-router.get("/api/createEvent", createEventFormAction.browse);
-router.post(
-  "/api/createEvent",
-  upload.single("image"),
-  createEventFormAction.create,
-);
+/* ************************************************************************* */
+// Define payment-related routes
 
 import workshopActions from "./modules/activity/activityActions";
 
@@ -131,5 +130,16 @@ router.get("/api/activity", workshopActions.browse);
 import paymentActions from "./modules/Payment/PaymentAction";
 
 router.post("/api/payment/create-intent", paymentActions.createIntent);
+
+/* ************************************************************************* */
+// Define booking-related routes
+
+import bookingActions from "./modules/bookingActions/bookingActions";
+
+// insert activity booked into activity table
+router.post("/api/bookings", bookingActions.add);
+
+// insert cart content into booking table
+router.post("/api/booking", bookingActions.add);
 
 export default router;

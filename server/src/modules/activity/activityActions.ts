@@ -1,11 +1,10 @@
 import type { RequestHandler } from "express";
-
-import workshopRepository from "./activityRepository";
+import activityRepository from "./activityRepository";
 
 const browse: RequestHandler = async (req, res, next) => {
   try {
-    const workshops = await workshopRepository.readAll();
-    res.json(workshops);
+    const activities = await activityRepository.readAll();
+    res.json(activities);
   } catch (err) {
     next(err);
   }
@@ -13,12 +12,12 @@ const browse: RequestHandler = async (req, res, next) => {
 
 const read: RequestHandler = async (req, res, next) => {
   try {
-    const itemId = Number(req.params.id);
-    const item = await workshopRepository.read(itemId);
-    if (item == null) {
+    const activityId = Number(req.params.id);
+    const activity = await activityRepository.read(activityId);
+    if (activity == null) {
       res.sendStatus(404);
     } else {
-      res.json(item);
+      res.json(activity);
     }
   } catch (err) {
     next(err);
