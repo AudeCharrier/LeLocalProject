@@ -20,11 +20,11 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [isPaid, setIsPaid] = useState(false); // ← ajoute ça
+  const [isPaid, setIsPaid] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!stripe || !elements || isPaid) return; // ← bloque si déjà payé
+    if (!stripe || !elements || isPaid) return;
 
     setIsLoading(true);
     setErrorMessage("");
@@ -40,7 +40,7 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
     if (error) {
       setErrorMessage(error.message ?? "Une erreur est survenue.");
     } else {
-      setIsPaid(true); // ← marque comme payé pour bloquer tout nouveau submit
+      setIsPaid(true);
 
       const response = await apiFetch("/api/booking", {
         method: "POST",

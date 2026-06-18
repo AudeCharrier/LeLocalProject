@@ -12,11 +12,7 @@ export default function DashboardClientPage() {
   const user = useAuth();
 
   if (!user) {
-    return (
-      <p style={{ padding: "2rem" }}>
-        Vous devez être connecté pour accéder à cette page.
-      </p>
-    );
+    return <p>Vous devez être connecté pour accéder à cette page.</p>;
   }
 
   return (

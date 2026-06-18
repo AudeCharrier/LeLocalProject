@@ -24,16 +24,19 @@ function ClaimClient() {
   const [success, setSuccess] = useState(false);
 
   function handleSubmit() {
-    createClaim({ title, category, message, activity_id: activityId }).then(
-      () => {
-        setTitle("");
-        setMessage("");
-        setActivityId("");
-        setCategory("Espace");
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
-      },
-    );
+    createClaim(user?.id ?? 0, {
+      title,
+      category,
+      message,
+      activity_id: activityId,
+    }).then(() => {
+      setTitle("");
+      setMessage("");
+      setActivityId("");
+      setCategory("Espace");
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    });
   }
 
   return (
