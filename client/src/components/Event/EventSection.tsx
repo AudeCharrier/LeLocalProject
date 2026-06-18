@@ -1,9 +1,9 @@
 import CardEvent from "./CardEvent";
 import "./EventSection.css";
 
+import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
-import { ModalEventProvider } from "../../context/CloseEventModalContext";
 
 function EventSection() {
   const upcomingEvents = useUpcomingEvents();

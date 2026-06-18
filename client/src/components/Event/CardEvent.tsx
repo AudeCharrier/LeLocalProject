@@ -1,6 +1,6 @@
 import { Calendar, MapPin } from "lucide-react";
-import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 import { useEventModalContext } from "../../hooks/useEventModalContext";
+import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 import "./CardEvent.css";
 
 interface CardEventProps {

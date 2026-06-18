@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
+import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
+import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
-import { ModalEventProvider } from "../../context/CloseEventModalContext";
-import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
