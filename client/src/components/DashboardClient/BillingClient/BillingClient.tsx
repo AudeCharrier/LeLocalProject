@@ -7,8 +7,8 @@ import { useAuthContext } from "../../../context/AuthContext";
 function BillingClient() {
   const user = useAuthContext();
   const billing = useBillingClient(user?.id ?? 0);
-  const [showAll, setShowAll] = useState(false);
 
+  const [showAll, setShowAll] = useState(false);
   const displayedBilling = showAll ? billing : billing.slice(0, 8);
 
   return (
@@ -59,7 +59,13 @@ function BillingClient() {
                     <span className="billing-client__badge">Payé</span>
                   </td>
                   <td className="billing-client__td">
-                    <button type="button" className="billing-client__pdf">
+                    <button
+                      type="button"
+                      className="billing-client__pdf"
+                      onClick={() =>
+                        window.open(`/invoice/${item.id}`, "_blank")
+                      }
+                    >
                       PDF
                     </button>
                   </td>

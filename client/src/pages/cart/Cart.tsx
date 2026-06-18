@@ -123,7 +123,7 @@ function Cart() {
               src={
                 item.url_image.startsWith("http")
                   ? item.url_image
-                  : `http://localhost:3310${item.url_image}`
+                  : `${import.meta.env.VITE_API_URL}${item.url_image}`
               }
               alt={item.space_name}
               className="cart-item-image"
@@ -241,13 +241,14 @@ function Cart() {
                 quantity: item.quantity,
                 price_unit: item.price_unit,
               })),
+              userId: 2,
             }}
           >
             <button type="button" className="cart-payment-button">
               Procéder au paiement
             </button>
           </Link>
-        </div>{" "}
+        </div>
         {/* ← fermeture de cart-summary-card */}
         {message && <p className="cart-notification">{message}</p>}
       </aside>

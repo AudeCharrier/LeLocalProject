@@ -4,6 +4,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { apiFetch } from "../../hooks/apiFetch";
 
 interface Props {
   totalPrice: number;
@@ -19,9 +20,11 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [isPaid, setIsPaid] = useState(false); // ← ajoute ça
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || isPaid) return; // ← bloque si déjà payé
 
     setIsLoading(true);
     setErrorMessage("");
@@ -37,18 +40,14 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
     if (error) {
       setErrorMessage(error.message ?? "Une erreur est survenue.");
     } else {
-      console.log("Paiement réussi, envoi vers /api/booking...");
-      console.log("userId :", userId);
-      console.log("cartItems :", cartItems);
+      setIsPaid(true); // ← marque comme payé pour bloquer tout nouveau submit
 
-      const response = await fetch("http://localhost:3310/api/booking", {
+      const response = await apiFetch("/api/booking", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, cartItems }),
       });
 
       console.log("Réponse booking :", response.status);
-
       onSuccess();
     }
 

@@ -24,17 +24,15 @@ router.get("/api/timeslots", timeSlotActions.browse);
 /* ************************************************************************* */
 // Spaces (public)
 /* ************************************************************************* */
+// Define space-related routes
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
+router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
 // Bookings (protégé client)
 /* ************************************************************************* */
-import bookingActions from "./modules/bookingActions/bookingActions";
-
-router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
-router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 
 /* ************************************************************************* */
 // Events (public)
@@ -52,6 +50,10 @@ router.get(
 /* ************************************************************************* */
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
+// Invoice
+router.get("/api/invoice/:bookingId", dashboardClientActions.readInvoice);
+
+// 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
   authMiddleware.requireAuth,
@@ -158,5 +160,15 @@ router.post(
   authMiddleware.requireAuth,
   paymentActions.createIntent,
 );
+
+/* ************************************************************************* */
+// Define booking-related routes
+
+import bookingActions from "./modules/bookingActions/bookingActions";
+
+router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
+router.post("/api/booking", authMiddleware.requireAuth, bookingActions.add);
+
+// insert activity booked into activity table
 
 export default router;

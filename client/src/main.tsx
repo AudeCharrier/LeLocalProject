@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
@@ -9,6 +8,7 @@ import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
 import Home from "./pages/Home/Home";
+import InvoicePage from "./pages/InvoicePage/InvoicePage";
 import LogIn from "./pages/Login/Login";
 import Payment from "./pages/Payment/Payment";
 import Spaces from "./pages/Spaces/Spaces";
@@ -18,6 +18,10 @@ import SignIn from "./pages/signIn/SignIn";
 
 // Router
 const router = createBrowserRouter([
+  {
+    path: "/invoice/:bookingId",
+    element: <InvoicePage />,
+  },
   {
     element: <App />,
     children: [
@@ -77,10 +81,8 @@ const rootElement = document.getElementById("root");
 
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </React.StrictMode>,
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>,
   );
 }

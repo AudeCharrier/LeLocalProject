@@ -1,27 +1,28 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
 import "./Payment.css";
 import { useAuthContext } from "../../context/AuthContext";
 import { apiFetch } from "../../hooks/apiFetch";
+import useClearCart from "../../hooks/useClearCart";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
   const user = useAuthContext();
   const location = useLocation();
-  const navigate = useNavigate();
   const totalPrice = location.state?.totalPrice ?? 0;
   const cartItems = location.state?.cartItems ?? [];
-
   const [clientSecret, setClientSecret] = useState("");
+  const clearCart = useClearCart();
 
   useEffect(() => {
+    if (!totalPrice || totalPrice <= 0) return;
+
     apiFetch("/api/payment/create-intent", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: totalPrice }),
     })
       .then((res) => res.json())
@@ -31,6 +32,14 @@ function Payment() {
   if (!clientSecret) {
     return <p>Chargement du paiement...</p>;
   }
+
+  const handlePaymentSuccess = async () => {
+    if (!user?.id) {
+      console.error("Pas d'ID utilisateur trouvé.");
+      return;
+    }
+    await clearCart(user.id);
+  };
 
   return (
     <section className="payment-page">
@@ -44,7 +53,7 @@ function Payment() {
           totalPrice={totalPrice}
           userId={user?.id ?? 0}
           cartItems={cartItems}
-          onSuccess={() => navigate("/confirmation")}
+          onSuccess={handlePaymentSuccess}
         />
       </Elements>
     </section>

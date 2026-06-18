@@ -8,7 +8,19 @@ function useBillingClient(userId: number) {
   useEffect(() => {
     apiFetch(`/api/dashboard/client/${userId}/billing`)
       .then((res) => res.json())
-      .then((data) => setBilling(data));
+      .then((data) => {
+        console.log("billing API:", data);
+
+        if (Array.isArray(data)) {
+          setBilling(data);
+        } else {
+          setBilling([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setBilling([]);
+      });
   }, [userId]);
 
   return billing;

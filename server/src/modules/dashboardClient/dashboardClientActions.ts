@@ -58,7 +58,7 @@ const browseOldBookings: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-
+// Retrieve client stats
 const browseStats: RequestHandler = async (req, res, next) => {
   try {
     const userId = Number(req.params.userId);
@@ -69,6 +69,7 @@ const browseStats: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Create claim client
 const addClaim: RequestHandler = async (req, res, next) => {
   try {
     const claim = {
@@ -85,6 +86,17 @@ const addClaim: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Read booking for crete Invoice for client
+const readInvoice: RequestHandler = async (req, res, next) => {
+  try {
+    const bookingId = Number(req.params.bookingId);
+    const invoice = await dashboardClientRepository.readInvoiceById(bookingId);
+    res.json(invoice);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
@@ -93,4 +105,5 @@ export default {
   browseOldBookings,
   browseStats,
   addClaim,
+  readInvoice,
 };
