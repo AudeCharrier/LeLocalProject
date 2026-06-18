@@ -54,7 +54,7 @@ function Cart() {
     const newQuantity = item.quantity + 1;
 
     try {
-      await fetch(`http://localhost:3310/api/cart/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -75,7 +75,7 @@ function Cart() {
     const newQuantity = item.quantity - 1;
 
     try {
-      await fetch(`http://localhost:3310/api/cart/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -91,7 +91,7 @@ function Cart() {
 
   const deleteItem = async (id: number) => {
     try {
-      await fetch(`http://localhost:3310/api/cart/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
         method: "DELETE",
       });
 
@@ -120,7 +120,7 @@ function Cart() {
               src={
                 item.url_image.startsWith("http")
                   ? item.url_image
-                  : `http://localhost:3310${item.url_image}`
+                  : `${import.meta.env.VITE_API_URL}${item.url_image}`
               }
               alt={item.space_name}
               className="cart-item-image"

@@ -17,6 +17,7 @@ router.get("/api/timeslots", timeSlotActions.browse);
 import spaceActions from "./modules/space/spaceActions";
 
 router.get("/api/spaces", spaceActions.browse);
+router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
 // Define event-related routes
@@ -135,6 +136,6 @@ import bookingActions from "./modules/bookingActions/bookingActions";
 router.post("/api/bookings", bookingActions.add);
 
 // insert cart content into booking table
-router.post("/api/booking", bookingActions.create);
+router.post("/api/booking", bookingActions.add);
 
 export default router;

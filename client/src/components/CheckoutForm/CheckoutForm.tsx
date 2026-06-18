@@ -41,11 +41,14 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
       console.log("userId :", userId);
       console.log("cartItems :", cartItems);
 
-      const response = await fetch("http://localhost:3310/api/booking", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, cartItems }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/booking`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, cartItems }),
+        },
+      );
 
       console.log("Réponse booking :", response.status);
 

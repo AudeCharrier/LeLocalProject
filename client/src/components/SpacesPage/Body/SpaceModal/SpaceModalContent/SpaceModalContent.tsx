@@ -10,32 +10,39 @@ type SpaceModalContentProps = {
   onClose: () => void;
 };
 
+/**
+ * Contenu de la modale affichée pour une catégorie d'espaces : un carrousel permettant de parcourir les différents espaces de cette catégorie, avec bascule animée vers le formulaire de réservation (BookingForm).
+ */
 function SpaceModalContent({
   spaces,
   categoryName,
   onClose,
 }: SpaceModalContentProps) {
+  // Index de l'espace actuellement affiché dans le carrousel
   const [currentIndex, setCurrentIndex] = useState(0);
+  // Bascule entre la vue "détails de l'espace" et le formulaire de réservation
   const [showBookingForm, setShowBookingForm] = useState(false);
 
   const currentSpace = spaces[currentIndex];
 
   const isLocal = currentSpace.space_category === "Local vide";
+  const isMeetRoom = currentSpace.space_category === "Salle de réunion";
+  const isEmptyLocal = currentSpace.space_category === "Local vide";
+  const isStudio = ["Studio d'enregistrement", "Studio photo"].includes(
+    currentSpace.space_category,
+  );
 
-  const isStudio = [
-    "Studio d'enregistrement",
-    "Studio photo",
-    "Salle de réunion",
-  ].includes(currentSpace.space_category);
-
+  // Navigue vers l'espace précédent du carrousel, en bouclant à la fin
   const handlePrev = () =>
     setCurrentIndex((i) => (i === 0 ? spaces.length - 1 : i - 1));
 
+  // Navigue vers l'espace suivant du carrousel, en bouclant au début
   const handleNext = () =>
     setCurrentIndex((i) => (i === spaces.length - 1 ? 0 : i + 1));
 
   return (
     <motion.div className="space-modal-content" layout>
+      {/* Bandeau image en haut : se réduit en hauteur quand on bascule vers le formulaire de réservation, pour laisser plus de place à celui-ci */}
       <motion.div
         className="space-modal-image-wrapper"
         animate={{
@@ -65,6 +72,7 @@ function SpaceModalContent({
       </motion.div>
 
       <motion.div className="space-modal-body" layout>
+        {/* AnimatePresence permet une transition animée (fondu + glissement) entre la vue "détails" et la vue "formulaire de réservation" */}
         <AnimatePresence mode="wait">
           {showBookingForm ? (
             <motion.div
@@ -90,6 +98,7 @@ function SpaceModalContent({
             >
               <h2 className="space-modal-content-title">{categoryName}</h2>
 
+              {/* Carrousel : flèches de navigation visibles uniquement s'il y a plusieurs espaces dans cette catégorie */}
               <div className="space-modal-content-carousel">
                 {spaces.length > 1 && (
                   <button
@@ -114,10 +123,12 @@ function SpaceModalContent({
                     {currentSpace.price_unit}€
                     {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
                   </p>
-
-                  <p className="space-modal-content-carousel-slide-capacity">
-                    Capacité : {currentSpace.capacity} personnes
-                  </p>
+                  {/* La capacité ne s'affiche que pour les salles de réunion */}
+                  {!isStudio && !isEmptyLocal && isMeetRoom && (
+                    <p className="space-modal-content-carousel-slide-capacity">
+                      Capacité : {currentSpace.capacity} personnes
+                    </p>
+                  )}
                 </section>
 
                 {spaces.length > 1 && (
@@ -131,6 +142,7 @@ function SpaceModalContent({
                 )}
               </div>
               <div className="space-modal-content-counter-book-button-div">
+                {/* Compteur "x / n" et points de pagination, uniquement si plusieurs espaces sont disponibles dans cette catégorie */}
                 {spaces.length > 1 && (
                   <>
                     <p className="space-modal-content-counter">
