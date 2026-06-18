@@ -35,6 +35,10 @@ function RegisterEventForm({ event }: CardEventProps) {
 
   const { value, min, max, error } = quantityConfig;
 
+  const totalPrice = event.price_unit
+    ? quantityConfig.value * event.price_unit
+    : "Gratuit";
+
   const [message, setMessage] = useState<string>("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -115,19 +119,25 @@ function RegisterEventForm({ event }: CardEventProps) {
         method="post"
         onSubmit={handleSubmit}
       >
-        <h2 className="register-form-title">S'inscrire à l'évènement</h2>
+        <div className="register-form-container-title-button">
+          <h2 className="register-form-title">S'inscrire à l'évènement</h2>
+          <button
+            type="button"
+            className="register-event-modal-close"
+            aria-label="Fermer la pop-up d'inscription"
+          >
+            ✕
+          </button>
+        </div>
         <ul className="register-form-events-infos-container">
           <li className="register-form-events-infos-row">{event.name}</li>
           <li className="register-form-events-infos-row">
             {event.start_date &&
-              `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}
+              `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}{" "}
+            | {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
           </li>
           <li className="register-form-events-infos-row">
-            {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
-          </li>
-          <li className="register-form-events-infos-row">{event.space_name}</li>
-          <li className="register-form-events-infos-row">
-            {" "}
+            {event.space_name} -{" "}
             {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}
           </li>
         </ul>
@@ -168,61 +178,70 @@ function RegisterEventForm({ event }: CardEventProps) {
             className="register-form-input"
           />
 
-          <div className="register-quantity-selector">
-            <label htmlFor="quantity" className="register-form-label">
-              Nombre de places
-            </label>
-            {/*bouton -1 */}
-            <button
-              type="button"
-              onClick={decreaseQuantity}
-              className="btn-quantity"
-              aria-label="Retirer une place" //accessibilité, lit le bouton
-              aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
-            >
-              -
-            </button>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={quantityConfig.value}
-              min={min}
-              max={max}
-              readOnly
-            />
+          <div className="register-form-quantity">
+            <div className="register-form-quantity-selector">
+              <label htmlFor="quantity" className="register-form-label">
+                Nombre de places
+              </label>
+              {/*bouton -1 */}
+              <button
+                type="button"
+                onClick={decreaseQuantity}
+                className="btn-quantity"
+                aria-label="Retirer une place" //accessibilité, lit le bouton
+                aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={quantityConfig.value}
+                min={min}
+                max={max}
+                readOnly
+              />
 
-            {/*bouton +1 */}
-            <button
-              type="button"
-              onClick={increaseQuantity}
-              className="btn-quantity"
-              aria-label="Ajouter une place" //accessibilité, lit le bouton
-              aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
-            >
-              +
-            </button>
+              {/*bouton +1 */}
+              <button
+                type="button"
+                onClick={increaseQuantity}
+                className="btn-quantity"
+                aria-label="Ajouter une place" //accessibilité, lit le bouton
+                aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
+              >
+                +
+              </button>
+            </div>
 
-            {/* affichage conditionnel des messages d'erreur*/}
-            {error === "MIN_ERROR" && (
-              <span className="register-form-span-msg">
-                Réservez au moins {min} place.
-              </span>
-            )}
-
-            {error === "MAX_ERROR" && (
-              <span className="register-form-span-msg">
-                Vous ne pouvez pas réserver plus de {max} places.
-              </span>
-            )}
+            <p className="register-form-total-price">Total : {totalPrice} €</p>
           </div>
         </div>
+        {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
+        {error === "MIN_ERROR" && (
+          <span className="register-form-span-places-msg">
+            Réservez au moins {min} place.
+          </span>
+        )}
 
-        <button type="submit" className="register-form-submit">
+        {error === "MAX_ERROR" && (
+          <span className="register-form-span-places-msg">
+            Vous ne pouvez pas réserver plus de {max} places.
+          </span>
+        )}
+
+        <button
+          type="submit"
+          className="register-form-submit"
+          aria-label="Valider mon inscription"
+        >
           Je m'inscris !
         </button>
       </form>
-      {message && <span>{message}</span>}
+      {message && (
+        <span className="register-form-confirmation-message">{message}</span>
+      )}
     </>
   );
 }

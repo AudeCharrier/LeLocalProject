@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
-import CalendarEvents from "./components/Calendar/Calendar";
 import Confirmation from "./components/Confirmation/Confirmation";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
@@ -58,10 +57,6 @@ const router = createBrowserRouter([
       {
         path: "/confirmation",
         element: <Confirmation />,
-      },
-      {
-        path: "/calendar",
-        element: <CalendarEvents />,
       },
     ],
   },
