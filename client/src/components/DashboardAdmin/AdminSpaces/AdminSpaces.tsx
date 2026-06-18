@@ -1,5 +1,5 @@
 import { Users } from "lucide-react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import useAdminBookings from "../../../hooks/useAdminBookings";
 import useSpaces from "../../../hooks/useSpaces";
 import useTimeSlot from "../../../hooks/useTimeSlot";
@@ -22,6 +22,18 @@ function getTone(occupancy: number) {
   if (occupancy >= 75) return "success";
   if (occupancy >= 40) return "danger";
   return "neutral";
+}
+
+function ProgressBar({ value }: { value: number }) {
+  const progressRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (progressRef.current) {
+      progressRef.current.style.width = `${Math.max(0, Math.min(100, value))}%`;
+    }
+  }, [value]);
+
+  return <div className="admin-spaces__progress-bar" ref={progressRef} />;
 }
 
 function AdminSpaces() {
@@ -121,15 +133,15 @@ function AdminSpaces() {
                 </div>
 
                 <div className="admin-spaces__progress">
-                  <div
-                    className="admin-spaces__progress-bar"
-                    style={{ width: `${space.occupancy}%` }}
-                  />
+                  <ProgressBar value={space.occupancy} />
                 </div>
 
                 <ul className="admin-spaces__slots">
                   {space.slots.map((slot) => (
-                    <li key={`${space.name}-${slot.time}`} className="admin-spaces__slot">
+                    <li
+                      key={`${space.name}-${slot.time}`}
+                      className="admin-spaces__slot"
+                    >
                       <span className="admin-spaces__time">{slot.time}</span>
                       <span
                         className={`admin-spaces__status ${slot.status === "libre" ? "admin-spaces__status--free" : ""}`}
