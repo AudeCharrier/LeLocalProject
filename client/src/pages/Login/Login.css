@@ -33,7 +33,7 @@
      ===================================================== */
   & .auth-tabs {
     display: flex;
-    background: var(--color-primary-light);
+    background: var(--color-bg-white);
 
     & .auth-tab {
       flex: 1;
@@ -44,14 +44,14 @@
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
       letter-spacing: var(--tracking-wide);
-      color: var(--color-text-on-dark);
+      color: var(--color-text-primary);
       cursor: pointer;
       transition: background var(--transition-base);
       position: relative;
 
       &.active {
-        background: var(--color-bg-white);
-        color: var(--color-text-primary);
+        background: var(--color-primary);
+        color: var(--color-bg-white);
       }
 
       &:not(.active):hover {
