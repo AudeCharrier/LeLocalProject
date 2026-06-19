@@ -4,6 +4,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { apiFetch } from "../../hooks/apiFetch";
 
 interface Props {
   totalPrice: number;
@@ -15,13 +16,13 @@ interface Props {
 function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
   const stripe = useStripe();
   const elements = useElements();
-
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPaid, setIsPaid] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || isPaid) return;
 
     setIsLoading(true);
     setErrorMessage("");
@@ -37,21 +38,15 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
     if (error) {
       setErrorMessage(error.message ?? "Une erreur est survenue.");
     } else {
-      console.log("Paiement réussi, envoi vers /api/booking...");
-      console.log("userId :", userId);
-      console.log("cartItems :", cartItems);
+      setIsPaid(true);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/booking`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId, cartItems }),
-        },
-      );
+      const response = await apiFetch("/api/booking", {
+        method: "POST",
+        body: JSON.stringify({ userId, cartItems }),
+      });
+      console.log({ userId, cartItems });
 
       console.log("Réponse booking :", response.status);
-
       onSuccess();
     }
 

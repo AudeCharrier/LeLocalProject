@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./apiFetch";
 
 type Stats = {
   bookings_count: number;
@@ -10,11 +11,13 @@ function useStatsClient(userId: number) {
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_API_URL}/api/dashboard/client/${userId}/stats`,
-    )
+    apiFetch(`/api/dashboard/client/${userId}/stats`)
       .then((res) => res.json())
-      .then((data) => setStats(data));
+      .then((data) => {
+        if (data && typeof data === "object" && !Array.isArray(data)) {
+          setStats(data);
+        }
+      });
   }, [userId]);
 
   return stats;

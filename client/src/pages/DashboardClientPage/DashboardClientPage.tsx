@@ -5,9 +5,16 @@ import StatsClient from "../../components/DashboardClient/StatsClient/StatsClien
 import UpcomingBookingClient from "../../components/DashboardClient/UpcomingBookingClient/UpcomingBookingClient";
 import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventClient/UpcomingEventClient";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import { useAuth } from "../../hooks/useAuth";
 import "./DashboardClientPage.css";
 
 export default function DashboardClientPage() {
+  const user = useAuth();
+
+  if (!user) {
+    return <p>Vous devez être connecté pour accéder à cette page.</p>;
+  }
+
   return (
     <section className="dashboard-client-page">
       <div className="dashboard-client-page__header">
