@@ -1,6 +1,5 @@
-import { ChevronDown, Inbox } from "lucide-react";
+import { CheckCircle2, ChevronDown, Inbox } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
 import useAdminClaims from "../../../hooks/useAdminClaims";
 import "./AdminClaims.css";
 
@@ -12,7 +11,12 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
   const claims = useAdminClaims();
   const [openId, setOpenId] = useState<number | null>(null);
   const [drafts, setDrafts] = useState<Record<number, string>>({});
+  const [sentResponses, setSentResponses] = useState<Record<number, string>>(
+    {},
+  );
   const visibleClaims = previewLimit ? claims.slice(0, previewLimit) : claims;
+
+  const pendingCount = claims.filter((c) => !(c.id in sentResponses)).length;
 
   function toggleOpen(id: number) {
     setOpenId(openId === id ? null : id);
@@ -23,7 +27,11 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
   }
 
   function handleRespond(id: number) {
-    console.log("Réponse envoyée pour la réclamation", id, drafts[id]);
+    setSentResponses((prev) => ({ ...prev, [id]: drafts[id] }));
+  }
+
+  function getFakeEmail(firstname: string, lastname: string) {
+    return `${firstname.toLowerCase()}.${lastname.toLowerCase()}@gmail.com`;
   }
 
   return (
@@ -32,18 +40,11 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
         <h2 className="admin-claims__title">
           <Inbox size={20} color="var(--color-primary)" /> Réclamations
         </h2>
-        <div className="admin-claims__header-actions">
-          {claims.length > 0 && (
-            <span className="admin-claims__badge">
-              {claims.length} non traitée{claims.length > 1 ? "s" : ""}
-            </span>
-          )}
-          {previewLimit && claims.length > previewLimit && (
-            <Link className="admin-claims__link" to="/dashboard-admin#admin-claims">
-              Voir tout →
-            </Link>
-          )}
-        </div>
+        {pendingCount > 0 && (
+          <span className="admin-claims__badge">
+            {pendingCount} non traitée{pendingCount > 1 ? "s" : ""}
+          </span>
+        )}
       </div>
 
       {claims.length === 0 ? (
@@ -52,6 +53,7 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
         <ul className="admin-claims__list">
           {visibleClaims.map((claim) => {
             const isOpen = openId === claim.id;
+            const isSent = claim.id in sentResponses;
 
             return (
               <li key={claim.id} className="admin-claims__item">
@@ -70,8 +72,10 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
                   <span className="admin-claims__row-date">
                     {claim.claim_date}
                   </span>
-                  <span className="admin-claims__status admin-claims__status--pending">
-                    Non traité
+                  <span
+                    className={`admin-claims__status admin-claims__status--${isSent ? "resolved" : "pending"}`}
+                  >
+                    {isSent ? "Traité" : "Non traité"}
                   </span>
                   <ChevronDown
                     className={`admin-claims__chevron ${isOpen ? "admin-claims__chevron--open" : ""}`}
@@ -83,23 +87,35 @@ function AdminClaims({ previewLimit }: AdminClaimsProps) {
                   <div className="admin-claims__details">
                     <p className="admin-claims__message">{claim.message}</p>
 
-                    <div className="admin-claims__response">
-                      <textarea
-                        className="admin-claims__textarea"
-                        placeholder="Écrivez votre réponse..."
-                        rows={3}
-                        value={drafts[claim.id] ?? ""}
-                        onChange={(e) => handleChange(claim.id, e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="admin-claims__submit"
-                        onClick={() => handleRespond(claim.id)}
-                        disabled={!drafts[claim.id]}
-                      >
-                        Envoyer la réponse →
-                      </button>
-                    </div>
+                    {isSent ? (
+                      <div className="admin-claims__response admin-claims__response--sent">
+                        <span className="admin-claims__response-label">
+                          <CheckCircle2 size={14} /> Réponse envoyée à{" "}
+                          {getFakeEmail(claim.firstname, claim.lastname)}
+                        </span>
+                        <p>{sentResponses[claim.id]}</p>
+                      </div>
+                    ) : (
+                      <div className="admin-claims__response">
+                        <textarea
+                          className="admin-claims__textarea"
+                          placeholder="Écrivez votre réponse..."
+                          rows={3}
+                          value={drafts[claim.id] ?? ""}
+                          onChange={(e) =>
+                            handleChange(claim.id, e.target.value)
+                          }
+                        />
+                        <button
+                          type="button"
+                          className="admin-claims__submit"
+                          onClick={() => handleRespond(claim.id)}
+                          disabled={!drafts[claim.id]}
+                        >
+                          Envoyer la réponse →
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </li>
