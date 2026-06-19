@@ -40,7 +40,7 @@ function AdminReservations() {
                 <th>Membre</th>
                 <th>Espace</th>
                 <th>Date</th>
-                <th>Créneaux</th>
+                <th>Créneau</th>
                 <th>Montant</th>
                 <th>Statut</th>
               </tr>
