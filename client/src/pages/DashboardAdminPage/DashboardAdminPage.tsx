@@ -1,12 +1,12 @@
 import { useLocation } from "react-router";
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
-import AdminEvents from "../../components/DashboardAdmin/AdminEvents/AdminEvents";
-import DashboardAdminNav from "../../components/DashboardAdmin/DashboardAdminNav/DashboardAdminNav";
 import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
+import AdminEvents from "../../components/DashboardAdmin/AdminEvents/AdminEvents";
 import AdminOverview from "../../components/DashboardAdmin/AdminOverview/AdminOverview";
 import AdminReservations from "../../components/DashboardAdmin/AdminReservations/AdminReservations";
 import AdminSpaces from "../../components/DashboardAdmin/AdminSpaces/AdminSpaces";
 import AdminStats from "../../components/DashboardAdmin/AdminStats/AdminStats";
+import DashboardAdminNav from "../../components/DashboardAdmin/DashboardAdminNav/DashboardAdminNav";
 import "./DashboardAdminPage.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 function DashboardAdminPage() {

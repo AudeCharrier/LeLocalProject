@@ -40,7 +40,10 @@ function DashboardAdminNav() {
   const location = useLocation();
 
   return (
-    <nav className="dashboard-admin-nav" aria-label="Navigation dashboard admin">
+    <nav
+      className="dashboard-admin-nav"
+      aria-label="Navigation dashboard admin"
+    >
       <ul className="dashboard-admin-nav__list">
         {adminNavItems.map((item) => {
           const Icon = item.icon;
@@ -57,13 +60,13 @@ function DashboardAdminNav() {
                 : item.to === "/dashboard-admin#admin-claims"
                   ? location.pathname === "/dashboard-admin" &&
                     location.hash === "#admin-claims"
-                : item.to === "/dashboard-admin#admin-spaces"
-                  ? location.pathname === "/dashboard-admin" &&
-                    location.hash === "#admin-spaces"
-                  : item.to === "/dashboard-admin#admin-events"
+                  : item.to === "/dashboard-admin#admin-spaces"
                     ? location.pathname === "/dashboard-admin" &&
-                      location.hash === "#admin-events"
-                  : location.pathname === item.to;
+                      location.hash === "#admin-spaces"
+                    : item.to === "/dashboard-admin#admin-events"
+                      ? location.pathname === "/dashboard-admin" &&
+                        location.hash === "#admin-events"
+                      : location.pathname === item.to;
 
           return (
             <li key={item.label} className="dashboard-admin-nav__item">

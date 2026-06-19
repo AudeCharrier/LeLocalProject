@@ -1,7 +1,7 @@
 import { CalendarPlus } from "lucide-react";
 import { useMemo } from "react";
-import useUpcomingEvents from "../../../hooks/useUpcomingEvents";
 import useEventParticipants from "../../../hooks/useEventParticipants";
+import useUpcomingEvents from "../../../hooks/useUpcomingEvents";
 import "./AdminEvents.css";
 
 function formatDate(date: string) {
@@ -95,7 +95,8 @@ function AdminEvents() {
                   <div className="admin-events__date-cell">
                     <p>{formatDate(event.start_date)}</p>
                     <p>
-                      {event.start_hour.slice(0, 5)}–{event.end_hour.slice(0, 5)}
+                      {event.start_hour.slice(0, 5)}–
+                      {event.end_hour.slice(0, 5)}
                     </p>
                   </div>
                 </td>

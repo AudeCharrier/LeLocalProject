@@ -23,13 +23,18 @@ type AdminBookingsProps = {
 
 function AdminBookings({ previewLimit }: AdminBookingsProps) {
   const bookings = useAdminBookings();
-  const visibleBookings = previewLimit ? bookings.slice(0, previewLimit) : bookings;
+  const visibleBookings = previewLimit
+    ? bookings.slice(0, previewLimit)
+    : bookings;
 
   return (
     <section className="admin-bookings">
       <div className="admin-bookings__header">
         <h2 className="admin-bookings__title">Réservations</h2>
-        <Link className="admin-bookings__action" to="/dashboard-admin#admin-bookings">
+        <Link
+          className="admin-bookings__action"
+          to="/dashboard-admin#admin-bookings"
+        >
           Voir tout →
         </Link>
       </div>

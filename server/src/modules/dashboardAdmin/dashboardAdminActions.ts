@@ -10,7 +10,11 @@ const browseAdminStats: RequestHandler = async (_req, res, next) => {
   }
 };
 
-const browseAdminClaimNotifications: RequestHandler = async (_req, res, next) => {
+const browseAdminClaimNotifications: RequestHandler = async (
+  _req,
+  res,
+  next,
+) => {
   try {
     const notifications =
       await dashboardAdminRepository.readAdminClaimNotifications();
