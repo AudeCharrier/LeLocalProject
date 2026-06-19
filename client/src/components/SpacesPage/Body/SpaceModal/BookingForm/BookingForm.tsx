@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Space } from "../../../../../types/space";
 import "./BookingForm.css";
 import { useNavigate } from "react-router";
+import { apiFetch } from "../../../../../hooks/apiFetch";
 import useSpaceAvailability from "../../../../../hooks/useSpaceAvailability";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
@@ -123,13 +124,13 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         end_date: endDate,
         seats: isOpenSpace ? seats : null,
         months: isLocal ? months : null,
-        users_id: userId ?? 2,
+        users_id: userId,
         total_price: totalPrice,
         name,
         email,
       };
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings`, {
+      const res = await apiFetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -157,27 +158,29 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
   if (success) {
     return (
       <div className="booking-form">
+        <button type="button" className="booking-form-back" onClick={onBack}>
+          ‹ Retour
+        </button>
         <h2 className="booking-form-title">Ajouté au panier</h2>
         <p>
           Votre réservation pour {space.space_name} le {formattedDate} a été
           ajoutée à votre panier.
         </p>
         <div className="booking-form-button-div">
-          <button
-            type="button"
-            className="booking-form-go-cart"
-            onClick={() => navigate("/cart")}
-          >
-            ‹ Voir votre panier
-          </button>
-          <button type="button" className="booking-form-back" onClick={onBack}>
-            ‹ Retour
-          </button>
+          <div className="booking-form-button-div">
+            <button
+              type="button"
+              className="booking-form-go-cart"
+              onClick={() => navigate("/cart")}
+            >
+              ‹ Voir votre panier
+            </button>
+          </div>
         </div>
       </div>
     );
   }
-
+  console.log(availability);
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
       <button type="button" className="booking-form-back" onClick={onBack}>
@@ -244,9 +247,11 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
           {availabilityLoading
             ? "Vérification des disponibilités..."
             : availability
-              ? (availability?.available ?? 0) > 0
-                ? `${availability.available} place${(availability?.available ?? 0) > 1 ? "s" : ""} disponible${(availability?.available ?? 0) > 1 ? "s" : ""} sur ${availability.capacity}`
-                : "Aucune place disponible pour ce créneau"
+              ? isOpenSpace
+                ? (availability?.available ?? 0) > 0
+                  ? `${availability.available} place${(availability?.available ?? 0) > 1 ? "s" : ""} disponible${(availability?.available ?? 0) > 1 ? "s" : ""} sur ${availability.capacity}`
+                  : "Aucune place disponible pour ce créneau"
+                : null
               : null}
         </span>
       )}

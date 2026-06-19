@@ -2,11 +2,13 @@ import { ReceiptText } from "lucide-react";
 import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
 import "./BillingClient.css";
+import { useAuthContext } from "../../../context/AuthContext";
 
 function BillingClient() {
-  const billing = useBillingClient(2);
-  const [showAll, setShowAll] = useState(false);
+  const user = useAuthContext();
+  const billing = useBillingClient(user?.id ?? 0);
 
+  const [showAll, setShowAll] = useState(false);
   const displayedBilling = showAll ? billing : billing.slice(0, 8);
 
   return (

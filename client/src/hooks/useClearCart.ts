@@ -1,16 +1,14 @@
 import { useNavigate } from "react-router";
+import { apiFetch } from "./apiFetch";
 
 function useClearCart() {
   const navigate = useNavigate();
 
   return async (user_id: number | string) => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/cart/user/${user_id}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await apiFetch(`/api/cart/user/${user_id}`, {
+        method: "DELETE",
+      });
 
       if (response.ok || response.status === 201) {
         navigate("/confirmation");

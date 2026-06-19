@@ -4,26 +4,25 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
 import "./Payment.css";
+import { useAuthContext } from "../../context/AuthContext";
+import { apiFetch } from "../../hooks/apiFetch";
 import useClearCart from "../../hooks/useClearCart";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 function Payment() {
-  // récupèrer les données passées par la page précédente (plus rapide que bdd)
+  const user = useAuthContext();
   const location = useLocation();
   const totalPrice = location.state?.totalPrice ?? 0;
   const cartItems = location.state?.cartItems ?? [];
-  const userId = location.state?.userId ?? 1;
-  //il détecte PAS le state.userId..... mais on verra après l'authentification
   const [clientSecret, setClientSecret] = useState("");
-
-  // récupérer la fonction vider le panier
   const clearCart = useClearCart();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-intent`, {
+    if (!totalPrice || totalPrice <= 0) return;
+
+    apiFetch("/api/payment/create-intent", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: totalPrice }),
     })
       .then((res) => res.json())
@@ -34,17 +33,12 @@ function Payment() {
     return <p>Chargement du paiement...</p>;
   }
 
-  // événement de succès
   const handlePaymentSuccess = async () => {
-    if (!userId) {
-      console.error(
-        "Impossible de vider le panier : pas d'ID utilisateur trouvé dans location.",
-      );
+    if (!user?.id) {
+      console.error("Pas d'ID utilisateur trouvé.");
       return;
     }
-
-    // si on a bien un userId en location, on clear le panier (et redirection page confirmation dans le hook)
-    await clearCart(userId);
+    await clearCart(user.id);
   };
 
   return (
@@ -57,7 +51,7 @@ function Payment() {
       <Elements stripe={stripePromise} options={{ clientSecret }}>
         <CheckoutForm
           totalPrice={totalPrice}
-          userId={1}
+          userId={user?.id ?? 0}
           cartItems={cartItems}
           onSuccess={handlePaymentSuccess}
         />

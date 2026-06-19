@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap");
+
+.auth-page {
+  display: flex;
+  height: 94vh;
+  font-family: var(--font-body);
+
+  & .auth-panel {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-white);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-above);
+  }
+
+  & .auth-visual {
+    max-width: 70%;
+    flex: 1;
+    height: 94vh;
+    background-image: linear-gradient(
+        rgba(151, 15, 15, 0.2),
+        rgba(0, 0, 0, 0.3)
+      ), url("../../assets/images/openspace-lelocal.png");
+
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  /* =====================================================
+     Onglets Client / Admin
+     ===================================================== */
+  & .auth-tabs {
+    display: flex;
+    background: var(--color-primary-light);
+
+    & .auth-tab {
+      flex: 1;
+      padding: var(--space-4) 0;
+      border: none;
+      background: transparent;
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      letter-spacing: var(--tracking-wide);
+      color: var(--color-text-on-dark);
+      cursor: pointer;
+      transition: background var(--transition-base);
+      position: relative;
+
+      &.active {
+        background: var(--color-bg-white);
+        color: var(--color-text-primary);
+      }
+
+      &:not(.active):hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+
+  /* =====================================================
+     Contenu du formulaire
+     ===================================================== */
+  & .auth-form-wrapper {
+    padding: var(--space-10) var(--space-10) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-6);
+
+    & .auth-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-semibold);
+      color: var(--color-text-primary);
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-tight);
+      margin: 0;
+    }
+
+    /* Erreur */
+    & .auth-error {
+      background: rgba(169, 40, 49, 0.08);
+      border: 1px solid rgba(169, 40, 49, 0.25);
+      color: var(--color-primary);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      font-family: var(--font-body);
+      margin: 0;
+    }
+
+    /* Champs — restent en haut */
+    & .auth-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    /* Ligne de deux champs côte à côte */
+    & .auth-row {
+      display: flex;
+      gap: var(--space-3);
+
+      & .auth-field {
+        flex: 1;
+      }
+    }
+
+    /* Champ individuel */
+    & .auth-field {
+      & input {
+        width: 100%;
+        padding: var(--space-4) var(--space-4);
+        border: 1.5px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-family: var(--font-body);
+        font-size: var(--text-base);
+        color: var(--color-text-primary);
+        background: var(--color-bg-white);
+        outline: none;
+        transition: border-color var(--transition-base);
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: var(--color-primary-light);
+        }
+
+        &::placeholder {
+          color: var(--color-text-muted);
+          font-weight: var(--font-light);
+        }
+      }
+    }
+
+    /* Lien mot de passe oublié */
+    & .auth-forgot {
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+      text-decoration: none;
+      align-self: flex-start;
+      font-family: var(--font-ui);
+      transition: color var(--transition-fast);
+
+      &:hover {
+        color: var(--color-primary-dark);
+        text-decoration: underline;
+      }
+    }
+
+    /* Checkbox mémoriser */
+    & .auth-remember {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      font-family: var(--font-ui);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+
+      & input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--color-primary);
+        cursor: pointer;
+      }
+    }
+
+    /* Footer — bouton + lien collés en bas */
+    & .auth-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    /* Bouton principal */
+    & .auth-submit {
+      width: 100%;
+      padding: 0 var(--btn-padding-x-lg);
+      height: var(--btn-height-lg);
+      background: var(--btn-primary-bg);
+      color: var(--btn-primary-text);
+      border: none;
+      border-radius: var(--btn-radius);
+      font-family: var(--font-ui);
+      font-size: var(--btn-font-size);
+      font-weight: var(--btn-font-weight);
+      letter-spacing: var(--btn-letter-spacing);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background var(--transition-base);
+
+      &:hover:not(:disabled) {
+        background: var(--btn-primary-bg-hover);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    /* Lien bas de page */
+    & .auth-switch {
+      text-align: center;
+      font-size: var(--text-sm);
+      font-family: var(--font-ui);
+      color: var(--color-text-muted);
+      margin: 0;
+
+      & a {
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: var(--font-medium);
+
+        &:hover {
+          text-decoration: underline;
+          color: var(--color-primary-dark);
+        }
+      }
+    }
+  }
+
+  /* =====================================================
+     Responsive
+     ===================================================== */
+  @media (max-width: 700px) {
+    flex-direction: column;
+
+    & .auth-panel {
+      width: 100%;
+      height: 100vh;
+    }
+
+    & .auth-visual {
+      display: none;
+    }
+
+    & .auth-form-wrapper {
+      padding: var(--space-8) var(--space-6) var(--space-8);
+    }
+  }
+}

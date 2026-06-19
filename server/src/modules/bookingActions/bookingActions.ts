@@ -1,9 +1,8 @@
 import type { RequestHandler } from "express";
-
 import databaseLeLocal from "../../../database/client";
 import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
-
+import bookingRepository from "./bookingRepository";
 type BookingPayload = {
   space_id: number;
   time_slot_id: number | null;
@@ -31,6 +30,15 @@ const DEFAULT_TIME_SLOT_ID = 4;
  *
  * Toute l'opération est faite dans une transaction SQL avec verrouillage de la ligne `space` (FOR UPDATE) afin d'éviter les race conditions si deux utilisateurs réservent en même temps (double-booking).
  */
+const create: RequestHandler = async (req, res, next) => {
+  try {
+    const { userId, cartItems } = req.body;
+    await bookingRepository.create(userId, cartItems);
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};
 const add: RequestHandler = async (req, res, next) => {
   const body = req.body as BookingPayload;
 
@@ -204,4 +212,4 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+export default { add, create };
