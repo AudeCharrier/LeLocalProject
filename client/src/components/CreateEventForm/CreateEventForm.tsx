@@ -107,7 +107,7 @@ export default function CreateEventForm() {
         <p className="create-event-sidebar-subtitle">Vous avez un projet ?</p>
         <h1 className="create-event-sidebar-title">Proposez un événement</h1>
         <p className="create-event-sidebar-description">
-          La Forge met ses espaces à disposition de la communauté pour organiser
+          Le Local met ses espaces à disposition de la communauté pour organiser
           des ateliers, conférences, soirées et hackathons. Soumettez votre
           projet et notre équipe vous recontactera sous 48h.
         </p>
