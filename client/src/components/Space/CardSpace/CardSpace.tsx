@@ -1,34 +1,64 @@
 import "./CardSpace.css";
-import useTimeSlot from "../../../hooks/useTimeSlot";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import type { Space } from "../../../types/space";
+import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
+import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
 
 interface CardSpaceProps {
-  fakeArraySpace: {
-    id: number;
-    space_name: string;
-    description: string;
-    url_image: string;
-    price_unit: number;
-    capacity: number;
-    space_type: string;
-  };
+  fakeArraySpace: Space;
 }
 
 function CardSpace({ fakeArraySpace }: CardSpaceProps) {
-  const creneaux = useTimeSlot();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="div-Card">
-      <h3>{fakeArraySpace.space_name}</h3>
-      <p>{fakeArraySpace.description}</p>
-      {creneaux
-        .filter((slot) => slot.slot !== "Soir")
-        .map((creneau) => (
-          <div key={creneau.id}>
-            <span>{creneau.slot}</span>
-            <span>{fakeArraySpace.price_unit}</span>
-          </div>
-        ))}
-      <button type="button">Réserver</button>
-    </div>
+    <article className="card-space-container">
+      <div className="card-space-img-container">
+        <img
+          className="card-space-img"
+          src={`${import.meta.env.VITE_API_URL}${fakeArraySpace.url_image}`}
+          alt={fakeArraySpace.space_name}
+        />
+      </div>
+
+      <span className="card-space-badge-price">
+        {fakeArraySpace.price_unit === 0
+          ? "Gratuit"
+          : `${fakeArraySpace.price_unit} €`}
+      </span>
+
+      <div className="card-space-text-flex">
+        <h3>{fakeArraySpace.space_name}</h3>
+        <p>{fakeArraySpace.description}</p>
+        <button
+          className="card-space-btn-reserve"
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Réserver
+        </button>
+      </div>
+
+      {createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <SpaceModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <SpaceModalContent
+                spaces={[fakeArraySpace]}
+                categoryName={fakeArraySpace.space_category}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </SpaceModal>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
+    </article>
   );
 }
 
