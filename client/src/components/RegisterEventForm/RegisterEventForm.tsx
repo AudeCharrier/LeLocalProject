@@ -151,7 +151,7 @@ function RegisterEventForm({ event }: CardEventProps) {
             type="text"
             id="lastname"
             name="lastname"
-            placeholder="nom user rempli auto si connecté"
+            placeholder="Votre nom"
             required
             className="register-form-input"
           />
@@ -163,7 +163,7 @@ function RegisterEventForm({ event }: CardEventProps) {
             type="text"
             id="firstname"
             name="firstname"
-            placeholder="prénom user rempli auto si connecté"
+            placeholder="Votre prénom"
             required
             className="register-form-input"
           />
@@ -175,7 +175,7 @@ function RegisterEventForm({ event }: CardEventProps) {
             type="email"
             id="email"
             name="email"
-            placeholder="email user rempli auto si connecté"
+            placeholder="Votre email"
             required
             className="register-form-input"
           />
