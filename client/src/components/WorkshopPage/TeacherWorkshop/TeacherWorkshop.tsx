@@ -42,7 +42,7 @@ function TeacherWorkshop() {
 
   return (
     <section className="Teacher-Workshop-Global-Section">
-      <h1>NOS FORMATEUR</h1>
+      <h1 className="Title-Teacher-Section-Workshop">NOS FORMATEUR</h1>
       <div className="Teacher-Global-Div-Card">
         <div className="Teacher-Section">
           {teachers.map((teacher) => (
@@ -50,7 +50,7 @@ function TeacherWorkshop() {
               key={teacher.name}
               className={`Teacher-Card ${teacher.specialityClass}`}
             >
-              <div>
+              <div className="test">
                 <div className="Teacher-Avatar-Teacher-WorkshopPage">
                   <span>{teacher.initials}</span>
                 </div>
