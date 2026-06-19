@@ -7,7 +7,7 @@ type ModalProps = {
   onClose: () => void;
   children: React.ReactNode;
 };
-
+//Fonction pour ouvrir/fermer la modal
 function SpaceModal({ isOpen, onClose, children }: ModalProps) {
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
