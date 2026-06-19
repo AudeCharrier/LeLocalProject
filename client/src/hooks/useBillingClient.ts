@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
 import type { BookingHistory } from "../types/booking";
+import { apiFetch } from "./apiFetch";
 
 function useBillingClient(userId: number) {
   const [billing, setBilling] = useState<BookingHistory[]>([]);
 
   useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_API_URL}/api/dashboard/client/${userId}/billing`,
-    )
+    apiFetch(`/api/dashboard/client/${userId}/billing`)
       .then((res) => res.json())
-      .then((data) => setBilling(data));
+      .then((data) => {
+        console.log("billing API:", data);
+
+        if (Array.isArray(data)) {
+          setBilling(data);
+        } else {
+          setBilling([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        setBilling([]);
+      });
   }, [userId]);
 
   return billing;
