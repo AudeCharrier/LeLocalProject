@@ -1,0 +1,57 @@
+.Teacher-Workshop-Global-Section {
+  background-color: var(--color-bg-1);
+
+  .Teacher-Section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: var(--color-bg-card);
+
+    .Teacher-Card.ceramique .Teacher-Avatar-Teacher-WorkshopPage {
+      background: #c0552a;
+    }
+    .Teacher-Card.numerique .Teacher-Avatar-Teacher-WorkshopPage {
+      background: #2a3d2e;
+    }
+    .Teacher-Card.photographie .Teacher-Avatar-Teacher-WorkshopPage {
+      background: #8b1a2a;
+    }
+    .Teacher-Card.artisanat .Teacher-Avatar-Teacher-WorkshopPage {
+      background: #4a7a3a;
+    }
+
+    .Teacher-Avatar-Teacher-WorkshopPage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px;
+      width: 36px;
+      height: 36px;
+      color: var(--color-text-on-dark);
+      font-family: var(--font-display);
+    }
+
+    .Teacher-Name {
+      color: var(--color-text-primary);
+      font-family: var(--font-display);
+      font-weight: var(--font-bold);
+      font-size: var(--text-lg);
+    }
+
+    .Teacher-Speciality {
+      color: #c05c38;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+    }
+
+    .Teacher-Description {
+      color: var(--color-text-secondary);
+    }
+
+    .Teacher-Count {
+      color: var(--color-text-secondary);
+      .WorkshopCountNumber {
+        color: var(--color-forest);
+      }
+    }
+  }
+}

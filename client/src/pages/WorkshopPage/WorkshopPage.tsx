@@ -4,6 +4,8 @@ import InComingWorkshop from "../../components/WorkshopPage/InComingWorkshop/InC
 import WorkshopOfTheWeek from "../../components/WorkshopPage/WorkshopOfTheWeek/WorkshopOfTheWeek";
 import useWorkshop from "../../hooks/useWorkshop";
 import "./WorkshopPage.css";
+import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import TeacherWorkshop from "../../components/WorkshopPage/TeacherWorkshop/TeacherWorkshop";
 
 function WorkshopPage() {
   const workshops = useWorkshop();
@@ -28,6 +30,8 @@ function WorkshopPage() {
           </button>
         </div>
       </div>
+      <TeacherWorkshop />
+      <FooterDashboard />
     </>
   );
 }
