@@ -1,8 +1,11 @@
+import { useAuthContext } from "../../../context/AuthContext";
 import useEventsClient from "../../../hooks/useEventsClient";
 import "./OldEventClient.css";
 
 function OldEventClient() {
-  const events = useEventsClient(2, "past");
+  const user = useAuthContext();
+
+  const events = useEventsClient(user?.id ?? 0, "past");
 
   return (
     <section className="old-event-client__container">

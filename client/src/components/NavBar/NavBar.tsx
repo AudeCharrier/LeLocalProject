@@ -35,12 +35,12 @@ function NavBar() {
       </div>
       <div className="navbar-connection-div">
         <button type="button" className="navbar-connection-button">
-          <Link to="/dashboard-client" className="navbar-link">
+          <Link to="/log-in" className="navbar-link">
             Se connecter
           </Link>
         </button>
         <button type="button" className="navbar-connection-button-2">
-          <Link to="/dashboard-admin" className="navbar-link">
+          <Link to="/sign-in" className="navbar-link">
             Rejoindre
           </Link>
         </button>

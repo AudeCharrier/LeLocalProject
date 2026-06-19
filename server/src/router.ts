@@ -3,15 +3,26 @@ import cartActions from "./modules/cart/cartAction";
 
 const router = express.Router();
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
-// Define time_slot-related routes
+import authMiddleware from "./Middlewares/authMiddleware";
+import authActions from "./modules/Authentification/AuthentificationAction";
 
+/* ************************************************************************* */
+// Auth routes (publiques)
+/* ************************************************************************* */
+router.post("/api/auth/register", authActions.register);
+router.post("/api/auth/login/client", authActions.loginClient);
+router.post("/api/auth/login/admin", authActions.loginAdmin);
+router.get("/api/auth/me", authMiddleware.requireAuth, authActions.me);
+
+/* ************************************************************************* */
+// Time slots (public)
+/* ************************************************************************* */
 import timeSlotActions from "./modules/timeSlot/timeSlotActions";
 
 router.get("/api/timeslots", timeSlotActions.browse);
 
+/* ************************************************************************* */
+// Spaces (public)
 /* ************************************************************************* */
 // Define space-related routes
 import spaceActions from "./modules/space/spaceActions";
@@ -20,28 +31,19 @@ router.get("/api/spaces", spaceActions.browse);
 router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
-// Define event-related routes
+// Events (public)
+/* ************************************************************************* */
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
 router.get(
   "/api/events/participants",
   eventActions.browseSumParticipantsToEvent,
-); /* dans la table booking en vrai*/
-
-import createEventFormAction from "./modules/createEventForm/createEventFormAction";
-
-import { upload } from "../public/upload/upload";
-
-router.get("/api/createEvent", createEventFormAction.browse);
-router.post(
-  "/api/createEvent",
-  upload.single("image"),
-  createEventFormAction.create,
 );
 
 /* ************************************************************************* */
-// Dashboard Client:
+// Dashboard Client (protégé client)
+/* ************************************************************************* */
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
 // Invoice
@@ -50,92 +52,128 @@ router.get("/api/invoice/:bookingId", dashboardClientActions.readInvoice);
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
+  authMiddleware.requireAuth,
   dashboardClientActions.browsePastEvents,
 );
 
-// 2.upcoming events the user is registered for
 router.get(
   "/api/dashboard/client/:userId/events/upcoming",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseUpcomingEvents,
 );
 
-// 3.past space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/past",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseOldBookings,
 );
 
-// 4.upcoming space bookings for a specific user
 router.get(
   "/api/dashboard/client/:userId/bookings/upcoming",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseUpcomingBookings,
 );
 
-// 5.bills for a specific user
 router.get(
   "/api/dashboard/client/:userId/billing",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseBookingHistory,
 );
 
-// 6.stats for a specific user
 router.get(
   "/api/dashboard/client/:userId/stats",
+  authMiddleware.requireAuth,
   dashboardClientActions.browseStats,
 );
 
-// Create a claim for a specific user
 router.post(
   "/api/dashboard/client/:userId/claims",
+  authMiddleware.requireAuth,
   dashboardClientActions.addClaim,
 );
 
 /* ************************************************************************* */
-// Dashboard Admin:
+// Dashboard Admin (protégé admin)
+/* ************************************************************************* */
 import dasboardAdminActions from "./modules/dashboardAdmin/dashboardAdminActions";
 
-router.get("/api/dashboard/admin/stats", dasboardAdminActions.browseAdminStats);
+router.get(
+  "/api/dashboard/admin/stats",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminStats,
+);
 
 router.get(
   "/api/dashboard/admin/bookings",
+  authMiddleware.requireAdmin,
   dasboardAdminActions.browseAdminBookings,
 );
 
-router.get("/api/dashboard/admin/claims", dasboardAdminActions.browseClaims);
+router.get(
+  "/api/dashboard/admin/claims",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseClaims,
+);
 
 /* ************************************************************************* */
-// Define cart-related routes
+// Panier (protégé client)
+/* ************************************************************************* */
+router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
 
-// Panier — récupère tous les articles d'un utilisateur (avec détail des events)
-router.get("/api/cart/:userId", cartActions.browse);
+// add an item into cart
+router.post("/api/cart", authMiddleware.requireAuth, cartActions.add);
 
-// Panier — ajoute un article (ou incrémente si déjà présent)
-router.post("/api/cart", cartActions.add);
+//update a cart item
+router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);
 
-// Panier — modifie la quantité d'un article
-router.patch("/api/cart/:id", cartActions.edit);
+// delete an item into cart
+router.delete("/api/cart/:id", authMiddleware.requireAuth, cartActions.destroy);
 
-// Panier — supprime un article précis
-router.delete("/api/cart/:id", cartActions.destroy);
-
-// Panier — vide tout le panier d'un utilisateur (après paiement par ex.)
-router.delete("/api/cart/user/:userId", cartActions.destroyAll);
+// clear the cart of a user
+router.delete(
+  "/api/cart/user/:userId",
+  authMiddleware.requireAuth,
+  cartActions.destroyAll,
+);
 
 /* ************************************************************************* */
-// Define payment-related routes
+// Create Event (protégé admin)
+/* ************************************************************************* */
+import { upload } from "../public/upload/upload";
+import createEventFormAction from "./modules/createEventForm/createEventFormAction";
 
+router.get(
+  "/api/createEvent",
+  authMiddleware.requireAdmin,
+  createEventFormAction.browse,
+);
+router.post(
+  "/api/createEvent",
+  authMiddleware.requireAdmin,
+  upload.single("image"),
+  createEventFormAction.create,
+);
+
+/* ************************************************************************* */
+// Payment (protégé client)
+/* ************************************************************************* */
 import paymentActions from "./modules/Payment/PaymentAction";
 
-router.post("/api/payment/create-intent", paymentActions.createIntent);
+router.post(
+  "/api/payment/create-intent",
+  authMiddleware.requireAuth,
+  paymentActions.createIntent,
+);
 
 /* ************************************************************************* */
 // Define booking-related routes
 
 import bookingActions from "./modules/bookingActions/bookingActions";
 
-// insert activity booked into activity table
-router.post("/api/bookings", bookingActions.add);
+// insert activity booked into cart table and activity table
+router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
 
-// insert cart content into booking table
-router.post("/api/booking", bookingActions.add);
+// insert into boooking table
+router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 
 export default router;

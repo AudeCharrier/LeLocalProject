@@ -2,6 +2,8 @@ import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import "./Cart.css";
 import { Link } from "react-router";
+import { useAuthContext } from "../../context/AuthContext";
+import { apiFetch } from "../../hooks/apiFetch";
 import useCart from "../../hooks/useCart";
 import type { CartItem } from "../../types/cart";
 
@@ -11,8 +13,8 @@ const PROMO_CODES: Record<string, number> = {
 };
 
 function Cart() {
-  const cart = useCart(2);
-
+  const user = useAuthContext();
+  const cart = useCart(user?.id ?? 0);
   const [carts, setCarts] = useState<CartItem[]>([]);
   const [message, setMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
@@ -54,7 +56,7 @@ function Cart() {
     const newQuantity = item.quantity + 1;
 
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
+      await apiFetch(`/api/cart/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -75,7 +77,7 @@ function Cart() {
     const newQuantity = item.quantity - 1;
 
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
+      await apiFetch(`/api/cart/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -91,7 +93,7 @@ function Cart() {
 
   const deleteItem = async (id: number) => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/${id}`, {
+      await apiFetch(`/api/cart/${id}`, {
         method: "DELETE",
       });
 
@@ -245,8 +247,7 @@ function Cart() {
               Procéder au paiement
             </button>
           </Link>
-        </div>{" "}
-        {/* ← fermeture de cart-summary-card */}
+        </div>
         {message && <p className="cart-notification">{message}</p>}
       </aside>
     </section>
