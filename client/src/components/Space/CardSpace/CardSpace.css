@@ -1,47 +1,87 @@
 .div-Card {
   background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  padding: 28px;
+  border: 1px solid var(--color-border-card);
+  padding: var(--space-7);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: var(--space-4);
   width: 100%;
+}
 
-  h3 {
-    font-size: 32px;
-    line-height: 42px;
-    color: var(--color-forest);
-  }
+/* ── Titre ── */
+.div-Card h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-forest);
+}
 
-  p {
-    font-size: 16px;
-    line-height: 28px;
-    color: var(--color-text-secondary);
-  }
+/* ── Description ── */
+.div-Card p {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
 
-  span {
-    background: var(--color-bg-1);
-    border: 1px solid var(--color-bg-2);
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    margin-bottom: 8px;
-  }
+/* ── Liste des créneaux ── */
+.div-Card > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
 
-  button {
-    margin-top: 20px;
-    border: none;
-    background: var(--color-tag-bg);
-    color: var(--color-text-on-dark);
-    padding: 18px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
+/* ── Ligne créneau ── */
+.div-Card > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    &:hover {
-      opacity: 0.9;
-    }
-  }
+  background: var(--color-bg-1);
+  border: 1px solid var(--color-border-tag-1);
+  padding: var(--space-3) var(--space-4);
+}
+
+/* ── Spans (nom du créneau + prix) ── */
+.div-Card span {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ── Prix ── */
+.div-Card > div > div span:last-child {
+  color: var(--color-primary);
+}
+
+/* ── Bouton ── */
+.div-Card button {
+  margin-top: var(--space-2);
+
+  height: var(--btn-height-md);
+  padding: 0 var(--btn-padding-x-md);
+
+  border: none;
+  border-radius: var(--btn-radius);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+
+  font-family: var(--font-ui);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  letter-spacing: var(--btn-letter-spacing);
+
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.div-Card button:hover {
+  background: var(--btn-primary-bg-hover);
 }

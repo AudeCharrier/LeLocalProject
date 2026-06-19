@@ -5,6 +5,7 @@ import useSpaces from "../../hooks/useSpaces";
 
 function SpaceSection() {
   const spaces = useSpaces();
+  const randomSpaces = [...spaces].sort(() => Math.random() - 0.5).slice(0, 6);
 
   return (
     <section className="sectionSpace">
@@ -14,7 +15,7 @@ function SpaceSection() {
         <p>Tous les espaces</p>
       </div>
       <section className="section-cardspace">
-        {spaces.map((space) => (
+        {randomSpaces.map((space) => (
           <CardSpace key={space.id} fakeArraySpace={space} />
         ))}
       </section>
