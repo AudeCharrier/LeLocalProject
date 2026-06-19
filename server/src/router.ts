@@ -136,6 +136,6 @@ import bookingActions from "./modules/bookingActions/bookingActions";
 router.post("/api/bookings", bookingActions.add);
 
 // insert cart content into booking table
-router.post("/api/booking", bookingActions.add);
+router.post("/api/booking", bookingActions.create);
 
 export default router;

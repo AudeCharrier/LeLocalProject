@@ -1,10 +1,10 @@
 import { useState } from "react";
+import { useRef } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
+import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
-
-import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
@@ -72,6 +72,38 @@ function Events() {
     return "no-event";
   };
 
+  //carroussel
+  // Dans ton composant :
+  const carouselRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  // Gestion du scroll au clic sur les flèches
+  const scroll = (direction: string) => {
+    if (carouselRef.current) {
+      const { scrollLeft, clientWidth } = carouselRef.current;
+      // On scrolle de la largeur d'une carte environ (ex: 80% de la largeur visible)
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - clientWidth * 0.8
+          : scrollLeft + clientWidth * 0.8;
+
+      (carouselRef.current as HTMLElement).scrollTo({
+        left: scrollTo,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  // Optionnel : surveiller le scroll pour activer/désactiver les flèches ou mettre à jour les dots
+  const handleScroll = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      setCanScrollLeft(scrollLeft > 10);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    }
+  };
+
   return (
     <>
       <section className="events-section-hero">
@@ -88,32 +120,77 @@ function Events() {
       <section className="events-section-AGENDA">
         <h2 className="events-title">Agenda</h2>
         <div className="events-calendar-container">
-          <Calendar
-            onChange={(value) => {
-              if (value instanceof Date) {
-                chooseDate(value);
-              }
-            }}
-            value={selectedDate}
-            tileClassName={dynamicTileClassName}
-          />
-          {/*tileClassName est une propriété de calendar pour le css*/}
-          <div className="events-div-selected-events">
-            <div className="home-events">
-              {selectedEvents.map((selectedEvent) => {
-                const eventParticipants = participants.find(
-                  (p) => p.id_activity === selectedEvent.id,
-                );
-                return (
-                  <CardEvent
-                    key={selectedEvent.id}
-                    event={selectedEvent}
-                    participants={eventParticipants}
-                  />
-                );
-              })}
-            </div>
+          {/* Calendrier centré qui ne s'étire plus */}
+          <div className="calendar-wrapper">
+            <Calendar
+              onChange={(value) => {
+                if (value instanceof Date) {
+                  chooseDate(value);
+                }
+              }}
+              value={selectedDate}
+              tileClassName={dynamicTileClassName}
+            />
           </div>
+
+          {/* Structure du Carrousel avec ses contrôles */}
+          <div className="carousel-container">
+            {/* Flèche Gauche */}
+            <button
+              type="button"
+              className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
+              onClick={() => scroll("left")}
+              aria-label="Précédent"
+            >
+              ‹
+            </button>
+
+            {/* Fenêtre visible du carrousel */}
+            <div
+              className="events-div-selected-events"
+              ref={carouselRef}
+              onScroll={handleScroll}
+            >
+              <div className="home-events">
+                {selectedEvents.map((selectedEvent) => {
+                  const eventParticipants = participants.find(
+                    (p) => p.id_activity === selectedEvent.id,
+                  );
+                  return (
+                    /* La key reste UNIQUEMENT ici, sur le parent direct */
+                    <div className="carousel-item" key={selectedEvent.id}>
+                      <CardEvent
+                        event={selectedEvent}
+                        participants={eventParticipants}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Flèche Droite */}
+            <button
+              type="button"
+              className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
+              onClick={() => scroll("right")}
+              aria-label="Suivant"
+            >
+              ›
+            </button>
+          </div>
+
+          {/* Les Dots sont maintenant ici, bien centrés sous le bloc carrousel */}
+          {/* {selectedEvents.length > 1 && (
+            <div className="carousel-dots">
+              {selectedEvents.map((_, index) => (
+                <span
+                  key={index}
+                  className={`carousel-dot ${index === 0 ? "active" : ""}`}
+                />
+              ))}
+            </div> */}
+          {/*    )} */}
         </div>
       </section>
       <section className="events-section-NEXT">

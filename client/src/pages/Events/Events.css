@@ -1,12 +1,21 @@
-/* =============== AGENDA ====================*/
-
+/* Style de base pour le calendrier */
 .react-calendar {
   background: var(--color-bg-card);
   border: none;
   border-radius: var(--radius-xl);
   overflow: hidden;
   height: max-content;
+  width: 100%; /* S'adapte à son conteneur Grid */
 }
+/* =============== AGENDA ====================*/
+
+/* .react-calendar {
+  background: var(--color-bg-card);
+  border: none;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  height: max-content;
+} */
 .react-calendar__navigation {
   background: var(--color-primary);
   color: var(--color-tag-text);
@@ -94,7 +103,7 @@
     background-color: var(--color-text-secondary);
   }
 }
-.events-section-AGENDA {
+/* .events-section-AGENDA {
   padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
   .events-calendar-container {
@@ -102,6 +111,13 @@
     flex-direction: row;
     justify-content: flex-start;
   }
+}
+ */
+/* =============== AGENDA ====================*/
+/*gemini*/
+.events-section-AGENDA {
+  padding: var(--space-10) var(--space-20);
+  background: var(--color-bg-2);
 }
 .events-section-ALAUNE,
 .events-section-NEXT {
@@ -121,11 +137,108 @@
   color: var(--color-text-secondary);
   padding-bottom: var(--space-8);
 }
+
+/* Alignement vertical global (Calendrier puis Carrousel dessous) */
 .events-calendar-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+}
+/* Encapsulation du calendrier pour bloquer sa largeur maximale */
+.calendar-wrapper {
+  width: 100%;
+  max-width: 450px; /* Le calendrier gardera une taille humaine et harmonieuse */
+}
+
+/* --- STRUCTURE DU CARROUSEL --- */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px; /* Évite que le carrousel soit trop immense sur très grand écran */
+  padding: 0 var(--space-12); /* Espace pour laisser de la place aux flèches sur les côtés */
+}
+
+/* Fenêtre de défilement */
+.events-div-selected-events {
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Cache la barre sur Firefox */
+  padding-bottom: var(--space-4);
+}
+
+.events-div-selected-events::-webkit-scrollbar {
+  display: none; /* Cache la barre sur Chrome/Safari */
+}
+
+/* Gestion de la taille des cartes et de l'effet "aperçu" */
+.carousel-item {
+  /* 75% sur mobile pour bien voir le bout de la carte suivante */
+  flex: 0 0 75%;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+/* --- BOUTONS FLÈCHES --- */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-primary);
+  color: var(--color-tag-text);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 10;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow.left {
+  left: 0;
+}
+
+.carousel-arrow.right {
+  right: 0;
+}
+
+.carousel-arrow.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* --- DOTS (INDICATEURS) --- */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-bg-card); /* Devra contraster avec ton fond */
+  opacity: 0.5;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-dot.active {
+  opacity: 1;
+  background-color: var(--color-primary);
+  transform: scale(1.2);
 }
 /* =================== CARDS EVENTS ===================== */
 
@@ -137,7 +250,7 @@
   padding: 20px;
 }
 
-.home-events {
+/* .home-events {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -146,4 +259,19 @@
   width: 100%;
   gap: 2rem;
   /*   font-family: var(--font-body); */
+
+/*gemini*/
+/* Ligne unique obligatoire pour les cartes */
+.home-events {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* Ciblage des cartes d'événements à l'intérieur du carrousel */
+.home-events > * {
+  /* 85% de la largeur du conteneur laisse 15% pour voir le début de la carte suivante */
+  flex: 0 0 85%;
+  scroll-snap-align: start;
 }

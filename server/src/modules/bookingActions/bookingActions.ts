@@ -3,6 +3,7 @@ import type { RequestHandler } from "express";
 import databaseLeLocal from "../../../database/client";
 import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
+import bookingRepository from "./bookingRepository";
 
 type BookingPayload = {
   space_id: number;
@@ -204,4 +205,14 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add };
+const create: RequestHandler = async (req, res, next) => {
+  try {
+    const { userId, cartItems } = req.body;
+    await bookingRepository.create(userId, cartItems);
+    res.sendStatus(201);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default { add, create };
