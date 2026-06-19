@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./apiFetch";
 
 type AdminStats = {
   occupancy_rate: number;
@@ -16,9 +17,13 @@ function useAdminStats() {
   });
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/dashboard/admin/stats`)
+    apiFetch("/api/dashboard/admin/stats")
       .then((response) => response.json())
-      .then((data: AdminStats) => setStats(data));
+      .then((data) => {
+        if (data && typeof data === "object" && !Array.isArray(data)) {
+          setStats(data);
+        }
+      });
   }, []);
 
   return stats;

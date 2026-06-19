@@ -3,9 +3,11 @@ import { useState } from "react";
 import useEventsClient from "../../../hooks/useEventsClient";
 import AllActivitiesModal from "../AllActivitiesModal/AllActivitiesModal";
 import "./UpcomingEventClient.css";
+import { useAuthContext } from "../../../context/AuthContext";
 
 function UpcomingEventClient() {
-  const events = useEventsClient(2, "upcoming");
+  const user = useAuthContext();
+  const events = useEventsClient(user?.id ?? 0, "upcoming");
   const [showModal, setShowModal] = useState(false);
   const displayed = events.slice(0, 3);
 
