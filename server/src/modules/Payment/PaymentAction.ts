@@ -4,7 +4,7 @@ import paymentRepository from "./PaymentRepository";
 const createIntent: RequestHandler = async (req, res, next) => {
   try {
     const { amount } = req.body;
-    console.log("Amount reçu :", amount); // ← ajoute ça
+    console.log("Amount reçu :", amount);
 
     if (!amount || amount <= 0) {
       res.status(400).json({ message: "Montant invalide." });

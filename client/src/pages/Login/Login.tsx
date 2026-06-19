@@ -12,7 +12,7 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.MouseEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -68,29 +68,39 @@ export default function Login() {
           </button>
         </div>
 
-        <div className="auth-form-wrapper">
+        <form className="auth-form-wrapper" onSubmit={handleSubmit}>
           <h1 className="auth-title">Saisissez vos identifiants</h1>
 
           {error && <p className="auth-error">{error}</p>}
 
           <div className="auth-fields">
             <div className="auth-field">
+              <label htmlFor="email" className="auth-label">
+                Email
+              </label>
               <input
+                id="email"
                 type="email"
-                placeholder="Email"
+                placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
+                required
               />
             </div>
 
             <div className="auth-field">
+              <label htmlFor="password" className="auth-label">
+                Mot de passe
+              </label>
               <input
+                id="password"
                 type="password"
-                placeholder="Mot de passe"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
+                required
               />
             </div>
 
@@ -98,8 +108,9 @@ export default function Login() {
               Mot de passe oublié ?
             </a>
 
-            <label className="auth-remember">
+            <label className="auth-remember" htmlFor="remember">
               <input
+                id="remember"
                 type="checkbox"
                 checked={remember}
                 onChange={(e) => setRemember(e.target.checked)}
@@ -109,12 +120,7 @@ export default function Login() {
           </div>
 
           <div className="auth-footer">
-            <button
-              type="button"
-              className="auth-submit"
-              onClick={handleSubmit}
-              disabled={loading}
-            >
+            <button type="submit" className="auth-submit" disabled={loading}>
               {loading ? "Connexion..." : "Se connecter"}
             </button>
 
@@ -122,7 +128,7 @@ export default function Login() {
               Pas encore de compte ? <a href="/sign-in">Créer un compte</a>
             </p>
           </div>
-        </div>
+        </form>
       </div>
 
       <div className="auth-visual" />

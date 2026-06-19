@@ -15,7 +15,6 @@ const PROMO_CODES: Record<string, number> = {
 function Cart() {
   const user = useAuthContext();
   const cart = useCart(user?.id ?? 0);
-
   const [carts, setCarts] = useState<CartItem[]>([]);
   const [message, setMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
@@ -249,7 +248,6 @@ function Cart() {
             </button>
           </Link>
         </div>
-        {/* ← fermeture de cart-summary-card */}
         {message && <p className="cart-notification">{message}</p>}
       </aside>
     </section>

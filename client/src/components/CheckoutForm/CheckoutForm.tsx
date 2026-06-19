@@ -16,10 +16,8 @@ interface Props {
 function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
   const stripe = useStripe();
   const elements = useElements();
-
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const [isPaid, setIsPaid] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,6 +44,7 @@ function CheckoutForm({ totalPrice, userId, cartItems, onSuccess }: Props) {
         method: "POST",
         body: JSON.stringify({ userId, cartItems }),
       });
+      console.log({ userId, cartItems });
 
       console.log("Réponse booking :", response.status);
       onSuccess();
