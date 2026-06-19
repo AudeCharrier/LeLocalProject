@@ -3,6 +3,7 @@ import { useState } from "react";
 import useBillingClient from "../../../hooks/useBillingClient";
 import useCreateClaim from "../../../hooks/useCreateClaim";
 import "./ClaimClient.css";
+import { useAuthContext } from "../../../context/AuthContext";
 
 const CATEGORIES = [
   "Espace",
@@ -13,25 +14,29 @@ const CATEGORIES = [
 ];
 
 function ClaimClient() {
+  const user = useAuthContext();
   const [category, setCategory] = useState("Espace");
   const [title, setTitle] = useState("");
   const [activityId, setActivityId] = useState("");
   const [message, setMessage] = useState("");
-  const billing = useBillingClient(2);
+  const billing = useBillingClient(user?.id ?? 0);
   const { createClaim } = useCreateClaim();
   const [success, setSuccess] = useState(false);
 
   function handleSubmit() {
-    createClaim({ title, category, message, activity_id: activityId }).then(
-      () => {
-        setTitle("");
-        setMessage("");
-        setActivityId("");
-        setCategory("Espace");
-        setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
-      },
-    );
+    createClaim(user?.id ?? 0, {
+      title,
+      category,
+      message,
+      activity_id: activityId,
+    }).then(() => {
+      setTitle("");
+      setMessage("");
+      setActivityId("");
+      setCategory("Espace");
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    });
   }
 
   return (
