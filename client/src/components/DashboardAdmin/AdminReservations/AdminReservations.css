@@ -1,0 +1,114 @@
+.admin-reservations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  .admin-reservations__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .admin-reservations__title {
+    color: var(--color-forest);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+  }
+
+  .admin-reservations__empty {
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+  }
+
+  .admin-reservations__table-scroll {
+    overflow-x: auto;
+    background: rgba(242, 235, 223, 0.6);
+    border: 1px solid var(--color-border);
+  }
+
+  .admin-reservations__table {
+    width: 100%;
+    min-width: 960px;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: var(--space-5) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  th {
+    color: var(--color-text-muted);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: var(--font-semibold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+
+  td {
+    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+  }
+
+  td:nth-child(2),
+  td:nth-child(6) {
+    color: var(--color-forest);
+    font-weight: var(--font-semibold);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .admin-reservations__status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-3);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+  }
+
+  .admin-reservations__status--confirmed {
+    background: rgba(124, 168, 90, 0.16);
+    color: #6f9f4a;
+  }
+
+  .admin-reservations__status--pending {
+    background: rgba(255, 219, 109, 0.28);
+    color: #d06d00;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: var(--space-4);
+
+    .admin-reservations__table {
+      min-width: 760px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .admin-reservations__title {
+      font-size: 2rem;
+    }
+
+    th,
+    td {
+      padding: var(--space-3) var(--space-3);
+    }
+
+    td,
+    .admin-reservations__status {
+      font-size: var(--text-sm);
+    }
+  }
+}
