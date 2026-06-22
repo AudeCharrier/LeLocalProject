@@ -19,7 +19,7 @@ function DashboardAdminPage() {
   return (
     <section className="dashboard-admin-page">
       <div className="dashboard-admin-page__header">
-        <h1 className="dashboard-admin-page__heading">Tableau de bord</h1>
+        <h1 className="dashboard-admin-page__heading">Tableau de bords</h1>
       </div>
       <DashboardAdminNav />
       <div className="dashboard-admin-content">
