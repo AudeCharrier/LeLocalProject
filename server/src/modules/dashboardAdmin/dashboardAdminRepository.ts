@@ -20,6 +20,14 @@ type AdminStats = {
   occupancy_rate: number;
   bookings_count: number;
   active_members: number;
+  claims_count: number;
+};
+
+type AdminClaimNotification = {
+  id: number;
+  title: string;
+  detail: string;
+  variant: "warning";
 };
 
 type Claim = {
@@ -61,10 +69,28 @@ class DashboardAdminRepository {
           SELECT COUNT(*)
           FROM users
           WHERE role = 'client'
-        ) AS active_members`,
+        ) AS active_members,
+        (
+          SELECT COUNT(*)
+          FROM claim
+        ) AS claims_count`,
     );
 
     return rows[0] as AdminStats;
+  }
+
+  async readAdminClaimNotifications() {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+        c.id,
+        CONCAT('Réclamation: ', c.title) AS title,
+        CONCAT(c.category, ' • ', c.claim_date) AS detail,
+        'warning' AS variant
+      FROM claim c
+      ORDER BY c.id DESC`,
+    );
+
+    return rows as AdminClaimNotification[];
   }
 
   async readAdminBookings() {

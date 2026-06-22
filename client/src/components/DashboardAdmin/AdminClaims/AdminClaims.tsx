@@ -3,13 +3,18 @@ import { useState } from "react";
 import useAdminClaims from "../../../hooks/useAdminClaims";
 import "./AdminClaims.css";
 
-function AdminClaims() {
+type AdminClaimsProps = {
+  previewLimit?: number;
+};
+
+function AdminClaims({ previewLimit }: AdminClaimsProps) {
   const claims = useAdminClaims();
   const [openId, setOpenId] = useState<number | null>(null);
   const [drafts, setDrafts] = useState<Record<number, string>>({});
   const [sentResponses, setSentResponses] = useState<Record<number, string>>(
     {},
   );
+  const visibleClaims = previewLimit ? claims.slice(0, previewLimit) : claims;
 
   const pendingCount = claims.filter((c) => !(c.id in sentResponses)).length;
 
@@ -46,7 +51,7 @@ function AdminClaims() {
         <p className="admin-claims__empty">Aucune réclamation.</p>
       ) : (
         <ul className="admin-claims__list">
-          {claims.map((claim) => {
+          {visibleClaims.map((claim) => {
             const isOpen = openId === claim.id;
             const isSent = claim.id in sentResponses;
 

@@ -39,11 +39,9 @@ function Body() {
     (category) =>
       [category, groupedSpaces[category]] as [string, typeof filteredSpaces],
   );
-
   const leftCategories = categories.filter(
     ([category]) => category === "Openspace" || category === "Salle de réunion",
   );
-
   const rightCategories = categories.filter(
     ([category]) => category !== "Openspace" && category !== "Salle de réunion",
   );

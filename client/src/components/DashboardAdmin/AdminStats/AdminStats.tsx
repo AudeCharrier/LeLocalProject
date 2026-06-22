@@ -1,8 +1,10 @@
 import "./AdminStats.css";
+import useAdminClaims from "../../../hooks/useAdminClaims";
 import useAdminStats from "../../../hooks/useAdminStats";
 
 function AdminStats() {
   const { occupancy_rate, bookings_count, active_members } = useAdminStats();
+  const claims = useAdminClaims();
 
   return (
     <section className="admin-stats" aria-label="Admin dashboard statistics">
@@ -27,7 +29,7 @@ function AdminStats() {
 
         <article className="admin-stats__card">
           <p className="admin-stats__label">Réclamations</p>
-          <p className="admin-stats__value">2</p>
+          <p className="admin-stats__value">{claims.length}</p>
           <p className="admin-stats__detail">Non traitées</p>
         </article>
       </div>

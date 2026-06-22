@@ -3,6 +3,7 @@ import { useRef } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
+import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import "./Events.css";
@@ -131,57 +132,59 @@ function Events() {
               value={selectedDate}
               tileClassName={dynamicTileClassName}
             />
-          </div>
+            {/*tileClassName est une propriété de calendar pour le css*/}
 
-          {/* Structure du Carrousel avec ses contrôles */}
-          <div className="carousel-container">
-            {/* Flèche Gauche */}
-            <button
-              type="button"
-              className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
-              onClick={() => scroll("left")}
-              aria-label="Précédent"
-            >
-              ‹
-            </button>
+            {/* Structure du Carrousel avec ses contrôles */}
+            <div className="carousel-container">
+              {/* Flèche Gauche */}
+              <button
+                type="button"
+                className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
+                onClick={() => scroll("left")}
+                aria-label="Précédent"
+              >
+                ‹
+              </button>
 
-            {/* Fenêtre visible du carrousel */}
-            <div
-              className="events-div-selected-events"
-              ref={carouselRef}
-              onScroll={handleScroll}
-            >
-              <div className="home-events">
-                {selectedEvents.map((selectedEvent) => {
-                  const eventParticipants = participants.find(
-                    (p) => p.id_activity === selectedEvent.id,
-                  );
-                  return (
-                    /* La key reste UNIQUEMENT ici, sur le parent direct */
-                    <div className="carousel-item" key={selectedEvent.id}>
-                      <CardEvent
-                        event={selectedEvent}
-                        participants={eventParticipants}
-                      />
-                    </div>
-                  );
-                })}
+              {/* Fenêtre visible du carrousel */}
+              <div
+                className="events-div-selected-events"
+                ref={carouselRef}
+                onScroll={handleScroll}
+              >
+                <div className="home-events">
+                  {selectedEvents.map((selectedEvent) => {
+                    const eventParticipants = participants.find(
+                      (p) => p.id_activity === selectedEvent.id,
+                    );
+                    return (
+                      /* La key reste UNIQUEMENT ici, sur le parent direct */
+                      <div className="carousel-item" key={selectedEvent.id}>
+                        <ModalEventProvider key={selectedEvent.id}>
+                          <CardEvent
+                            event={selectedEvent}
+                            participants={eventParticipants}
+                          />
+                        </ModalEventProvider>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Flèche Droite */}
+              <button
+                type="button"
+                className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
+                onClick={() => scroll("right")}
+                aria-label="Suivant"
+              >
+                ›
+              </button>
             </div>
 
-            {/* Flèche Droite */}
-            <button
-              type="button"
-              className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
-              onClick={() => scroll("right")}
-              aria-label="Suivant"
-            >
-              ›
-            </button>
-          </div>
-
-          {/* Les Dots sont maintenant ici, bien centrés sous le bloc carrousel */}
-          {/* {selectedEvents.length > 1 && (
+            {/* Les Dots sont maintenant ici, bien centrés sous le bloc carrousel */}
+            {/* {selectedEvents.length > 1 && (
             <div className="carousel-dots">
               {selectedEvents.map((_, index) => (
                 <span
@@ -190,7 +193,8 @@ function Events() {
                 />
               ))}
             </div> */}
-          {/*    )} */}
+            {/*    )} */}
+          </div>
         </div>
       </section>
       <section className="events-section-NEXT">
@@ -210,11 +214,13 @@ function Events() {
               (p) => p.id_activity === upcomingEvent.id,
             );
             return (
-              <CardEvent
-                key={upcomingEvent.id}
-                event={upcomingEvent}
-                participants={eventParticipants}
-              />
+              <ModalEventProvider key={upcomingEvent.id}>
+                <CardEvent
+                  /*  key={upcomingEvent.id} */
+                  event={upcomingEvent}
+                  participants={eventParticipants}
+                />
+              </ModalEventProvider>
             );
           })}
         </div>
