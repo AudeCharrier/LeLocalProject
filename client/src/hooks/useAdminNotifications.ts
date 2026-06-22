@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./apiFetch";
 
 type AdminNotification = {
   id: number;
@@ -11,7 +12,7 @@ function useAdminNotifications() {
   const [notifications, setNotifications] = useState<AdminNotification[]>([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/dashboard/admin/claims`)
+    apiFetch("/api/dashboard/admin/claims")
       .then((response) => response.json())
       .then((data: AdminNotification[]) => setNotifications(data));
   }, []);

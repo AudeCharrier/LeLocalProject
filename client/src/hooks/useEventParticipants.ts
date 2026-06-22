@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./apiFetch";
 
 type EventParticipant = {
   id_activity: number;
@@ -11,7 +12,7 @@ function useEventParticipants() {
   const [participants, setParticipants] = useState<EventParticipant[]>([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/events/participants`)
+    apiFetch("/api/events/participants")
       .then((response) => response.json())
       .then((data: EventParticipant[]) => setParticipants(data));
   }, []);
