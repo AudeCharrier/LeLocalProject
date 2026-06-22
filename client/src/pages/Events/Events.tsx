@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
+import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
+import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
-
-import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
@@ -105,11 +105,13 @@ function Events() {
                   (p) => p.id_activity === selectedEvent.id,
                 );
                 return (
-                  <CardEvent
-                    key={selectedEvent.id}
-                    event={selectedEvent}
-                    participants={eventParticipants}
-                  />
+                  <ModalEventProvider key={selectedEvent.id}>
+                    <CardEvent
+                      /*  key={selectedEvent.id} */
+                      event={selectedEvent}
+                      participants={eventParticipants}
+                    />
+                  </ModalEventProvider>
                 );
               })}
             </div>
@@ -133,11 +135,13 @@ function Events() {
               (p) => p.id_activity === upcomingEvent.id,
             );
             return (
-              <CardEvent
-                key={upcomingEvent.id}
-                event={upcomingEvent}
-                participants={eventParticipants}
-              />
+              <ModalEventProvider key={upcomingEvent.id}>
+                <CardEvent
+                  /*  key={upcomingEvent.id} */
+                  event={upcomingEvent}
+                  participants={eventParticipants}
+                />
+              </ModalEventProvider>
             );
           })}
         </div>
