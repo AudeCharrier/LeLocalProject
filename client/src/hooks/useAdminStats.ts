@@ -5,6 +5,7 @@ type AdminStats = {
   occupancy_rate: number;
   bookings_count: number;
   active_members: number;
+  claims_count: number;
 };
 
 function useAdminStats() {
@@ -12,6 +13,7 @@ function useAdminStats() {
     occupancy_rate: 0,
     bookings_count: 0,
     active_members: 0,
+    claims_count: 0,
   });
 
   useEffect(() => {
