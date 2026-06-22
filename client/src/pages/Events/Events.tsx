@@ -73,38 +73,49 @@ function Events() {
     return "no-event";
   };
 
-  //carroussel
-  // Dans ton composant :
-  const carouselRef = useRef(null);
+  // Carrousel
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [_activeIndex, setActiveIndex] = useState(0);
 
   // Gestion du scroll au clic sur les flèches
-  const scroll = (direction: string) => {
+  const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
       const { scrollLeft, clientWidth } = carouselRef.current;
-      // On scrolle de la largeur d'une carte environ (ex: 80% de la largeur visible)
-      const scrollTo =
-        direction === "left"
-          ? scrollLeft - clientWidth * 0.8
-          : scrollLeft + clientWidth * 0.8;
 
-      (carouselRef.current as HTMLElement).scrollTo({
+      // On utilise 0.58 pour correspondre aux 55% de la carte + le gap
+      const cardWidth = clientWidth * 0.58;
+
+      const scrollTo =
+        direction === "left" ? scrollLeft - cardWidth : scrollLeft + cardWidth;
+
+      carouselRef.current.scrollTo({
         left: scrollTo,
         behavior: "smooth",
       });
     }
   };
 
-  // Optionnel : surveiller le scroll pour activer/désactiver les flèches ou mettre à jour les dots
+  // Surveiller le scroll pour activer/désactiver les flèches ET mettre à jour les dots
   const handleScroll = () => {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+      // 1. Gestion des flèches
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+
+      // 2. Gestion des dots (calcul basé sur la taille d'une carte)
+      const cardWidth = clientWidth * 0.58;
+      const newIndex = Math.round(scrollLeft / cardWidth);
+
+      // Sécurité pour rester dans les bornes du tableau
+      if (newIndex >= 0 && newIndex < selectedEvents.length) {
+        setActiveIndex(newIndex);
+      }
     }
   };
-
   return (
     <>
       <section className="events-section-hero">
@@ -133,68 +144,77 @@ function Events() {
               tileClassName={dynamicTileClassName}
             />
             {/*tileClassName est une propriété de calendar pour le css*/}
+          </div>
+          {/* Structure du Carrousel avec ses contrôles */}
+          <div className="carousel-container">
+            {/* Flèche Gauche */}
+            <button
+              type="button"
+              className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
+              onClick={() => scroll("left")}
+              aria-label="Précédent"
+            >
+              ‹
+            </button>
 
-            {/* Structure du Carrousel avec ses contrôles */}
-            <div className="carousel-container">
-              {/* Flèche Gauche */}
-              <button
-                type="button"
-                className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
-                onClick={() => scroll("left")}
-                aria-label="Précédent"
-              >
-                ‹
-              </button>
-
-              {/* Fenêtre visible du carrousel */}
-              <div
-                className="events-div-selected-events"
-                ref={carouselRef}
-                onScroll={handleScroll}
-              >
-                <div className="home-events">
-                  {selectedEvents.map((selectedEvent) => {
-                    const eventParticipants = participants.find(
-                      (p) => p.id_activity === selectedEvent.id,
-                    );
-                    return (
-                      /* La key reste UNIQUEMENT ici, sur le parent direct */
-                      <div className="carousel-item" key={selectedEvent.id}>
-                        <ModalEventProvider key={selectedEvent.id}>
-                          <CardEvent
-                            event={selectedEvent}
-                            participants={eventParticipants}
-                          />
-                        </ModalEventProvider>
-                      </div>
-                    );
-                  })}
-                </div>
+            {/* Fenêtre visible du carrousel */}
+            <div
+              className="events-div-selected-events"
+              ref={carouselRef}
+              onScroll={handleScroll}
+            >
+              <div className="home-events">
+                {selectedEvents.map((selectedEvent) => {
+                  const eventParticipants = participants.find(
+                    (p) => p.id_activity === selectedEvent.id,
+                  );
+                  return (
+                    <div className="carousel-item" key={selectedEvent.id}>
+                      <ModalEventProvider key={selectedEvent.id}>
+                        <CardEvent
+                          event={selectedEvent}
+                          participants={eventParticipants}
+                        />
+                      </ModalEventProvider>
+                    </div>
+                  );
+                })}
               </div>
-
-              {/* Flèche Droite */}
-              <button
-                type="button"
-                className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
-                onClick={() => scroll("right")}
-                aria-label="Suivant"
-              >
-                ›
-              </button>
             </div>
 
-            {/* Les Dots sont maintenant ici, bien centrés sous le bloc carrousel */}
-            {/* {selectedEvents.length > 1 && (
+            {/* Flèche Droite */}
+            <button
+              type="button"
+              className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
+              onClick={() => scroll("right")}
+              aria-label="Suivant"
+            >
+              ›
+            </button>
+          </div>
+
+          {/* Les Dots sous le bloc carrousel */}
+          {/* {selectedEvents.length > 1 && (
             <div className="carousel-dots">
               {selectedEvents.map((_, index) => (
-                <span
+                <button
                   key={index}
-                  className={`carousel-dot ${index === 0 ? "active" : ""}`}
+                  type="button"
+                  className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
+                  onClick={() => {
+                    if (carouselRef.current) {
+                      const cardWidth = carouselRef.current.clientWidth * 0.58;
+                      carouselRef.current.scrollTo({
+                        left: index * cardWidth,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                  aria-label={`Aller à la diapositive évènement ${index + 1}`}
                 />
               ))}
-            </div> */}
-            {/*    )} */}
-          </div>
+            </div>
+          )} */}
         </div>
       </section>
       <section className="events-section-NEXT">
@@ -232,4 +252,4 @@ function Events() {
 
 export default Events;
 
-/*code repris de EventSection pour la demo-> voir pour refacto, faire un composant */
+/*code repris de EventSection -> voir pour refacto, faire un composant */

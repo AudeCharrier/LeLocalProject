@@ -149,15 +149,15 @@
 /* Encapsulation du calendrier pour bloquer sa largeur maximale */
 .calendar-wrapper {
   width: 100%;
-  max-width: 450px; /* Le calendrier gardera une taille humaine et harmonieuse */
+  max-width: 450px;
 }
 
 /* --- STRUCTURE DU CARROUSEL --- */
 .carousel-container {
   position: relative;
-  width: 100%;
-  max-width: 1200px; /* Évite que le carrousel soit trop immense sur très grand écran */
-  padding: 0 var(--space-12); /* Espace pour laisser de la place aux flèches sur les côtés */
+  width: 70%;
+  max-width: 100%;
+  padding: 0 var(--space-12);
 }
 
 /* Fenêtre de défilement */
@@ -167,6 +167,7 @@
   scroll-behavior: smooth;
   scrollbar-width: none; /* Cache la barre sur Firefox */
   padding-bottom: var(--space-4);
+  scroll-snap-type: x mandatory; /* Force l'aimantation horizontale */
 }
 
 .events-div-selected-events::-webkit-scrollbar {
@@ -175,28 +176,29 @@
 
 /* Gestion de la taille des cartes et de l'effet "aperçu" */
 .carousel-item {
-  /* 75% sur mobile pour bien voir le bout de la carte suivante */
-  flex: 0 0 75%;
+  width: 100%;
+  flex: 0 0 55%;
   scroll-snap-align: start;
   box-sizing: border-box;
+  scroll-snap-align: start; /* L'aimant se situe au début de la carte */
 }
 
 /* --- BOUTONS FLÈCHES --- */
 .carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--color-primary);
-  color: var(--color-tag-text);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-tag-text);
   font-size: 1.2rem;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
   z-index: 10;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -218,7 +220,7 @@
   pointer-events: none;
 }
 
-/* --- DOTS (INDICATEURS) --- */
+/* --- DOTS  --- */
 .carousel-dots {
   display: flex;
   justify-content: center;
@@ -230,9 +232,12 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: var(--color-bg-card); /* Devra contraster avec ton fond */
+  background-color: var(--color-bg-card);
   opacity: 0.5;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .carousel-dot.active {
@@ -261,17 +266,9 @@
   /*   font-family: var(--font-body); */
 
 /*gemini*/
-/* Ligne unique obligatoire pour les cartes */
 .home-events {
   display: flex;
   flex-direction: row;
   gap: var(--space-6);
   width: 100%;
-}
-
-/* Ciblage des cartes d'événements à l'intérieur du carrousel */
-.home-events > * {
-  /* 85% de la largeur du conteneur laisse 15% pour voir le début de la carte suivante */
-  flex: 0 0 85%;
-  scroll-snap-align: start;
 }
