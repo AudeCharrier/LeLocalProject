@@ -8,6 +8,7 @@ type TokenPayload = {
   id: number;
   email: string;
   role: string;
+  firstname: string;
 };
 
 const signToken = (payload: TokenPayload): string => {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   CartesianGrid,
   Line,
@@ -8,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import "./AdminOverview.css";
+import useAdminNotifications from "../../../hooks/useAdminNotifications";
 
 const chartMargin = { top: 12, right: 8, left: -24, bottom: 0 };
 
@@ -35,29 +37,6 @@ const chartDotStyle = {
   strokeWidth: 3,
 };
 
-const notifications = [
-  {
-    title: "Réclamation: bruit excessif Studio Son – Marc B.",
-    detail: "Il y a 2h",
-    variant: "warning",
-  },
-  {
-    title: "Nouvelle réservation Openspace pour demain 14h",
-    detail: "Il y a 3h",
-    variant: "normal",
-  },
-  {
-    title: "Réclamation: matériel défectueux Labo Élec – Jina K.",
-    detail: "Hier",
-    variant: "warning",
-  },
-  {
-    title: "Paiement confirmé – Camille P. (Studio Photo 105€)",
-    detail: "Hier",
-    variant: "normal",
-  },
-] as const;
-
 const occupancyData = [
   { day: "Lun", rate: 58 },
   { day: "Mar", rate: 64 },
@@ -67,6 +46,14 @@ const occupancyData = [
 ];
 
 function AdminOverview() {
+  const [showAllNotifications, setShowAllNotifications] = useState(false);
+  const notifications = useAdminNotifications();
+  const warningCount = notifications.length;
+
+  const visibleNotifications = showAllNotifications
+    ? notifications
+    : notifications.slice(0, 4);
+
   return (
     <section className="admin-overview">
       <article className="admin-overview__panel admin-overview__panel--chart">
@@ -117,15 +104,27 @@ function AdminOverview() {
       <article className="admin-overview__panel admin-overview__panel--notifications">
         <header className="admin-overview__panel-header">
           <h2 className="admin-overview__title">Notifications</h2>
-          <span className="admin-overview__badge" aria-label="2 alertes">
-            2 alertes
-          </span>
+          <div className="admin-overview__header-actions">
+            <span
+              className="admin-overview__badge"
+              aria-label={`${warningCount} alertes`}
+            >
+              {warningCount} alertes
+            </span>
+            <button
+              className="admin-overview__button"
+              onClick={() => setShowAllNotifications((current) => !current)}
+              type="button"
+            >
+              {showAllNotifications ? "Réduire" : "Voir tout"}
+            </button>
+          </div>
         </header>
 
         <ul className="admin-overview__notification-list">
-          {notifications.map((notification) => (
+          {visibleNotifications.map((notification) => (
             <li
-              key={`${notification.title}-${notification.detail}`}
+              key={notification.id}
               className={`admin-overview__notification admin-overview__notification--${notification.variant}`}
             >
               <div className="admin-overview__notification-marker" />

@@ -68,10 +68,12 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `phone_number_UNIQUE` (`phone_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-INSERT INTO users VALUES (1,'0123456789','nina.richard@lelocal.fr','Richard','gfgfgd','gfgfdgfd',NULL,NULL,'admin',NULL,'Nina','2026-05-01 00:00:00'),(2,'9876543210','bob.arley@gmail.com','Marley','fgfdgdfgfd','gfgfdgf',NULL,NULL,'client',NULL,'Bob','2026-05-04 00:00:00');
+INSERT INTO users VALUES 
+(1,'0123456789','nina.richard@lelocal.fr','Richard','$argon2id$v=19$m=65536,t=3,p=4$q6gf2x4DZqzG+fcle0NyOQ$XVkebpNys34lZ2D1sF3TtisOMrJ8X6/vneDss45GSjk','',NULL,NULL,'admin',NULL,'Nina','2026-05-01 00:00:00'),
+(2,'0611223344','admin2@lelocal.fr','Dupont','$argon2id$v=19$m=65536,t=3,p=4$Wvw6//w0PwWbnsFTAP1G9w$Om9jgcbU2XRQf5SFeukUdnDVy0+RusLrHcnI94apilc','',NULL,NULL,'admin',NULL,'Julie','2026-06-22 00:00:00');
 
 DROP TABLE IF EXISTS `activity`;
 
@@ -127,16 +129,6 @@ CREATE TABLE `booking` (
   CONSTRAINT `fk_booking_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
-CREATE TRIGGER before_insert_booking
-BEFORE INSERT ON booking
-FOR EACH ROW
-SET NEW.bills_number = CONCAT(
-    YEAR(CURDATE()), 
-    '-', 
-    (SELECT COUNT(*) + 1 FROM booking WHERE bills_number LIKE CONCAT(YEAR(CURDATE()), '-%'))
-);
-
 -- drop table if exists en haut du doc, doit intervenir avant drop users
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -173,7 +165,6 @@ INSERT INTO `claim` VALUES
 (2, 'Remboursement festival', 'Événement', 'Bonjour, étant tombée malade, je n ai pas pu assister au Festival local de juillet. Serait-il possible d obtenir un remboursement ou un avoir ?', '2026-06-01', 2, 5),
 (3, 'Facture incorrecte', 'Facturation', 'Bonjour, j ai été facturée deux fois pour la session de coworking du 20 mai après-midi. Merci de vérifier et de corriger cette erreur.', '2026-05-21', 2, 8),
 (4, 'Test connexion BDD', 'Autre', 'Ceci est un test', '2026-06-15', 2, 1);
-
 
 
 

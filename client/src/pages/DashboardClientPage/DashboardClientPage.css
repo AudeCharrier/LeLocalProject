@@ -17,6 +17,7 @@
     font-size: var(--text-3xl);
     font-weight: var(--font-bold);
     color: var(--color-text-on-dark);
+    text-transform: capitalize;
   }
 
   .dashboard-client-content {

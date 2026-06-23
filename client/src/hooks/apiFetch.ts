@@ -8,11 +8,13 @@ export const apiFetch = async (
   options: RequestInit = {},
 ): Promise<Response> => {
   const token = getToken();
+  const isFormData = options.body instanceof FormData;
 
   return fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      // Si FormData, pas de Content-Type → le browser le gère avec la boundary
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },

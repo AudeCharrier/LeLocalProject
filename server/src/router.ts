@@ -31,10 +31,6 @@ router.get("/api/spaces", spaceActions.browse);
 router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
 /* ************************************************************************* */
-// Bookings (protégé client)
-/* ************************************************************************* */
-
-/* ************************************************************************* */
 // Events (public)
 /* ************************************************************************* */
 import eventActions from "./modules/event/eventActions";
@@ -51,8 +47,11 @@ router.get(
 import dashboardClientActions from "./modules/dashboardClient/dashboardClientActions";
 
 // Invoice
-router.get("/api/invoice/:bookingId", dashboardClientActions.readInvoice);
-
+router.get(
+  "/api/invoice/:bookingId",
+  authMiddleware.requireAuth,
+  dashboardClientActions.readInvoice,
+);
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
@@ -123,19 +122,27 @@ router.get(
 // Panier (protégé client)
 /* ************************************************************************* */
 router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
+
+// add an item into cart
 router.post("/api/cart", authMiddleware.requireAuth, cartActions.add);
+
+//update a cart item
 router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);
+
+// delete an item into cart
 router.delete("/api/cart/:id", authMiddleware.requireAuth, cartActions.destroy);
+
+// clear the cart of a user
 router.delete(
   "/api/cart/user/:userId",
   authMiddleware.requireAuth,
   cartActions.destroyAll,
 );
 
-import { upload } from "../public/upload/upload";
 /* ************************************************************************* */
 // Create Event (protégé admin)
 /* ************************************************************************* */
+import { upload } from "../public/upload/upload";
 import createEventFormAction from "./modules/createEventForm/createEventFormAction";
 
 router.get(
@@ -166,9 +173,11 @@ router.post(
 
 import bookingActions from "./modules/bookingActions/bookingActions";
 
+// insert activity booked into cart table and activity table
 router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
+
+// insert into boooking table
 router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
-// insert activity booked into activity table
 
 /* ************************************************************************* */
 // Workshop
