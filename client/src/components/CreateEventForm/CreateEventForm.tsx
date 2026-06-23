@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./CreateEventForm.css";
+import { apiFetch } from "../../hooks/apiFetch";
 import useSpaces from "../../hooks/useSpaces";
 import useTimeSlot from "../../hooks/useTimeSlot";
 
@@ -47,13 +48,10 @@ export default function CreateEventForm() {
     }
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/createEvent`,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const response = await apiFetch("/api/createEvent", {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
