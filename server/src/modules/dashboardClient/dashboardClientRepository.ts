@@ -106,7 +106,7 @@ class DashboardClientRepository {
       JOIN time_slot t ON a.time_slot_id = t.id
       WHERE b.users_id = ?
       AND s.space_type = 'Evenements'
-      AND a.start_date > CURDATE()
+      AND a.start_date >= CURDATE()
       ORDER BY a.start_date ASC
       LIMIT 6`,
       [userId],
@@ -135,7 +135,7 @@ class DashboardClientRepository {
       JOIN time_slot t ON a.time_slot_id = t.id
       WHERE b.users_id = ?
       AND s.space_type != 'Evenements'
-      AND a.start_date > CURDATE()
+      AND a.start_date >= CURDATE()
       ORDER BY a.start_date ASC`,
       [userId],
     );
@@ -226,7 +226,7 @@ class DashboardClientRepository {
     return result.insertId;
   }
 
-  async readInvoiceById(bookingId: number) {
+  async readInvoiceById(bookingId: number, userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
       b.id,
@@ -239,12 +239,12 @@ class DashboardClientRepository {
       u.firstname,
       u.lastname,
       u.email
-      FROM booking b
-      JOIN activity a ON b.id_activity = a.id
-      JOIN space s ON a.space_id = s.id
-      JOIN users u ON b.users_id = u.id
-      WHERE b.id = ?`,
-      [bookingId],
+    FROM booking b
+    JOIN activity a ON b.id_activity = a.id
+    JOIN space s ON a.space_id = s.id
+    JOIN users u ON b.users_id = u.id
+    WHERE b.id = ? AND b.users_id = ?`,
+      [bookingId, userId],
     );
     return rows[0] as BookingHistory;
   }
