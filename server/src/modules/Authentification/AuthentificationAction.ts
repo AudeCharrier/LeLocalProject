@@ -47,6 +47,7 @@ const register: RequestHandler = async (req, res, next) => {
       id: user.id,
       email: user.email,
       role: user.role,
+      firstname: user.firstname,
     });
 
     res.status(201).json({ token, user });
@@ -98,6 +99,7 @@ const loginWithRole = async (
     id: user.id,
     email: user.email,
     role: user.role,
+    firstname: user.firstname,
   });
 
   res.status(200).json({ token, user: safeUser });

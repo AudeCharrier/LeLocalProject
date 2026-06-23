@@ -6,7 +6,11 @@ import dashboardClientRepository from "./dashboardClientRepository";
 // Retrieve past events the user attended
 const browsePastEvents: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const events = await dashboardClientRepository.readPastEvents(userId);
     res.json(events);
   } catch (err) {
@@ -17,7 +21,11 @@ const browsePastEvents: RequestHandler = async (req, res, next) => {
 // Retrieve upcoming events the user is registered for
 const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const events = await dashboardClientRepository.readUpcomingEvents(userId);
     res.json(events);
   } catch (err) {
@@ -28,7 +36,11 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
 // Retrieve upcoming space bookings for a specific user
 const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const bookings =
       await dashboardClientRepository.readUpcomingBookings(userId);
     res.json(bookings);
@@ -40,7 +52,11 @@ const browseUpcomingBookings: RequestHandler = async (req, res, next) => {
 // Retrieve full billing history for a specific user
 const browseBookingHistory: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const bookings = await dashboardClientRepository.readBookingHistory(userId);
     res.json(bookings);
   } catch (err) {
@@ -51,17 +67,26 @@ const browseBookingHistory: RequestHandler = async (req, res, next) => {
 // Retrieve past space bookings for a specific user
 const browseOldBookings: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const bookings = await dashboardClientRepository.readOldBookings(userId);
     res.json(bookings);
   } catch (err) {
     next(err);
   }
 };
+
 // Retrieve client stats
 const browseStats: RequestHandler = async (req, res, next) => {
   try {
-    const userId = Number(req.params.userId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const stats = await dashboardClientRepository.readStats(userId);
     res.json(stats);
   } catch (err) {
@@ -72,11 +97,16 @@ const browseStats: RequestHandler = async (req, res, next) => {
 // Create claim client
 const addClaim: RequestHandler = async (req, res, next) => {
   try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
     const claim = {
       title: req.body.title,
       category: req.body.category,
       message: req.body.message,
-      users_id: Number(req.params.userId),
+      users_id: userId,
       activity_id: Number(req.body.activity_id),
     };
     const insertId = await dashboardClientRepository.createClaim(claim);
@@ -90,7 +120,15 @@ const addClaim: RequestHandler = async (req, res, next) => {
 const readInvoice: RequestHandler = async (req, res, next) => {
   try {
     const bookingId = Number(req.params.bookingId);
-    const invoice = await dashboardClientRepository.readInvoiceById(bookingId);
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
+    const invoice = await dashboardClientRepository.readInvoiceById(
+      bookingId,
+      userId,
+    );
     res.json(invoice);
   } catch (err) {
     next(err);
