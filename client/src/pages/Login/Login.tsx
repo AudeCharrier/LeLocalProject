@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Login.css";
+import { Link } from "react-router";
 import { apiFetch } from "../../hooks/apiFetch";
 
 type Tab = "client" | "admin";
@@ -103,7 +104,7 @@ export default function Login() {
                 required
               />
             </div>
-
+            {/* faire la route et la page  */}
             <a href="/forgot-password" className="auth-forgot">
               Mot de passe oublié ?
             </a>
@@ -125,7 +126,7 @@ export default function Login() {
             </button>
 
             <p className="auth-switch">
-              Pas encore de compte ? <a href="/sign-in">Créer un compte</a>
+              Pas encore de compte ? <Link to="/sign-in">Créer un compte</Link>
             </p>
           </div>
         </form>
