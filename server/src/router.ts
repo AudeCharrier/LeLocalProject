@@ -40,6 +40,7 @@ router.get(
   "/api/events/participants",
   eventActions.browseSumParticipantsToEvent,
 );
+router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
 
 /* ************************************************************************* */
 // Dashboard Client (protégé client)

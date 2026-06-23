@@ -11,6 +11,7 @@ import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import useEventsOfTheDay from "../../hooks/useEventsOfTheDay";
 
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
@@ -27,45 +28,35 @@ function Events() {
     info3: "12",
     info3text: "ORGANISATIONS",
   };
-
-  const upcomingEvents = useUpcomingEvents();
-  const participants = useSumParticipants();
-  const maxCards = 6;
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [maxCardsForGrid, setMaxCardsForGrid] = useState<number>(3);
 
   const chooseDate = (date: Date) => {
-    // le calendrier affiche la case sélectionnée (style css)
+    // le calendrier affiche la case sélectionnée
     setSelectedDate(date);
   };
+  const dateCalendarFormatted = selectedDate
+    ? selectedDate.toLocaleDateString("fr-CA")
+    : null;
 
-  //METTRE CA EN BACK END
-  const selectedEvents = selectedDate
-    ? upcomingEvents.filter((event) => {
-        // On transforme la date du calendrier en "AAAA-MM-JJ" (comme en bdd)
-        const dateCalendrierFormatee = selectedDate.toLocaleDateString("fr-CA");
+  const eventsOfTheDay = useEventsOfTheDay(dateCalendarFormatted);
+  const upcomingEvents = useUpcomingEvents();
+  const participants = useSumParticipants();
 
-        // On compare la date sélectionnée et celles des events pour garder els bons events
-        return event.start_date.slice(0, 10) === dateCalendrierFormatee;
-      })
-    : upcomingEvents;
-
-  // style css
-
-  // on analyse chaque case (tile) du calendrier
+  // style css cases calendrier
   const dynamicTileClassName = ({
     date,
     view,
   }: { date: Date; view: string }) => {
     // On ne veut ajouter la classe que sur la vue "mois" (pas année/décennie)
     if (view === "month") {
-      const dateCaseFormatee = date.toLocaleDateString("fr-CA");
+      const dateTileFormatted = date.toLocaleDateString("fr-CA");
 
       // On cherche si un événement en BDD correspond à la date de cette case
       const hasEvent = upcomingEvents.some(
-        (event) => event.start_date.slice(0, 10) === dateCaseFormatee,
+        (event) => event.start_date.slice(0, 10) === dateTileFormatted,
       );
 
-      // Si oui, on renvoie le nom de la classe CSS
       if (hasEvent) {
         return "has-event";
       }
@@ -117,14 +108,14 @@ function Events() {
       let newIndex = Math.round(scrollLeft / cardWidth);
 
       if (isAtRight) {
-        newIndex = selectedEvents.length - 1;
+        newIndex = eventsOfTheDay.length - 1;
       } else if (isAtLeft) {
         newIndex = 0;
       }
 
       if (
         newIndex >= 0 &&
-        newIndex < selectedEvents.length &&
+        newIndex < eventsOfTheDay.length &&
         newIndex !== activeIndex
       ) {
         setActiveIndex(newIndex);
@@ -159,9 +150,9 @@ function Events() {
           <hr className="events-page-hr" />
         </div>
         <h2 className="events-title">A la une</h2>
-        <div>faire composant event le plus proche</div>
+        <p>faire composant event le plus proche</p>
       </section>
-      <section className="events-section-AGENDA">
+      <section className="events-section-agenda">
         <h2 className="events-title">Agenda</h2>
         <div className="events-calendar-container">
           {/* Calendrier centré qui ne s'étire plus */}
@@ -179,63 +170,69 @@ function Events() {
           </div>
           {/* Structure du Carrousel avec ses contrôles */}
           <div className="carousel-container">
-            {/* Flèche Gauche */}
-            <button
-              type="button"
-              className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
-              onClick={() => scroll("left")}
-              aria-label="Evènement précédent"
-            >
-              <ChevronLeft size={20} />
-            </button>
+            {eventsOfTheDay.length > 0 ? (
+              <>
+                {/* Flèche Gauche */}
+                <button
+                  type="button"
+                  className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
+                  onClick={() => scroll("left")}
+                  aria-label="Evènement précédent"
+                >
+                  <ChevronLeft size={20} />
+                </button>
 
-            {/* Fenêtre visible du carrousel */}
-            <div
-              className="events-div-selected-events"
-              ref={carouselRef}
-              onScroll={handleScroll}
-            >
-              <div className="home-events">
-                {selectedEvents.map((selectedEvent) => {
-                  const eventParticipants = participants.find(
-                    (p) => p.id_activity === selectedEvent.id,
-                  );
-                  return (
-                    <div className="carousel-item" key={selectedEvent.id}>
-                      <ModalEventProvider key={selectedEvent.id}>
-                        <CardEvent
-                          event={selectedEvent}
-                          participants={eventParticipants}
-                        />
-                      </ModalEventProvider>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                {/* Fenêtre visible du carrousel */}
+                <div
+                  className="events-div-selected-events"
+                  ref={carouselRef}
+                  onScroll={handleScroll}
+                >
+                  <div className="home-events">
+                    {eventsOfTheDay.map((event) => {
+                      const eventParticipants = participants.find(
+                        (p) => p.id_activity === event.id,
+                      );
+                      return (
+                        <div className="carousel-item" key={event.id}>
+                          <ModalEventProvider>
+                            <CardEvent
+                              event={event}
+                              participants={eventParticipants}
+                            />
+                          </ModalEventProvider>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            {/* Flèche Droite */}
-            <button
-              type="button"
-              className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
-              onClick={() => scroll("right")}
-              aria-label="Evènement Suivant"
-            >
-              <ChevronRight size={20} />
-            </button>
+                {/* Flèche Droite */}
+                <button
+                  type="button"
+                  className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
+                  onClick={() => scroll("right")}
+                  aria-label="Evènement Suivant"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </>
+            ) : (
+              <p className="events-message-no-event">
+                Aucun évènement ce jour. Sélectionnez un jour marqué (*).
+              </p>
+            )}
           </div>
 
           {/* Les Dots sous le bloc carrousel */}
-          {selectedEvents.length > 1 && (
+          {eventsOfTheDay.length > 1 && (
             <div className="carousel-dots">
-              {selectedEvents.map((selectedEvent, index) => (
+              {eventsOfTheDay.map((event, index) => (
                 <button
-                  key={
-                    selectedEvent.id
-                  } /* Biome va adorer : clé unique et stable */
+                  key={event.id}
                   type="button"
                   className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
-                  onClick={() => goToSlide(index)} /* Propre et lisible */
+                  onClick={() => goToSlide(index)}
                   aria-label={`Aller à la diapositive évènement ${index + 1}`}
                 />
               ))}
@@ -243,19 +240,19 @@ function Events() {
           )}
         </div>
       </section>
-      <section className="events-section-NEXT">
-        <div className="events-div-next-events">
+      <section className="events-section-upcoming">
+        <div className="events-div-upcoming-events">
           <h2 className="events-title">Prochains évènements</h2>
           <button
             type="button"
             className="events-btn-see-all"
-            onClick={() => setSelectedDate(null)}
+            onClick={() => setMaxCardsForGrid(99)}
           >
             Voir tous les évènements
           </button>
         </div>
         <div className="home-events-grid-container">
-          {upcomingEvents.slice(0, maxCards).map((upcomingEvent) => {
+          {upcomingEvents.slice(0, maxCardsForGrid).map((upcomingEvent) => {
             const eventParticipants = participants.find(
               (p) => p.id_activity === upcomingEvent.id,
             );
@@ -279,3 +276,4 @@ function Events() {
 export default Events;
 
 /*code repris de EventSection -> voir pour refacto, faire un composant */
+/*faire un composant du carroussel pour faire events passés ?*/
