@@ -192,7 +192,6 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--color-tag-text);
-  font-size: 1.2rem;
   background: var(--color-primary);
   border: none;
   border-radius: 50%;

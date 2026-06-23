@@ -10,6 +10,7 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
@@ -183,9 +184,9 @@ function Events() {
               type="button"
               className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
               onClick={() => scroll("left")}
-              aria-label="Précédent"
+              aria-label="Evènement précédent"
             >
-              ‹
+              <ChevronLeft size={20} />
             </button>
 
             {/* Fenêtre visible du carrousel */}
@@ -218,9 +219,9 @@ function Events() {
               type="button"
               className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
               onClick={() => scroll("right")}
-              aria-label="Suivant"
+              aria-label="Evènement Suivant"
             >
-              ›
+              <ChevronRight size={20} />
             </button>
           </div>
 
