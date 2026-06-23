@@ -1,67 +1,37 @@
+import { Plus } from "lucide-react";
+import HeaderWorkshop from "../../components/WorkshopPage/HeaderWorkshop/HeaderWorkshop";
+import InComingWorkshop from "../../components/WorkshopPage/InComingWorkshop/InComingWorkshop";
+import WorkshopOfTheWeek from "../../components/WorkshopPage/WorkshopOfTheWeek/WorkshopOfTheWeek";
+import useWorkshop from "../../hooks/useWorkshop";
 import "./WorkshopPage.css";
-
-const tags = [
-  "Céramique",
-  "Impression 3D",
-  "Photographie",
-  "Code",
-  "Cuisine",
-  "Podcast",
-  "Sérigraphie",
-  "Soudure",
-];
+import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import TeacherWorkshop from "../../components/WorkshopPage/TeacherWorkshop/TeacherWorkshop";
 
 function WorkshopPage() {
+  const workshops = useWorkshop();
+
   return (
-    <div className="Workshop-Global-Section">
-      <div className="Workshop-Introduction">
-        <h3 className="First-Sentence">APPRENDRE & CREER ENSEMBLE</h3>
-        <h1 className="Title-Workshop-Page">
-          Des <em className="Word-Ateliers">ateliers</em> qui vous
-          <br />
-          font grandir
-        </h1>
-        <p className="Description-Workshop-Page">
-          Sérigraphie, code, poterie, podcast, cuisine, photographie… Des
-          formations
-          <br />
-          courtes animées par des experts passionnés, dans nos espaces.
-        </p>
-      </div>
-
-      <div className="Search-Filter-Section">
-        <div className="Search-Bar">
-          <input
-            type="text"
-            placeholder="Rechercher un atelier, une discipline…"
-          />
-          <button type="button">Rechercher</button>
-        </div>
-
-        <div className="Btn-Tags-Filter">
-          {tags.map((tag) => (
-            <button key={tag} type="button" className="tag">
-              {tag}
-            </button>
-          ))}
-        </div>
-
-        <div className="Stats-Global-Workshop-Page">
-          <div className="Stats-Workshop">
-            <span className="Stats-Workshop-Number">42</span>
-            <span className="Stats-Workshop-Text">Ateliers / trimestre</span>
-          </div>
-          <div className="Stats-Workshop">
-            <span className="Stats-Workshop-Number">18</span>
-            <span className="Stats-Workshop-Text">Formateurs</span>
-          </div>
-          <div className="Stats-Workshop">
-            <span className="Stats-Workshop-Number">580+</span>
-            <span className="Stats-Workshop-Text">Participants / an</span>
-          </div>
+    <>
+      <HeaderWorkshop />
+      <WorkshopOfTheWeek />
+      <div className="workshop-grid">
+        {workshops.map((workshop) => (
+          <InComingWorkshop key={workshop.id} workshop={workshop} />
+        ))}
+        <div className="workshop-grid__suggest">
+          <Plus className="workshop-grid__suggest-icon" />
+          <h2 className="workshop-grid__suggest-title">Proposer un atelier</h2>
+          <p className="workshop-grid__suggest-text">
+            Vous avez un savoir-faire à partager ?
+          </p>
+          <button type="button" className="workshop-grid__suggest-btn">
+            Candidater
+          </button>
         </div>
       </div>
-    </div>
+      <TeacherWorkshop />
+      <FooterDashboard />
+    </>
   );
 }
 
