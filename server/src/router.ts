@@ -170,4 +170,12 @@ router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
 router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 // insert activity booked into activity table
 
+/* ************************************************************************* */
+// Workshop
+/* ************************************************************************* */
+
+import activityActions from "./modules/activity/activityActions";
+
+router.get("/api/activity", activityActions.browse);
+
 export default router;
