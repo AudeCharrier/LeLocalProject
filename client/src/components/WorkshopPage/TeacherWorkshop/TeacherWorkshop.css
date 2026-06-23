@@ -1,8 +1,8 @@
-.Teacher-Workshop-Global-Section {
+.teacher-workshop {
   background-color: var(--color-bg-light);
-  padding: var(--space-12) var(--space-12);
+  padding: var(--space-12);
 
-  .Title-Teacher-Section-Workshop {
+  .teacher-workshop__title {
     font-family: var(--font-ui);
     font-size: var(--text-xs);
     font-weight: var(--font-semibold);
@@ -12,12 +12,12 @@
     text-transform: uppercase;
   }
 
-  .Teacher-Section {
+  .teacher-workshop__grid {
     display: grid;
     grid-template-columns: var(--grid-cols-cards);
     gap: var(--gap-md);
 
-    .Teacher-Card {
+    .teacher-workshop__card {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,24 +30,24 @@
         border-right: none;
       }
 
-      &.ceramique .Teacher-Avatar-Teacher-WorkshopPage {
+      &.ceramique .teacher-workshop__avatar {
         background: #c0552a;
       }
 
-      &.numerique .Teacher-Avatar-Teacher-WorkshopPage {
+      &.numerique .teacher-workshop__avatar {
         background: #2a3d2e;
       }
 
-      &.photographie .Teacher-Avatar-Teacher-WorkshopPage {
+      &.photographie .teacher-workshop__avatar {
         background: #8b1a2a;
       }
 
-      &.artisanat .Teacher-Avatar-Teacher-WorkshopPage {
+      &.artisanat .teacher-workshop__avatar {
         background: #4a7a3a;
       }
     }
 
-    .Teacher-Avatar-Teacher-WorkshopPage {
+    .teacher-workshop__avatar {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,7 +60,7 @@
       font-weight: var(--font-bold);
     }
 
-    .Teacher-Name {
+    .teacher-workshop__name {
       color: var(--color-text-primary);
       font-family: var(--font-display);
       font-weight: var(--font-bold);
@@ -68,14 +68,14 @@
       margin-top: var(--space-2);
     }
 
-    .Teacher-Speciality {
+    .teacher-workshop__speciality {
       color: var(--color-primary);
       font-family: var(--font-body);
       font-size: var(--text-sm);
       font-weight: var(--font-medium);
     }
 
-    .Teacher-Description {
+    .teacher-workshop__description {
       color: var(--color-text-secondary);
       font-family: var(--font-body);
       font-size: var(--text-sm);
@@ -83,7 +83,7 @@
       margin-top: var(--space-2);
     }
 
-    .Teacher-Count {
+    .teacher-workshop__count {
       color: var(--color-text-muted);
       font-family: var(--font-body);
       font-size: var(--text-sm);

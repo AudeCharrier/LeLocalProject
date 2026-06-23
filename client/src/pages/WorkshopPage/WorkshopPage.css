@@ -1,46 +1,61 @@
-.Workshop-Grid-Section {
+.workshop-grid {
   background-color: var(--color-bg-1);
-  padding: 2rem 3rem 3rem;
+  padding: var(--space-8) var(--space-12) var(--space-12);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: var(--gap-md);
 
-  & .Parent-Container-In-Coming-Workshop {
+  & .incoming-workshop {
     width: 100%;
   }
 
-  .Parent-Card-Workshop-Suggestion-Container {
-    background-color: var(--color-bg-1);
+  .workshop-grid__suggest {
+    background-color: var(--color-bg-card);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--gap-xs);
     border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    text-align: center;
 
-    .Add-Logo-Workshop-Suggestion {
-      color: rgba(214, 207, 192, 0.8);
+    .workshop-grid__suggest-icon {
+      color: var(--color-text-muted);
+      width: 32px;
+      height: 32px;
     }
 
-    .Workshop-Suggestion {
-      color: var(--color-text-secondary);
+    .workshop-grid__suggest-title {
+      color: var(--color-text-primary);
       font-size: var(--text-lg);
-      font-family: var(--font-body);
-      font-weight: var(--font-regular);
+      font-family: var(--font-display);
+      font-weight: var(--font-semibold);
     }
 
-    .Workshop-Suggestion-Sentence {
+    .workshop-grid__suggest-text {
       color: var(--color-text-secondary);
       font-family: var(--font-body);
       font-weight: var(--font-light);
+      font-size: var(--text-sm);
     }
 
-    .Workshop-Suggestion-btn {
+    .workshop-grid__suggest-btn {
       color: var(--color-text-on-dark);
-      background-color: var(--color-tag-bg);
+      background-color: var(--color-primary);
       border: none;
       border-radius: var(--radius-md);
-      padding: 0.5rem 1rem 0.5rem 1rem;
+      padding: var(--space-2) var(--space-6);
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+      margin-top: var(--space-2);
+
+      &:hover {
+        background-color: var(--color-primary-dark);
+      }
     }
   }
 }

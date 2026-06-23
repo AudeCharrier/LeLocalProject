@@ -27,41 +27,41 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
   const { day, month } = formatDate(workshop.start_date);
 
   return (
-    <div className="Parent-Container-In-Coming-Workshop">
-      <div className="Box-Img-In-Coming-Workshop">
-        {/* top — image en background */}
+    <div className="incoming-workshop">
+      <div className="incoming-workshop__inner">
         <div
-          className="Box-Img-Top"
+          className="incoming-workshop__top"
           style={{
             backgroundImage: workshop.url_image
               ? `url(${workshop.url_image})`
               : undefined,
           }}
         >
-          <div className="Box-Img-Top-Row">
-            <span className="Badge-In-Coming-Workshop-Level">DÉBUTANT</span>
-            <span className="Badge-In-Coming-Workshop-Places">
+          <div className="incoming-workshop__top-row">
+            <span className="incoming-workshop__badge-level">DÉBUTANT</span>
+            <span className="incoming-workshop__badge-places">
               {workshop.capacity} places libres
             </span>
           </div>
-          <div className="Badge-In-Coming-Workshop-Date">
-            <span className="Badge-In-Coming-Workshop-Date-Day">{day}</span>
-            <span className="Badge-In-Coming-Workshop-Date-Month">{month}</span>
+          <div className="incoming-workshop__badge-date">
+            <span className="incoming-workshop__date-day">{day}</span>
+            <span className="incoming-workshop__date-month">{month}</span>
           </div>
         </div>
 
-        {/* bas crème */}
-        <div className="Description-In-Coming-Workshop">
-          <span className="Category-Pill">NUMÉRIQUE</span>
-          <h1>{workshop.name}</h1>
+        <div className="incoming-workshop__description">
+          <span className="incoming-workshop__category">NUMÉRIQUE</span>
+          <h2>{workshop.name}</h2>
           <p>{workshop.description}</p>
         </div>
 
-        <div className="Teacher-For-The-Workshop-Of-The-Week">
-          <div className="Teacher-Avatar">TC</div>
-          <div className="Teacher-Info">
-            <span className="Name-Of-The-Teacher-Of-The-Week">Thomas C.</span>
-            <span className="Price">{workshop.price_unit}€</span>
+        <div className="incoming-workshop__footer">
+          <div className="incoming-workshop__avatar">TC</div>
+          <div className="incoming-workshop__teacher-info">
+            <span className="incoming-workshop__teacher-name">Thomas C.</span>
+            <span className="incoming-workshop__price">
+              {workshop.price_unit}€
+            </span>
           </div>
         </div>
       </div>

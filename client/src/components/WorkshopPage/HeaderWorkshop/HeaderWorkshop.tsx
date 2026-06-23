@@ -34,8 +34,8 @@ function HeaderWorkshop() {
       <div className="header-spaces-page-container-articles">
         <FirstArticle pageData={WorkshopHeaderFirstArticle} />
 
-        <div className="Search-Filter-Section">
-          <div className="Search-Bar">
+        <div className="search-filter-section">
+          <div className="search-bar">
             <input
               type="text"
               placeholder="Rechercher un atelier, une discipline…"
@@ -43,7 +43,7 @@ function HeaderWorkshop() {
             <button type="button">Rechercher</button>
           </div>
 
-          <div className="Btn-Tags-Filter">
+          <div className="btn-tags-filter">
             {tags.map((tag) => (
               <button key={tag} type="button" className="tag">
                 {tag}

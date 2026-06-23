@@ -41,34 +41,27 @@ function TeacherWorkshop() {
   ];
 
   return (
-    <section className="Teacher-Workshop-Global-Section">
-      <h1 className="Title-Teacher-Section-Workshop">NOS FORMATEUR</h1>
-      <div className="Teacher-Global-Div-Card">
-        <div className="Teacher-Section">
-          {teachers.map((teacher) => (
-            <div
-              key={teacher.name}
-              className={`Teacher-Card ${teacher.specialityClass}`}
-            >
-              <div className="test">
-                <div className="Teacher-Avatar-Teacher-WorkshopPage">
-                  <span>{teacher.initials}</span>
-                </div>
-                <div className="Teacher-Info-WorkshopPage">
-                  <p className="Teacher-Name">{teacher.name}</p>
-                  <p className="Teacher-Speciality">{teacher.speciality}</p>
-                  <p className="Teacher-Description">{teacher.description}</p>
-                  <p className="Teacher-Count">
-                    <em className="WorkshopCountNumber">
-                      {teacher.workshopCount}
-                    </em>{" "}
-                    ateliers animés
-                  </p>
-                </div>
-              </div>
+    <section className="teacher-workshop">
+      <h2 className="teacher-workshop__title">NOS FORMATEURS</h2>
+      <div className="teacher-workshop__grid">
+        {teachers.map((teacher) => (
+          <div
+            key={teacher.name}
+            className={`teacher-workshop__card ${teacher.specialityClass}`}
+          >
+            <div className="teacher-workshop__avatar">
+              <span>{teacher.initials}</span>
             </div>
-          ))}
-        </div>
+            <p className="teacher-workshop__name">{teacher.name}</p>
+            <p className="teacher-workshop__speciality">{teacher.speciality}</p>
+            <p className="teacher-workshop__description">
+              {teacher.description}
+            </p>
+            <p className="teacher-workshop__count">
+              <em>{teacher.workshopCount}</em> ateliers animés
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

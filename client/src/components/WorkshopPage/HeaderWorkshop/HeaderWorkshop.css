@@ -7,24 +7,20 @@
   align-items: flex-start;
   justify-content: space-between;
 
-  /* --- Introduction --- */
-
   .header-spaces-page-container-articles {
     display: flex;
     width: 100%;
     min-height: 35vh;
   }
 
-  /* --- Search Filter --- */
-
-  .Search-Filter-Section {
+  .search-filter-section {
     max-width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
 
-    .Search-Bar {
+    .search-bar {
       display: flex;
       align-items: center;
       border: 1.5px solid var(--color-border-tag-1);
@@ -65,9 +61,7 @@
       }
     }
 
-    /* --- Tags --- */
-
-    .Btn-Tags-Filter {
+    .btn-tags-filter {
       display: flex;
       flex-wrap: wrap;
       gap: var(--gap-xs);

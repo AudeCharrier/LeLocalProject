@@ -14,18 +14,17 @@ function WorkshopPage() {
     <>
       <HeaderWorkshop />
       <WorkshopOfTheWeek />
-      <div className="Workshop-Grid-Section">
+      <div className="workshop-grid">
         {workshops.map((workshop) => (
           <InComingWorkshop key={workshop.id} workshop={workshop} />
         ))}
-
-        <div className="Parent-Card-Workshop-Suggestion-Container">
-          <Plus className="Add-Logo-Workshop-Suggestion" />
-          <h1 className="Workshop-Suggestion">Proposer un atelier</h1>
-          <p className="Workshop-Suggestion-Sentence">
+        <div className="workshop-grid__suggest">
+          <Plus className="workshop-grid__suggest-icon" />
+          <h2 className="workshop-grid__suggest-title">Proposer un atelier</h2>
+          <p className="workshop-grid__suggest-text">
             Vous avez un savoir-faire à partager ?
           </p>
-          <button type="button" className="Workshop-Suggestion-btn">
+          <button type="button" className="workshop-grid__suggest-btn">
             Candidater
           </button>
         </div>
