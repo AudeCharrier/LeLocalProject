@@ -1,4 +1,4 @@
-.Center-Of-Workshop-Page {
+.center-of-Workshop-page {
   background-color: var(--color-bg-light);
   padding: var(--space-8) var(--space-12);
   display: flex;
@@ -6,21 +6,21 @@
   gap: var(--gap-lg);
 }
 
-/* ── Filter Bar ── */
+/* ── filter Bar ── */
 
-.Filter-Bar-Row {
+.filter-Bar-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.Parent-Filter-Div-Workshop-Page {
+.parent-filter-div-Workshop-page {
   display: flex;
   align-items: center;
   gap: var(--gap-xs);
 }
 
-.Btn-Filter-Workshop-Page {
+.Btn-filter-Workshop-page {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -45,7 +45,7 @@
   }
 }
 
-.Category-Dot {
+.category-dot {
   width: 7px;
   height: 7px;
   border-radius: var(--radius-pill);
@@ -53,7 +53,7 @@
   flex-shrink: 0;
 }
 
-.Sort-Select {
+.sort-select {
   border: 1.5px solid var(--color-border-strong);
   background: transparent;
   color: var(--color-text-secondary);
@@ -65,15 +65,15 @@
   outline: none;
 }
 
-/* ── Atelier de la semaine ── */
+/* ── atelier de la semaine ── */
 
-.Workshop-Of-The-Week {
+.Workshop-of-the-Week {
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
 }
 
-.Title-Workshop-Section {
+.title-Workshop-section {
   color: var(--color-text-muted);
   font-size: var(--text-xs);
   letter-spacing: var(--tracking-wider);
@@ -82,16 +82,16 @@
   text-transform: uppercase;
 }
 
-/* ── Card atelier de la semaine ── */
+/* ── card atelier de la semaine ── */
 
-.Workshop-Of-The-Week-Card-Parent {
+.Workshop-of-the-Week-card-parent {
   display: flex;
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-md);
 }
 
-.Box-Img-Card-Workshop-Of-The-Week {
+.Box-img-card-Workshop-of-the-Week {
   position: relative;
   width: 340px;
   min-height: 380px;
@@ -102,7 +102,7 @@
   padding: var(--space-5);
 }
 
-.Badge-Level {
+.Badge-level {
   position: absolute;
   top: var(--space-5);
   left: var(--space-5);
@@ -116,7 +116,7 @@
   font-family: var(--font-ui);
 }
 
-.Badge-Places {
+.Badge-places {
   position: absolute;
   top: var(--space-5);
   left: 78%;
@@ -140,7 +140,7 @@
   }
 }
 
-.Badge-Date {
+.Badge-date {
   position: absolute;
   bottom: var(--space-5);
   left: var(--space-5);
@@ -151,7 +151,7 @@
   min-width: 64px;
 }
 
-.Badge-Date-Day {
+.Badge-date-day {
   display: block;
   font-size: var(--text-2xl);
   font-weight: var(--font-bold);
@@ -160,7 +160,7 @@
   font-family: var(--font-display);
 }
 
-.Badge-Date-Month {
+.Badge-date-Month {
   display: block;
   font-size: var(--text-xs);
   font-weight: var(--font-semibold);
@@ -170,9 +170,9 @@
   font-family: var(--font-ui);
 }
 
-/* Infos droite */
+/* infos droite */
 
-.Info-Card-Workshop-Of-The-Week {
+.info-card-Workshop-of-the-Week {
   background: var(--color-bg-card);
   flex: 1;
   padding: var(--space-8) var(--space-10);
@@ -182,7 +182,7 @@
   justify-content: space-between;
 }
 
-.Description-Of-The-Week-Workshop {
+.description-of-the-Week-Workshop {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -205,7 +205,7 @@
   }
 }
 
-.Category-Pill {
+.category-pill {
   display: inline-block;
   border: 1.5px solid #8a9e7a;
   background: #edf3e8;
@@ -219,7 +219,7 @@
   width: fit-content;
 }
 
-.About-Workshop-Of-The-Week {
+.about-Workshop-of-the-Week {
   display: flex;
   align-items: center;
   gap: var(--gap-md);
@@ -232,9 +232,9 @@
   }
 }
 
-/* Formateur */
+/* formateur */
 
-.Teacher-For-The-Workshop-Of-The-Week {
+.teacher-for-the-Workshop-of-the-Week {
   display: flex;
   align-items: center;
   gap: var(--space-4);
@@ -243,7 +243,7 @@
   padding: var(--space-4) var(--space-5);
 }
 
-.Teacher-Avatar {
+.teacher-avatar {
   width: 42px;
   height: 42px;
   border-radius: var(--radius-pill);
@@ -258,39 +258,39 @@
   flex-shrink: 0;
 }
 
-.Teacher-Info {
+.teacher-info {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
 }
 
-.Name-Of-The-Teacher-Of-The-Week {
+.Name-of-the-teacher-of-the-Week {
   font-family: var(--font-heading);
   font-size: var(--text-base);
   font-weight: var(--font-semibold);
   color: var(--color-text-primary);
 }
 
-.Job-And-Experience-Of-The-Teacher-Of-The-Week {
+.job-and-experience-of-the-teacher-of-the-Week {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-text-muted);
 }
 
-/* CTA */
+/* cta */
 
-.Btn-And-Price-For-Workshop-Of-The-Week {
+.Btn-and-price-for-Workshop-of-the-Week {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.Btn-Of-The-Week {
+.Btn-of-the-Week {
   display: flex;
   gap: var(--gap-sm);
 }
 
-.Btn-Reserve {
+.Btn-reserve {
   background: var(--color-primary);
   color: var(--color-text-on-dark);
   border: none;
@@ -307,7 +307,7 @@
   }
 }
 
-.Btn-Program {
+.Btn-program {
   background: transparent;
   color: var(--color-text-primary);
   border: 1.5px solid var(--color-text-primary);
@@ -324,7 +324,7 @@
   }
 }
 
-.Price {
+.price {
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: var(--font-bold);
