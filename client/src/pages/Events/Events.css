@@ -127,7 +127,7 @@
 
 /* =================== section upcoming events ===================== */
 
-.home-events-grid-container {
+.events-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(24vw, 1fr));
   justify-content: center;

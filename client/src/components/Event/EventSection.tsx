@@ -17,14 +17,13 @@ function EventSection() {
         <p>Voir tout</p>
       </div>
       <div className="home-events">
-        {upcomingEvents.map((upcomingEvent) => {
+        {upcomingEvents.slice(0, 3).map((upcomingEvent) => {
           const eventParticipants = participants.find(
             (p) => p.id_activity === upcomingEvent.id,
           );
           return (
             <ModalEventProvider key={upcomingEvent.id}>
               <CardEvent
-                /* key={upcomingEvent.id} */
                 event={upcomingEvent}
                 participants={eventParticipants}
               />

@@ -12,7 +12,7 @@
     scrollbar-width: none; /* Cache la barre sur Firefox */
     padding-bottom: var(--space-4);
     scroll-snap-type: x mandatory; /* Force l'aimantation horizontale */
-    .home-events {
+    .events-div-selected-events-container {
       display: flex;
       gap: var(--space-4);
       width: 100%;

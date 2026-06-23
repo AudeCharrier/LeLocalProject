@@ -108,7 +108,7 @@ function CarrousselEvents({ events }: CarrousselEventsProps) {
               ref={carouselRef}
               onScroll={handleScroll}
             >
-              <div className="home-events">
+              <div className="events-div-selected-events-container">
                 {events.map((event) => {
                   const eventParticipants = participants.find(
                     (p) => p.id_activity === event.id,

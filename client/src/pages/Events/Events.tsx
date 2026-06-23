@@ -107,7 +107,7 @@ function Events() {
             Voir tous les évènements
           </button>
         </div>
-        <div className="home-events-grid-container">
+        <div className="events-grid-container">
           {upcomingEvents.slice(0, maxCardsForGrid).map((upcomingEvent) => {
             const eventParticipants = participants.find(
               (p) => p.id_activity === upcomingEvent.id,
@@ -115,7 +115,6 @@ function Events() {
             return (
               <ModalEventProvider key={upcomingEvent.id}>
                 <CardEvent
-                  /*  key={upcomingEvent.id} */
                   event={upcomingEvent}
                   participants={eventParticipants}
                 />
