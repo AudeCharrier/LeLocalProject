@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useRef } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
+import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useSumParticipants from "../../hooks/useSumParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
+import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
-import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
-import type { FirstArticleProps } from "../../types/firstarticleprops";
 
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
@@ -27,11 +27,9 @@ function Events() {
     info3text: "ORGANISATIONS",
   };
 
-  //données bdd
   const upcomingEvents = useUpcomingEvents();
   const participants = useSumParticipants();
   const maxCards = 6;
-  //sélection de date pour filtrer les events
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const chooseDate = (date: Date) => {
@@ -39,6 +37,7 @@ function Events() {
     setSelectedDate(date);
   };
 
+  //METTRE CA EN BACK END
   const selectedEvents = selectedDate
     ? upcomingEvents.filter((event) => {
         // On transforme la date du calendrier en "AAAA-MM-JJ" (comme en bdd)
@@ -77,7 +76,8 @@ function Events() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  const [_activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const isClickingDot = useRef(false);
 
   // Gestion du scroll au clic sur les flèches
   const scroll = (direction: "left" | "right") => {
@@ -102,18 +102,49 @@ function Events() {
     if (carouselRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
 
-      // 1. Gestion des flèches
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+      // 1. Gestion des flèches (toujours active)
+      const isAtLeft = scrollLeft <= 10;
+      const isAtRight = scrollLeft + clientWidth >= scrollWidth - 10;
+      setCanScrollLeft(!isAtLeft);
+      setCanScrollRight(!isAtRight);
 
-      // 2. Gestion des dots (calcul basé sur la taille d'une carte)
+      // 2. Gestion des dots : Bloquée si on a cliqué sur un dot !
+      if (isClickingDot.current) return;
+
+      // Sinon, mode normal (flèches ou scroll manuel au doigt)
       const cardWidth = clientWidth * 0.58;
-      const newIndex = Math.round(scrollLeft / cardWidth);
+      let newIndex = Math.round(scrollLeft / cardWidth);
 
-      // Sécurité pour rester dans les bornes du tableau
-      if (newIndex >= 0 && newIndex < selectedEvents.length) {
+      if (isAtRight) {
+        newIndex = selectedEvents.length - 1;
+      } else if (isAtLeft) {
+        newIndex = 0;
+      }
+
+      if (
+        newIndex >= 0 &&
+        newIndex < selectedEvents.length &&
+        newIndex !== activeIndex
+      ) {
         setActiveIndex(newIndex);
       }
+    }
+  };
+  const goToSlide = (index: number) => {
+    if (carouselRef.current) {
+      isClickingDot.current = true; // 1. On bloque handleScroll
+      setActiveIndex(index); // 2. Le dot passe au rouge DIRECTEMENT
+
+      const cardWidth = carouselRef.current.clientWidth * 0.58;
+      carouselRef.current.scrollTo({
+        left: index * cardWidth,
+        behavior: "smooth",
+      });
+
+      // 3. On attend la fin de l'animation smooth (approx. 400ms) pour libérer le verrou
+      setTimeout(() => {
+        isClickingDot.current = false;
+      }, 400);
     }
   };
   return (
@@ -194,27 +225,21 @@ function Events() {
           </div>
 
           {/* Les Dots sous le bloc carrousel */}
-          {/* {selectedEvents.length > 1 && (
+          {selectedEvents.length > 1 && (
             <div className="carousel-dots">
-              {selectedEvents.map((_, index) => (
+              {selectedEvents.map((selectedEvent, index) => (
                 <button
-                  key={index}
+                  key={
+                    selectedEvent.id
+                  } /* Biome va adorer : clé unique et stable */
                   type="button"
                   className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
-                  onClick={() => {
-                    if (carouselRef.current) {
-                      const cardWidth = carouselRef.current.clientWidth * 0.58;
-                      carouselRef.current.scrollTo({
-                        left: index * cardWidth,
-                        behavior: "smooth",
-                      });
-                    }
-                  }}
+                  onClick={() => goToSlide(index)} /* Propre et lisible */
                   aria-label={`Aller à la diapositive évènement ${index + 1}`}
                 />
               ))}
             </div>
-          )} */}
+          )}
         </div>
       </section>
       <section className="events-section-NEXT">
