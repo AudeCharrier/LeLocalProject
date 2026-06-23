@@ -39,7 +39,7 @@ function WorkshopOfTheWeek() {
       </div>
 
       <div className="workshop-of-the-week">
-        <h2 className="title-workshop-section">ATELIER DE LA SEMAINE</h2>
+        <h1 className="title-workshop-section">ATELIER DE LA SEMAINE</h1>
 
         <div className="workshop-of-the-week-card-parent">
           <div className="box-img-card-workshop-of-the-week">

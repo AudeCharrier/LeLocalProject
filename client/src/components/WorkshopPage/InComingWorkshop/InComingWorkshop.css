@@ -123,8 +123,8 @@
       border-top: 1px solid var(--color-border);
 
       .incoming-workshop__avatar {
-        width: 36px;
-        height: 36px;
+        width: var(--space-10);
+        height: var(--space-10);
         border-radius: var(--radius-pill);
         background: var(--color-primary);
         color: var(--color-text-on-dark);

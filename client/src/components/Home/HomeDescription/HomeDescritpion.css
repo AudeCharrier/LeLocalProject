@@ -69,7 +69,7 @@
       line-height: var(--leading-relaxed);
       color: var(--color-text-secondary);
       font-family: var(--font-body);
-      margin: 0 0 16px 0;
+      margin: 0 0 var(--space-4) 0;
     }
 
     /* --- Features en grille 2x2 --- */
