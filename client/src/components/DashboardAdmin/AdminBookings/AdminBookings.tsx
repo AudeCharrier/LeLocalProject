@@ -1,4 +1,5 @@
 import "./AdminBookings.css";
+import { Link } from "react-router";
 import useAdminBookings from "../../../hooks/useAdminBookings";
 
 function formatReference(id: number) {
@@ -16,14 +17,26 @@ function formatClientName(firstname: string, lastname: string) {
   return `${firstname} ${lastname}`;
 }
 
-function AdminBookings() {
+type AdminBookingsProps = {
+  previewLimit?: number;
+};
+
+function AdminBookings({ previewLimit }: AdminBookingsProps) {
   const bookings = useAdminBookings();
+  const visibleBookings = previewLimit
+    ? bookings.slice(0, previewLimit)
+    : bookings;
 
   return (
     <section className="admin-bookings">
       <div className="admin-bookings__header">
         <h2 className="admin-bookings__title">Réservations</h2>
-        <span className="admin-bookings__action">Voir tout →</span>
+        <Link
+          className="admin-bookings__action"
+          to="/dashboard-admin#admin-bookings"
+        >
+          Voir tout →
+        </Link>
       </div>
 
       {bookings.length === 0 ? (
@@ -44,7 +57,7 @@ function AdminBookings() {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((booking) => (
+              {visibleBookings.map((booking) => (
                 <tr key={booking.id}>
                   <td>{formatReference(booking.id)}</td>
                   <td>

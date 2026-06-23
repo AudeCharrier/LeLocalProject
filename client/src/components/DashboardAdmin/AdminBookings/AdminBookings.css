@@ -28,6 +28,7 @@
   }
 
   .admin-bookings__action {
+    text-decoration: none;
     font-family: var(--font-ui);
     font-size: var(--text-sm);
     font-weight: var(--font-medium);

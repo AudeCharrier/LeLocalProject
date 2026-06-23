@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import type { BookingHistory } from "../types/booking";
+import { apiFetch } from "./apiFetch";
 
 function useInvoice(bookingId: number) {
   const [invoice, setInvoice] = useState<BookingHistory | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/invoice/${bookingId}`)
+    apiFetch(`/api/invoice/${bookingId}`)
       .then((res) => res.json())
-      .then((date: BookingHistory) => setInvoice(date));
+      .then((data: BookingHistory) => setInvoice(data));
   }, [bookingId]);
 
   return invoice;

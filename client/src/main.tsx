@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
-import CalendarEvents from "./components/Calendar/Calendar";
 import Confirmation from "./components/Confirmation/Confirmation";
 import { AuthProvider } from "./context/AuthContext";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
@@ -60,10 +59,6 @@ const router = createBrowserRouter([
       {
         path: "/confirmation",
         element: <Confirmation />,
-      },
-      {
-        path: "/calendar",
-        element: <CalendarEvents />,
       },
       {
         path: "/log-in",

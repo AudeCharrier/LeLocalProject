@@ -6,6 +6,7 @@ const AuthContext = createContext<{
   id: number;
   email: string;
   role: string;
+  firstname: string;
 } | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

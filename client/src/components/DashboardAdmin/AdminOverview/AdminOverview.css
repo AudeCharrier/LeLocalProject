@@ -10,6 +10,11 @@
     box-shadow: var(--shadow-card);
     padding: var(--space-6);
     height: 450px;
+  }
+
+  .admin-overview__panel--notifications {
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
   }
 
@@ -21,6 +26,12 @@
     margin-bottom: var(--space-6);
     padding-bottom: var(--space-5);
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .admin-overview__header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
   }
 
   .admin-overview__title {
@@ -46,6 +57,16 @@
     font-weight: var(--font-semibold);
   }
 
+  .admin-overview__button {
+    border: none;
+    background: transparent;
+    color: var(--color-primary);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+  }
+
   .admin-overview__chart-card {
     min-height: 320px;
     padding: var(--space-5) var(--space-4) var(--space-3);
@@ -64,6 +85,8 @@
     flex-direction: column;
     gap: var(--space-2);
     list-style: none;
+    overflow-y: auto;
+    padding-right: var(--space-2);
   }
 
   .admin-overview__notification {
@@ -153,6 +176,14 @@
     }
 
     .admin-overview__badge {
+      font-size: var(--text-xs);
+    }
+
+    .admin-overview__header-actions {
+      gap: var(--space-2);
+    }
+
+    .admin-overview__button {
       font-size: var(--text-xs);
     }
 

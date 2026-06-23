@@ -37,8 +37,7 @@ const read: RequestHandler = async (req, res, next) => {
 
 /**
  * GET /api/spaces/:id/availability
- * Calcule la disponibilité d'un espace pour une date donnée (et un créneau,
- * ou une plage de dates selon le type d'espace).
+ * Calcule la disponibilité d'un espace pour une date donnée (et un créneau, ou une plage de dates selon le type d'espace).
  *
  * Le comportement diffère selon la catégorie de l'espace :
  * - "Local vide" : réservation sur une PLAGE de dates (start/end). On vérifie simplement si la période demandée chevauche une réservation existante. `available` vaut 0 ou 1 (tout ou rien, pas de notion de places).
