@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRef } from "react";
 import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
@@ -10,7 +9,7 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import CarrousselEvents from "../../components/Event/CarrousselEvents";
 import useEventsOfTheDay from "../../hooks/useEventsOfTheDay";
 
 function Events() {
@@ -64,81 +63,6 @@ function Events() {
     return "no-event";
   };
 
-  // Carrousel
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const isClickingDot = useRef(false);
-
-  // Gestion du scroll au clic sur les flèches
-  const scroll = (direction: "left" | "right") => {
-    if (carouselRef.current) {
-      const { scrollLeft, clientWidth } = carouselRef.current;
-
-      // On utilise 0.58 pour correspondre aux 55% de la carte + le gap
-      const cardWidth = clientWidth * 0.58;
-
-      const scrollTo =
-        direction === "left" ? scrollLeft - cardWidth : scrollLeft + cardWidth;
-
-      carouselRef.current.scrollTo({
-        left: scrollTo,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  // Surveiller le scroll pour activer/désactiver les flèches ET mettre à jour les dots
-  const handleScroll = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-
-      // 1. Gestion des flèches (toujours active)
-      const isAtLeft = scrollLeft <= 10;
-      const isAtRight = scrollLeft + clientWidth >= scrollWidth - 10;
-      setCanScrollLeft(!isAtLeft);
-      setCanScrollRight(!isAtRight);
-
-      // 2. Gestion des dots : Bloquée si on a cliqué sur un dot !
-      if (isClickingDot.current) return;
-
-      // Sinon, mode normal (flèches ou scroll manuel au doigt)
-      const cardWidth = clientWidth * 0.58;
-      let newIndex = Math.round(scrollLeft / cardWidth);
-
-      if (isAtRight) {
-        newIndex = eventsOfTheDay.length - 1;
-      } else if (isAtLeft) {
-        newIndex = 0;
-      }
-
-      if (
-        newIndex >= 0 &&
-        newIndex < eventsOfTheDay.length &&
-        newIndex !== activeIndex
-      ) {
-        setActiveIndex(newIndex);
-      }
-    }
-  };
-  const goToSlide = (index: number) => {
-    if (carouselRef.current) {
-      isClickingDot.current = true; // 1. On bloque handleScroll
-      setActiveIndex(index); // 2. Le dot passe au rouge DIRECTEMENT
-
-      const cardWidth = carouselRef.current.clientWidth * 0.58;
-      carouselRef.current.scrollTo({
-        left: index * cardWidth,
-        behavior: "smooth",
-      });
-
-      // 3. On attend la fin de l'animation smooth (approx. 400ms) pour libérer le verrou
-      setTimeout(() => {
-        isClickingDot.current = false;
-      }, 400);
-    }
-  };
   return (
     <>
       <section className="events-section-hero">
@@ -169,75 +93,7 @@ function Events() {
             {/*tileClassName est une propriété de calendar pour le css*/}
           </div>
           {/* Structure du Carrousel avec ses contrôles */}
-          <div className="carousel-container">
-            {eventsOfTheDay.length > 0 ? (
-              <>
-                {/* Flèche Gauche */}
-                <button
-                  type="button"
-                  className={`carousel-arrow left ${!canScrollLeft ? "disabled" : ""}`}
-                  onClick={() => scroll("left")}
-                  aria-label="Evènement précédent"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-
-                {/* Fenêtre visible du carrousel */}
-                <div
-                  className="events-div-selected-events"
-                  ref={carouselRef}
-                  onScroll={handleScroll}
-                >
-                  <div className="home-events">
-                    {eventsOfTheDay.map((event) => {
-                      const eventParticipants = participants.find(
-                        (p) => p.id_activity === event.id,
-                      );
-                      return (
-                        <div className="carousel-item" key={event.id}>
-                          <ModalEventProvider>
-                            <CardEvent
-                              event={event}
-                              participants={eventParticipants}
-                            />
-                          </ModalEventProvider>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Flèche Droite */}
-                <button
-                  type="button"
-                  className={`carousel-arrow right ${!canScrollRight ? "disabled" : ""}`}
-                  onClick={() => scroll("right")}
-                  aria-label="Evènement Suivant"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </>
-            ) : (
-              <p className="events-message-no-event">
-                Aucun évènement ce jour. Sélectionnez un jour marqué (*).
-              </p>
-            )}
-          </div>
-
-          {/* Les Dots sous le bloc carrousel */}
-          {eventsOfTheDay.length > 1 && (
-            <div className="carousel-dots">
-              {eventsOfTheDay.map((event, index) => (
-                <button
-                  key={event.id}
-                  type="button"
-                  className={`carousel-dot ${index === activeIndex ? "active" : ""}`}
-                  onClick={() => goToSlide(index)}
-                  aria-label={`Aller à la diapositive évènement ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
+          <CarrousselEvents events={eventsOfTheDay} />
         </div>
       </section>
       <section className="events-section-upcoming">
@@ -275,5 +131,4 @@ function Events() {
 
 export default Events;
 
-/*code repris de EventSection -> voir pour refacto, faire un composant */
 /*faire un composant du carroussel pour faire events passés ?*/
