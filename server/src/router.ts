@@ -180,4 +180,12 @@ router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
 // insert cart content into boooking table
 router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 
+/* ************************************************************************* */
+// Workshop
+/* ************************************************************************* */
+
+import activityActions from "./modules/activity/activityActions";
+
+router.get("/api/activity", activityActions.browse);
+
 export default router;

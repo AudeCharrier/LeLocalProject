@@ -68,7 +68,8 @@
       font-size: var(--text-base);
       line-height: var(--leading-relaxed);
       color: var(--color-text-secondary);
-      margin: 0 0 16px 0;
+      font-family: var(--font-body);
+      margin: 0 0 var(--space-4) 0;
     }
 
     /* --- Features en grille 2x2 --- */
@@ -81,6 +82,7 @@
       .mission-feature-div {
         display: flex;
         align-items: center;
+        font-family: var(--font-body);
         gap: var(--gap-xs);
         font-size: var(--text-base);
         font-weight: var(--font-semibold);

@@ -1,0 +1,163 @@
+.incoming-workshop {
+  background-color: var(--color-bg-1);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-ui);
+
+  .incoming-workshop__inner {
+    display: flex;
+    flex-direction: column;
+
+    .incoming-workshop__top {
+      background-color: #2a3d2e;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 180px;
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .incoming-workshop__top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .incoming-workshop__badge-level {
+        background: rgba(0, 0, 0, 0.4);
+        color: var(--color-text-on-dark);
+        font-size: var(--text-xs);
+        font-weight: var(--font-bold);
+        letter-spacing: var(--tracking-wider);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-md);
+        font-family: var(--font-ui);
+      }
+
+      .incoming-workshop__badge-places {
+        background: var(--color-bg-card);
+        color: var(--color-text-primary);
+        font-size: var(--text-xs);
+        font-weight: var(--font-semibold);
+        letter-spacing: var(--tracking-wide);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-lg);
+        text-align: center;
+        line-height: 1.4;
+        font-family: var(--font-ui);
+      }
+
+      .incoming-workshop__badge-date {
+        background: var(--color-bg-white);
+        border-radius: var(--radius-lg);
+        padding: var(--space-1) var(--space-3);
+        width: fit-content;
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-2);
+
+        .incoming-workshop__date-day {
+          font-size: var(--text-xl);
+          font-weight: var(--font-bold);
+          color: var(--color-text-primary);
+          font-family: var(--font-display);
+          line-height: 1;
+          text-decoration: underline;
+          text-underline-offset: 2px;
+        }
+
+        .incoming-workshop__date-month {
+          font-size: var(--text-xs);
+          font-weight: var(--font-semibold);
+          color: var(--color-text-muted);
+          letter-spacing: var(--tracking-wide);
+          text-transform: uppercase;
+          font-family: var(--font-ui);
+        }
+      }
+    }
+
+    .incoming-workshop__description {
+      background: var(--color-bg-card);
+      padding: var(--space-5) var(--space-5) var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+
+      .incoming-workshop__category {
+        color: var(--color-primary);
+        font-size: var(--text-xs);
+        font-weight: var(--font-bold);
+        letter-spacing: var(--tracking-wider);
+        text-transform: uppercase;
+        font-family: var(--font-ui);
+      }
+
+      h2 {
+        font-family: var(--font-display);
+        font-size: var(--text-base);
+        font-weight: var(--font-bold);
+        color: var(--color-text-primary);
+        line-height: var(--leading-snug);
+        margin: 0;
+      }
+
+      p {
+        font-family: var(--font-body);
+        font-size: var(--text-sm);
+        color: var(--color-text-secondary);
+        line-height: var(--leading-normal);
+        margin: 0;
+      }
+    }
+
+    .incoming-workshop__footer {
+      background: var(--color-bg-card);
+      padding: var(--space-3) var(--space-5) var(--space-5);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--color-border);
+
+      .incoming-workshop__avatar {
+        width: var(--space-10);
+        height: var(--space-10);
+        border-radius: var(--radius-pill);
+        background: var(--color-primary);
+        color: var(--color-text-on-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: var(--text-xs);
+        font-weight: var(--font-bold);
+        font-family: var(--font-ui);
+        flex-shrink: 0;
+      }
+
+      .incoming-workshop__teacher-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        margin-left: var(--space-3);
+
+        .incoming-workshop__teacher-name {
+          font-family: var(--font-heading);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          color: var(--color-text-primary);
+        }
+
+        .incoming-workshop__price {
+          font-family: var(--font-display);
+          font-size: var(--text-xl);
+          font-weight: var(--font-bold);
+          color: var(--color-primary);
+        }
+      }
+    }
+  }
+}
