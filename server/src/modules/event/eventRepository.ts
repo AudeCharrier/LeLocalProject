@@ -53,7 +53,7 @@ class EventRepository {
     WHERE s.space_type = 'Evenements'
     AND a.start_date >= CURRENT_DATE()
     ORDER BY a.start_date ASC 
-    LIMIT 10`,
+  `,
     );
 
     return rows as Activity[];
@@ -81,6 +81,31 @@ class EventRepository {
     }));
 
     return formattedRows as Participants[];
+  }
+
+  async browseEventsOfTheDay(date: string) {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `SELECT
+      a.id,
+      a.name,
+      a.start_date,
+      a.end_date,
+      a.description,
+      a.url_image,
+      a.price_unit,
+      s.space_name,
+      t.start_hour,
+      t.end_hour,
+      s.capacity
+    FROM activity AS a
+    INNER JOIN time_slot AS t ON a.time_slot_id = t.id
+    INNER JOIN space AS s ON a.space_id = s.id
+    WHERE s.space_type = 'Evenements'
+    AND a.start_date = ?
+    ORDER BY t.start_hour ASC  `,
+      [date],
+    );
+    return rows as Activity[];
   }
 }
 

@@ -5,6 +5,7 @@ type CartItem = {
   users_id: number;
   id_activity: number;
   quantity: number;
+  total_price: number;
 };
 
 const readAll = async (userId: number) => {
@@ -13,7 +14,7 @@ const readAll = async (userId: number) => {
     SELECT
       c.id,
       c.quantity,
-
+      c.total_price,
       a.id AS id_activity,
       a.name,
       a.description,

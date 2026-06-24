@@ -21,22 +21,19 @@ const browseParticipantsToEvent: RequestHandler = async (req, res, next) => {
   }
 };
 
-const read: RequestHandler = async (req, res, next) => {
+const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
   try {
-    const itemId = Number(req.params.id);
-    const item = await eventRepository.read(itemId);
-
-    // If the item is not found, respond with HTTP 404 (Not Found)
-    // Otherwise, respond with the item in JSON format
-    if (item == null) {
-      res.sendStatus(404);
-    } else {
-      res.json(item);
-    }
+    const eventsOfTheDay = await eventRepository.browseEventsOfTheDay(
+      req.params.date,
+    );
+    res.json(eventsOfTheDay);
   } catch (err) {
-    // Pass any errors to the error-handling middleware
     next(err);
   }
 };
 
-export default { browseUpcomingEvents, browseParticipantsToEvent, read };
+export default {
+  browseUpcomingEvents,
+  browseParticipantsToEvent,
+  browseEventsOfTheDay,
+};

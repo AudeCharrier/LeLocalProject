@@ -108,8 +108,8 @@ INSERT INTO `activity` VALUES
 (10,2,2,'2026-06-20','2026-06-20','Session de travail apres-midi dans un grand espace collaboratif.',8,'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format','Coworking apres-midi - Forum', 2),
 (11,1,14,'2026-07-15','2026-07-15','Session d impression 3D pour prototypage rapide.',10,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier impression 3D', 2),
 (12,2,18,'2026-08-12','2026-08-12','Session d enregistrement en studio premium.',50,'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop&auto=format','Studio enregistrement', 2),
-(13,1,12,'2026-09-10','2026-09-10','Soiree cinema en plein air avec projection sur grand ecran.',5,'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop&auto=format','Cinema plein air septembre', 2),
-(14,2,13,'2026-09-25','2026-09-25','Concert acoustique avec artistes emergents du quartier.',8,'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&auto=format','Concert acoustique septembre', 2),
+(13,1,12,'2026-09-10','2026-09-10','Soiree cinema en plein air avec projection sur grand ecran.',5,'/assets/images/events/20260910-cine.webp','Cinema plein air septembre', 2),
+(14,2,13,'2026-09-25','2026-09-25','Concert acoustique avec artistes emergents du quartier.',8,'/assets/images/events/20260925_concert_acoustique.webp','Concert acoustique septembre', 2),
 (15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2),
 (16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2);
 

@@ -26,7 +26,7 @@ interface CardEventProps {
 }
 
 function CardEvent({ event, participants }: CardEventProps) {
-  const capacity = participants?.capacity ?? 0;
+  const capacity = event.capacity;
   const sumParticipants = participants?.sum_participants ?? 0;
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
   const remaining = participants?.remaining_slots ?? event.capacity;

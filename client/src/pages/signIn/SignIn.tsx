@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../Login/Login.css";
+import { Link } from "react-router";
 import { apiFetch } from "../../hooks/apiFetch";
 
 export default function SignIn() {
@@ -141,7 +142,7 @@ export default function SignIn() {
             </button>
 
             <p className="auth-switch">
-              Déjà un compte ? <a href="/log-in">Se connecter</a>
+              Déjà un compte ? <Link to="/log-in">Se connecter</Link>
             </p>
           </div>
         </div>
