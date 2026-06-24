@@ -13,7 +13,7 @@ const create = async (
       "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
       [`${year}-%`],
     );
-    const count = (rows[0] as { count: number }).count;
+    const count = (rows as { count: number }[])[0].count;
     const billsNumber = `${year}-${Number(count) + 1}`;
 
     await databaseLeLocal.query(

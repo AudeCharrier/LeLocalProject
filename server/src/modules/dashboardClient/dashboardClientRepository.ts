@@ -11,6 +11,8 @@ type Activity = {
   start_hour: string;
   end_hour: string;
   price_unit: number;
+  total_price: number;
+  quantity: number;
 };
 
 type Booking = {
@@ -33,6 +35,7 @@ type BookingHistory = {
   bills_number: number;
   quantity: number;
   total_price: number;
+  price_unit: number;
   name: string;
   start_date: string;
   space_name: string;
@@ -71,7 +74,9 @@ class DashboardClientRepository {
         a.end_date,
         t.start_hour,
         t.end_hour,
-        a.price_unit
+        a.price_unit,
+        b.total_price,
+        b.quantity
       FROM booking b
       JOIN activity a ON b.id_activity = a.id
       JOIN space s ON a.space_id = s.id
@@ -99,7 +104,9 @@ class DashboardClientRepository {
         a.end_date,
         t.start_hour,
         t.end_hour,
-        a.price_unit
+        a.price_unit,
+        b.total_price,
+        b.quantity
       FROM booking b
       JOIN activity a ON b.id_activity = a.id
       JOIN space s ON a.space_id = s.id
@@ -233,7 +240,9 @@ class DashboardClientRepository {
       b.bills_number,
       b.quantity,
       b.total_price, 
+      a.price_unit,
       a.name,
+      a.price_unit,
       a.start_date,
       s.space_name,
       u.firstname,
