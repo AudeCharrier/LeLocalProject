@@ -9,20 +9,23 @@ import TeacherWorkshop from "../../components/WorkshopPage/TeacherWorkshop/Teach
 
 function WorkshopPage() {
   const workshops = useWorkshop();
+  if (workshops.length === 0) return null;
 
-  const sortedByPrice = [...workshops].sort(
+  const ateliers = workshops.filter((w) => w.space_type === "Ateliers");
+
+  const sortedByPrice = [...ateliers].sort(
     (a, b) => b.price_unit - a.price_unit,
   );
-  const featuredWorkshop = sortedByPrice[0];
-  const remainingWorkshops = sortedByPrice.slice(1);
+  const featuredSpace = sortedByPrice[0];
+  const remainingSpace = sortedByPrice.slice(1);
 
   return (
     <>
       <HeaderWorkshop />
-      <WorkshopOfTheWeek workshop={featuredWorkshop} />
+      <WorkshopOfTheWeek workshop={featuredSpace} />
       <div className="workshop-grid">
-        {remainingWorkshops.map((workshop) => (
-          <InComingWorkshop key={workshop.id} workshop={workshop} />
+        {remainingSpace.map((space) => (
+          <InComingWorkshop key={space.id} workshop={space} />
         ))}
         <div className="workshop-grid__suggest">
           <Plus className="workshop-grid__suggest-icon" />

@@ -4,10 +4,22 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   font-family: var(--font-ui);
+  transition: var(--transition-base);
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+  }
 
   .incoming-workshop__inner {
     display: flex;
     flex-direction: column;
+    height: 100%;
+
+    .incoming-workshop__description {
+      flex: 1; /* prend tout l'espace disponible */
+    }
 
     .incoming-workshop__top {
       background-color: #2a3d2e;
@@ -156,6 +168,23 @@
           font-size: var(--text-xl);
           font-weight: var(--font-bold);
           color: var(--color-primary);
+        }
+
+        .btn-reserve-incoming-workshop {
+          background: var(--color-primary);
+          color: var(--color-text-on-dark);
+          border: none;
+          border-radius: var(--radius-lg);
+          padding: var(--space-3) var(--space-6);
+          font-family: var(--font-ui);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          cursor: pointer;
+          transition: var(--transition-fast);
+
+          &:hover {
+            background: var(--color-primary-dark);
+          }
         }
       }
     }

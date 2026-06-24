@@ -1,27 +1,26 @@
 import "./InComingWorkshop.css";
-import useAvailability from "../../../hooks/useAvailability";
-import type { Activity } from "../../../types/activity";
+import type { Space } from "../../../types/space";
 
 interface WorkshopProps {
-  workshop: Activity;
+  workshop: Space;
 }
 
-function formatDate(isoDate: string) {
-  const d = new Date(isoDate);
-  return {
-    day: d.getDate().toString(),
-    month: d.toLocaleDateString("fr-FR", { month: "short" }).toUpperCase(),
-  };
-}
+// function formatDate(isoDate: string) {
+//   const d = new Date(isoDate);
+//   return {
+//     day: d.getDate().toString(),
+//     month: d.toLocaleDateString("fr-FR", { month: "short" }).toUpperCase(),
+//   };
+// }
 
 function InComingWorkshop({ workshop }: WorkshopProps) {
-  const { day, month } = formatDate(workshop.start_date);
+  // const { day, month } = formatDate(workshop.start_date);
 
-  const availability = useAvailability(
-    workshop.space_id,
-    workshop.start_date.slice(0, 10),
-    workshop.time_slot_id?.toString(),
-  );
+  // const availability = useAvailability(
+  //   workshop.space_id,
+  //   workshop.start_date.slice(0, 10),
+  //   workshop.time_slot_id?.toString(),
+  // );
 
   return (
     <div className="incoming-workshop">
@@ -35,16 +34,11 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
           }}
         >
           <div className="incoming-workshop__top-row">
-            <span className="incoming-workshop__badge-level">DÉBUTANT</span>
-            <span className="incoming-workshop__badge-places">
+            {/* <span className="incoming-workshop__badge-places">
               {availability
                 ? `${availability.available} places libres`
                 : `${workshop.capacity} places`}
-            </span>
-          </div>
-          <div className="incoming-workshop__badge-date">
-            <span className="incoming-workshop__date-day">{day}</span>
-            <span className="incoming-workshop__date-month">{month}</span>
+            </span> */}
           </div>
         </div>
 
@@ -52,7 +46,7 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
           <span className="incoming-workshop__category">
             {workshop.space_type}
           </span>
-          <h2>{workshop.name}</h2>
+          <h2>{workshop.space_name}</h2>
           <p>{workshop.description}</p>
         </div>
 
@@ -63,6 +57,9 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
             <span className="incoming-workshop__price">
               {workshop.price_unit}€
             </span>
+            <button type="button" className="btn-reserve-incoming-workshop">
+              Réserver ma place
+            </button>
           </div>
         </div>
       </div>
