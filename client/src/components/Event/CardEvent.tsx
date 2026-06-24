@@ -25,7 +25,7 @@ interface CardEventProps {
 }
 
 function CardEvent({ event, participants }: CardEventProps) {
-  const capacity = participants?.capacity ?? 0;
+  const capacity = event.capacity;
   const sumParticipants = Number.parseInt(
     participants?.sum_participants ?? "0",
     10,

@@ -40,6 +40,7 @@ router.get(
   "/api/events/participants",
   eventActions.browseSumParticipantsToEvent,
 );
+router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
 
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
@@ -176,7 +177,7 @@ import bookingActions from "./modules/bookingActions/bookingActions";
 // insert activity booked into cart table and activity table
 router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
 
-// insert into boooking table
+// insert cart content into boooking table
 router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 
 /* ************************************************************************* */
