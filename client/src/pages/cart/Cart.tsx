@@ -238,7 +238,8 @@ function Cart() {
               cartItems: carts.map((item) => ({
                 id_activity: item.id_activity,
                 quantity: item.quantity,
-                price_unit: item.price_unit,
+                total_price:
+                  item.price_unit * item.quantity * (1 - discount / 100),
               })),
               userId: 2,
             }}

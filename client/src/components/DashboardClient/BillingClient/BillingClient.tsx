@@ -53,7 +53,9 @@ function BillingClient() {
                   <td className="billing-client__td">
                     {item.start_date.slice(0, 10)}
                   </td>
-                  <td className="billing-client__td">{item.name}</td>
+                  <td className="billing-client__td">
+                    {item.name || item.space_name}
+                  </td>
                   <td className="billing-client__td">{item.total_price} €</td>
                   <td className="billing-client__td">
                     <span className="billing-client__badge">Payé</span>
