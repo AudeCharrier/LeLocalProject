@@ -5,6 +5,7 @@ type CartItem = {
   users_id: number;
   id_activity: number;
   quantity: number;
+  total_price: number;
 };
 
 const readAll = async (userId: number) => {
