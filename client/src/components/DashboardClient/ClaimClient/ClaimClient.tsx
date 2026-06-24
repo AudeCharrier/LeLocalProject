@@ -89,7 +89,7 @@ function ClaimClient() {
           <option value="">Choisissez une réservation...</option>
           {billing.map((item) => (
             <option key={item.id} value={item.id}>
-              FAC-{item.bills_number} — {item.name} —{" "}
+              FAC-{item.bills_number} — {item.name || item.space_name} —{" "}
               {item.start_date.slice(0, 10)}
             </option>
           ))}

@@ -35,7 +35,7 @@ function Cart() {
   };
 
   const totalPrice = carts.reduce(
-    (total, item) => total + item.total_price * item.quantity,
+    (total, item) => total + Number(item.total_price),
     0,
   );
 
@@ -54,6 +54,7 @@ function Cart() {
     if (!item) return;
 
     const newQuantity = item.quantity + 1;
+    const priceUnit = Number(item.total_price) / item.quantity;
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -63,7 +64,15 @@ function Cart() {
       });
 
       setCarts((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
+        prev.map((i) =>
+          i.id === id
+            ? {
+                ...i,
+                quantity: newQuantity,
+                total_price: priceUnit * newQuantity,
+              }
+            : i,
+        ),
       );
     } catch (error) {
       console.error("Erreur augmentation quantité :", error);
@@ -75,6 +84,7 @@ function Cart() {
     if (!item || item.quantity <= 1) return;
 
     const newQuantity = item.quantity - 1;
+    const priceUnit = Number(item.total_price) / item.quantity;
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -84,7 +94,15 @@ function Cart() {
       });
 
       setCarts((prev) =>
-        prev.map((i) => (i.id === id ? { ...i, quantity: newQuantity } : i)),
+        prev.map((i) =>
+          i.id === id
+            ? {
+                ...i,
+                quantity: newQuantity,
+                total_price: priceUnit * newQuantity,
+              }
+            : i,
+        ),
       );
     } catch (error) {
       console.error("Erreur diminution quantité :", error);
@@ -236,7 +254,7 @@ function Cart() {
               cartItems: carts.map((item) => ({
                 id_activity: item.id_activity,
                 quantity: item.quantity,
-                price_unit: item.price_unit,
+                price_unit: item.price_unit * (1 - discount / 100),
               })),
               userId: user?.id,
             }}
