@@ -11,7 +11,7 @@ function FooterDashboard() {
             <h3 className="footer-dashboard-brand-name">Le Local</h3>
             <div className="footer-dashboard-brand-details">
               <p>14 rue des Faiseurs, Paris 11e</p>
-              <a href="mailto:contact@lelocal.coop">contact@lelocal.coop</a>
+              <Link to="mailto:contact@lelocal.coop">contact@lelocal.coop</Link>
             </div>
           </div>
 
