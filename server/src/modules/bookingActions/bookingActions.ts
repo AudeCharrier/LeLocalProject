@@ -4,6 +4,13 @@ import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
 import bookingRepository from "./bookingRepository";
 
+type EventBookingPayload = {
+  users_id: number;
+  event_id: number;
+  quantity: number;
+  total_price: number;
+};
+
 type BookingPayload = {
   space_id: number;
   time_slot_id: number | null;
@@ -214,4 +221,53 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { add, create };
+const addEvent: RequestHandler = async (req, res, next) => {
+  const body = req.body as EventBookingPayload;
+
+  // Validation basique des champs obligatoires
+  if (!body.event_id || !body.users_id || !body.quantity || !body.total_price) {
+    res.status(400).json;
+    return;
+  }
+
+  // Récupère une connexion dédiée du pool pour pouvoir ouvrir une transaction (begin/commit/rollback) propre à cette requête
+  const connection = await databaseLeLocal.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    // Verrouille la ligne de l'espace pendant la transaction pour empêcher une autre requête concurrente de lire/modifier sa disponibilité au même moment (évite le double-booking)
+    /*   const space = await spaceRepository.readForUpdate(
+      connection,
+      body.space_id,
+    );
+    if (space == null) {
+      await connection.rollback();
+      res.status(404).json({ message: "Espace introuvable" });
+      return;
+    }
+    */
+
+    // Vérifie la dispo à nouveau ?
+
+    const [result] = await connection.query(
+      `INSERT INTO cart (users_id, id_activity, quantity, total_price)
+         VALUES (?, ?, ?, ?)`,
+      [body.users_id, body.event_id, body.quantity, body.total_price],
+    );
+    await connection.commit();
+
+    res.status(201).json({
+      cartItemId: (result as { insertId: number }).insertId,
+      eventId: body.event_id,
+    });
+  } catch (err) {
+    // En cas d'erreur inattendue, on annule toute la transaction pour ne rien laisser dans un état incohérent
+    await connection.rollback();
+    next(err);
+  } finally {
+    // La connexion est toujours rendue au pool, succès ou échec
+    connection.release();
+  }
+};
+export default { add, create, addEvent };
