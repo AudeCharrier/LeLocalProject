@@ -1,5 +1,6 @@
 import BillingClient from "../../components/DashboardClient/BillingClient/BillingClient";
 import ClaimClient from "../../components/DashboardClient/ClaimClient/ClaimClient";
+import EventRequestsClient from "../../components/DashboardClient/EventRequestsClient/EventRequestsClient";
 import PastClient from "../../components/DashboardClient/PastClient/PastClient";
 import StatsClient from "../../components/DashboardClient/StatsClient/StatsClient";
 import UpcomingBookingClient from "../../components/DashboardClient/UpcomingBookingClient/UpcomingBookingClient";
@@ -34,6 +35,9 @@ export default function DashboardClientPage() {
             </div>
             <UpcomingEventClient />
           </div>
+        </div>
+        <div className="dashboard-client-section">
+          <EventRequestsClient />
         </div>
         <div className="dashboard-client-section">
           <BillingClient />

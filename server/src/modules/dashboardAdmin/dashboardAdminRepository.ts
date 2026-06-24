@@ -40,8 +40,6 @@ type Claim = {
   lastname: string;
 };
 
-// Pour regrouper nos différentes méthodes :
-// calcul des statistiques d'occupation, du nombre de réservations et du nombre de membres actifs
 class DashboardAdminRepository {
   async readAdminStats() {
     const [rows] = await databaseClient.query<Rows>(
@@ -75,7 +73,6 @@ class DashboardAdminRepository {
           FROM claim
         ) AS claims_count`,
     );
-
     return rows[0] as AdminStats;
   }
 
@@ -89,7 +86,6 @@ class DashboardAdminRepository {
       FROM claim c
       ORDER BY c.id DESC`,
     );
-
     return rows as AdminClaimNotification[];
   }
 
@@ -121,18 +117,78 @@ class DashboardAdminRepository {
   async readAllClaims() {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-      c.id,
-      c.title,
-      c.category,
-      c.message,
-      c.claim_date,
-      u.firstname,
-      u.lastname
-    FROM claim c
-    JOIN users u ON c.users_id = u.id
-    ORDER BY c.claim_date DESC`,
+        c.id,
+        c.title,
+        c.category,
+        c.message,
+        c.claim_date,
+        u.firstname,
+        u.lastname
+      FROM claim c
+      JOIN users u ON c.users_id = u.id
+      ORDER BY c.claim_date DESC`,
     );
     return rows as Claim[];
   }
+
+  async readAllEventRequests() {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+        a.id,
+        a.name,
+        a.description,
+        a.start_date,
+        a.end_date,
+        a.status,
+        s.space_name,
+        t.start_hour,
+        t.end_hour,
+        u.firstname,
+        u.lastname
+      FROM activity a
+      JOIN space s ON a.space_id = s.id
+      JOIN time_slot t ON a.time_slot_id = t.id
+      JOIN users u ON a.users_id = u.id
+      WHERE s.space_type = 'Evenements'
+      AND a.status IN ('pending', 'refused')
+      ORDER BY a.start_date DESC`,
+    );
+    return rows;
+  }
+
+  async updateEventRequestStatus(
+    activityId: number,
+    status: "approved" | "refused",
+  ) {
+    await databaseClient.query("UPDATE activity SET status = ? WHERE id = ?", [
+      status,
+      activityId,
+    ]);
+  }
+
+  async createBookingForRequest(activityId: number, userId: number) {
+    const year = new Date().getFullYear();
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
+      [`${year}-%`],
+    );
+    const count = (rows as { count: number }[])[0].count;
+    const billsNumber = `${year}-${Number(count) + 1}`;
+
+    await databaseClient.query(
+      `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity)
+       VALUES (?, ?, 1, 0, ?)`,
+      [userId, billsNumber, activityId],
+    );
+  }
+
+  async getEventRequest(activityId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT id, users_id FROM activity WHERE id = ?",
+      [activityId],
+    );
+    return rows[0] as { id: number; users_id: number };
+  }
 }
+
 export default new DashboardAdminRepository();
