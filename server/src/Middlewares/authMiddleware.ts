@@ -5,7 +5,7 @@ const requireAuth: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    res.status(401).json({ message: "Token manquant ou mal formaté." });
+    res.status(401).json({ message: "Veuillez vous connecter." });
     return;
   }
 
@@ -24,7 +24,7 @@ const requireAdmin: RequestHandler = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    res.status(401).json({ message: "Token manquant ou mal formaté." });
+    res.status(401).json({ message: "Veuillez vous connecter." });
     return;
   }
 

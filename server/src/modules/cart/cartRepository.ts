@@ -14,7 +14,7 @@ const readAll = async (userId: number) => {
     SELECT
       c.id,
       c.quantity,
-
+      c.total_price,
       a.id AS id_activity,
       a.name,
       a.description,
