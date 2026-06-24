@@ -8,6 +8,7 @@ import UpcomingEventClient from "../../components/DashboardClient/UpcomingEventC
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 import { useAuth } from "../../hooks/useAuth";
 import "./DashboardClientPage.css";
+import { logout } from "../../hooks/apiFetch";
 
 export default function DashboardClientPage() {
   const user = useAuth();
@@ -22,6 +23,9 @@ export default function DashboardClientPage() {
         <h1 className="dashboard-client-page__heading">
           Bonjour {user.firstname} 👋
         </h1>
+        <button className="logOutButton" type="button" onClick={logout}>
+          Deconexion
+        </button>
       </div>
       <div className="dashboard-client-content">
         <div className="dashboard-client-section">
