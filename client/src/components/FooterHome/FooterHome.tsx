@@ -35,7 +35,7 @@ function FooterHome() {
             <h3 className="footer-home-brand-name">Le Local</h3>
             <div className="footer-home-brand-details">
               <p>14 rue des Faiseurs, Paris 11e</p>
-              <a href="mailto:contact@lelocal.coop">contact@lelocal.coop</a>
+              <Link to="mailto:contact@lelocal.coop">contact@lelocal.coop</Link>
             </div>
           </div>
 
