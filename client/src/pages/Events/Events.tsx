@@ -4,7 +4,7 @@ import CardEvent from "../../components/Event/CardEvent";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
-import useSumParticipants from "../../hooks/useSumParticipants";
+import useParticipants from "../../hooks/useParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
@@ -27,6 +27,7 @@ function Events() {
     info3: "12",
     info3text: "ORGANISATIONS",
   };
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [maxCardsForGrid, setMaxCardsForGrid] = useState<number>(3);
 
@@ -40,7 +41,7 @@ function Events() {
 
   const eventsOfTheDay = useEventsOfTheDay(dateCalendarFormatted);
   const upcomingEvents = useUpcomingEvents();
-  const participants = useSumParticipants();
+  const participants = useParticipants();
 
   // style css cases calendrier
   const dynamicTileClassName = ({
@@ -129,5 +130,3 @@ function Events() {
 }
 
 export default Events;
-
-/*faire un composant du carroussel pour faire events passés ?*/

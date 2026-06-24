@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 import CardEvent from "../../components/Event/CardEvent";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
-import useSumParticipants from "../../hooks/useSumParticipants";
+import useParticipants from "../../hooks/useParticipants";
 import type { Activity } from "../../types/activity";
 import "./CarrousselEvents.css";
 
@@ -11,7 +11,7 @@ type CarrousselEventsProps = {
 };
 
 function CarrousselEvents({ events }: CarrousselEventsProps) {
-  const participants = useSumParticipants();
+  const participants = useParticipants();
 
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);

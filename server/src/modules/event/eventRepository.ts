@@ -15,10 +15,11 @@ type Activity = {
   price_unit: number;
 };
 
-type SumParticipants = {
+type Participants = {
   id_activity: number;
   name: string;
-  sum_participants: string;
+  sum_participants: number;
+  remaining_slots: number;
   capacity: number;
 };
 
@@ -58,13 +59,14 @@ class EventRepository {
     return rows as Activity[];
   }
 
-  async browseSumParticipantsToEvent() {
+  async browseParticipantsToEvent() {
     const [rows] = await databaseLeLocal.query<Rows>(
       `SELECT 
     a.name,
     b.id_activity,
     s.capacity,
-    SUM(b.quantity) AS sum_participants
+    SUM(b.quantity) AS sum_participants,
+    (s.capacity - SUM(b.quantity)) AS remaining_slots
     FROM booking as b
     JOIN activity as a ON b.id_activity = a.id
     JOIN space as s ON a.space_id = s.id
@@ -72,7 +74,13 @@ class EventRepository {
     GROUP BY b.id_activity, a.name, s.capacity`,
     );
 
-    return rows as SumParticipants[];
+    const formattedRows = rows.map((row) => ({
+      ...row,
+      sum_participants: Number(row.sum_participants) || 0,
+      remaining_slots: Number(row.remaining_slots) || Number(row.capacity),
+    }));
+
+    return formattedRows as Participants[];
   }
 
   async browseEventsOfTheDay(date: string) {

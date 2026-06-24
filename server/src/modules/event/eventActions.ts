@@ -11,9 +11,9 @@ const browseUpcomingEvents: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-const browseSumParticipantsToEvent: RequestHandler = async (req, res, next) => {
+const browseParticipantsToEvent: RequestHandler = async (req, res, next) => {
   try {
-    const participants = await eventRepository.browseSumParticipantsToEvent();
+    const participants = await eventRepository.browseParticipantsToEvent();
 
     res.json(participants);
   } catch (err) {
@@ -26,7 +26,6 @@ const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
     const eventsOfTheDay = await eventRepository.browseEventsOfTheDay(
       req.params.date,
     );
-
     res.json(eventsOfTheDay);
   } catch (err) {
     next(err);
@@ -35,6 +34,6 @@ const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
 
 export default {
   browseUpcomingEvents,
-  browseSumParticipantsToEvent,
+  browseParticipantsToEvent,
   browseEventsOfTheDay,
 };

@@ -2,12 +2,12 @@ import CardEvent from "./CardEvent";
 import "./EventSection.css";
 
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
-import useSumParticipants from "../../hooks/useSumParticipants";
+import useParticipants from "../../hooks/useParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 
 function EventSection() {
   const upcomingEvents = useUpcomingEvents();
-  const participants = useSumParticipants();
+  const participants = useParticipants();
 
   return (
     <section className="home-section-events">
