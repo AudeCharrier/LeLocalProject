@@ -15,42 +15,25 @@ type Activity = {
   price_unit: number;
 };
 
-type SumParticipants = {
+type Participants = {
   id_activity: number;
   name: string;
-  sum_participants: string;
+  sum_participants: number;
+  remaining_slots: number;
   capacity: number;
 };
 
 class EventRepository {
-  // The C of CRUD - Create operation
-  /* 
-  async create(space: Omit<Space, "id">) {
-    // Execute the SQL INSERT query to add a new item to the "item" table
-    const [result] = await databaseLeLocal.query<Result>(
-      "insert into item (title, user_id) values (?, ?)",
-      [space.space_name, space.id],
-    );
-
-    // Return the ID of the newly inserted item
-    return result.insertId;
-  } */
-
-  // The Rs of CRUD - Read operations
-
   async read(id: number) {
-    // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await databaseLeLocal.query<Rows>(
       "select * from activity where id = ?",
       [id],
     );
 
-    // Return the first row of the result, which represents the item
     return rows[0] as Activity;
   }
 
   async readAllUpcomingEvents() {
-    // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await databaseLeLocal.query<Rows>(
       `SELECT
       a.id,
@@ -73,17 +56,17 @@ class EventRepository {
     LIMIT 10`,
     );
 
-    // Return the array of items
     return rows as Activity[];
   }
 
-  async browseSumParticipantsToEvent() {
+  async browseParticipantsToEvent() {
     const [rows] = await databaseLeLocal.query<Rows>(
       `SELECT 
     a.name,
     b.id_activity,
     s.capacity,
-    SUM(b.quantity) AS sum_participants
+    SUM(b.quantity) AS sum_participants,
+    (s.capacity - SUM(b.quantity)) AS remaining_slots
     FROM booking as b
     JOIN activity as a ON b.id_activity = a.id
     JOIN space as s ON a.space_id = s.id
@@ -91,23 +74,14 @@ class EventRepository {
     GROUP BY b.id_activity, a.name, s.capacity`,
     );
 
-    // Return the array of items
-    return rows as SumParticipants[];
+    const formattedRows = rows.map((row) => ({
+      ...row,
+      sum_participants: Number(row.sum_participants) || 0,
+      remaining_slots: Number(row.remaining_slots) || Number(row.capacity),
+    }));
+
+    return formattedRows as Participants[];
   }
-
-  // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing item
-
-  // async update(item: Item) {
-  //   ...
-  // }
-
-  // The D of CRUD - Delete operation
-  // TODO: Implement the delete operation to remove an item by its ID
-
-  // async delete(id: number) {
-  //   ...
-  // }
 }
 
 export default new EventRepository();

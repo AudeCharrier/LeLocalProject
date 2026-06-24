@@ -19,23 +19,17 @@ interface CardEventProps {
   participants?: {
     id_activity: number;
     name: string;
-    sum_participants: string;
+    sum_participants: number;
+    remaining_slots: number;
     capacity: number;
   };
 }
 
 function CardEvent({ event, participants }: CardEventProps) {
   const capacity = participants?.capacity ?? 0;
-  const sumParticipants = Number.parseInt(
-    participants?.sum_participants ?? "0",
-    10,
-  );
-  /*on redéfinit sumParticipants, c'est plus simple car "participants" peut etre null (aucun inscrit, aucun calcul possible en bdd)*/
-  /*on recoit une string, on le transforme en number avec parseInt et on le type
-  mais si c'est vide, ça doit rester une string "0" 
-  et 10 précise qu'on est en base10*/
+  const sumParticipants = participants?.sum_participants ?? 0;
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
-  const remaining = Math.max(capacity - sumParticipants, 0);
+  const remaining = participants?.remaining_slots ?? event.capacity;
 
   const { isForm, setIsForm } = useEventModalContext();
   return (

@@ -21,16 +21,17 @@ interface CardEventProps {
   participants?: {
     id_activity: number;
     name: string;
-    sum_participants: string;
+    sum_participants: number;
+    remaining_slots: number;
     capacity: number;
   };
 }
 
-function RegisterEventForm({ event }: CardEventProps) {
+function RegisterEventForm({ event, participants }: CardEventProps) {
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
     min: 1,
-    max: 10,
+    max: participants?.remaining_slots ?? event.capacity,
     error: null,
   });
 
@@ -43,7 +44,6 @@ function RegisterEventForm({ event }: CardEventProps) {
   const { setIsForm } = useEventModalContext();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    // Bloque le rechargement automatique de la page par le navigateur
     e.preventDefault();
 
     // on sauvegarde le formulaire avant le await
@@ -78,7 +78,6 @@ function RegisterEventForm({ event }: CardEventProps) {
         setMessage("Une erreur est survenue, veuillez réessayer.");
       }
     } catch (err) {
-      // Gère le cas où le serveur est injoignable ou crashé
       setMessage("Impossible de contacter le serveur.");
     }
   }

@@ -3,7 +3,7 @@ import Calendar from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
-import useSumParticipants from "../../hooks/useSumParticipants";
+import useParticipants from "../../hooks/useParticipants";
 import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
@@ -28,7 +28,7 @@ function Events() {
 
   //données bdd
   const upcomingEvents = useUpcomingEvents();
-  const participants = useSumParticipants();
+  const participants = useParticipants();
   const maxCards = 6;
   //sélection de date pour filtrer les events
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);

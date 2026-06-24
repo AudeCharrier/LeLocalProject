@@ -36,10 +36,7 @@ router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
-router.get(
-  "/api/events/participants",
-  eventActions.browseSumParticipantsToEvent,
-);
+router.get("/api/events/participants", eventActions.browseParticipantsToEvent);
 
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
