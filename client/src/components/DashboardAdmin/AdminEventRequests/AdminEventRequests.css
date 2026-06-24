@@ -105,8 +105,8 @@
         }
 
         & .admin-event-requests__status--approved {
-          background: rgba(55, 4, 14, 0.08);
-          color: var(--color-forest);
+          background: rgba(34, 139, 34, 0.12);
+          color: #228b22;
         }
 
         & .admin-event-requests__status--refused {
