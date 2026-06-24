@@ -3,9 +3,11 @@ import type { Rows } from "../../../database/client";
 
 const create = async (
   userId: number,
-  cartItems: { id_activity: number; quantity: number; total_price: number }[],
+  cartItems: { id_activity: number; quantity: number; price_unit: number }[],
 ) => {
   for (const item of cartItems) {
+    const totalPrice = item.price_unit * item.quantity;
+
     const year = new Date().getFullYear();
     const [rows] = await databaseLeLocal.query<Rows>(
       "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
@@ -17,7 +19,7 @@ const create = async (
     await databaseLeLocal.query(
       `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity) 
        VALUES (?, ?, ?, ?, ?)`,
-      [userId, billsNumber, item.quantity, item.total_price, item.id_activity],
+      [userId, billsNumber, item.quantity, totalPrice, item.id_activity],
     );
   }
 
