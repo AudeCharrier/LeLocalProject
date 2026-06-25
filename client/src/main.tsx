@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router";
 import App from "./App";
 import Confirmation from "./components/Confirmation/Confirmation";
 import { AuthProvider } from "./context/AuthContext";
+import { ModalWorkshopProvider } from "./context/ModalWorkshopContext";
 import DashboardAdminPage from "./pages/DashboardAdminPage/DashboardAdminPage";
 import DashboardClientPage from "./pages/DashboardClientPage/DashboardClientPage";
 import Events from "./pages/Events/Events";
@@ -50,7 +51,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/workshop-page",
-        element: <WorkshopPage />,
+        element: (
+          <ModalWorkshopProvider>
+            <WorkshopPage />
+          </ModalWorkshopProvider>
+        ),
       },
       {
         path: "/payment",
