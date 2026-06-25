@@ -116,7 +116,7 @@ const addClaim: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Read booking for crete Invoice for client
+// Read booking for create Invoice for client
 const readInvoice: RequestHandler = async (req, res, next) => {
   try {
     const bookingId = Number(req.params.bookingId);
@@ -135,6 +135,46 @@ const readInvoice: RequestHandler = async (req, res, next) => {
   }
 };
 
+// Create event for client
+const addEventRequest: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
+    const insertId = await dashboardClientRepository.createEventRequest({
+      name: req.body.name,
+      description: req.body.description,
+      start_date: req.body.start_date,
+      end_date: req.body.end_date,
+      space_id: Number(req.body.space_id),
+      time_slot_id: Number(req.body.time_slot_id),
+      url_image:
+        req.body.url_image ?? "/assets/images/events/default-event.webp",
+      users_id: userId,
+    });
+    res.status(201).json({ insertId });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Lire event for client
+const browseEventRequests: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ message: "Authentification requise." });
+      return;
+    }
+    const requests = await dashboardClientRepository.readEventRequests(userId);
+    res.json(requests);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browsePastEvents,
   browseUpcomingEvents,
@@ -144,4 +184,6 @@ export default {
   browseStats,
   addClaim,
   readInvoice,
+  addEventRequest,
+  browseEventRequests,
 };

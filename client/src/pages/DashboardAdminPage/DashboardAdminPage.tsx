@@ -1,6 +1,7 @@
 import { useLocation } from "react-router";
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
 import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
+import AdminEventRequests from "../../components/DashboardAdmin/AdminEventRequests/AdminEventRequests";
 import AdminEvents from "../../components/DashboardAdmin/AdminEvents/AdminEvents";
 import AdminOverview from "../../components/DashboardAdmin/AdminOverview/AdminOverview";
 import AdminReservations from "../../components/DashboardAdmin/AdminReservations/AdminReservations";
@@ -52,6 +53,9 @@ function DashboardAdminPage() {
             </div>
             <div className="dashboard-admin-section">
               <AdminOverview />
+            </div>
+            <div className="dashboard-admin-section">
+              <AdminEventRequests />
             </div>
             <div className="dashboard-admin-section" id="admin-bookings">
               <AdminBookings previewLimit={4} />
