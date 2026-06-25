@@ -4,6 +4,13 @@ import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
 import bookingRepository from "./bookingRepository";
 
+type EventBookingPayload = {
+  users_id: number;
+  event_id: number;
+  quantity: number;
+  total_price: number;
+};
+
 type BookingPayload = {
   space_id: number;
   time_slot_id: number | null;

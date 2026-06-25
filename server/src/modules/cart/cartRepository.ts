@@ -61,8 +61,8 @@ const create = async (item: Omit<CartItem, "id">) => {
   }
 
   const [result] = await databaseClient.query<ResultSetHeader>(
-    "INSERT INTO cart (users_id, id_activity, quantity) VALUES (?, ?, ?)",
-    [item.users_id, item.id_activity, item.quantity],
+    "INSERT INTO cart (users_id, id_activity, quantity, total_price) VALUES (?, ?, ?, ?)",
+    [item.users_id, item.id_activity, item.quantity, item.total_price],
   );
 
   return result.insertId;
@@ -76,17 +76,6 @@ const updateQuantity = async (cartItemId: number, quantity: number) => {
 
   return result.affectedRows;
 };
-
-/* const updateTotalPrice = async (
-  cartItemId: number,
-  quantity: number,
-  total_price: number,
-) => {
-  const [result] = await databaseClient.query<ResultSetHeader>(
-    "UPDATE cart AS c JOIN activity AS a ON a.id = c.id_activity SET c.total_price = c.quantity * a.price_unit WHERE c.id = ?",
-  );
-  return result.affectedRows;
-}; */
 
 const destroy = async (cartItemId: number) => {
   const [result] = await databaseClient.query<ResultSetHeader>(

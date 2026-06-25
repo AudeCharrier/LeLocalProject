@@ -51,20 +51,19 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
     const form = e.currentTarget;
 
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
-    const payload: CartItem = {
+    const eventBookingPayload: CartItem = {
       users_id: user?.id ?? 0,
       event_id: event.id,
       quantity: quantityConfig.value,
       total_price: totalPrice,
     };
-
     try {
-      const response = await apiFetch("/api/cart/", {
+      const response = await apiFetch("/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(eventBookingPayload),
       });
 
       if (response.status === 201) {
