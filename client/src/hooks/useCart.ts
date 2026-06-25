@@ -6,7 +6,7 @@ function useCart(user_id: number) {
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    apiFetch(`/api/cart/${user_id}`)
+    apiFetch(`/api/cart/${user_id}`, { method: "GET" })
       .then((res) => res.json())
       .then((data) => setCart(Array.isArray(data) ? data : []));
   }, [user_id]);
@@ -15,3 +15,5 @@ function useCart(user_id: number) {
 }
 
 export default useCart;
+
+//get

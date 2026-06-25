@@ -122,7 +122,7 @@ router.get(
 router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
 
 // add an item into cart
-router.post("/api/cart", authMiddleware.requireAuth, cartActions.add);
+router.post("/api/cart/", authMiddleware.requireAuth, cartActions.add);
 
 //update a cart item
 router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);

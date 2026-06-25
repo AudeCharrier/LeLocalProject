@@ -61,8 +61,8 @@ const create = async (item: Omit<CartItem, "id">) => {
   }
 
   const [result] = await databaseClient.query<ResultSetHeader>(
-    "INSERT INTO cart (users_id, id_activity, quantity) VALUES (?, ?, ?)",
-    [item.users_id, item.id_activity, item.quantity],
+    "INSERT INTO cart (users_id, id_activity, quantity, total_price) VALUES (?, ?, ?, ?)",
+    [item.users_id, item.id_activity, item.quantity, item.total_price],
   );
 
   return result.insertId;
