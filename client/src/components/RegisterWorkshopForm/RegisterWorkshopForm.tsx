@@ -1,6 +1,6 @@
 import "./RegisterWorkshopForm.css";
-
 import { useState } from "react";
+import { apiFetch } from "../../hooks/apiFetch";
 import { useWorkshopModalContext } from "../../hooks/useWorkshopModalContext";
 import type { CartItem } from "../../types/cartitem";
 import type { QuantityConfig } from "../../types/quantityconfig";
@@ -42,16 +42,10 @@ function RegisterWorkshopForm({ workshop }: WorkshopProps) {
     };
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/cart/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
+      const response = await apiFetch("/api/cart/", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
 
       if (response.status === 201) {
         setMessage("Inscription ajoutée au panier !");

@@ -112,7 +112,7 @@ INSERT INTO `activity` VALUES
 (13,1,12,'2026-09-10','2026-09-10','Soiree cinema en plein air avec projection sur grand ecran.',5,'/assets/images/events/20260910-cine.webp','Cinema plein air septembre', 2, 'approved'),
 (14,2,13,'2026-09-25','2026-09-25','Concert acoustique avec artistes emergents du quartier.',8,'/assets/images/events/20260925_concert_acoustique.webp','Concert acoustique septembre', 2, 'approved'),
 (15,1,3,'2026-07-22','2026-07-22','Session de coworking matinale en ete.',8,'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&auto=format','Coworking ete - Atrium', 2, 'approved'),
-(16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2, 'approved'),
+(16,2,14,'2026-08-20','2026-08-20','Session d impression 3D avancee pour makers.',15,'https://images.unsplash.com/photo-1631087060254-7c0f8e04c885?w=800&h=600&fit=crop&auto=format','Atelier 3D avance aout', 2, 'approved');
 
 
 DROP TABLE IF EXISTS `booking`;
@@ -136,6 +136,7 @@ CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quantity` int DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
+  `price_unit` decimal(10,2) DEFAULT NULL,
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),
