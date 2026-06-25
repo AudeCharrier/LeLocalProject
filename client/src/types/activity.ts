@@ -11,4 +11,6 @@ export type Activity = {
   price_unit: number;
   url_image: string;
   capacity: number;
+  total_price: number;
+  quantity: number;
 };

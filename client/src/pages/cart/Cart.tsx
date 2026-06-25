@@ -35,7 +35,7 @@ function Cart() {
   };
 
   const totalPrice = carts.reduce(
-    (total, item) => total + Number(item.total_price),
+    (total, item) => total + item.price_unit * item.quantity,
     0,
   );
 
@@ -190,7 +190,7 @@ function Cart() {
                     </button>
                   </div>
 
-                  <span className="cart-item-price">{item.total_price} €</span>
+                  <span className="cart-item-price">{item.price_unit} €</span>
                 </div>
               </div>
             </div>
@@ -256,7 +256,7 @@ function Cart() {
                 quantity: item.quantity,
                 price_unit: item.price_unit * (1 - discount / 100),
               })),
-              userId: 2,
+              userId: user?.id,
             }}
           >
             <button type="button" className="cart-payment-button">

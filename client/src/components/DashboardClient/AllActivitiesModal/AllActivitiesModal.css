@@ -97,6 +97,35 @@
           padding: var(--space-1) var(--space-3);
           border-radius: var(--radius-pill);
         }
+        & .all-activities-modal__status--pending {
+          font-family: var(--font-ui);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          padding: var(--space-1) var(--space-3);
+          border-radius: var(--radius-md);
+          background: rgba(216, 109, 61, 0.12);
+          color: #b86a28;
+        }
+
+        & .all-activities-modal__status--approved {
+          font-family: var(--font-ui);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          padding: var(--space-1) var(--space-3);
+          border-radius: var(--radius-md);
+          background: rgba(34, 139, 34, 0.12);
+          color: #228b22;
+        }
+
+        & .all-activities-modal__status--refused {
+          font-family: var(--font-ui);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          padding: var(--space-1) var(--space-3);
+          border-radius: var(--radius-md);
+          background: rgba(169, 40, 49, 0.12);
+          color: var(--color-primary);
+        }
       }
     }
   }

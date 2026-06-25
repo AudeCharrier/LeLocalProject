@@ -121,6 +121,19 @@ class ActivityRepository {
     );
     return rows[0] as Activity;
   }
+
+  async read(id: number): Promise<Activity | null> {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      "SELECT * FROM activity WHERE id = ?",
+      [id],
+    );
+    return (rows[0] as Activity) ?? null;
+  }
+
+  async readAll(): Promise<Activity[]> {
+    const [rows] = await databaseLeLocal.query<Rows>("SELECT * FROM activity");
+    return rows as Activity[];
+  }
 }
 
 export default new ActivityRepository();
