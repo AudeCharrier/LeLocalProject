@@ -41,6 +41,10 @@
     width: 100%;
     gap: var(--gap-lg);
     font-family: var(--secondary-font);
+    /* On cible le wrapper direct du map (ModalEventProvider) */
+    & > * {
+      flex: 1 1 calc(33.333% - var(--gap-lg));
+    }
   }
 }
 

@@ -35,9 +35,10 @@ function RegisterWorkshopForm({ workshop }: WorkshopProps) {
 
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
     const payload: CartItem = {
-      users_id: 2, //en dur pour l'instant
+      users_id: 2,
       event_id: workshop.id,
       quantity: quantityConfig.value,
+      total_price: totalPrice,
     };
 
     try {

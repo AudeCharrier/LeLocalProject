@@ -8,6 +8,14 @@ function InvoicePage() {
 
   if (!invoice) return <p className="invoice-page__loading">Chargement...</p>;
 
+  const priceUnit =
+    invoice.payment_status === "pending"
+      ? invoice.space_price_unit
+      : invoice.activity_price_unit;
+
+  const subtotal = invoice.quantity * priceUnit;
+  const discount = subtotal - Number(invoice.total_price);
+
   return (
     <div className="invoice-page">
       <div className="invoice-page__container">
@@ -23,7 +31,12 @@ function InvoicePage() {
             <p className="invoice-page__ref-date">
               Date : {invoice.start_date.slice(0, 10)}
             </p>
-            <p className="invoice-page__ref-status">Statut : Payé</p>
+            <p className="invoice-page__ref-status">
+              Statut :{" "}
+              {invoice.payment_status === "paid"
+                ? "Payé"
+                : "En attente de paiement sur place"}
+            </p>
           </div>
         </header>
 
@@ -53,28 +66,35 @@ function InvoicePage() {
         <table className="invoice-page__table">
           <thead>
             <tr>
-              <th>Description</th>
               <th>Espace</th>
               <th>Date</th>
               <th>Qté</th>
-              <th>Montant</th>
+              <th>Prix unitaire</th>
+              <th>Sous-total</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{invoice.name}</td>
               <td>{invoice.space_name}</td>
               <td>{invoice.start_date.slice(0, 10)}</td>
               <td>{invoice.quantity}</td>
-              <td>{invoice.total_price} €</td>
+              <td>{Number(priceUnit).toFixed(2)} €</td>
+              <td>{subtotal.toFixed(2)} €</td>
             </tr>
           </tbody>
         </table>
 
         <div className="invoice-page__total">
-          <p className="invoice-page__total-label">Total TTC</p>
+          <p className="invoice-page__total-label">
+            Sous-total : {subtotal.toFixed(2)} €
+          </p>
+          {discount > 0 && (
+            <p className="invoice-page__total-discount">
+              Remise : -{discount.toFixed(2)} €
+            </p>
+          )}
           <strong className="invoice-page__total-amount">
-            {invoice.total_price} €
+            Total : {Number(invoice.total_price).toFixed(2)} €
           </strong>
         </div>
 

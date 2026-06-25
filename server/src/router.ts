@@ -36,10 +36,8 @@ router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
-router.get(
-  "/api/events/participants",
-  eventActions.browseSumParticipantsToEvent,
-);
+router.get("/api/events/participants", eventActions.browseParticipantsToEvent);
+router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
 
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
@@ -52,6 +50,22 @@ router.get(
   authMiddleware.requireAuth,
   dashboardClientActions.readInvoice,
 );
+
+// *************************************************************************
+// Event requests (client) - Before :userID road
+router.get(
+  "/api/dashboard/client/event-requests",
+  authMiddleware.requireAuth,
+  dashboardClientActions.browseEventRequests,
+);
+
+router.post(
+  "/api/dashboard/client/event-requests",
+  authMiddleware.requireAuth,
+  dashboardClientActions.addEventRequest,
+);
+// *************************************************************************
+
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
@@ -118,6 +132,18 @@ router.get(
   dasboardAdminActions.browseClaims,
 );
 
+router.get(
+  "/api/dashboard/admin/event-requests",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminEventRequests,
+);
+// patch = partial update
+router.patch(
+  "/api/dashboard/admin/event-requests/:activityId",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.updateEventRequest,
+);
+
 /* ************************************************************************* */
 // Panier (protégé client)
 /* ************************************************************************* */
@@ -176,7 +202,7 @@ import bookingActions from "./modules/bookingActions/bookingActions";
 // insert activity booked into cart table and activity table
 router.post("/api/bookings", authMiddleware.requireAuth, bookingActions.add);
 
-// insert into boooking table
+// insert cart content into boooking table
 router.post("/api/booking", authMiddleware.requireAuth, bookingActions.create);
 
 /* ************************************************************************* */

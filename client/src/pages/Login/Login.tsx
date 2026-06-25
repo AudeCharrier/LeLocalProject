@@ -105,9 +105,9 @@ export default function Login() {
               />
             </div>
             {/* faire la route et la page  */}
-            <a href="/forgot-password" className="auth-forgot">
+            <Link to="/forgot-password" className="auth-forgot">
               Mot de passe oublié ?
-            </a>
+            </Link>
 
             <label className="auth-remember" htmlFor="remember">
               <input

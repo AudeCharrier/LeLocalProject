@@ -1,6 +1,7 @@
 import { useLocation } from "react-router";
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
 import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
+import AdminEventRequests from "../../components/DashboardAdmin/AdminEventRequests/AdminEventRequests";
 import AdminEvents from "../../components/DashboardAdmin/AdminEvents/AdminEvents";
 import AdminOverview from "../../components/DashboardAdmin/AdminOverview/AdminOverview";
 import AdminReservations from "../../components/DashboardAdmin/AdminReservations/AdminReservations";
@@ -9,6 +10,8 @@ import AdminStats from "../../components/DashboardAdmin/AdminStats/AdminStats";
 import DashboardAdminNav from "../../components/DashboardAdmin/DashboardAdminNav/DashboardAdminNav";
 import "./DashboardAdminPage.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
+import { logout } from "../../hooks/apiFetch";
+
 function DashboardAdminPage() {
   const location = useLocation();
   const isSpacesTab = location.hash === "#admin-spaces";
@@ -20,6 +23,10 @@ function DashboardAdminPage() {
     <section className="dashboard-admin-page">
       <div className="dashboard-admin-page__header">
         <h1 className="dashboard-admin-page__heading">Tableau de bord</h1>
+
+        <button className="logOutButton" type="button" onClick={logout}>
+          Deconexion
+        </button>
       </div>
       <DashboardAdminNav />
       <div className="dashboard-admin-content">
@@ -46,6 +53,9 @@ function DashboardAdminPage() {
             </div>
             <div className="dashboard-admin-section">
               <AdminOverview />
+            </div>
+            <div className="dashboard-admin-section">
+              <AdminEventRequests />
             </div>
             <div className="dashboard-admin-section" id="admin-bookings">
               <AdminBookings previewLimit={4} />

@@ -12,6 +12,6 @@ export type Activity = {
   end_hour: string;
   slot: string;
   capacity: number;
-  space_id: number;
-  time_slot_id: number;
+  total_price: number;
+  quantity: number;
 };

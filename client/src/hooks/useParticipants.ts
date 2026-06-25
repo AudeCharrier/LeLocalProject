@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-import type { SumParticipants } from "../types/sumparticipants";
+import type { Participants } from "../types/participants";
 import { apiFetch } from "./apiFetch";
 
-function useSumParticipants() {
-  const [participants, setParticipants] = useState<SumParticipants[]>([]);
+function useParticipants() {
+  const [participants, setParticipants] = useState<Participants[]>([]);
   useEffect(() => {
     apiFetch("/api/events/participants")
       .then((res) => res.json())
@@ -13,4 +13,4 @@ function useSumParticipants() {
   return participants;
 }
 
-export default useSumParticipants;
+export default useParticipants;
