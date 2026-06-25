@@ -35,7 +35,7 @@ function Cart() {
   };
 
   const totalPrice = carts.reduce(
-    (total, item) => total + item.total_price * item.quantity,
+    (total, item) => total + item.price_unit * item.quantity,
     0,
   );
 
@@ -172,7 +172,7 @@ function Cart() {
                     </button>
                   </div>
 
-                  <span className="cart-item-price">{item.total_price} €</span>
+                  <span className="cart-item-price">{item.price_unit} €</span>
                 </div>
               </div>
             </div>
