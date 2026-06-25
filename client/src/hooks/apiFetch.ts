@@ -1,4 +1,9 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
+export const logout = () => {
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  window.location.href = "/log-in";
+};
 
 const getToken = () =>
   localStorage.getItem("token") ?? sessionStorage.getItem("token");

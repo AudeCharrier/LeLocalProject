@@ -18,6 +18,7 @@ export type BookingHistory = {
   bills_number: number;
   quantity: number;
   total_price: number;
+  price_unit: number;
   name: string;
   start_date: string;
   space_name: string;

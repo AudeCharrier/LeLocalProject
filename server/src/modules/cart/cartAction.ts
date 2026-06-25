@@ -14,13 +14,14 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 // Add — POST /api/cart
-// Body attendu : { user_id, event_id, quantity }
+// Body attendu : { user_id, event_id, quantity, total_price }
 const add: RequestHandler = async (req, res, next) => {
   try {
     const newItem = {
       users_id: Number(req.body.users_id),
       id_activity: Number(req.body.event_id),
       quantity: Number(req.body.quantity) || 1,
+      total_price: Number(req.body.total_price),
     };
     const insertId = await cartRepository.create(newItem);
     res.status(201).json({ insertId });
