@@ -3,7 +3,7 @@ import type { Space } from "../../../../../types/space";
 import "./BookingForm.css";
 import { useNavigate } from "react-router";
 import { apiFetch } from "../../../../../hooks/apiFetch";
-import useSpaceAvailability from "../../../../../hooks/useSpaceAvailability";
+import useSpaceAvailability from "../../../../../hooks/useSpaceAvailability.ts";
 import useTimeSlot from "../../../../../hooks/useTimeSlot";
 import type { TimeSlot } from "../../../../../types/time-slot";
 
@@ -132,7 +132,7 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         months: isLocal ? months : null,
         users_id: userId,
         total_price: totalPrice,
-        effective_price: effectivePrice, // 👈
+        effective_price: effectivePrice,
         name,
         email,
       };
