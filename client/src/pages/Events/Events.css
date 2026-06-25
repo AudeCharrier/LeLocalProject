@@ -1,12 +1,13 @@
-/* =============== AGENDA ====================*/
-
+/* =============== CALENDAR ====================*/
 .react-calendar {
   background: var(--color-bg-card);
   border: none;
   border-radius: var(--radius-xl);
   overflow: hidden;
   height: max-content;
+  width: 100%;
 }
+
 .react-calendar__navigation {
   background: var(--color-primary);
   color: var(--color-tag-text);
@@ -32,7 +33,6 @@
     font-family: var(--font-body);
     font-weight: var(--font-semibold);
 
-    /* On transforme la case en container Flexbox */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -41,8 +41,6 @@
 
     &::before {
       content: "*";
-
-      /* plus besoin de position absolute */
       display: inline-block;
 
       width: 14px;
@@ -58,16 +56,6 @@
   }
   .react-calendar__tile.no-event {
     font-family: var(--font-body);
-  }
-}
-
-.events-btn-see-all {
-  font-family: var(--font-body);
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.1);
   }
 }
 
@@ -94,21 +82,17 @@
     background-color: var(--color-text-secondary);
   }
 }
-.events-section-AGENDA {
+
+.events-section-agenda {
   padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
-  .events-calendar-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
 }
 .events-section-ALAUNE,
-.events-section-NEXT {
+.events-section-upcoming {
   padding: var(--space-10) var(--space-20);
   background-color: var(--color-bg-1);
 }
-.events-div-next-events {
+.events-div-upcoming-events {
   display: grid;
   flex-direction: row;
   justify-content: space-between;
@@ -121,15 +105,29 @@
   color: var(--color-text-secondary);
   padding-bottom: var(--space-8);
 }
+
+/* ============== section AGENDA ========== */
+
 .events-calendar-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  .calendar-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+  }
 }
-/* =================== CARDS EVENTS ===================== */
 
-.home-events-grid-container {
+/* =================== section upcoming events ===================== */
+
+.events-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(24vw, 1fr));
   justify-content: center;
@@ -137,13 +135,12 @@
   padding: 20px;
 }
 
-.home-events {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 2rem;
-  /*   font-family: var(--font-body); */
+.events-btn-see-all {
+  font-family: var(--font-body);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
 }

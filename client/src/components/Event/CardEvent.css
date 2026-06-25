@@ -11,7 +11,7 @@
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   position: relative;
-  width: 24vw;
+  width: 100%;
   transition: var(--transition-shadow), var(--transition-transform);
 
   &:hover {
@@ -121,17 +121,5 @@
         cursor: pointer;
       }
     }
-  }
-}
-
-@media (max-width: 768px) {
-  .card-event-container {
-    width: 45%;
-  }
-}
-
-@media (max-width: 430px) {
-  .card-event-container {
-    width: 100%;
   }
 }

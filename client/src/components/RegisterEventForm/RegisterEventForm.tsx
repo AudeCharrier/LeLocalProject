@@ -1,6 +1,7 @@
 import "./RegisterEventForm.css";
-
 import { useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
+import { apiFetch } from "../../hooks/apiFetch";
 import { useEventModalContext } from "../../hooks/useEventModalContext";
 import type { CartItem } from "../../types/cartitem";
 import type { QuantityConfig } from "../../types/quantityconfig";
@@ -21,52 +22,49 @@ interface CardEventProps {
   participants?: {
     id_activity: number;
     name: string;
-    sum_participants: string;
+    sum_participants: number;
+    remaining_slots: number;
     capacity: number;
   };
 }
 
-function RegisterEventForm({ event }: CardEventProps) {
+function RegisterEventForm({ event, participants }: CardEventProps) {
+  const user = useAuthContext();
+
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
     min: 1,
-    max: 10,
+    max: participants?.remaining_slots ?? event.capacity,
     error: null,
   });
 
   const { value, min, max, error } = quantityConfig;
-
   const totalPrice = quantityConfig.value * event.price_unit;
-
   const [message, setMessage] = useState<string>("");
 
   const { setIsForm } = useEventModalContext();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    // Bloque le rechargement automatique de la page par le navigateur
     e.preventDefault();
 
     // on sauvegarde le formulaire avant le await
     const form = e.currentTarget;
 
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
-    const payload: CartItem = {
-      users_id: 2, //en dur pour l'instant
+    const eventBookingPayload: CartItem = {
+      users_id: user?.id ?? 0,
       event_id: event.id,
       quantity: quantityConfig.value,
+      total_price: totalPrice,
     };
-
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/cart/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
+      const response = await apiFetch("/api/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(eventBookingPayload),
+      });
 
       if (response.status === 201) {
         setMessage("Inscription ajoutée au panier !");
@@ -78,7 +76,6 @@ function RegisterEventForm({ event }: CardEventProps) {
         setMessage("Une erreur est survenue, veuillez réessayer.");
       }
     } catch (err) {
-      // Gère le cas où le serveur est injoignable ou crashé
       setMessage("Impossible de contacter le serveur.");
     }
   }
