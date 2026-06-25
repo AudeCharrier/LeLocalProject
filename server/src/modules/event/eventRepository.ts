@@ -69,39 +69,42 @@ class EventRepository {
   async browseParticipantsToEvent() {
     const [rows] = await databaseLeLocal.query<Rows>(
       `SELECT
-    a.name,
-    b.id_activity,
-    s.capacity,
-    SUM(b.quantity) AS sum_participants,
-    (s.capacity - SUM(b.quantity)) AS remaining_slots
-    FROM booking as b
-    JOIN activity as a ON b.id_activity = a.id
+      a.id AS id_activity, -- On s'assure de récupérer l'ID de l'activité même sans booking
+      a.name,
+      s.capacity,
+      IFNULL(SUM(b.quantity), 0) AS sum_participants,
+      (s.capacity - IFNULL(SUM(b.quantity), 0)) AS remaining_slots
+    FROM activity as a
     JOIN space as s ON a.space_id = s.id
-    WHERE s.space_type='Evenements'
-    GROUP BY b.id_activity, a.name, s.capacity`,
+    LEFT JOIN booking as b ON b.id_activity = a.id
+    WHERE s.space_type = 'Evenements'
+    GROUP BY a.id, a.name, s.capacity`,
     );
 
     const formattedRows = rows.map((row) => ({
-      ...row,
-      sum_participants: Number(row.sum_participants) || 0,
-      remaining_slots: Number(row.remaining_slots) || Number(row.capacity),
+      id_activity: Number(row.id_activity),
+      name: row.name,
+      capacity: Number(row.capacity),
+      sum_participants: Number(row.sum_participants),
+      remaining_slots: Number(row.remaining_slots),
     }));
 
     return formattedRows as Participants[];
   }
 
   // check remaining slots when adding to cart
-  async getRemainingSlotsByEvent(id: number): Promise<number | null> {
+  async readRemainingSlotsByEvent(id: number): Promise<number | null> {
     const [rows] = await databaseLeLocal.query<Rows>(
       `
     SELECT 
       s.capacity,
       IFNULL(SUM(b.quantity), 0) AS sum_participants,
-      (s.capacity - SUM(b.quantity)) AS remaining_slots
+     (s.capacity - IFNULL(SUM(b.quantity), 0)) AS remaining_slots
     FROM activity as a
     JOIN space as s ON a.space_id = s.id
     LEFT JOIN booking as b ON b.id_activity = a.id
     WHERE a.id = ?
+    GROUP BY s.capacity
   `,
       [id],
     );

@@ -38,6 +38,7 @@ import eventActions from "./modules/event/eventActions";
 router.get("/api/events", eventActions.browseUpcomingEvents);
 router.get("/api/events/participants", eventActions.browseParticipantsToEvent);
 router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
+router.get("/api/events/:id", eventActions.readRemainingSlotsByEvent);
 
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
