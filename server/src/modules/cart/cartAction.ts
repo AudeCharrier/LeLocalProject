@@ -1,4 +1,5 @@
 import type { RequestHandler } from "express";
+import eventRepository from "../event/eventRepository";
 import cartRepository from "./cartRepository";
 
 // Browse — GET /api/cart/:userId
@@ -15,6 +16,7 @@ const browse: RequestHandler = async (req, res, next) => {
 
 // Add — POST /api/cart
 // Body attendu : { user_id, event_id, quantity, total_price }
+
 const add: RequestHandler = async (req, res, next) => {
   try {
     const newItem = {
@@ -23,6 +25,7 @@ const add: RequestHandler = async (req, res, next) => {
       quantity: Number(req.body.quantity) || 1,
       total_price: Number(req.body.total_price),
     };
+
     const insertId = await cartRepository.create(newItem);
     res.status(201).json({ insertId });
   } catch (err) {
@@ -30,6 +33,45 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
+/* const addEvent: RequestHandler = async (req, res, next) => {
+  try {
+    const userId = Number(req.body.users_id);
+    const eventId = Number(req.body.event_id);
+    const requestedQuantity = Number(req.body.quantity);
+    const totalPrice = Number(req.body.total_price);
+
+    if (!userId || !eventId || requestedQuantity <= 0) {
+      res.sendStatus(400);
+      return;
+    }
+
+    const currentEvent =
+      await eventRepository.browseParticipantsToEvent();
+
+    if (!currentEvent) {
+      res.sendStatus(404);
+      return;
+    }
+
+    if (requestedQuantity > currentEvent.remaining_slots) {
+      res.status(400).json({ remaining_slots: currentEvent.remaining_slots });
+      return;
+    }
+
+    const newItem = {
+      users_id: userId,
+      id_activity: eventId,
+      quantity: requestedQuantity,
+      total_price: totalPrice,
+    };
+
+    const insertId = await cartRepository.create(newItem);
+    res.status(201).json({ insertId });
+  } catch (err) {
+    next(err);
+  }
+};
+ */
 // Edit — PATCH /api/cart/:id
 // Body attendu : { quantity }
 const edit: RequestHandler = async (req, res, next) => {

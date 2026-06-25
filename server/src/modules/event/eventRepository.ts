@@ -23,6 +23,12 @@ type Participants = {
   capacity: number;
 };
 
+type RemainingSlotsRow = {
+  sum_participants: number | null;
+  capacity: number;
+  remaining_slots: number;
+};
+
 class EventRepository {
   async read(id: number) {
     const [rows] = await databaseLeLocal.query<Rows>(
@@ -59,9 +65,10 @@ class EventRepository {
     return rows as Activity[];
   }
 
+  // check participants and remaining slots for all events to map them
   async browseParticipantsToEvent() {
     const [rows] = await databaseLeLocal.query<Rows>(
-      `SELECT 
+      `SELECT
     a.name,
     b.id_activity,
     s.capacity,
@@ -81,6 +88,28 @@ class EventRepository {
     }));
 
     return formattedRows as Participants[];
+  }
+
+  // check remaining slots when adding to cart
+  async getRemainingSlotsByEvent(id: number): Promise<number | null> {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `
+    SELECT 
+      s.capacity,
+      IFNULL(SUM(b.quantity), 0) AS sum_participants,
+      (s.capacity - SUM(b.quantity)) AS remaining_slots
+    FROM activity as a
+    JOIN space as s ON a.space_id = s.id
+    LEFT JOIN booking as b ON b.id_activity = a.id
+    WHERE a.id = ?
+  `,
+      [id],
+    );
+
+    const row = rows[0];
+    if (!row) return null;
+
+    return Number(row.remaining_slots);
   }
 
   async browseEventsOfTheDay(date: string) {
