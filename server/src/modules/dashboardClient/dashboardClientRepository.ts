@@ -35,7 +35,9 @@ type BookingHistory = {
   bills_number: number;
   quantity: number;
   total_price: number;
-  price_unit: number;
+  activity_price_unit: number;
+  space_price_unit: number;
+  payment_status: string;
   name: string;
   start_date: string;
   space_name: string;
@@ -156,6 +158,7 @@ class DashboardClientRepository {
         b.bills_number,
         b.quantity,
         b.total_price,
+        b.payment_status,
         a.name,
         a.start_date,
         s.space_name,
@@ -203,8 +206,8 @@ class DashboardClientRepository {
   async readStats(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-      COUNT(DISTINCT b.id) AS bookings_count,
-      SUM(CASE WHEN s.space_type = 'Evenements' THEN 1 ELSE 0 END) AS events_count,
+      COUNT(DISTINCT CASE WHEN s.space_type != 'Evenements' THEN b.id END) AS bookings_count,
+      COUNT(DISTINCT CASE WHEN s.space_type = 'Evenements' THEN b.id END) AS events_count,
       SUM(b.total_price) AS total_spent
     FROM booking b
     JOIN activity a ON b.id_activity = a.id
@@ -240,9 +243,10 @@ class DashboardClientRepository {
       b.bills_number,
       b.quantity,
       b.total_price, 
-      a.price_unit,
+      b.payment_status,
+      a.price_unit AS activity_price_unit,
+      s.price_unit AS space_price_unit,
       a.name,
-      a.price_unit,
       a.start_date,
       s.space_name,
       u.firstname,
@@ -256,6 +260,58 @@ class DashboardClientRepository {
       [bookingId, userId],
     );
     return rows[0] as BookingHistory;
+  }
+
+  async createEventRequest(event: {
+    name: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    space_id: number;
+    time_slot_id: number;
+    url_image: string | null;
+    users_id: number;
+  }) {
+    const [result] = await databaseClient.query<Result>(
+      `INSERT INTO activity (
+      name, description, start_date, end_date,
+      space_id, time_slot_id, url_image, users_id, status
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+      [
+        event.name,
+        event.description,
+        event.start_date,
+        event.end_date,
+        event.space_id,
+        event.time_slot_id,
+        event.url_image,
+        event.users_id,
+      ],
+    );
+    return result.insertId;
+  }
+
+  async readEventRequests(userId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+      a.id,
+      a.name,
+      a.description,
+      a.start_date,
+      a.end_date,
+      a.status,
+      s.space_name,
+      t.start_hour,
+      t.end_hour
+    FROM activity a
+    JOIN space s ON a.space_id = s.id
+    JOIN time_slot t ON a.time_slot_id = t.id
+    WHERE a.users_id = ?
+    AND s.space_type = 'Evenements'
+    ORDER BY a.start_date DESC`,
+      [userId],
+    );
+    return rows;
   }
 }
 
