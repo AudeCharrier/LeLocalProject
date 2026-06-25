@@ -296,23 +296,6 @@
                 background: var(--color-primary-dark);
               }
             }
-
-            .btn-program {
-              background: transparent;
-              color: var(--color-text-primary);
-              border: 1.5px solid var(--color-text-primary);
-              border-radius: var(--radius-lg);
-              padding: var(--space-3) var(--space-6);
-              font-family: var(--font-ui);
-              font-size: var(--text-sm);
-              font-weight: var(--font-semibold);
-              cursor: pointer;
-              transition: var(--transition-fast);
-
-              &:hover {
-                background: rgba(0, 0, 0, 0.05);
-              }
-            }
           }
 
           .price {

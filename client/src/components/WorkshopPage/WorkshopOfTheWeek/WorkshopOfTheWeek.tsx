@@ -1,4 +1,5 @@
 import "./WorkshopOfTheWeek.css";
+import { useWorkshopModalContext } from "../../../hooks/useWorkshopModalContext";
 
 import type { Space } from "../../../types/space";
 
@@ -7,6 +8,8 @@ interface WorkshopOfTheWeekProps {
 }
 
 function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
+  const { setSelectedWorkshopId } = useWorkshopModalContext();
+
   if (!workshop) return null;
 
   return (
@@ -65,11 +68,12 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
 
             <div className="btn-and-price-for-workshop-of-the-week">
               <div className="btn-of-the-week">
-                <button type="button" className="btn-reserve">
+                <button
+                  type="button"
+                  className="btn-reserve"
+                  onClick={() => setSelectedWorkshopId(workshop.id)}
+                >
                   Réserver ma place
-                </button>
-                <button type="button" className="btn-program">
-                  Programme détaillé
                 </button>
               </div>
               <div className="price">{workshop.price_unit}€</div>
