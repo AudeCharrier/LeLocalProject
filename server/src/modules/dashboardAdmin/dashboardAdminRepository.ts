@@ -168,6 +168,15 @@ class DashboardAdminRepository {
 
   async createBookingForRequest(activityId: number, userId: number) {
     const year = new Date().getFullYear();
+
+    const [priceRows] = await databaseClient.query<Rows>(
+      `SELECT s.price_unit FROM activity a 
+     JOIN space s ON a.space_id = s.id 
+     WHERE a.id = ?`,
+      [activityId],
+    );
+    const priceUnit = (priceRows[0] as { price_unit: number }).price_unit;
+
     const [rows] = await databaseClient.query<Rows>(
       "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
       [`${year}-%`],
@@ -176,9 +185,9 @@ class DashboardAdminRepository {
     const billsNumber = `${year}-${Number(count) + 1}`;
 
     await databaseClient.query(
-      `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity)
-       VALUES (?, ?, 1, 0, ?)`,
-      [userId, billsNumber, activityId],
+      `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity, payment_status)
+     VALUES (?, ?, 1, ?, ?, 'pending')`,
+      [userId, billsNumber, priceUnit, activityId],
     );
   }
 

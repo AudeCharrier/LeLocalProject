@@ -93,6 +93,7 @@ function AdminEventRequests() {
                         type="button"
                         className="admin-event-requests__approve"
                         onClick={() => handleDecision(request.id, "approved")}
+                        disabled={request.status !== "pending"}
                       >
                         Valider
                       </button>
@@ -100,6 +101,7 @@ function AdminEventRequests() {
                         type="button"
                         className="admin-event-requests__refuse"
                         onClick={() => handleDecision(request.id, "refused")}
+                        disabled={request.status !== "pending"}
                       >
                         Refuser
                       </button>

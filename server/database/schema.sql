@@ -124,6 +124,7 @@ CREATE TABLE `booking` (
   `quantity` int NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `id_activity` int NOT NULL,
+  `payment_status` VARCHAR(20) NOT NULL DEFAULT 'paid',
   PRIMARY KEY (`id`),
   UNIQUE KEY `bills_number_UNIQUE` (`bills_number`),
   KEY `fk_booking_users_idx` (`users_id`),

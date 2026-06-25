@@ -35,7 +35,9 @@ type BookingHistory = {
   bills_number: number;
   quantity: number;
   total_price: number;
-  price_unit: number;
+  activity_price_unit: number;
+  space_price_unit: number;
+  payment_status: string;
   name: string;
   start_date: string;
   space_name: string;
@@ -156,6 +158,7 @@ class DashboardClientRepository {
         b.bills_number,
         b.quantity,
         b.total_price,
+        b.payment_status,
         a.name,
         a.start_date,
         s.space_name,
@@ -240,9 +243,10 @@ class DashboardClientRepository {
       b.bills_number,
       b.quantity,
       b.total_price, 
-      a.price_unit,
+      b.payment_status,
+      a.price_unit AS activity_price_unit,
+      s.price_unit AS space_price_unit,
       a.name,
-      a.price_unit,
       a.start_date,
       s.space_name,
       u.firstname,
