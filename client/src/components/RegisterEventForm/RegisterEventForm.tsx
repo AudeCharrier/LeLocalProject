@@ -57,9 +57,8 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
       quantity: quantityConfig.value,
       total_price: totalPrice,
     };
-    console.log(totalPrice);
     try {
-      const response = await apiFetch("/api/cart/", {
+      const response = await apiFetch("/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
