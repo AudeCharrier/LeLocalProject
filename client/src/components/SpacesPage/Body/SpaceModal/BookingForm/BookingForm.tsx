@@ -90,15 +90,21 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
     year: "numeric",
   });
 
+  // Applique la majoration "Journée" au prix unitaire directement,
+  // sauf pour les locaux vides (réservés au mois, sans notion de créneau)
+  const effectivePrice = isLocal
+    ? space.price_unit
+    : space.price_unit * (isFullDay ? 1.75 : 1);
+
   // Calcul du prix total selon le type d'espace :
-  // - open      : prix unitaire x nombre de places (x1.75 si créneau "Journée")
+  // - open      : prix effectif x nombre de places
   // - local     : prix unitaire x nombre de mois
-  // - exclusif  : prix unitaire (x1.75 si créneau "Journée")
+  // - exclusif  : prix effectif (créneau unique)
   const totalPrice = isOpenSpace
-    ? space.price_unit * seats * (isFullDay ? 1.75 : 1)
+    ? effectivePrice * seats
     : isLocal
-      ? space.price_unit * months
-      : space.price_unit * (isFullDay ? 1.75 : 1);
+      ? effectivePrice * months
+      : effectivePrice;
 
   /**
    * Soumet la réservation à l'API (ajout au panier).
@@ -126,6 +132,7 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         months: isLocal ? months : null,
         users_id: userId,
         total_price: totalPrice,
+        effective_price: effectivePrice, // 👈
         name,
         email,
       };
