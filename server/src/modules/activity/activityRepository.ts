@@ -131,7 +131,15 @@ class ActivityRepository {
   }
 
   async readAll(): Promise<Activity[]> {
-    const [rows] = await databaseLeLocal.query<Rows>("SELECT * FROM activity");
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `SELECT 
+      a.*,
+      ts.start_hour,
+      ts.end_hour,
+      ts.slot
+    FROM activity a
+    LEFT JOIN time_slot ts ON a.time_slot_id = ts.id`,
+    );
     return rows as Activity[];
   }
 }
