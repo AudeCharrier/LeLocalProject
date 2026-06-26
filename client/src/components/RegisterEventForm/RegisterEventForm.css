@@ -163,3 +163,22 @@
     }
   }
 }
+
+.event-form-confirmation-message {
+  padding: 1rem 1rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+
+  &.event-message-success {
+    background-color: var(--color-border-card);
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+  }
+
+  &.event-message-error {
+    background-color: #fdecea;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+  }
+}

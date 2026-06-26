@@ -72,24 +72,34 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
         // remettre la quantité à 1 après succès
         setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
-      } else if (response.status === 409) {
+        return;
+      }
+      if (response.status === 409) {
         const data = await response.json();
         // data.remaining_slots contient le nombre réel de places renvoyé par ton back
-        setMessage(
-          `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
-        );
 
-        // mettre à jour le max du formulaire en temps réel
-        setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
-      } else if (response.status === 404) {
-        const data = await response.json();
-        setMessage(`Désolé, l'évènement est complet.`);
-        // mettre à jour le min et max du formulaire en temps réel
-        setQuantityConfig((prev) => ({
-          ...prev,
-          min: data.remaining_slots,
-          max: data.remaining_slots,
-        }));
+        if (data.remaining_slots === 0) {
+          setMessage("Nous sommes désolés, cet évènement est complet.");
+
+          // mettre à jour le min et max du formulaire en temps réel
+          setQuantityConfig((prev) => ({
+            ...prev,
+            value: data.remaining_slots,
+            min: data.remaining_slots,
+            max: data.remaining_slots,
+          }));
+        } else {
+          setMessage(
+            `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
+          );
+          // mettre à jour le max du formulaire en temps réel
+          setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
+        }
+        return;
+      }
+      if (response.status === 404) {
+        setMessage("Impossible de trouver cet évènement.");
+        return;
       }
     } catch (err) {
       setMessage("Impossible de contacter le serveur.");
@@ -223,8 +233,8 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
                 type="button"
                 onClick={increaseQuantity}
                 className="btn-quantity"
-                aria-label="Ajouter une place" //accessibilité, lit le bouton
-                aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
+                aria-label="Ajouter une place"
+                aria-disabled={value === max}
               >
                 +
               </button>
@@ -244,7 +254,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
         {error === "MAX_ERROR" && (
           <span className="register-form-span-places-msg">
-            Désolé, il ne reste plus que ${max} place(s) disponible(s).
+            Désolé, il ne reste plus que {max} place(s) disponible(s).
           </span>
         )}
 
@@ -252,11 +262,12 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           type="submit"
           className="register-form-submit"
           aria-label="Valider mon inscription"
+          aria-disabled={max === 0}
         >
           Je m'inscris !
         </button>
         {message && (
-          <span className="register-form-confirmation-message">{message}</span>
+          <span className="event-form-confirmation-message">{message}</span>
         )}
       </form>
     </article>
@@ -264,5 +275,3 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 }
 
 export default RegisterEventForm;
-
-//css du formulaire

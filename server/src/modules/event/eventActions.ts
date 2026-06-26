@@ -21,28 +21,6 @@ const browseParticipantsToEvent: RequestHandler = async (req, res, next) => {
   }
 };
 
-/* const readRemainingSlotsByEvent: RequestHandler = async (req, res, next) => {
-  const eventId = Number(req.params.id);
-
-  if (Number.isNaN(eventId)) {
-    res.sendStatus(400);
-    return;
-  }
-
-  try {
-    const remaining = await eventRepository.readRemainingSlotsByEvent(eventId);
-
-    if (remaining === null) {
-      res.sendStatus(404);
-      return;
-    }
-
-    res.json({ remaining_slots: remaining });
-  } catch (err) {
-    next(err);
-  }
-}; */
-
 const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
   try {
     const eventsOfTheDay = await eventRepository.browseEventsOfTheDay(
