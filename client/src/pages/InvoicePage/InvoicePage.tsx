@@ -46,7 +46,7 @@ function InvoicePage() {
             <p className="invoice-page__party-info">
               Le Local
               <br />
-              12 rue de la République
+              14 rue de la République
               <br />
               75011 Paris
               <br />
@@ -99,8 +99,8 @@ function InvoicePage() {
         </div>
 
         <footer className="invoice-page__footer">
-          Le Local · 12 rue de la République, 75011 Paris · contact@lelocal.fr ·
-          SIRET 000 000 000 00000
+          Le Local · 14 rue de la République, 75011 Paris · contact@lelocal.fr ·
+          SIRET 123 265 958 00001
         </footer>
 
         <button

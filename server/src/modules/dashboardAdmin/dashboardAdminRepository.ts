@@ -23,6 +23,11 @@ type AdminStats = {
   claims_count: number;
 };
 
+type OccupancyTrendPoint = {
+  day: string;
+  rate: number;
+};
+
 type AdminClaimNotification = {
   id: number;
   title: string;
@@ -41,39 +46,90 @@ type Claim = {
 };
 
 class DashboardAdminRepository {
-  async readAdminStats() {
+  async readAdminStats(date: string) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-        (                      
+        (
           SELECT ROUND(
-            COUNT(DISTINCT a.space_id) * 100 / NULLIF(
-              (SELECT COUNT(*) FROM space WHERE space_type != 'Evenements'),
+            COUNT(
+              DISTINCT CONCAT(a.space_id, '-', a.time_slot_id, '-', a.start_date)
+            ) * 100 / NULLIF(
+              (
+                SELECT
+                  COUNT(*) * (SELECT COUNT(*) FROM time_slot)
+                FROM space
+                WHERE space_type IN ('Coworking', 'Ateliers')
+              ),
               0
             )
           )
           FROM booking b
           JOIN activity a ON b.id_activity = a.id
           JOIN space s ON a.space_id = s.id
-          WHERE s.space_type != 'Evenements'
+          WHERE s.space_type IN ('Coworking', 'Ateliers')
+          AND a.start_date = ?
         ) AS occupancy_rate,
         (
           SELECT COUNT(*)
           FROM booking b
           JOIN activity a ON b.id_activity = a.id
-          JOIN space s ON a.space_id = s.id
-          WHERE s.space_type != 'Evenements'
+          WHERE a.start_date = ?
         ) AS bookings_count,
         (
-          SELECT COUNT(*)
-          FROM users
-          WHERE role = 'client'
+          SELECT COUNT(DISTINCT b.users_id)
+          FROM booking b
+          JOIN activity a ON b.id_activity = a.id
+          JOIN users u ON b.users_id = u.id
+          WHERE a.start_date = ?
+          AND u.role = 'client'
         ) AS active_members,
         (
           SELECT COUNT(*)
           FROM claim
+          WHERE claim_date = ?
         ) AS claims_count`,
+      [date, date, date, date],
     );
     return rows[0] as AdminStats;
+  }
+
+  async readAdminOccupancyTrend(date: string) {
+    const [rows] = await databaseClient.query<Rows>(
+      `WITH RECURSIVE dates AS (
+        SELECT DATE_SUB(?, INTERVAL 6 DAY) AS selected_day
+        UNION ALL
+        SELECT DATE_ADD(selected_day, INTERVAL 1 DAY)
+        FROM dates
+        WHERE selected_day < DATE(?)
+      )
+      SELECT
+        DATE_FORMAT(dates.selected_day, '%d/%m') AS day,
+        COALESCE(
+          ROUND(
+            COUNT(
+              DISTINCT CONCAT(a.space_id, '-', a.time_slot_id, '-', a.start_date)
+            ) * 100 / NULLIF(
+              (
+                SELECT COUNT(*) * (SELECT COUNT(*) FROM time_slot)
+                FROM space
+                WHERE space_type IN ('Coworking', 'Ateliers')
+              ),
+              0
+            )
+          ),
+          0
+        ) AS rate
+      FROM dates
+      LEFT JOIN activity a ON a.start_date = dates.selected_day
+      LEFT JOIN space s ON a.space_id = s.id
+      LEFT JOIN booking b ON b.id_activity = a.id
+      WHERE s.space_type IN ('Coworking', 'Ateliers') OR s.space_type IS NULL
+      GROUP BY dates.selected_day
+      ORDER BY dates.selected_day ASC`,
+      [date, date],
+    );
+
+    return rows as OccupancyTrendPoint[];
   }
 
   async readAdminClaimNotifications() {

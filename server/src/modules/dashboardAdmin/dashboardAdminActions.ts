@@ -1,10 +1,28 @@
 import type { RequestHandler } from "express";
 import dashboardAdminRepository from "./dashboardAdminRepository";
 
-const browseAdminStats: RequestHandler = async (_req, res, next) => {
+const browseAdminStats: RequestHandler = async (req, res, next) => {
   try {
-    const stats = await dashboardAdminRepository.readAdminStats();
+    const selectedDate =
+      typeof req.query.date === "string"
+        ? req.query.date
+        : new Date().toISOString().slice(0, 10);
+    const stats = await dashboardAdminRepository.readAdminStats(selectedDate);
     res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const browseAdminOccupancyTrend: RequestHandler = async (req, res, next) => {
+  try {
+    const selectedDate =
+      typeof req.query.date === "string"
+        ? req.query.date
+        : new Date().toISOString().slice(0, 10);
+    const trend =
+      await dashboardAdminRepository.readAdminOccupancyTrend(selectedDate);
+    res.json(trend);
   } catch (err) {
     next(err);
   }
@@ -77,6 +95,7 @@ const updateEventRequest: RequestHandler = async (req, res, next) => {
 
 export default {
   browseAdminStats,
+  browseAdminOccupancyTrend,
   browseAdminClaimNotifications,
   browseAdminBookings,
   browseClaims,
