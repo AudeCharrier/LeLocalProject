@@ -97,15 +97,17 @@ function CardEvent({ event, participants }: CardEventProps) {
           <button
             type="button"
             className="card-btn-register"
-            aria-label="S'inscrire à `${event.name}`"
-            disabled={remaining === 0}
+            aria-label={`S'inscrire à ${event.name}`}
+            aria-disabled={remaining === 0}
             onClick={handleRegisterClick}
           >
             S'inscrire
           </button>
         </div>
         {message && (
-          <span className="event-form-confirmation-message">{message}</span>
+          <span className="event-form-confirmation-message event-message-error">
+            {message}
+          </span>
         )}
       </article>
       {isForm && (

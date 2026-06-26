@@ -41,6 +41,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
   const { value, min, max, error } = quantityConfig;
   const [message, setMessage] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
 
   const totalPrice = quantityConfig.value * event.price_unit;
 
@@ -68,6 +69,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
       if (response.status === 201) {
         setMessage("Inscription ajoutée au panier !");
+        setIsError(false);
         form.reset();
 
         // remettre la quantité à 1 après succès
@@ -80,7 +82,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
         if (data.remaining_slots === 0) {
           setMessage("Nous sommes désolés, cet évènement est complet.");
-
+          setIsError(true);
           // mettre à jour le min et max du formulaire en temps réel
           setQuantityConfig((prev) => ({
             ...prev,
@@ -92,6 +94,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           setMessage(
             `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
           );
+          setIsError(true);
           // mettre à jour le max du formulaire en temps réel
           setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
         }
@@ -99,10 +102,12 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
       }
       if (response.status === 404) {
         setMessage("Impossible de trouver cet évènement.");
+        setIsError(true);
         return;
       }
     } catch (err) {
       setMessage("Impossible de contacter le serveur.");
+      setIsError(true);
     }
   }
   function decreaseQuantity() {
@@ -247,13 +252,13 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         </div>
         {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
         {error === "MIN_ERROR" && (
-          <span className="register-form-span-places-msg">
+          <span className="event-form-confirmation-message event-message-error">
             Réservez au moins {min} place.
           </span>
         )}
 
         {error === "MAX_ERROR" && (
-          <span className="register-form-span-places-msg">
+          <span className="event-form-confirmation-message event-message-error">
             Désolé, il ne reste plus que {max} place(s) disponible(s).
           </span>
         )}
@@ -267,7 +272,11 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           Je m'inscris !
         </button>
         {message && (
-          <span className="event-form-confirmation-message">{message}</span>
+          <span
+            className={`event-form-confirmation-message ${isError ? "event-message-error" : "event-message-success"}`}
+          >
+            {message}
+          </span>
         )}
       </form>
     </article>
