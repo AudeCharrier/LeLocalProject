@@ -44,9 +44,7 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
         </div>
 
         <div className="incoming-workshop__footer">
-          <div className="incoming-workshop__avatar">TC</div>
           <div className="incoming-workshop__teacher-info">
-            <span className="incoming-workshop__teacher-name">Thomas C.</span>
             <span className="incoming-workshop__price">
               {workshop.price_unit}€
             </span>

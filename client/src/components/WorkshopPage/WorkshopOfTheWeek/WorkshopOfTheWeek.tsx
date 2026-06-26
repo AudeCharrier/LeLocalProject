@@ -14,13 +14,6 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
 
   return (
     <section className="center-of-workshop-page">
-      <div className="filter-bar-row">
-        <select className="sort-select">
-          <option>Trier par : Date</option>
-          <option>Trier par : Prix</option>
-        </select>
-      </div>
-
       <div className="workshop-of-the-week">
         <h1 className="title-workshop-section">ATELIER DE LA SEMAINE</h1>
 
@@ -52,18 +45,6 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
               </span> */}
               <span>👤 {workshop.capacity} participants max</span>
               <span>📍 {workshop.space_name}</span>
-            </div>
-
-            <div className="teacher-for-the-workshop-of-the-week">
-              <div className="teacher-avatar">LR</div>
-              <div className="teacher-info">
-                <span className="name-of-the-teacher-of-the-week">
-                  Lucie Rambaud
-                </span>
-                <span className="job-and-experience-of-the-teacher-of-the-week">
-                  Céramiste · 12 ans d'expérience · 4,9/5 (38 avis)
-                </span>
-              </div>
             </div>
 
             <div className="btn-and-price-for-workshop-of-the-week">
