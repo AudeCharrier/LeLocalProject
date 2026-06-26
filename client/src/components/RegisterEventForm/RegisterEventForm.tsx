@@ -79,10 +79,17 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
         );
 
-        // Optionnel : tu peux mettre à jour le max du formulaire en temps réel
+        // mettre à jour le max du formulaire en temps réel
         setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
-      } else {
-        setMessage("Une erreur est survenue, veuillez réessayer.");
+      } else if (response.status === 404) {
+        const data = await response.json();
+        setMessage(`Désolé, l'évènement est complet.`);
+        // mettre à jour le min et max du formulaire en temps réel
+        setQuantityConfig((prev) => ({
+          ...prev,
+          min: data.remaining_slots,
+          max: data.remaining_slots,
+        }));
       }
     } catch (err) {
       setMessage("Impossible de contacter le serveur.");
