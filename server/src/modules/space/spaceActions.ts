@@ -10,7 +10,10 @@ import spaceRepository from "./spaceRepository";
  */
 const browse: RequestHandler = async (req, res, next) => {
   try {
-    const spaces = await spaceRepository.readAll();
+    const { category } = req.query;
+    const spaces = category
+      ? await spaceRepository.readByCategory(String(category))
+      : await spaceRepository.readAll();
     res.json(spaces);
   } catch (err) {
     next(err);

@@ -16,9 +16,7 @@ function WorkshopPage() {
 
   const selectedWorkshop = workshops.find((w) => w.id === selectedWorkshopId);
 
-  const ateliers = workshops.filter((w) => w.space_category === "Atelier");
-
-  const sortedByPrice = [...ateliers].sort(
+  const sortedByPrice = [...workshops].sort(
     (a, b) => b.price_unit - a.price_unit,
   );
   const featuredSpace = sortedByPrice[0];

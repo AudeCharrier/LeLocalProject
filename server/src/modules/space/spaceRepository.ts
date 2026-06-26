@@ -138,6 +138,14 @@ class SpaceRepository {
     const booked = Number((rows[0] as { booked: number })?.booked) || 0;
     return booked > 0;
   }
+
+  async readByCategory(category: string) {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      "SELECT * FROM space WHERE space_category = ?",
+      [category],
+    );
+    return rows as Space[];
+  }
 }
 
 export default new SpaceRepository();
