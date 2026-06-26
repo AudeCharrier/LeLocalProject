@@ -119,6 +119,11 @@ router.get(
   authMiddleware.requireAdmin,
   dasboardAdminActions.browseAdminStats,
 );
+router.get(
+  "/api/dashboard/admin/occupancy-trend",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminOccupancyTrend,
+);
 
 router.get(
   "/api/dashboard/admin/bookings",

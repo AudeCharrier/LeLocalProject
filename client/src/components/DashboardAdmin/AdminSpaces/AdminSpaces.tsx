@@ -1,21 +1,21 @@
 import { Users } from "lucide-react";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useState } from "react";
 import useAdminBookings from "../../../hooks/useAdminBookings";
 import useSpaces from "../../../hooks/useSpaces";
 import useTimeSlot from "../../../hooks/useTimeSlot";
 import "./AdminSpaces.css";
 
-function formatDateLabel() {
-  return new Date().toLocaleDateString("fr-FR", {
+function getTodayValue() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function formatDateLabel(date: string) {
+  return new Date(date).toLocaleDateString("fr-FR", {
     weekday: "long",
     day: "numeric",
     month: "long",
     year: "numeric",
   });
-}
-
-function formatClientName(firstname: string, lastname: string) {
-  return `${firstname} ${lastname.charAt(0)}.`;
 }
 
 function getTone(occupancy: number) {
@@ -24,62 +24,53 @@ function getTone(occupancy: number) {
   return "neutral";
 }
 
-function ProgressBar({ value }: { value: number }) {
-  const progressRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (progressRef.current) {
-      progressRef.current.style.width = `${Math.max(0, Math.min(100, value))}%`;
-    }
-  }, [value]);
-
-  return <div className="admin-spaces__progress-bar" ref={progressRef} />;
-}
-
 function AdminSpaces() {
   const spaces = useSpaces();
   const bookings = useAdminBookings();
   const timeSlots = useTimeSlot();
-
-  const slotTemplates = useMemo(
-    () =>
-      timeSlots.map((slot) => ({
-        time: `${slot.start_hour.slice(0, 5)}–${slot.end_hour.slice(0, 5)}`,
-        status: "libre",
-      })),
-    [timeSlots],
-  );
+  const [selectedDate, setSelectedDate] = useState(getTodayValue());
 
   const groupedSpaces = useMemo(() => {
+    const slotTemplates = timeSlots.map((slot) => ({
+      key: `${slot.start_hour}-${slot.end_hour}`,
+      time: `${slot.start_hour.slice(0, 5)}–${slot.end_hour.slice(0, 5)}`,
+      reserved: 0,
+    }));
+
     const filteredSpaces = spaces.filter(
       (space) =>
         space.space_type === "Coworking" || space.space_type === "Ateliers",
     );
 
+    const selectedBookings = bookings.filter(
+      (booking) => booking.start_date.slice(0, 10) === selectedDate,
+    );
+
     const mappedSpaces = filteredSpaces.map((space) => {
-      const relatedBookings = bookings
-        .filter((booking) => booking.space_name === space.space_name)
-        .slice(0, Math.max(slotTemplates.length, 1));
+      const slots = slotTemplates.map((slot) => {
+        const reservedPlaces = selectedBookings
+          .filter(
+            (booking) =>
+              booking.space_name === space.space_name &&
+              `${booking.start_hour}-${booking.end_hour}` === slot.key,
+          )
+          .reduce((total, booking) => total + booking.quantity, 0);
 
-      const maxSlots = slotTemplates.length || 4;
-      const slots =
-        slotTemplates.length > 0
-          ? slotTemplates.map((template) => ({ ...template }))
-          : Array.from({ length: 4 }, (_, index) => ({
-              time: `Créneau ${index + 1}`,
-              status: "libre",
-            }));
+        const remainingPlaces = Math.max(space.capacity - reservedPlaces, 0);
 
-      relatedBookings.forEach((booking, index) => {
-        if (!slots[index]) return;
-
-        slots[index] = {
-          time: `${booking.start_hour.slice(0, 5)}–${booking.end_hour.slice(0, 5)}`,
-          status: formatClientName(booking.firstname, booking.lastname),
+        return {
+          time: slot.time,
+          reservedPlaces,
+          remainingPlaces,
+          label: `${remainingPlaces} place${remainingPlaces > 1 ? "s" : ""} restante${remainingPlaces > 1 ? "s" : ""} sur ${space.capacity}`,
         };
       });
 
-      const occupancy = Math.round((relatedBookings.length / maxSlots) * 100);
+      const occupiedSlots = slots.filter(
+        (slot) => slot.reservedPlaces > 0,
+      ).length;
+      const totalSlots = Math.max(slots.length, 1);
+      const occupancy = Math.round((occupiedSlots / totalSlots) * 100);
 
       return {
         category: space.space_category,
@@ -87,7 +78,7 @@ function AdminSpaces() {
         occupancy,
         tone: getTone(occupancy),
         capacity: `${space.capacity} places`,
-        summary: `${relatedBookings.length}/${maxSlots} créneaux`,
+        summary: `${occupiedSlots}/${totalSlots} créneaux occupés`,
         slots,
         space_type: space.space_type,
       };
@@ -103,7 +94,7 @@ function AdminSpaces() {
         items: mappedSpaces.filter((space) => space.space_type === "Ateliers"),
       },
     ];
-  }, [bookings, slotTemplates, spaces]);
+  }, [bookings, selectedDate, spaces, timeSlots]);
 
   return (
     <section className="admin-spaces">
@@ -111,7 +102,20 @@ function AdminSpaces() {
         <div>
           <h2 className="admin-spaces__title">Occupation des espaces</h2>
         </div>
-        <p className="admin-spaces__date">{formatDateLabel()}</p>
+
+        <div className="admin-spaces__filters">
+          <label className="admin-spaces__filter" htmlFor="admin-spaces-date">
+            <span className="admin-spaces__filter-label">Jour</span>
+            <input
+              id="admin-spaces-date"
+              className="admin-spaces__filter-input"
+              type="date"
+              value={selectedDate}
+              onChange={(event) => setSelectedDate(event.target.value)}
+            />
+          </label>
+          <p className="admin-spaces__date">{formatDateLabel(selectedDate)}</p>
+        </div>
       </header>
 
       {groupedSpaces.map((group) => (
@@ -133,7 +137,10 @@ function AdminSpaces() {
                 </div>
 
                 <div className="admin-spaces__progress">
-                  <ProgressBar value={space.occupancy} />
+                  <div
+                    className="admin-spaces__progress-bar"
+                    style={{ width: `${space.occupancy}%` }}
+                  />
                 </div>
 
                 <ul className="admin-spaces__slots">
@@ -144,9 +151,9 @@ function AdminSpaces() {
                     >
                       <span className="admin-spaces__time">{slot.time}</span>
                       <span
-                        className={`admin-spaces__status ${slot.status === "libre" ? "admin-spaces__status--free" : ""}`}
+                        className={`admin-spaces__status ${slot.remainingPlaces > 0 ? "admin-spaces__status--free" : ""}`}
                       >
-                        {slot.status}
+                        {slot.label}
                       </span>
                     </li>
                   ))}

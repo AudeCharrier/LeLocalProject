@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import "./AdminOverview.css";
+import useAdminOccupancyTrend from "../../../hooks/useAdminOccupancyTrend";
 import useAdminNotifications from "../../../hooks/useAdminNotifications";
 
 const chartMargin = { top: 12, right: 8, left: -24, bottom: 0 };
@@ -37,17 +38,14 @@ const chartDotStyle = {
   strokeWidth: 3,
 };
 
-const occupancyData = [
-  { day: "Lun", rate: 58 },
-  { day: "Mar", rate: 64 },
-  { day: "Mer", rate: 60 },
-  { day: "Jeu", rate: 72 },
-  { day: "Ven", rate: 74 },
-];
+type AdminOverviewProps = {
+  selectedDate: string;
+};
 
-function AdminOverview() {
+function AdminOverview({ selectedDate }: AdminOverviewProps) {
   const [showAllNotifications, setShowAllNotifications] = useState(false);
   const notifications = useAdminNotifications();
+  const occupancyData = useAdminOccupancyTrend(selectedDate);
   const warningCount = notifications.length;
 
   const visibleNotifications = showAllNotifications

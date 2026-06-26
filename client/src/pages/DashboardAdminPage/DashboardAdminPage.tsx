@@ -1,4 +1,5 @@
 import { useLocation } from "react-router";
+import { useState } from "react";
 import AdminBookings from "../../components/DashboardAdmin/AdminBookings/AdminBookings";
 import AdminClaims from "../../components/DashboardAdmin/AdminClaims/AdminClaims";
 import AdminEventRequests from "../../components/DashboardAdmin/AdminEventRequests/AdminEventRequests";
@@ -12,8 +13,15 @@ import "./DashboardAdminPage.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 import { logout } from "../../hooks/apiFetch";
 
+function getTodayDate() {
+  return new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10);
+}
+
 function DashboardAdminPage() {
   const location = useLocation();
+  const [selectedDate, setSelectedDate] = useState(getTodayDate());
   const isSpacesTab = location.hash === "#admin-spaces";
   const isBookingsTab = location.hash === "#admin-bookings";
   const isClaimsTab = location.hash === "#admin-claims";
@@ -48,11 +56,26 @@ function DashboardAdminPage() {
           </div>
         ) : (
           <>
+            <div className="dashboard-admin-section dashboard-admin-page__date-filter">
+              <label
+                className="dashboard-admin-page__date-label"
+                htmlFor="dashboard-admin-date"
+              >
+                Date du tableau de bord
+              </label>
+              <input
+                className="dashboard-admin-page__date-input"
+                id="dashboard-admin-date"
+                type="date"
+                value={selectedDate}
+                onChange={(event) => setSelectedDate(event.target.value)}
+              />
+            </div>
             <div className="dashboard-admin-section" id="admin-dashboard">
-              <AdminStats />
+              <AdminStats selectedDate={selectedDate} />
             </div>
             <div className="dashboard-admin-section">
-              <AdminOverview />
+              <AdminOverview selectedDate={selectedDate} />
             </div>
             <div className="dashboard-admin-section">
               <AdminEventRequests />
