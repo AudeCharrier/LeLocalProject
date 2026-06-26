@@ -37,13 +37,16 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
 
         <div className="incoming-workshop__description">
           <span className="incoming-workshop__category">
-            {workshop.space_type}
+            {workshop.space_category}
           </span>
           <h2>{workshop.space_name}</h2>
           <p>{workshop.description}</p>
         </div>
 
         <div className="incoming-workshop__footer">
+          <div>
+            <p>{workshop.capacity}</p>
+          </div>
           <div className="incoming-workshop__teacher-info">
             <span className="incoming-workshop__price">
               {workshop.price_unit}€
