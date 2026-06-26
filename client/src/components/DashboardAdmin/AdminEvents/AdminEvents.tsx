@@ -1,5 +1,6 @@
 import { CalendarPlus } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import AdminCreateEventModal from "../AdminCreateEventModal/AdminCreateEventModal";
 import useEventParticipants from "../../../hooks/useEventParticipants";
 import useUpcomingEvents from "../../../hooks/useUpcomingEvents";
 import "./AdminEvents.css";
@@ -31,8 +32,14 @@ function getStatus(registered: number, capacity: number) {
 }
 
 function AdminEvents() {
-  const events = useUpcomingEvents();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const events = useUpcomingEvents(refreshKey);
   const participants = useEventParticipants();
+
+  function handleCreated() {
+    setRefreshKey((current) => current + 1);
+  }
 
   const eventsWithParticipants = useMemo(
     () =>
@@ -62,7 +69,11 @@ function AdminEvents() {
           <h2 className="admin-events__title">Événements</h2>
         </div>
 
-        <button className="admin-events__button" type="button">
+        <button
+          className="admin-events__button"
+          onClick={() => setIsModalOpen(true)}
+          type="button"
+        >
           <CalendarPlus size={18} />
           <span>Créer un événement</span>
         </button>
@@ -122,6 +133,12 @@ function AdminEvents() {
           </tbody>
         </table>
       </div>
+
+      <AdminCreateEventModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onCreated={handleCreated}
+      />
     </section>
   );
 }
