@@ -24,7 +24,7 @@ const browseParticipantsToEvent: RequestHandler = async (req, res, next) => {
 const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
   try {
     const eventsOfTheDay = await eventRepository.browseEventsOfTheDay(
-      req.params.date,
+      req.params.date as string,
     );
     res.json(eventsOfTheDay);
   } catch (err) {
