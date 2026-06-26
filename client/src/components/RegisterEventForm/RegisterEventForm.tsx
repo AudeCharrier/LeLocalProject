@@ -30,6 +30,7 @@ interface CardEventProps {
 
 function RegisterEventForm({ event, participants }: CardEventProps) {
   const user = useAuthContext();
+  const { setIsForm } = useEventModalContext();
 
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
@@ -39,10 +40,9 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
   });
 
   const { value, min, max, error } = quantityConfig;
-  const totalPrice = quantityConfig.value * event.price_unit;
   const [message, setMessage] = useState<string>("");
 
-  const { setIsForm } = useEventModalContext();
+  const totalPrice = quantityConfig.value * event.price_unit;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -194,7 +194,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               {/*bouton -1 */}
               <button
                 type="button"
-                onMouseDown={decreaseQuantity}
+                onClick={decreaseQuantity}
                 className="btn-quantity"
                 aria-label="Retirer une place" //accessibilité, lit le bouton
                 aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
@@ -214,7 +214,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               {/*bouton +1 */}
               <button
                 type="button"
-                onMouseDown={increaseQuantity}
+                onClick={increaseQuantity}
                 className="btn-quantity"
                 aria-label="Ajouter une place" //accessibilité, lit le bouton
                 aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
@@ -237,7 +237,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
         {error === "MAX_ERROR" && (
           <span className="register-form-span-places-msg">
-            Vous ne pouvez pas réserver plus de {max} places.
+            Désolé, il ne reste plus que ${max} place(s) disponible(s).
           </span>
         )}
 

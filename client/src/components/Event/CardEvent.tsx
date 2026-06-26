@@ -93,7 +93,9 @@ function CardEvent({ event, participants }: CardEventProps) {
           </button>
         </div>
       </article>
-      {isForm && <RegisterEventForm event={event} />}
+      {isForm && (
+        <RegisterEventForm event={event} participants={participants} />
+      )}
     </>
   );
 }
