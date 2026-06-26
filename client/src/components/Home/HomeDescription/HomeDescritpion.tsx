@@ -10,7 +10,7 @@ function DescriptifAccueil() {
           className="mission-image"
         />
         <div className="mission-badge-div">
-          <span className="mission-badge-number">7</span>
+          <span className="mission-badge-number">8</span>
           <span className="mission-badge-text">ans d'existence</span>
         </div>
       </div>
