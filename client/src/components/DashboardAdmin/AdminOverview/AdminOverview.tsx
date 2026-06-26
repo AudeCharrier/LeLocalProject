@@ -9,8 +9,8 @@ import {
   YAxis,
 } from "recharts";
 import "./AdminOverview.css";
-import useAdminOccupancyTrend from "../../../hooks/useAdminOccupancyTrend";
 import useAdminNotifications from "../../../hooks/useAdminNotifications";
+import useAdminOccupancyTrend from "../../../hooks/useAdminOccupancyTrend";
 
 const chartMargin = { top: 12, right: 8, left: -24, bottom: 0 };
 
