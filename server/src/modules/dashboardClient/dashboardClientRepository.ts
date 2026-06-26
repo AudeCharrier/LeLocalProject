@@ -170,7 +170,7 @@ class DashboardClientRepository {
       JOIN space s ON a.space_id = s.id
       JOIN users u ON b.users_id = u.id
       WHERE b.users_id = ?
-      ORDER BY a.start_date DESC`,
+      ORDER BY b.id DESC`,
       [userId],
     );
     return rows as BookingHistory[];
@@ -206,7 +206,7 @@ class DashboardClientRepository {
   async readStats(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-      COUNT(DISTINCT CASE WHEN s.space_type != 'Evenements' THEN b.id END) AS bookings_count,
+      COUNT(DISTINCT b.id) AS bookings_count,
       COUNT(DISTINCT CASE WHEN s.space_type = 'Evenements' THEN b.id END) AS events_count,
       SUM(b.total_price) AS total_spent
     FROM booking b
