@@ -40,6 +40,7 @@
     .mission-badge-text {
       font-size: var(--text-sm);
       text-align: center;
+      font-family: var(--font-body);
       opacity: 0.9;
     }
   }
@@ -87,6 +88,9 @@
         font-size: var(--text-base);
         font-weight: var(--font-semibold);
         color: var(--color-text-primary);
+        .mission-feature-text {
+          font-family: var(--font-body);
+        }
       }
 
       .mission-feature-icon {
