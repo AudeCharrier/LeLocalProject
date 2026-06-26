@@ -38,8 +38,8 @@ import eventActions from "./modules/event/eventActions";
 router.get("/api/events", eventActions.browseUpcomingEvents);
 router.get("/api/events/participants", eventActions.browseParticipantsToEvent);
 router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
-router.get("/api/events/:id", eventActions.readRemainingSlotsByEvent);
-
+/* router.get("/api/events/:id/remaining", eventActions.readRemainingSlotsByEvent);
+ */
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
 /* ************************************************************************* */
@@ -123,7 +123,7 @@ router.get(
 router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
 
 // add an item into cart
-router.post("/api/cart", authMiddleware.requireAuth, cartActions.add);
+router.post("/api/cart", authMiddleware.requireAuth, cartActions.addEvent);
 
 //update a cart item
 router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);

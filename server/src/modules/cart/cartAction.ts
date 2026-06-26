@@ -1,4 +1,5 @@
 import type { RequestHandler } from "express";
+import databaseLeLocal from "../../../database/client";
 import eventRepository from "../event/eventRepository";
 import cartRepository from "./cartRepository";
 
@@ -17,7 +18,7 @@ const browse: RequestHandler = async (req, res, next) => {
 // Add — POST /api/cart
 // Body attendu : { user_id, event_id, quantity, total_price }
 
-const add: RequestHandler = async (req, res, next) => {
+/* const add: RequestHandler = async (req, res, next) => {
   try {
     const newItem = {
       users_id: Number(req.body.users_id),
@@ -31,9 +32,10 @@ const add: RequestHandler = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+}; */
 
-/* const addEvent: RequestHandler = async (req, res, next) => {
+const addEvent: RequestHandler = async (req, res, next) => {
+  const connection = await databaseLeLocal.getConnection();
   try {
     const userId = Number(req.body.users_id);
     const eventId = Number(req.body.event_id);
@@ -44,17 +46,22 @@ const add: RequestHandler = async (req, res, next) => {
       res.sendStatus(400);
       return;
     }
+    await connection.beginTransaction();
 
-    const currentEvent =
-      await eventRepository.browseParticipantsToEvent();
+    const remainingSlots = await eventRepository.readRemainingSlotsByEvent(
+      connection,
+      Number(eventId),
+    );
 
-    if (!currentEvent) {
+    if (remainingSlots === null || remainingSlots === undefined) {
+      await connection.rollback();
       res.sendStatus(404);
       return;
     }
 
-    if (requestedQuantity > currentEvent.remaining_slots) {
-      res.status(400).json({ remaining_slots: currentEvent.remaining_slots });
+    if (requestedQuantity > remainingSlots) {
+      await connection.rollback();
+      res.status(409).json({ remaining_slots: remainingSlots });
       return;
     }
 
@@ -64,14 +71,21 @@ const add: RequestHandler = async (req, res, next) => {
       quantity: requestedQuantity,
       total_price: totalPrice,
     };
-
-    const insertId = await cartRepository.create(newItem);
+    const insertId = await cartRepository.create(connection, newItem);
+    // ON COMMIT pour valider définitivement en BDD
+    await connection.commit();
+    // ON RÉPOND au front après le succès du commit
     res.status(201).json({ insertId });
   } catch (err) {
+    // Si ça plante n'importe où, on annule tout
+    await connection.rollback();
     next(err);
+  } finally {
+    // TRÈS IMPORTANT : On libère la connexion pour les autres utilisateurs
+    connection.release();
   }
 };
- */
+
 // Edit — PATCH /api/cart/:id
 // Body attendu : { quantity }
 const edit: RequestHandler = async (req, res, next) => {
@@ -128,4 +142,4 @@ const destroyAll: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add, edit, destroy, destroyAll };
+export default { browse, addEvent, edit, destroy, destroyAll };

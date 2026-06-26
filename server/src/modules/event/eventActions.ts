@@ -21,7 +21,7 @@ const browseParticipantsToEvent: RequestHandler = async (req, res, next) => {
   }
 };
 
-const readRemainingSlotsByEvent: RequestHandler = async (req, res, next) => {
+/* const readRemainingSlotsByEvent: RequestHandler = async (req, res, next) => {
   const eventId = Number(req.params.id);
 
   if (Number.isNaN(eventId)) {
@@ -41,7 +41,7 @@ const readRemainingSlotsByEvent: RequestHandler = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+}; */
 
 const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
   try {
@@ -57,6 +57,6 @@ const browseEventsOfTheDay: RequestHandler = async (req, res, next) => {
 export default {
   browseUpcomingEvents,
   browseParticipantsToEvent,
-  readRemainingSlotsByEvent,
+  /*  readRemainingSlotsByEvent, */
   browseEventsOfTheDay,
 };

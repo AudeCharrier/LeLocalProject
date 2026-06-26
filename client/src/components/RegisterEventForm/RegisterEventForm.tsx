@@ -72,6 +72,15 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
         // remettre la quantité à 1 après succès
         setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
+      } else if (response.status === 409) {
+        const data = await response.json();
+        // data.remaining_slots contient le nombre réel de places renvoyé par ton back
+        setMessage(
+          `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
+        );
+
+        // Optionnel : tu peux mettre à jour le max du formulaire en temps réel
+        setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
       } else {
         setMessage("Une erreur est survenue, veuillez réessayer.");
       }
@@ -185,7 +194,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               {/*bouton -1 */}
               <button
                 type="button"
-                onClick={decreaseQuantity}
+                onMouseDown={decreaseQuantity}
                 className="btn-quantity"
                 aria-label="Retirer une place" //accessibilité, lit le bouton
                 aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
@@ -205,7 +214,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               {/*bouton +1 */}
               <button
                 type="button"
-                onClick={increaseQuantity}
+                onMouseDown={increaseQuantity}
                 className="btn-quantity"
                 aria-label="Ajouter une place" //accessibilité, lit le bouton
                 aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript

@@ -1,3 +1,4 @@
+import type { PoolConnection } from "mysql2/promise";
 import databaseLeLocal from "../../../database/client";
 
 import type { Result, Rows } from "../../../database/client";
@@ -21,12 +22,6 @@ type Participants = {
   sum_participants: number;
   remaining_slots: number;
   capacity: number;
-};
-
-type RemainingSlotsRow = {
-  sum_participants: number | null;
-  capacity: number;
-  remaining_slots: number;
 };
 
 class EventRepository {
@@ -93,8 +88,11 @@ class EventRepository {
   }
 
   // check remaining slots when adding to cart
-  async readRemainingSlotsByEvent(id: number): Promise<number | null> {
-    const [rows] = await databaseLeLocal.query<Rows>(
+  async readRemainingSlotsByEvent(
+    connection: PoolConnection,
+    id: number,
+  ): Promise<number | null> {
+    const [rows] = await connection.query<Rows>(
       `
     SELECT 
       s.capacity,
@@ -105,6 +103,7 @@ class EventRepository {
     LEFT JOIN booking as b ON b.id_activity = a.id
     WHERE a.id = ?
     GROUP BY s.capacity
+    FOR UPDATE
   `,
       [id],
     );
