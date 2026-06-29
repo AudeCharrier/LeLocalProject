@@ -21,19 +21,7 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
               ? `url(${workshop.url_image})`
               : undefined,
           }}
-        >
-          <div className="incoming-workshop__top-row">
-            {/* <span className="incoming-workshop__badge-places">
-              {availability
-                ? `${availability.available} places libres`
-                : `${workshop.capacity} places`}
-            </span> */}
-          </div>
-          {/* <div className="incoming-workshop__badge-date">
-            <span className="incoming-workshop__date-day">{day}</span>
-            <span className="incoming-workshop__date-month">{month}</span>
-          </div> */}
-        </div>
+        />
 
         <div className="incoming-workshop__description">
           <span className="incoming-workshop__category">
@@ -54,7 +42,9 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
             <button
               type="button"
               className="card-btn-register"
-              onClick={() => setSelectedWorkshopId(workshop.id)}
+              onClick={() => {
+                setSelectedWorkshopId(workshop.id);
+              }}
             >
               S'inscrire
             </button>

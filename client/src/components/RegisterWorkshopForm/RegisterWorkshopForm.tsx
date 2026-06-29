@@ -1,8 +1,9 @@
 import "./RegisterWorkshopForm.css";
 import { useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 import { apiFetch } from "../../hooks/apiFetch";
 import { useWorkshopModalContext } from "../../hooks/useWorkshopModalContext";
-import type { CartItem } from "../../types/cartitem";
+
 import type { QuantityConfig } from "../../types/quantityconfig";
 import type { Space } from "../../types/space";
 
@@ -11,6 +12,8 @@ interface WorkshopProps {
 }
 
 function RegisterWorkshopForm({ workshop }: WorkshopProps) {
+  const user = useAuthContext();
+
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
     min: 1,
@@ -20,7 +23,7 @@ function RegisterWorkshopForm({ workshop }: WorkshopProps) {
 
   const { value, min, max, error } = quantityConfig;
 
-  const totalPrice = quantityConfig.value * workshop.price_unit;
+  const totalPrice = quantityConfig.value * Number(workshop.price_unit);
 
   const [message, setMessage] = useState<string>("");
 
@@ -34,16 +37,22 @@ function RegisterWorkshopForm({ workshop }: WorkshopProps) {
     const form = e.currentTarget;
 
     // On construit l'objet proprement au moment du clic, avec la quantité à jour
-    const payload: CartItem = {
-      users_id: 2,
-      event_id: workshop.id,
-      quantity: quantityConfig.value,
+    const payload = {
+      users_id: user?.id ?? 0,
+      space_id: workshop.id,
+      start_date: new Date().toISOString().slice(0, 10), // date du jour pour l'instant
+      end_date: new Date().toISOString().slice(0, 10),
+      seats: quantityConfig.value,
       total_price: totalPrice,
+      effective_price: Number(workshop.price_unit),
+      time_slot_id: null,
+      months: null,
     };
 
     try {
-      const response = await apiFetch("/api/cart/", {
+      const response = await apiFetch("/api/bookings", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 

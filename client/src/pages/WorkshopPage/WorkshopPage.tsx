@@ -17,7 +17,7 @@ function WorkshopPage() {
   const selectedWorkshop = workshops.find((w) => w.id === selectedWorkshopId);
 
   const sortedByPrice = [...workshops].sort(
-    (a, b) => b.price_unit - a.price_unit,
+    (a, b) => Number(b.price_unit) - Number(a.price_unit),
   );
   const featuredSpace = sortedByPrice[0];
   const remainingSpace = sortedByPrice.slice(1);
