@@ -70,7 +70,7 @@ class SpaceRepository {
        UNION ALL
        SELECT id_activity, quantity FROM booking
      ) q ON q.id_activity = a.id
-     WHERE a.space_id = ? AND a.start_date = ? AND a.time_slot_id IN (?)`,
+     WHERE a.space_id = ? AND DATE(a.start_date) = ? AND a.time_slot_id IN (?)`,
       [spaceId, date, overlappingSlotIds],
     );
     return Number((rows[0] as { booked: number })?.booked) || 0;
@@ -89,16 +89,12 @@ class SpaceRepository {
     const overlappingSlotIds = this.getOverlappingSlotIds(timeSlotId);
 
     const [rows] = await connection.query<Rows>(
-      `SELECT COALESCE(SUM(q.quantity), 0) AS booked
-     FROM activity a
-     LEFT JOIN (
-       SELECT id_activity, quantity FROM cart
-       UNION ALL
-       SELECT id_activity, quantity FROM booking
-     ) q ON q.id_activity = a.id
-     WHERE a.space_id = ?
-       AND a.start_date = ?
-       AND a.time_slot_id IN (?)`,
+      `SELECT COALESCE(SUM(c.quantity), 0) AS booked
+       FROM activity a
+       LEFT JOIN cart c ON c.id_activity = a.id
+       WHERE a.space_id = ?
+  AND DATE(a.start_date) = ?
+  AND a.time_slot_id IN (?)`,
       [spaceId, date, overlappingSlotIds],
     );
     const booked = Number((rows[0] as { booked: number })?.booked) || 0;
@@ -137,16 +133,12 @@ class SpaceRepository {
     endDate: string,
   ): Promise<boolean> {
     const [rows] = await connection.query<Rows>(
-      `SELECT COALESCE(SUM(q.quantity), 0) AS booked
-     FROM activity a
-     LEFT JOIN (
-       SELECT id_activity, quantity FROM cart
-       UNION ALL
-       SELECT id_activity, quantity FROM booking
-     ) q ON q.id_activity = a.id
-     WHERE a.space_id = ?
-       AND a.start_date < ?
-       AND ? < a.end_date`,
+      `SELECT COALESCE(SUM(c.quantity), 0) AS booked
+       FROM activity a
+       LEFT JOIN cart c ON c.id_activity = a.id
+       WHERE a.space_id = ?
+  AND DATE(a.start_date) < ?
+  AND ? < DATE(a.end_date)`,
       [spaceId, endDate, startDate],
     );
     const booked = Number((rows[0] as { booked: number })?.booked) || 0;

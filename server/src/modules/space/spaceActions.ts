@@ -92,8 +92,15 @@ const readAvailability: RequestHandler = async (req, res, next) => {
     }
 
     // --- Cas espace "open" : plusieurs places par créneau ---
-    // CORRECTION : on utilise getOverlappingSlotIds via isSlotTaken n'est pas adapté ici,
-    // donc on passe par countBookedSeats qui gère les conflits Journée ↔ Matin/Après-midi
+    // On additionne les quantités déjà réservées (table cart) pour cet espace, cette date et ce créneau, puis on déduit le nombre de places restantes par rapport à la capacité totale de l'espace.
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `SELECT COALESCE(SUM(c.quantity), 0) AS booked
+   FROM activity a
+   LEFT JOIN cart c ON c.id_activity = a.id
+   WHERE a.space_id = ? AND DATE(a.start_date) = ? AND a.time_slot_id = ?`,
+      [spaceId, String(date), Number(timeSlotId)],
+    );
+    // Remplace tout le bloc de la requête SQL par :
     const bookedSeats = await spaceRepository.countBookedSeats(
       databaseLeLocal,
       spaceId,

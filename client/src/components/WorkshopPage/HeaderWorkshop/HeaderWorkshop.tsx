@@ -30,7 +30,7 @@ function HeaderWorkshop() {
   };
 
   return (
-    <section className="header-spaces-page-global-section">
+    <section className="header-workshop-page-global-section">
       <div className="header-spaces-page-container-articles">
         <FirstArticle pageData={WorkshopHeaderFirstArticle} />
 
