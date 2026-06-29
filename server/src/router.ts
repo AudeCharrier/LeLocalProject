@@ -120,16 +120,33 @@ router.get(
 /* ************************************************************************* */
 // Panier (protégé client)
 /* ************************************************************************* */
+import cartMiddleware from "./Middlewares/cartMiddleware";
+
 router.get("/api/cart/:userId", authMiddleware.requireAuth, cartActions.browse);
 
 // add an event into cart
-router.post("/api/cart", authMiddleware.requireAuth, cartActions.addEvent);
+router.post(
+  "/api/cart",
+  authMiddleware.requireAuth,
+  cartMiddleware.validateAddEventCart,
+  cartActions.addEvent,
+);
 
 //update a cart item
-router.patch("/api/cart/:id", authMiddleware.requireAuth, cartActions.edit);
+router.patch(
+  "/api/cart/:id",
+  authMiddleware.requireAuth,
+  cartMiddleware.validateUpdateCart,
+  cartActions.edit,
+);
 
 // delete an item into cart
-router.delete("/api/cart/:id", authMiddleware.requireAuth, cartActions.destroy);
+router.delete(
+  "/api/cart/:id",
+  authMiddleware.requireAuth,
+  cartMiddleware.validateDeleteItem,
+  cartActions.destroy,
+);
 
 // clear the cart of a user
 router.delete(
