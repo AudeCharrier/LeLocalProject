@@ -1,8 +1,8 @@
 import { CalendarPlus } from "lucide-react";
 import { useMemo, useState } from "react";
-import AdminCreateEventModal from "../AdminCreateEventModal/AdminCreateEventModal";
 import useEventParticipants from "../../../hooks/useEventParticipants";
 import useUpcomingEvents from "../../../hooks/useUpcomingEvents";
+import AdminCreateEventModal from "../AdminCreateEventModal/AdminCreateEventModal";
 import "./AdminEvents.css";
 
 function formatDate(date: string) {

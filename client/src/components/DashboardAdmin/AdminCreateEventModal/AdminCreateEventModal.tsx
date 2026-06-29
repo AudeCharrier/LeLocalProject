@@ -127,7 +127,10 @@ function AdminCreateEventModal({
           </button>
         </div>
 
-        <form className="admin-create-event-modal__form" onSubmit={handleSubmit}>
+        <form
+          className="admin-create-event-modal__form"
+          onSubmit={handleSubmit}
+        >
           <div className="admin-create-event-modal__field">
             <label htmlFor="admin-event-title">Titre</label>
             <input
@@ -224,7 +227,9 @@ function AdminCreateEventModal({
             <input
               accept="image/*"
               id="admin-event-image"
-              onChange={(event) => setImageFile(event.target.files?.[0] ?? null)}
+              onChange={(event) =>
+                setImageFile(event.target.files?.[0] ?? null)
+              }
               type="file"
             />
           </div>
