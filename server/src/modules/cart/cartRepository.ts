@@ -21,7 +21,7 @@ const readAll = async (userId: number) => {
       a.description,
       a.start_date,
       a.end_date,
-
+      a.price_unit AS price_unit,
       s.id AS id_space,
       s.space_name,
       s.url_image,
