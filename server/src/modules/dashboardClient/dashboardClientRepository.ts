@@ -271,12 +271,13 @@ class DashboardClientRepository {
     time_slot_id: number;
     url_image: string | null;
     users_id: number;
+    price_unit: number;
   }) {
     const [result] = await databaseClient.query<Result>(
       `INSERT INTO activity (
       name, description, start_date, end_date,
-      space_id, time_slot_id, url_image, users_id, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+      space_id, time_slot_id, url_image, users_id, status, price_unit
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
       [
         event.name,
         event.description,
@@ -286,6 +287,7 @@ class DashboardClientRepository {
         event.time_slot_id,
         event.url_image,
         event.users_id,
+        event.price_unit,
       ],
     );
     return result.insertId;

@@ -4,7 +4,7 @@ function PresentationAcceuil() {
   return (
     <div className="stats-global-div">
       <div className="stats-item-div">
-        <span className="stats-number">8</span>
+        <span className="stats-number">18</span>
         <span className="stats-text">espaces & ateliers</span>
       </div>
       <div className="stats-item-div">
@@ -12,7 +12,7 @@ function PresentationAcceuil() {
         <span className="stats-text">membres actifs</span>
       </div>
       <div className="stats-item-div">
-        <span className="stats-number">40+</span>
+        <span className="stats-number">100+</span>
         <span className="stats-text">événements / an</span>
       </div>
       <div className="stats-item-div">
