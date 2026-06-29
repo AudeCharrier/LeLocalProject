@@ -15,6 +15,7 @@ const readAll = async (userId: number) => {
       c.id,
       c.quantity,
       c.price_unit,
+      c.total_price,
       a.id AS id_activity,
       a.name,
       a.description,
