@@ -4,6 +4,7 @@ import databaseClient from "../../../database/client";
 type NewEvent = {
   name: string;
   description: string;
+  price_unit: number;
   start_date: string;
   end_date: string;
   space_id: number;
@@ -17,16 +18,18 @@ class CreateEventFormRepository {
       `INSERT INTO activity (
         name,
         description,
+        price_unit,
         start_date,
         end_date,
         space_id,
         time_slot_id,
         url_image
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         event.name,
         event.description,
+        event.price_unit,
         event.start_date,
         event.end_date,
         event.space_id,

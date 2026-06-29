@@ -4,6 +4,7 @@ import createEventRepository from "./createEventFormRepository";
 type NewEvent = {
   name: string;
   description: string;
+  price_unit: number;
   start_date: string;
   end_date: string;
   space_id: number;
@@ -25,6 +26,7 @@ const create: RequestHandler = async (req, res, next): Promise<void> => {
     const event: NewEvent = {
       name: req.body.titre as string,
       description: req.body.description as string,
+      price_unit: Number(req.body.price),
       start_date: req.body.startDate as string,
       end_date: req.body.endDate as string,
       space_id: Number(req.body.salle),

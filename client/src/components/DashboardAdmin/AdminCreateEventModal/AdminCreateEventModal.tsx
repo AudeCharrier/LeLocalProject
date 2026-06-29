@@ -20,6 +20,7 @@ function AdminCreateEventModal({
   const timeSlots = useTimeSlot();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedSpace, setSelectedSpace] = useState("");
@@ -36,6 +37,7 @@ function AdminCreateEventModal({
   function resetForm() {
     setTitle("");
     setDescription("");
+    setPrice("");
     setStartDate("");
     setEndDate("");
     setSelectedSpace("");
@@ -58,6 +60,7 @@ function AdminCreateEventModal({
     const formData = new FormData();
     formData.append("titre", title);
     formData.append("description", description);
+    formData.append("price", price);
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
     formData.append("salle", selectedSpace);
@@ -144,6 +147,19 @@ function AdminCreateEventModal({
               required
               rows={4}
               value={description}
+            />
+          </div>
+
+          <div className="admin-create-event-modal__field">
+            <label htmlFor="admin-event-price">Prix</label>
+            <input
+              id="admin-event-price"
+              min="0"
+              onChange={(event) => setPrice(event.target.value)}
+              required
+              step="1"
+              type="number"
+              value={price}
             />
           </div>
 
