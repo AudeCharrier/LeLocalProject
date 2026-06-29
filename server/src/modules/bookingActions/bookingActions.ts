@@ -3,14 +3,6 @@ import databaseLeLocal from "../../../database/client";
 import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
 import bookingRepository from "./bookingRepository";
-
-type EventBookingPayload = {
-  users_id: number;
-  event_id: number;
-  quantity: number;
-  total_price: number;
-};
-
 type BookingPayload = {
   space_id: number;
   time_slot_id: number | null;
@@ -48,7 +40,6 @@ const create: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-
 const add: RequestHandler = async (req, res, next) => {
   const body = req.body as BookingPayload;
 
@@ -115,7 +106,7 @@ const add: RequestHandler = async (req, res, next) => {
       });
 
       const [result] = await connection.query(
-        `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
+        `INSERT INTO cart (quantity, total_price, effective_price, users_id, id_activity)
  VALUES (?, ?, ?, ?, ?)`,
         [
           quantity,
@@ -161,15 +152,9 @@ const add: RequestHandler = async (req, res, next) => {
       });
 
       const [result] = await connection.query(
-        `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
- VALUES (?, ?, ?, ?, ?)`,
-        [
-          quantity,
-          body.total_price,
-          body.effective_price,
-          body.users_id,
-          activity.id,
-        ],
+        `INSERT INTO cart (quantity, total_price, users_id, id_activity)
+         VALUES (?, ?, ?, ?)`,
+        [quantity, body.total_price, body.users_id, activity.id],
       );
 
       await connection.commit();
@@ -213,15 +198,9 @@ const add: RequestHandler = async (req, res, next) => {
     }
 
     const [result] = await connection.query(
-      `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
- VALUES (?, ?, ?, ?, ?)`,
-      [
-        quantity,
-        body.total_price,
-        body.effective_price,
-        body.users_id,
-        activity.id,
-      ],
+      `INSERT INTO cart (quantity, total_price, users_id, id_activity)
+       VALUES (?, ?, ?, ?)`,
+      [quantity, body.total_price, body.users_id, activity.id],
     );
 
     await connection.commit();

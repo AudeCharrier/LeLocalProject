@@ -1,13 +1,9 @@
+// spaceActions.ts
 import type { RequestHandler } from "express";
-
 import databaseLeLocal from "../../../database/client";
 import type { Rows } from "../../../database/client";
 import spaceRepository from "./spaceRepository";
 
-/**
- * GET /api/spaces
- * Renvoie la liste de tous les espaces disponibles à la réservation.
- */
 const browse: RequestHandler = async (req, res, next) => {
   try {
     const spaces = await spaceRepository.readAll();
@@ -17,10 +13,6 @@ const browse: RequestHandler = async (req, res, next) => {
   }
 };
 
-/**
- * GET /api/spaces/:id
- * Renvoie le détail d'un espace précis, ou 404 s'il n'existe pas.
- */
 const read: RequestHandler = async (req, res, next) => {
   try {
     const itemId = Number(req.params.id);
@@ -35,15 +27,6 @@ const read: RequestHandler = async (req, res, next) => {
   }
 };
 
-/**
- * GET /api/spaces/:id/availability
- * Calcule la disponibilité d'un espace pour une date donnée (et un créneau, ou une plage de dates selon le type d'espace).
- *
- * Le comportement diffère selon la catégorie de l'espace :
- * - "Local vide" : réservation sur une PLAGE de dates (start/end). On vérifie simplement si la période demandée chevauche une réservation existante. `available` vaut 0 ou 1 (tout ou rien, pas de notion de places).
- * - Espace "exclusif" (ni open, ni local) : réservation par CRÉNEAU horaire, un seul occupant possible par créneau -> `available` vaut 0 ou 1.
- * - Espace "open" (catégorie contenant "open") : plusieurs places possibles par créneau -> on calcule le nombre de places déjà réservées et on renvoie le nombre de places restantes (capacity - booked).
- */
 const readAvailability: RequestHandler = async (req, res, next) => {
   try {
     const spaceId = Number(req.params.id);
@@ -71,7 +54,6 @@ const readAvailability: RequestHandler = async (req, res, next) => {
           .json({ message: "endDate est requis pour un local vide" });
         return;
       }
-      // Vérifie qu'aucune réservation existante ne chevauche la période demandée
       const overlapping = await spaceRepository.hasOverlappingDateRange(
         databaseLeLocal,
         spaceId,
@@ -87,14 +69,12 @@ const readAvailability: RequestHandler = async (req, res, next) => {
       return;
     }
 
-    // Pour tous les autres cas, un créneau horaire est obligatoire
     if (!timeSlotId) {
       res.status(400).json({ message: "timeSlotId est requis" });
       return;
     }
 
     // --- Cas espace "exclusif" (salle de réunion, studio, etc.) ---
-    // Un seul créneau possible : soit déjà pris, soit libre
     if (!isOpenSpace) {
       const taken = await spaceRepository.isSlotTaken(
         databaseLeLocal,
