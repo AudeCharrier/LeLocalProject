@@ -30,6 +30,7 @@ import spaceActions from "./modules/space/spaceActions";
 router.get("/api/spaces", spaceActions.browse);
 router.get("/api/spaces/:id/availability", spaceActions.readAvailability);
 
+import eventMiddleware from "./Middlewares/eventMiddleware";
 /* ************************************************************************* */
 // Events (public)
 /* ************************************************************************* */
@@ -37,9 +38,12 @@ import eventActions from "./modules/event/eventActions";
 
 router.get("/api/events", eventActions.browseUpcomingEvents);
 router.get("/api/events/participants", eventActions.browseParticipantsToEvent);
-router.get("/api/events/:date", eventActions.browseEventsOfTheDay);
-/* router.get("/api/events/:id/remaining", eventActions.readRemainingSlotsByEvent);
- */
+router.get(
+  "/api/events/:date",
+  eventMiddleware.validateEventsDate,
+  eventActions.readEventsOfTheDay,
+);
+
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
 /* ************************************************************************* */
