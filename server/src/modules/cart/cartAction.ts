@@ -21,20 +21,14 @@ const browse: RequestHandler = async (req, res, next) => {
 const addEvent: RequestHandler = async (req, res, next) => {
   const connection = await databaseLeLocal.getConnection();
   try {
-    const userId = Number(req.body.users_id);
-    const eventId = Number(req.body.event_id);
-    const requestedQuantity = Number(req.body.quantity);
-    const totalPrice = Number(req.body.total_price);
+    // middleware a déjà tout converti en nombres.
+    const { users_id, event_id, quantity, total_price } = req.body;
 
-    if (!userId || !eventId || requestedQuantity <= 0) {
-      res.sendStatus(400);
-      return;
-    }
     await connection.beginTransaction();
 
     const remainingSlots = await eventRepository.readRemainingSlotsByEvent(
       connection,
-      Number(eventId),
+      event_id,
     );
 
     if (remainingSlots === null) {
@@ -43,18 +37,19 @@ const addEvent: RequestHandler = async (req, res, next) => {
       return;
     }
 
-    if (requestedQuantity > remainingSlots) {
+    if (quantity > remainingSlots) {
       await connection.rollback();
       res.status(409).json({ remaining_slots: remainingSlots });
       return;
     }
 
     const newItem = {
-      users_id: userId,
-      id_activity: eventId,
-      quantity: requestedQuantity,
-      total_price: totalPrice,
+      users_id,
+      id_activity: event_id,
+      quantity,
+      total_price,
     };
+
     const insertId = await cartRepository.create(connection, newItem);
     // ON COMMIT pour valider définitivement en BDD
     await connection.commit();
@@ -74,14 +69,15 @@ const addEvent: RequestHandler = async (req, res, next) => {
 // Body attendu : { quantity }
 const edit: RequestHandler = async (req, res, next) => {
   try {
-    const cartItemId = Number(req.params.id);
-    const quantity = Number(req.body.quantity);
+    const cartItemId = Number(req.params.id); // À garder si tu ne valides pas req.params avec Joi
+    const { quantity } = req.body; // number validé avec joi
 
-    if (quantity < 1) {
+    //géré dans middleware
+    /*     if (quantity < 1) {
       res.sendStatus(400);
       return;
     }
-
+ */
     const affectedRows = await cartRepository.updateQuantity(
       cartItemId,
       quantity,

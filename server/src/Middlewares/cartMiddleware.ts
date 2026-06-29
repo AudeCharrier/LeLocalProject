@@ -13,7 +13,12 @@ const addEventSchema = Joi.object({
 const updateCartSchema = Joi.object({
   quantity: Joi.number().integer().positive().optional(),
   total_price: Joi.number().min(0).optional(),
-}).min(1); // Au moins un des deux champs doit être fourni
+})
+  .min(1) // Au moins un des deux champs doit être fourni
+  .messages({
+    "object.min":
+      "Vous devez fournir au moins un champ à modifier (quantity ou total_price).",
+  });
 
 // schéma pour la SUPPRESSION d'un item (delete)
 const deleteItemSchema = Joi.object({
@@ -26,6 +31,15 @@ const validateBody = (schema: Joi.ObjectSchema): RequestHandler => {
     const { error, value } = schema.validate(req.body, {
       abortEarly: false,
       stripUnknown: true,
+      messages: {
+        "any.required": "Le champ {#label} est obligatoire.",
+        "number.base": "Le champ {#label} doit être un nombre.",
+        "number.integer": "Le champ {#label} doit être un entier.",
+        "number.positive": "Le champ {#label} doit être supérieur à 0.",
+        "number.min":
+          "Le champ {#label} ne peut pas être inférieur à {#limit}.",
+        "object.min": "Vous devez fournir au moins un champ à modifier.",
+      },
     });
 
     if (error) {
@@ -39,7 +53,6 @@ const validateBody = (schema: Joi.ObjectSchema): RequestHandler => {
     next();
   };
 };
-
 // LES MIDDLEWARES PRÊTS À L'EMPLOI
 
 const validateAddEventCart = validateBody(addEventSchema);
