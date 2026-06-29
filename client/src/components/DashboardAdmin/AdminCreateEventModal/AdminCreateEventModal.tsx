@@ -77,7 +77,10 @@ function AdminCreateEventModal({
       });
 
       if (!response.ok) {
-        setMessage("Une erreur est survenue pendant la création.");
+        const data = await response.json().catch(() => null);
+        setMessage(
+          data?.message ?? "Une erreur est survenue pendant la création.",
+        );
         setIsSubmitting(false);
         return;
       }
