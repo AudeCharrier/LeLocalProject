@@ -4,17 +4,11 @@ import WorkshopOfTheWeek from "../../components/WorkshopPage/WorkshopOfTheWeek/W
 import useWorkshop from "../../hooks/useWorkshop";
 import "./WorkshopPage.css";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
-import RegisterWorkshopForm from "../../components/RegisterWorkshopForm/RegisterWorkshopForm";
-
-import { useWorkshopModalContext } from "../../hooks/useWorkshopModalContext";
 
 function WorkshopPage() {
   const workshops = useWorkshop();
-  const { selectedWorkshopId } = useWorkshopModalContext();
 
   if (workshops.length === 0) return null;
-
-  const selectedWorkshop = workshops.find((w) => w.id === selectedWorkshopId);
 
   const sortedByPrice = [...workshops].sort(
     (a, b) => Number(b.price_unit) - Number(a.price_unit),
@@ -33,8 +27,6 @@ function WorkshopPage() {
       </div>
 
       <FooterDashboard />
-
-      {selectedWorkshop && <RegisterWorkshopForm workshop={selectedWorkshop} />}
     </>
   );
 }

@@ -1,5 +1,9 @@
 import "./WorkshopOfTheWeek.css";
-import { useWorkshopModalContext } from "../../../hooks/useWorkshopModalContext";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
+import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
 
 import type { Space } from "../../../types/space";
 
@@ -8,7 +12,7 @@ interface WorkshopOfTheWeekProps {
 }
 
 function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
-  const { setSelectedWorkshopId } = useWorkshopModalContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!workshop) return null;
 
@@ -52,7 +56,7 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
                 <button
                   type="button"
                   className="btn-reserve"
-                  onClick={() => setSelectedWorkshopId(workshop.id)}
+                  onClick={() => setIsModalOpen(true)}
                 >
                   Réserver ma place
                 </button>
@@ -62,6 +66,23 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
           </div>
         </div>
       </div>
+      {createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <SpaceModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <SpaceModalContent
+                spaces={[workshop]}
+                categoryName={workshop.space_category}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </SpaceModal>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
     </section>
   );
 }
