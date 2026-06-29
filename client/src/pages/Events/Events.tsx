@@ -69,16 +69,24 @@ function Events() {
       <section className="events-section-hero">
         <FirstArticle pageData={EventFirstArticle} />
       </section>
-      <section className="events-section-ALAUNE">
+      <section className="events-section-agenda">
         <div className="events-big-title">
-          <h2 className="events-page-title">Nos évènements</h2>
+          <h1 className="events-page-title">Nos évènements</h1>
           <hr className="events-page-hr" />
         </div>
-        <h2 className="events-title">A la une</h2>
-        <p>faire composant event le plus proche</p>
-      </section>
-      <section className="events-section-agenda">
+        <p className="events-text">
+          Au Local, il se passe toujours quelque chose. Conférences, rencontres,
+          moments conviviaux : notre programmation évolue au fil des envies et
+          des initiatives de chacun. Venez découvrir, apprendre, partager ou
+          simplement passer un bon moment.
+        </p>
         <h2 className="events-title">Agenda</h2>
+        <p className="events-text">
+          Consultez notre agenda et choisissez une date pour découvrir les
+          événements prévus. Planifiez votre visite à l'avance ou cherchez une
+          activité de dernière minute, retrouvez facilement ce qui vous attend
+          au Local.
+        </p>
         <div className="events-calendar-container">
           {/* Calendrier centré qui ne s'étire plus */}
           <div className="calendar-wrapper">
@@ -103,11 +111,16 @@ function Events() {
           <button
             type="button"
             className="events-btn-see-all"
-            onClick={() => setMaxCardsForGrid(99)}
+            onClick={() => setMaxCardsForGrid(50)}
           >
             Voir tous les évènements
           </button>
         </div>
+        <p className="events-text">
+          Retrouvez ici l'ensemble des événements programmés dans les prochaines
+          semaines. Parcourez les différentes propositions, réservez votre place
+          si nécessaire et rejoignez-nous pour partager ces moments.
+        </p>
         <div className="events-grid-container">
           {upcomingEvents.slice(0, maxCardsForGrid).map((upcomingEvent) => {
             const eventParticipants = participants.find(

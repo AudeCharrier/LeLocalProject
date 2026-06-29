@@ -87,13 +87,12 @@
   padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
 }
-.events-section-ALAUNE,
 .events-section-upcoming {
   padding: var(--space-10) var(--space-20);
   background-color: var(--color-bg-1);
 }
 .events-div-upcoming-events {
-  display: grid;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -104,6 +103,15 @@
   font-family: var(--font-heading);
   color: var(--color-text-secondary);
   padding-bottom: var(--space-8);
+}
+
+.events-text {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  width: 40%;
+  padding-bottom: var(--space-3);
+  line-height: 1.65;
 }
 
 /* ============== section AGENDA ========== */
@@ -140,6 +148,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  padding-bottom: var(--space-8);
   &:hover {
     transform: scale(1.1);
   }
