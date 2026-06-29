@@ -23,6 +23,11 @@ type AdminStats = {
   claims_count: number;
 };
 
+type OccupancyTrendPoint = {
+  day: string;
+  rate: number;
+};
+
 type AdminClaimNotification = {
   id: number;
   title: string;
@@ -40,43 +45,91 @@ type Claim = {
   lastname: string;
 };
 
-// Pour regrouper nos différentes méthodes :
-// calcul des statistiques d'occupation, du nombre de réservations et du nombre de membres actifs
 class DashboardAdminRepository {
-  async readAdminStats() {
+  async readAdminStats(date: string) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-        (                      
+        (
           SELECT ROUND(
-            COUNT(DISTINCT a.space_id) * 100 / NULLIF(
-              (SELECT COUNT(*) FROM space WHERE space_type != 'Evenements'),
+            COUNT(
+              DISTINCT CONCAT(a.space_id, '-', a.time_slot_id, '-', a.start_date)
+            ) * 100 / NULLIF(
+              (
+                SELECT
+                  COUNT(*) * (SELECT COUNT(*) FROM time_slot)
+                FROM space
+                WHERE space_type IN ('Coworking', 'Ateliers')
+              ),
               0
             )
           )
           FROM booking b
           JOIN activity a ON b.id_activity = a.id
           JOIN space s ON a.space_id = s.id
-          WHERE s.space_type != 'Evenements'
+          WHERE s.space_type IN ('Coworking', 'Ateliers')
+          AND a.start_date = ?
         ) AS occupancy_rate,
         (
           SELECT COUNT(*)
           FROM booking b
           JOIN activity a ON b.id_activity = a.id
-          JOIN space s ON a.space_id = s.id
-          WHERE s.space_type != 'Evenements'
+          WHERE a.start_date = ?
         ) AS bookings_count,
         (
-          SELECT COUNT(*)
-          FROM users
-          WHERE role = 'client'
+          SELECT COUNT(DISTINCT b.users_id)
+          FROM booking b
+          JOIN activity a ON b.id_activity = a.id
+          JOIN users u ON b.users_id = u.id
+          WHERE a.start_date = ?
+          AND u.role = 'client'
         ) AS active_members,
         (
           SELECT COUNT(*)
           FROM claim
+          WHERE claim_date = ?
         ) AS claims_count`,
+      [date, date, date, date],
+    );
+    return rows[0] as AdminStats;
+  }
+
+  async readAdminOccupancyTrend(date: string) {
+    const [rows] = await databaseClient.query<Rows>(
+      `WITH RECURSIVE dates AS (
+        SELECT DATE_SUB(?, INTERVAL 6 DAY) AS selected_day
+        UNION ALL
+        SELECT DATE_ADD(selected_day, INTERVAL 1 DAY)
+        FROM dates
+        WHERE selected_day < DATE(?)
+      )
+      SELECT
+        DATE_FORMAT(dates.selected_day, '%d/%m') AS day,
+        COALESCE(
+          ROUND(
+            COUNT(
+              DISTINCT CONCAT(a.space_id, '-', a.time_slot_id, '-', a.start_date)
+            ) * 100 / NULLIF(
+              (
+                SELECT COUNT(*) * (SELECT COUNT(*) FROM time_slot)
+                FROM space
+                WHERE space_type IN ('Coworking', 'Ateliers')
+              ),
+              0
+            )
+          ),
+          0
+        ) AS rate
+      FROM dates
+      LEFT JOIN activity a ON a.start_date = dates.selected_day
+      LEFT JOIN space s ON a.space_id = s.id
+      LEFT JOIN booking b ON b.id_activity = a.id
+      WHERE s.space_type IN ('Coworking', 'Ateliers') OR s.space_type IS NULL
+      GROUP BY dates.selected_day
+      ORDER BY dates.selected_day ASC`,
+      [date, date],
     );
 
-    return rows[0] as AdminStats;
+    return rows as OccupancyTrendPoint[];
   }
 
   async readAdminClaimNotifications() {
@@ -89,7 +142,6 @@ class DashboardAdminRepository {
       FROM claim c
       ORDER BY c.id DESC`,
     );
-
     return rows as AdminClaimNotification[];
   }
 
@@ -121,18 +173,87 @@ class DashboardAdminRepository {
   async readAllClaims() {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-      c.id,
-      c.title,
-      c.category,
-      c.message,
-      c.claim_date,
-      u.firstname,
-      u.lastname
-    FROM claim c
-    JOIN users u ON c.users_id = u.id
-    ORDER BY c.claim_date DESC`,
+        c.id,
+        c.title,
+        c.category,
+        c.message,
+        c.claim_date,
+        u.firstname,
+        u.lastname
+      FROM claim c
+      JOIN users u ON c.users_id = u.id
+      ORDER BY c.claim_date DESC`,
     );
     return rows as Claim[];
   }
+
+  async readAllEventRequests() {
+    const [rows] = await databaseClient.query<Rows>(
+      `SELECT
+        a.id,
+        a.name,
+        a.description,
+        a.start_date,
+        a.end_date,
+        a.status,
+        s.space_name,
+        t.start_hour,
+        t.end_hour,
+        u.firstname,
+        u.lastname
+      FROM activity a
+      JOIN space s ON a.space_id = s.id
+      JOIN time_slot t ON a.time_slot_id = t.id
+      JOIN users u ON a.users_id = u.id
+      WHERE s.space_type = 'Evenements'
+      AND a.status IN ('pending', 'refused')
+      ORDER BY a.start_date DESC`,
+    );
+    return rows;
+  }
+
+  async updateEventRequestStatus(
+    activityId: number,
+    status: "approved" | "refused",
+  ) {
+    await databaseClient.query("UPDATE activity SET status = ? WHERE id = ?", [
+      status,
+      activityId,
+    ]);
+  }
+
+  async createBookingForRequest(activityId: number, userId: number) {
+    const year = new Date().getFullYear();
+
+    const [priceRows] = await databaseClient.query<Rows>(
+      `SELECT s.price_unit FROM activity a 
+     JOIN space s ON a.space_id = s.id 
+     WHERE a.id = ?`,
+      [activityId],
+    );
+    const priceUnit = (priceRows[0] as { price_unit: number }).price_unit;
+
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
+      [`${year}-%`],
+    );
+    const count = (rows as { count: number }[])[0].count;
+    const billsNumber = `${year}-${Number(count) + 1}`;
+
+    await databaseClient.query(
+      `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity, payment_status)
+     VALUES (?, ?, 1, ?, ?, 'pending')`,
+      [userId, billsNumber, priceUnit, activityId],
+    );
+  }
+
+  async getEventRequest(activityId: number) {
+    const [rows] = await databaseClient.query<Rows>(
+      "SELECT id, users_id FROM activity WHERE id = ?",
+      [activityId],
+    );
+    return rows[0] as { id: number; users_id: number };
+  }
 }
+
 export default new DashboardAdminRepository();

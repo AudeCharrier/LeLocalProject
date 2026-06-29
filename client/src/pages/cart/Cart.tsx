@@ -15,7 +15,7 @@ const PROMO_CODES: Record<string, number> = {
 function Cart() {
   const user = useAuthContext();
   const cart = useCart(user?.id ?? 0);
-  const [carts, setCarts] = useState<CartItem[]>([]);
+  const [carts, setCarts] = useState<CartItem[]>(cart);
   const [message, setMessage] = useState("");
   const [promoCode, setPromoCode] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -35,14 +35,16 @@ function Cart() {
   };
 
   const totalPrice = carts.reduce(
-    (total, item) => total + Number(item.total_price),
+    (total, item) => total + Number(item.price_unit) * item.quantity,
     0,
   );
 
   const discountAmount = (totalPrice * discount) / 100;
   const discountedTotal = totalPrice - discountAmount;
   useEffect(() => {
-    setCarts(cart);
+    if (cart.length > 0) {
+      setCarts(cart);
+    }
   }, [cart]);
 
   useEffect(() => {
@@ -54,7 +56,7 @@ function Cart() {
     if (!item) return;
 
     const newQuantity = item.quantity + 1;
-    const priceUnit = Number(item.total_price) / item.quantity;
+    const priceUnit = item.price_unit;
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -84,7 +86,7 @@ function Cart() {
     if (!item || item.quantity <= 1) return;
 
     const newQuantity = item.quantity - 1;
-    const priceUnit = Number(item.total_price) / item.quantity;
+    const priceUnit = Number(item.price_unit);
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -190,7 +192,9 @@ function Cart() {
                     </button>
                   </div>
 
-                  <span className="cart-item-price">{item.total_price} €</span>
+                  <span className="cart-item-price">
+                    {Number(item.total_price)} €
+                  </span>
                 </div>
               </div>
             </div>

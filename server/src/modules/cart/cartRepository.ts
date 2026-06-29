@@ -16,13 +16,13 @@ const readAll = async (userId: number) => {
     SELECT
       c.id,
       c.quantity,
+      c.price_unit,
       c.total_price,
       a.id AS id_activity,
       a.name,
       a.description,
       a.start_date,
       a.end_date,
-      a.price_unit,
 
       s.id AS id_space,
       s.space_name,

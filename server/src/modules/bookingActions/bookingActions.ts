@@ -15,6 +15,7 @@ type BookingPayload = {
   total_price: number;
   name?: string;
   email?: string;
+  effective_price: number;
 };
 
 // Créneau horaire utilisé par défaut quand aucun n'est fourni (ex: pour les "Local vide", qui n'ont pas vraiment de créneau mais en ont besoin pour être stockés dans la table `activity`)
@@ -40,7 +41,6 @@ const create: RequestHandler = async (req, res, next) => {
     next(err);
   }
 };
-
 const add: RequestHandler = async (req, res, next) => {
   const body = req.body as BookingPayload;
 
@@ -107,9 +107,15 @@ const add: RequestHandler = async (req, res, next) => {
       });
 
       const [result] = await connection.query(
-        `INSERT INTO cart (quantity, total_price, users_id, id_activity)
-         VALUES (?, ?, ?, ?)`,
-        [quantity, body.total_price, body.users_id, activity.id],
+        `INSERT INTO cart (quantity, total_price, effective_price, users_id, id_activity)
+ VALUES (?, ?, ?, ?, ?)`,
+        [
+          quantity,
+          body.total_price,
+          body.effective_price,
+          body.users_id,
+          activity.id,
+        ],
       );
 
       await connection.commit();

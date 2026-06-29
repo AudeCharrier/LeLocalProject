@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./CreateEventForm.css";
+import { useAuthContext } from "../../context/AuthContext";
 import { apiFetch } from "../../hooks/apiFetch";
 import useSpaces from "../../hooks/useSpaces";
 import useTimeSlot from "../../hooks/useTimeSlot";
 
 export default function CreateEventForm() {
+  const user = useAuthContext();
   const spaces = useSpaces();
   const slot = useTimeSlot();
   const [participants, setParticipants] = useState<number>(0);
+  const [priceUnit, setPriceUnit] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
   const [nom, setNom] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [titre, setTitre] = useState<string>("");
@@ -22,6 +24,8 @@ export default function CreateEventForm() {
     text: string;
   } | null>(null);
 
+  const isDisabled = !user || user.role === "admin";
+
   const filteredSpaces = spaces.filter(
     (space) => space.space_type === "Evenements",
   );
@@ -31,61 +35,57 @@ export default function CreateEventForm() {
   ): Promise<void> => {
     e.preventDefault();
 
-    const formData = new FormData();
+    if (!user) {
+      setMessage({
+        type: "error",
+        text: "Veuillez vous connecter pour soumettre une demande.",
+      });
+      return;
+    }
 
-    formData.append("nom", nom);
-    formData.append("email", email);
-    formData.append("titre", titre);
-    formData.append("description", description);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("participants", participants.toString());
-    formData.append("salle", selectedSpace);
-    formData.append("creneau", selectedTimeSlot);
-
-    if (imageFile) {
-      formData.append("image", imageFile);
+    if (user.role === "admin") {
+      setMessage({
+        type: "error",
+        text: "Les administrateurs créent des événements depuis le tableau de bord.",
+      });
+      return;
     }
 
     try {
-      const response = await apiFetch("/api/createEvent", {
+      const response = await apiFetch("/api/dashboard/client/event-requests", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: titre,
+          description,
+          start_date: startDate,
+          end_date: startDate,
+          space_id: Number(selectedSpace),
+          time_slot_id: Number(selectedTimeSlot),
+          url_image: null,
+          price_unit: priceUnit,
+        }),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-
-        console.error("Erreur serveur :", errorText);
-
-        setMessage({
-          type: "error",
-          text: "Une erreur est survenue",
-        });
-
+        setMessage({ type: "error", text: "Une erreur est survenue." });
         return;
       }
-
-      const result = await response.json();
-
-      console.log("Succès :", result);
 
       setMessage({
         type: "success",
         text: "Votre demande a bien été envoyée. Nous vous répondrons sous 48h.",
       });
     } catch (error) {
-      console.error("Erreur :", error);
-
       setMessage({
         type: "error",
         text: "Une erreur est survenue. Veuillez réessayer.",
       });
     }
-    const resetForm = () => {
+
+    setTimeout(() => {
       setDescription("");
       setEmail("");
-      setEndDate("");
       setImageFile(null);
       setMessage(null);
       setNom("");
@@ -94,13 +94,11 @@ export default function CreateEventForm() {
       setSelectedTimeSlot("");
       setStartDate("");
       setTitre("");
-    };
-    setTimeout(resetForm, 3000);
+    }, 3000);
   };
 
   return (
     <div className="create-event-page">
-      {/* Colonne de présentation */}
       <div className="create-event-sidebar">
         <p className="create-event-sidebar-subtitle">Vous avez un projet ?</p>
         <h1 className="create-event-sidebar-title">Proposez un événement</h1>
@@ -126,7 +124,6 @@ export default function CreateEventForm() {
         </ul>
       </div>
 
-      {/* Formulaire */}
       <form
         className="create-event-form-container"
         onSubmit={handleSubmit}
@@ -140,8 +137,15 @@ export default function CreateEventForm() {
           </p>
         )}
 
+        {isDisabled && (
+          <p className="create-event-message create-event-message--error">
+            {user?.role === "admin"
+              ? "Les administrateurs créent des événements depuis le tableau de bord."
+              : "Veuillez vous connecter pour soumettre une demande."}
+          </p>
+        )}
+
         <div className="create-event-form-row">
-          {/* Nom */}
           <div className="create-event-name-field">
             <label htmlFor="nom" className="create-event-name-label">
               Votre nom<span className="create-event-required">*</span>
@@ -154,10 +158,10 @@ export default function CreateEventForm() {
               onChange={(e) => setNom(e.target.value)}
               placeholder="Sophie Lefèvre"
               required
+              disabled={isDisabled}
             />
           </div>
 
-          {/* Email */}
           <div className="create-event-email-field">
             <label htmlFor="email" className="create-event-email-label">
               E-mail<span className="create-event-required">*</span>
@@ -170,11 +174,11 @@ export default function CreateEventForm() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="sophie@studio.fr"
               required
+              disabled={isDisabled}
             />
           </div>
         </div>
 
-        {/* Titre */}
         <div className="create-event-title-field">
           <label htmlFor="titre" className="create-event-title-label">
             Titre de l'événement<span className="create-event-required">*</span>
@@ -187,15 +191,14 @@ export default function CreateEventForm() {
             onChange={(e) => setTitre(e.target.value)}
             placeholder="Workshop Sérigraphie"
             required
+            disabled={isDisabled}
           />
         </div>
 
         <div className="create-event-form-row">
-          {/* Date début */}
           <div className="create-event-date-field">
             <label htmlFor="startDate" className="create-event-date-label">
-              Date de début
-              <span className="create-event-required">*</span>
+              Date<span className="create-event-required">*</span>
             </label>
             <div className="create-event-date-input-wrapper">
               <span className="create-event-date-icon">📅</span>
@@ -206,30 +209,12 @@ export default function CreateEventForm() {
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 required
+                disabled={isDisabled}
+                min={new Date().toISOString().slice(0, 10)}
               />
             </div>
           </div>
 
-          {/* Date fin */}
-          <div className="create-event-date-field">
-            <label htmlFor="endDate" className="create-event-date-label">
-              Date de fin
-              <span className="create-event-required">*</span>
-            </label>
-            <div className="create-event-date-input-wrapper">
-              <span className="create-event-date-icon">📅</span>
-              <input
-                id="endDate"
-                className="create-event-date-input"
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Participants */}
           <div className="create-event-participants-field">
             <label
               htmlFor="participants"
@@ -246,15 +231,31 @@ export default function CreateEventForm() {
                 type="number"
                 min={1}
                 max={300}
-                value={participants}
+                value={participants || ""}
                 onChange={(e) => setParticipants(Number(e.target.value))}
+                disabled={isDisabled}
               />
             </div>
           </div>
         </div>
 
+        <div className="create-event-price-field">
+          <label htmlFor="priceUnit" className="create-event-price-label">
+            Prix du ticket (€)
+          </label>
+          <input
+            id="priceUnit"
+            className="create-event-price-input"
+            type="number"
+            min={0}
+            value={priceUnit || ""}
+            onChange={(e) => setPriceUnit(Number(e.target.value))}
+            placeholder="0 = gratuit"
+            disabled={isDisabled}
+          />
+        </div>
+
         <div className="create-event-form-row">
-          {/* Salle */}
           <div className="create-event-space-field">
             <label htmlFor="space" className="create-event-space-label">
               Salle souhaitée<span className="create-event-required">*</span>
@@ -265,6 +266,7 @@ export default function CreateEventForm() {
               value={selectedSpace}
               onChange={(e) => setSelectedSpace(e.target.value)}
               required
+              disabled={isDisabled}
             >
               <option value="">Choisir une salle</option>
               {filteredSpaces.map((space) => (
@@ -275,7 +277,6 @@ export default function CreateEventForm() {
             </select>
           </div>
 
-          {/* Créneau */}
           <div className="create-event-slot-field">
             <label htmlFor="slot" className="create-event-slot-label">
               Créneau souhaité<span className="create-event-required">*</span>
@@ -286,6 +287,7 @@ export default function CreateEventForm() {
               value={selectedTimeSlot}
               onChange={(e) => setSelectedTimeSlot(e.target.value)}
               required
+              disabled={isDisabled}
             >
               <option value="">Choisir un créneau</option>
               {slot.map((timeSlot) => (
@@ -297,10 +299,9 @@ export default function CreateEventForm() {
           </div>
         </div>
 
-        {/* Image */}
         <div className="create-event-image-field">
           <label htmlFor="image" className="create-event-image-label">
-            Image de l'événement<span className="create-event-required">*</span>
+            Image de l'événement
           </label>
           <label htmlFor="image" className="create-event-image-upload-label">
             <span className="create-event-image-upload-icon">🖼️</span>
@@ -317,12 +318,11 @@ export default function CreateEventForm() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setImageFile(e.target.files?.[0] ?? null)
               }
-              required
+              disabled={isDisabled}
             />
           </label>
         </div>
 
-        {/* Description */}
         <div className="create-event-description-field">
           <label
             htmlFor="description"
@@ -339,11 +339,15 @@ export default function CreateEventForm() {
             placeholder="Décrivez votre événement, son objectif, son public cible…"
             rows={4}
             required
+            disabled={isDisabled}
           />
         </div>
 
-        {/* Bouton */}
-        <button type="submit" className="create-event-submit-button">
+        <button
+          type="submit"
+          className="create-event-submit-button"
+          disabled={isDisabled}
+        >
           <span className="create-event-submit-icon">→</span>
           Envoyer ma demande
         </button>

@@ -8,7 +8,12 @@ function InvoicePage() {
 
   if (!invoice) return <p className="invoice-page__loading">Chargement...</p>;
 
-  const subtotal = invoice.quantity * invoice.price_unit;
+  const priceUnit =
+    invoice.payment_status === "pending"
+      ? invoice.space_price_unit
+      : invoice.activity_price_unit;
+
+  const subtotal = invoice.quantity * priceUnit;
   const discount = subtotal - Number(invoice.total_price);
 
   return (
@@ -26,7 +31,12 @@ function InvoicePage() {
             <p className="invoice-page__ref-date">
               Date : {invoice.start_date.slice(0, 10)}
             </p>
-            <p className="invoice-page__ref-status">Statut : Payé</p>
+            <p className="invoice-page__ref-status">
+              Statut :{" "}
+              {invoice.payment_status === "paid"
+                ? "Payé"
+                : "En attente de paiement sur place"}
+            </p>
           </div>
         </header>
 
@@ -36,7 +46,7 @@ function InvoicePage() {
             <p className="invoice-page__party-info">
               Le Local
               <br />
-              12 rue de la République
+              14 rue de la République
               <br />
               75011 Paris
               <br />
@@ -68,7 +78,7 @@ function InvoicePage() {
               <td>{invoice.space_name}</td>
               <td>{invoice.start_date.slice(0, 10)}</td>
               <td>{invoice.quantity}</td>
-              <td>{Number(invoice.price_unit).toFixed(2)} €</td>
+              <td>{Number(priceUnit).toFixed(2)} €</td>
               <td>{subtotal.toFixed(2)} €</td>
             </tr>
           </tbody>
@@ -89,8 +99,8 @@ function InvoicePage() {
         </div>
 
         <footer className="invoice-page__footer">
-          Le Local · 12 rue de la République, 75011 Paris · contact@lelocal.fr ·
-          SIRET 000 000 000 00000
+          Le Local · 14 rue de la République, 75011 Paris · contact@lelocal.fr ·
+          SIRET 123 265 958 00001
         </footer>
 
         <button

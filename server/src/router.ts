@@ -55,6 +55,22 @@ router.get(
   authMiddleware.requireAuth,
   dashboardClientActions.readInvoice,
 );
+
+// *************************************************************************
+// Event requests (client) - Before :userID road
+router.get(
+  "/api/dashboard/client/event-requests",
+  authMiddleware.requireAuth,
+  dashboardClientActions.browseEventRequests,
+);
+
+router.post(
+  "/api/dashboard/client/event-requests",
+  authMiddleware.requireAuth,
+  dashboardClientActions.addEventRequest,
+);
+// *************************************************************************
+
 // 1.past events the user attended
 router.get(
   "/api/dashboard/client/:userId/events/past",
@@ -108,6 +124,11 @@ router.get(
   authMiddleware.requireAdmin,
   dasboardAdminActions.browseAdminStats,
 );
+router.get(
+  "/api/dashboard/admin/occupancy-trend",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminOccupancyTrend,
+);
 
 router.get(
   "/api/dashboard/admin/bookings",
@@ -119,6 +140,18 @@ router.get(
   "/api/dashboard/admin/claims",
   authMiddleware.requireAdmin,
   dasboardAdminActions.browseClaims,
+);
+
+router.get(
+  "/api/dashboard/admin/event-requests",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.browseAdminEventRequests,
+);
+// patch = partial update
+router.patch(
+  "/api/dashboard/admin/event-requests/:activityId",
+  authMiddleware.requireAdmin,
+  dasboardAdminActions.updateEventRequest,
 );
 
 /* ************************************************************************* */
