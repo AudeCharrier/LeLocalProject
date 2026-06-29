@@ -30,6 +30,7 @@ interface CardEventProps {
 
 function RegisterEventForm({ event, participants }: CardEventProps) {
   const user = useAuthContext();
+  const { setIsForm } = useEventModalContext();
 
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
@@ -39,10 +40,10 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
   });
 
   const { value, min, max, error } = quantityConfig;
-  const totalPrice = quantityConfig.value * event.price_unit;
   const [message, setMessage] = useState<string>("");
+  const [isError, setIsError] = useState<boolean>(false);
 
-  const { setIsForm } = useEventModalContext();
+  const totalPrice = quantityConfig.value * event.price_unit;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -68,15 +69,45 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
       if (response.status === 201) {
         setMessage("Inscription ajoutée au panier !");
+        setIsError(false);
         form.reset();
 
         // remettre la quantité à 1 après succès
         setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
-      } else {
-        setMessage("Une erreur est survenue, veuillez réessayer.");
+        return;
+      }
+      if (response.status === 409) {
+        const data = await response.json();
+        // data.remaining_slots contient le nombre réel de places renvoyé par ton back
+
+        if (data.remaining_slots === 0) {
+          setMessage("Nous sommes désolés, cet évènement est complet.");
+          setIsError(true);
+          // mettre à jour le min et max du formulaire en temps réel
+          setQuantityConfig((prev) => ({
+            ...prev,
+            value: data.remaining_slots,
+            min: data.remaining_slots,
+            max: data.remaining_slots,
+          }));
+        } else {
+          setMessage(
+            `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
+          );
+          setIsError(true);
+          // mettre à jour le max du formulaire en temps réel
+          setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
+        }
+        return;
+      }
+      if (response.status === 404) {
+        setMessage("Impossible de trouver cet évènement.");
+        setIsError(true);
+        return;
       }
     } catch (err) {
       setMessage("Impossible de contacter le serveur.");
+      setIsError(true);
     }
   }
   function decreaseQuantity() {
@@ -207,8 +238,8 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
                 type="button"
                 onClick={increaseQuantity}
                 className="btn-quantity"
-                aria-label="Ajouter une place" //accessibilité, lit le bouton
-                aria-disabled={value === max} // accessibilité : indique le blocage sans couper le JavaScript
+                aria-label="Ajouter une place"
+                aria-disabled={value === max}
               >
                 +
               </button>
@@ -221,14 +252,14 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         </div>
         {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
         {error === "MIN_ERROR" && (
-          <span className="register-form-span-places-msg">
+          <span className="event-form-confirmation-message event-message-error">
             Réservez au moins {min} place.
           </span>
         )}
 
         {error === "MAX_ERROR" && (
-          <span className="register-form-span-places-msg">
-            Vous ne pouvez pas réserver plus de {max} places.
+          <span className="event-form-confirmation-message event-message-error">
+            Désolé, il ne reste plus que {max} place(s) disponible(s).
           </span>
         )}
 
@@ -236,11 +267,16 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           type="submit"
           className="register-form-submit"
           aria-label="Valider mon inscription"
+          aria-disabled={max === 0}
         >
           Je m'inscris !
         </button>
         {message && (
-          <span className="register-form-confirmation-message">{message}</span>
+          <span
+            className={`event-form-confirmation-message ${isError ? "event-message-error" : "event-message-success"}`}
+          >
+            {message}
+          </span>
         )}
       </form>
     </article>
@@ -248,5 +284,3 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 }
 
 export default RegisterEventForm;
-
-//css du formulaire

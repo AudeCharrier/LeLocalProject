@@ -1,4 +1,6 @@
 import type { RequestHandler } from "express";
+import databaseLeLocal from "../../../database/client";
+import eventRepository from "../event/eventRepository";
 import cartRepository from "./cartRepository";
 
 // Browse — GET /api/cart/:userId
@@ -15,18 +17,51 @@ const browse: RequestHandler = async (req, res, next) => {
 
 // Add — POST /api/cart
 // Body attendu : { user_id, event_id, quantity, total_price }
-const add: RequestHandler = async (req, res, next) => {
+
+const addEvent: RequestHandler = async (req, res, next) => {
+  const connection = await databaseLeLocal.getConnection();
   try {
+    // middleware a déjà tout converti en nombres.
+    const { users_id, event_id, quantity, total_price } = req.body;
+
+    await connection.beginTransaction();
+
+    const remainingSlots = await eventRepository.readRemainingSlotsByEvent(
+      connection,
+      event_id,
+    );
+
+    if (remainingSlots === null) {
+      await connection.rollback();
+      res.sendStatus(404);
+      return;
+    }
+
+    if (quantity > remainingSlots) {
+      await connection.rollback();
+      res.status(409).json({ remaining_slots: remainingSlots });
+      return;
+    }
+
     const newItem = {
-      users_id: Number(req.body.users_id),
-      id_activity: Number(req.body.event_id),
-      quantity: Number(req.body.quantity) || 1,
-      total_price: Number(req.body.total_price),
+      users_id,
+      id_activity: event_id,
+      quantity,
+      total_price,
     };
-    const insertId = await cartRepository.create(newItem);
+
+    const insertId = await cartRepository.create(connection, newItem);
+    // ON COMMIT pour valider définitivement en BDD
+    await connection.commit();
+    // ON RÉPOND au front après le succès du commit
     res.status(201).json({ insertId });
   } catch (err) {
+    // Si ça plante n'importe où, on annule tout
+    await connection.rollback();
     next(err);
+  } finally {
+    // TRÈS IMPORTANT : On libère la connexion pour les autres utilisateurs
+    connection.release();
   }
 };
 
@@ -34,14 +69,15 @@ const add: RequestHandler = async (req, res, next) => {
 // Body attendu : { quantity }
 const edit: RequestHandler = async (req, res, next) => {
   try {
-    const cartItemId = Number(req.params.id);
-    const quantity = Number(req.body.quantity);
+    const cartItemId = Number(req.params.id); // À garder si tu ne valides pas req.params avec Joi
+    const { quantity } = req.body; // number validé avec joi
 
-    if (quantity < 1) {
+    //géré dans middleware
+    /*     if (quantity < 1) {
       res.sendStatus(400);
       return;
     }
-
+ */
     const affectedRows = await cartRepository.updateQuantity(
       cartItemId,
       quantity,
@@ -86,4 +122,4 @@ const destroyAll: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, add, edit, destroy, destroyAll };
+export default { browse, addEvent, edit, destroy, destroyAll };

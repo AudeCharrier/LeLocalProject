@@ -2,6 +2,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { useEventModalContext } from "../../hooks/useEventModalContext";
 import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 import "./CardEvent.css";
+import { useState } from "react";
 
 interface CardEventProps {
   event: {
@@ -32,6 +33,17 @@ function CardEvent({ event, participants }: CardEventProps) {
   const remaining = participants?.remaining_slots ?? event.capacity;
 
   const { isForm, setIsForm } = useEventModalContext();
+  const [message, setMessage] = useState<string>("");
+
+  function handleRegisterClick() {
+    if (remaining === 0) {
+      setMessage("Désolé, cet évènement est complet");
+      setIsForm(false);
+    } else {
+      setMessage("");
+      setIsForm(true);
+    }
+  }
   return (
     <>
       <article className="card-event-container">
@@ -84,16 +96,23 @@ function CardEvent({ event, participants }: CardEventProps) {
 
           <button
             type="button"
-            className="sr-only card-btn-register"
-            onClick={() => {
-              setIsForm(true);
-            }}
+            className="card-btn-register"
+            aria-label={`S'inscrire à ${event.name}`}
+            aria-disabled={remaining === 0}
+            onClick={handleRegisterClick}
           >
             S'inscrire
           </button>
         </div>
+        {message && (
+          <span className="event-form-confirmation-message event-message-error">
+            {message}
+          </span>
+        )}
       </article>
-      {isForm && <RegisterEventForm event={event} />}
+      {isForm && (
+        <RegisterEventForm event={event} participants={participants} />
+      )}
     </>
   );
 }

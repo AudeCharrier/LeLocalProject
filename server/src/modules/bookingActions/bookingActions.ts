@@ -3,6 +3,7 @@ import databaseLeLocal from "../../../database/client";
 import activityRepository from "../activity/activityRepository";
 import spaceRepository from "../space/spaceRepository";
 import bookingRepository from "./bookingRepository";
+
 type BookingPayload = {
   space_id: number;
   time_slot_id: number | null;
