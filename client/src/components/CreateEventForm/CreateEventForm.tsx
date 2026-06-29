@@ -10,8 +10,8 @@ export default function CreateEventForm() {
   const spaces = useSpaces();
   const slot = useTimeSlot();
   const [participants, setParticipants] = useState<number>(0);
+  const [priceUnit, setPriceUnit] = useState<number>(0);
   const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
   const [nom, setNom] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [titre, setTitre] = useState<string>("");
@@ -59,10 +59,11 @@ export default function CreateEventForm() {
           name: titre,
           description,
           start_date: startDate,
-          end_date: endDate,
+          end_date: startDate,
           space_id: Number(selectedSpace),
           time_slot_id: Number(selectedTimeSlot),
           url_image: null,
+          price_unit: priceUnit,
         }),
       });
 
@@ -85,7 +86,6 @@ export default function CreateEventForm() {
     setTimeout(() => {
       setDescription("");
       setEmail("");
-      setEndDate("");
       setImageFile(null);
       setMessage(null);
       setNom("");
@@ -198,7 +198,7 @@ export default function CreateEventForm() {
         <div className="create-event-form-row">
           <div className="create-event-date-field">
             <label htmlFor="startDate" className="create-event-date-label">
-              Date de début<span className="create-event-required">*</span>
+              Date<span className="create-event-required">*</span>
             </label>
             <div className="create-event-date-input-wrapper">
               <span className="create-event-date-icon">📅</span>
@@ -210,24 +210,7 @@ export default function CreateEventForm() {
                 onChange={(e) => setStartDate(e.target.value)}
                 required
                 disabled={isDisabled}
-              />
-            </div>
-          </div>
-
-          <div className="create-event-date-field">
-            <label htmlFor="endDate" className="create-event-date-label">
-              Date de fin<span className="create-event-required">*</span>
-            </label>
-            <div className="create-event-date-input-wrapper">
-              <span className="create-event-date-icon">📅</span>
-              <input
-                id="endDate"
-                className="create-event-date-input"
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                required
-                disabled={isDisabled}
+                min={new Date().toISOString().slice(0, 10)}
               />
             </div>
           </div>
@@ -248,12 +231,28 @@ export default function CreateEventForm() {
                 type="number"
                 min={1}
                 max={300}
-                value={participants}
+                value={participants || ""}
                 onChange={(e) => setParticipants(Number(e.target.value))}
                 disabled={isDisabled}
               />
             </div>
           </div>
+        </div>
+
+        <div className="create-event-price-field">
+          <label htmlFor="priceUnit" className="create-event-price-label">
+            Prix du ticket (€)
+          </label>
+          <input
+            id="priceUnit"
+            className="create-event-price-input"
+            type="number"
+            min={0}
+            value={priceUnit || ""}
+            onChange={(e) => setPriceUnit(Number(e.target.value))}
+            placeholder="0 = gratuit"
+            disabled={isDisabled}
+          />
         </div>
 
         <div className="create-event-form-row">
