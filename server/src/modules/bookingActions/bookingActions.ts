@@ -107,7 +107,7 @@ const add: RequestHandler = async (req, res, next) => {
       });
 
       const [result] = await connection.query(
-        `INSERT INTO cart (quantity, total_price, effective_price, users_id, id_activity)
+        `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
  VALUES (?, ?, ?, ?, ?)`,
         [
           quantity,
@@ -153,9 +153,15 @@ const add: RequestHandler = async (req, res, next) => {
       });
 
       const [result] = await connection.query(
-        `INSERT INTO cart (quantity, total_price, users_id, id_activity)
-         VALUES (?, ?, ?, ?)`,
-        [quantity, body.total_price, body.users_id, activity.id],
+        `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
+ VALUES (?, ?, ?, ?, ?)`,
+        [
+          quantity,
+          body.total_price,
+          body.effective_price,
+          body.users_id,
+          activity.id,
+        ],
       );
 
       await connection.commit();
@@ -199,9 +205,15 @@ const add: RequestHandler = async (req, res, next) => {
     }
 
     const [result] = await connection.query(
-      `INSERT INTO cart (quantity, total_price, users_id, id_activity)
-       VALUES (?, ?, ?, ?)`,
-      [quantity, body.total_price, body.users_id, activity.id],
+      `INSERT INTO cart (quantity, total_price, price_unit, users_id, id_activity)
+ VALUES (?, ?, ?, ?, ?)`,
+      [
+        quantity,
+        body.total_price,
+        body.effective_price,
+        body.users_id,
+        activity.id,
+      ],
     );
 
     await connection.commit();
