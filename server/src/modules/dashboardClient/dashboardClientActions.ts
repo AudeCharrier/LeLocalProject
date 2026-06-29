@@ -153,6 +153,7 @@ const addEventRequest: RequestHandler = async (req, res, next) => {
       url_image:
         req.body.url_image ?? "/assets/images/events/default-event.webp",
       users_id: userId,
+      price_unit: Number(req.body.price_unit) ?? 0,
     });
     res.status(201).json({ insertId });
   } catch (err) {

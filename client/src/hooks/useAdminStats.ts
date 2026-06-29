@@ -8,7 +8,7 @@ type AdminStats = {
   claims_count: number;
 };
 
-function useAdminStats() {
+function useAdminStats(selectedDate: string) {
   const [stats, setStats] = useState<AdminStats>({
     occupancy_rate: 0,
     bookings_count: 0,
@@ -17,14 +17,14 @@ function useAdminStats() {
   });
 
   useEffect(() => {
-    apiFetch("/api/dashboard/admin/stats")
+    apiFetch(`/api/dashboard/admin/stats?date=${selectedDate}`)
       .then((response) => response.json())
       .then((data) => {
         if (data && typeof data === "object" && !Array.isArray(data)) {
           setStats(data);
         }
       });
-  }, []);
+  }, [selectedDate]);
 
   return stats;
 }

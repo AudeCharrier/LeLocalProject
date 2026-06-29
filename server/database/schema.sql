@@ -136,6 +136,7 @@ CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `quantity` int DEFAULT NULL,
   `total_price` decimal(10,2) DEFAULT NULL,
+  `price_unit` decimal(10,2) DEFAULT NULL,
   `users_id` int NOT NULL,
   `id_activity` int DEFAULT NULL,
   PRIMARY KEY (`id`),

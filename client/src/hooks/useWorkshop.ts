@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import type { Activity } from "../types/activity";
+import type { Space } from "../types/space";
 import { apiFetch } from "./apiFetch";
 
 function useWorkshop() {
-  const [workshop, setWorkshop] = useState<Activity[]>([]);
+  const [workshop, setWorkshop] = useState<Space[]>([]);
   useEffect(() => {
-    apiFetch("/api/activity")
+    apiFetch("/api/spaces")
 
       .then((res) => res.json())
       .then((data) => setWorkshop(data));

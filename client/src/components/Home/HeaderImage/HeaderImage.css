@@ -61,12 +61,18 @@
         background-color: var(--color-primary);
         color: var(--color-bg-white);
         border: none;
+        &:hover {
+          background-color: var(--color-primary-dark);
+        }
       }
 
       .hero-button-secondary {
         background-color: transparent;
         color: var(--color-bg-white);
         border: var(--radius-sm) solid var(--color-border);
+        &:hover {
+          background-color: rgba(128, 128, 128, 0.252);
+        }
       }
     }
   }
