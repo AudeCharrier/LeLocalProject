@@ -1,5 +1,9 @@
 import "./WorkshopOfTheWeek.css";
-import { useWorkshopModalContext } from "../../../hooks/useWorkshopModalContext";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
+import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
 
 import type { Space } from "../../../types/space";
 
@@ -8,19 +12,12 @@ interface WorkshopOfTheWeekProps {
 }
 
 function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
-  const { setSelectedWorkshopId } = useWorkshopModalContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!workshop) return null;
 
   return (
     <section className="center-of-workshop-page">
-      <div className="filter-bar-row">
-        <select className="sort-select">
-          <option>Trier par : Date</option>
-          <option>Trier par : Prix</option>
-        </select>
-      </div>
-
       <div className="workshop-of-the-week">
         <h1 className="title-workshop-section">ATELIER DE LA SEMAINE</h1>
 
@@ -54,24 +51,12 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
               <span>📍 {workshop.space_name}</span>
             </div>
 
-            <div className="teacher-for-the-workshop-of-the-week">
-              <div className="teacher-avatar">LR</div>
-              <div className="teacher-info">
-                <span className="name-of-the-teacher-of-the-week">
-                  Lucie Rambaud
-                </span>
-                <span className="job-and-experience-of-the-teacher-of-the-week">
-                  Céramiste · 12 ans d'expérience · 4,9/5 (38 avis)
-                </span>
-              </div>
-            </div>
-
             <div className="btn-and-price-for-workshop-of-the-week">
               <div className="btn-of-the-week">
                 <button
                   type="button"
                   className="btn-reserve"
-                  onClick={() => setSelectedWorkshopId(workshop.id)}
+                  onClick={() => setIsModalOpen(true)}
                 >
                   Réserver ma place
                 </button>
@@ -81,6 +66,23 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
           </div>
         </div>
       </div>
+      {createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <SpaceModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <SpaceModalContent
+                spaces={[workshop]}
+                categoryName={workshop.space_category}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </SpaceModal>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
     </section>
   );
 }
