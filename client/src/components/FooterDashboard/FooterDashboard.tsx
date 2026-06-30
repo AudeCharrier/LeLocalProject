@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-
 import "./FooterDashboard.css";
 
 function FooterDashboard() {
@@ -11,57 +9,30 @@ function FooterDashboard() {
             <h3 className="footer-dashboard-brand-name">Le Local</h3>
             <div className="footer-dashboard-brand-details">
               <p>14 rue de la République, Paris 11e</p>
-              <Link to="mailto:contact@lelocal.coop">contact@lelocal.fr</Link>
+              <p>contact@lelocal.fr</p>
             </div>
           </div>
 
           <div className="footer-dashboard-links">
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Espaces</p>
-              <Link className="footer-dashboard-link" to="/spaces/coworking">
-                Coworking
-              </Link>
-              <Link className="footer-dashboard-link" to="/spaces/studios">
-                Studios
-              </Link>
-              <Link className="footer-dashboard-link" to="/spaces/rooms">
-                Salles
-              </Link>
+              <p className="footer-dashboard-link">Coworking</p>
+              <p className="footer-dashboard-link">Studios</p>
+              <p className="footer-dashboard-link">Salles</p>
             </div>
 
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Ateliers</p>
-              <Link
-                className="footer-dashboard-link"
-                to="/workshops/3d-printing"
-              >
-                Impression 3D
-              </Link>
-              <Link
-                className="footer-dashboard-link"
-                to="/workshops/electronics"
-              >
-                Électronique
-              </Link>
-              <Link
-                className="footer-dashboard-link"
-                to="/workshops/woodworking"
-              >
-                Menuiserie
-              </Link>
+              <p className="footer-dashboard-link">Impression 3D</p>
+              <p className="footer-dashboard-link">Électronique</p>
+              <p className="footer-dashboard-link">Menuiserie</p>
             </div>
 
             <div className="footer-dashboard-column">
               <p className="footer-dashboard-column-title">Liens</p>
-              <Link className="footer-dashboard-link" to="/about">
-                À propos
-              </Link>
-              <Link className="footer-dashboard-link" to="/membership">
-                Adhésion
-              </Link>
-              <Link className="footer-dashboard-link" to="/contact">
-                Contact
-              </Link>
+              <p className="footer-dashboard-link">À propos</p>
+              <p className="footer-dashboard-link">Adhésion</p>
+              <p className="footer-dashboard-link">Contact</p>
             </div>
           </div>
         </section>

@@ -38,15 +38,6 @@
     font-family: var(--font-body);
     font-size: var(--text-base);
     line-height: 1.2;
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:hover {
-        color: var(--color-text-on-dark);
-      }
-    }
   }
 
   .footer-dashboard-links {
@@ -73,15 +64,9 @@
 
   .footer-dashboard-link {
     color: rgba(255, 255, 255, 0.62);
-    text-decoration: none;
     font-family: var(--font-body);
     font-size: var(--text-base);
     line-height: 1.3;
-    transition: var(--transition-color);
-
-    &:hover {
-      color: var(--color-text-on-dark);
-    }
   }
 
   .footer-dashboard-divider {
