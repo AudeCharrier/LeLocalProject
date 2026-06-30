@@ -24,13 +24,13 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
         <div className="workshop-of-the-week-card-parent">
           <div
             className="box-img-card-workshop-of-the-week"
-            // style={{
-            //   backgroundImage: workshop.url_image
-            //     ? `url(${workshop.url_image})`
-            //     : undefined,
-            //   backgroundSize: "cover",
-            //   backgroundPosition: "center",
-            // }}
+            style={{
+              backgroundImage: workshop.url_image
+                ? `url(${import.meta.env.VITE_API_URL}${workshop.url_image})`
+                : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
           >
             <span className="badge-level">TOUS NIVEAUX</span>
           </div>
@@ -43,10 +43,6 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
             </div>
 
             <div className="about-workshop-of-the-week">
-              {/* <span>
-                ⏱ {workshop.slot} – {formatHour(workshop.start_hour)} -
-                {formatHour(workshop.end_hour)}(1 pause)
-              </span> */}
               <span>👤 {workshop.capacity} participants max</span>
               <span>📍 {workshop.space_name}</span>
             </div>
