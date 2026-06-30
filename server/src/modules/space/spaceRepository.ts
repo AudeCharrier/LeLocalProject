@@ -55,17 +55,23 @@ class SpaceRepository {
    * Utilisé pour les espaces "open" (plusieurs places par créneau).
    */
   async countBookedSeats(
-    connection: PoolConnection,
+    connection: Queryable,
     spaceId: number,
     date: string,
     timeSlotId: number,
   ): Promise<number> {
+    const overlappingSlotIds = this.getOverlappingSlotIds(timeSlotId);
+
     const [rows] = await connection.query<Rows>(
-      `SELECT COALESCE(SUM(b.quantity), 0) AS booked
-       FROM activity a
-       LEFT JOIN cart b ON b.id_activity = a.id
-       WHERE a.space_id = ? AND a.start_date = ? AND a.time_slot_id = ?`,
-      [spaceId, date, timeSlotId],
+      `SELECT COALESCE(SUM(q.quantity), 0) AS booked
+     FROM activity a
+     LEFT JOIN (
+       SELECT id_activity, quantity FROM cart
+       UNION ALL
+       SELECT id_activity, quantity FROM booking
+     ) q ON q.id_activity = a.id
+     WHERE a.space_id = ? AND DATE(a.start_date) = ? AND a.time_slot_id IN (?)`,
+      [spaceId, date, overlappingSlotIds],
     );
     return Number((rows[0] as { booked: number })?.booked) || 0;
   }
@@ -87,8 +93,8 @@ class SpaceRepository {
        FROM activity a
        LEFT JOIN cart c ON c.id_activity = a.id
        WHERE a.space_id = ?
-         AND a.start_date = ?
-         AND a.time_slot_id IN (?)`,
+  AND DATE(a.start_date) = ?
+  AND a.time_slot_id IN (?)`,
       [spaceId, date, overlappingSlotIds],
     );
     const booked = Number((rows[0] as { booked: number })?.booked) || 0;
@@ -131,8 +137,8 @@ class SpaceRepository {
        FROM activity a
        LEFT JOIN cart c ON c.id_activity = a.id
        WHERE a.space_id = ?
-         AND a.start_date < ?
-         AND ? < a.end_date`,
+  AND DATE(a.start_date) < ?
+  AND ? < DATE(a.end_date)`,
       [spaceId, endDate, startDate],
     );
     const booked = Number((rows[0] as { booked: number })?.booked) || 0;

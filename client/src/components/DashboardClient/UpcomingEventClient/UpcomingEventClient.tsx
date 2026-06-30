@@ -44,6 +44,9 @@ function UpcomingEventClient() {
                   {event.start_date.slice(0, 10)}
                 </span>
               </div>
+              <span className="upcoming-event-client__price">
+                {event.total_price} €
+              </span>
             </li>
           ))}
         </ul>

@@ -10,8 +10,8 @@ function FooterDashboard() {
           <div className="footer-dashboard-brand">
             <h3 className="footer-dashboard-brand-name">Le Local</h3>
             <div className="footer-dashboard-brand-details">
-              <p>14 rue des Faiseurs, Paris 11e</p>
-              <Link to="mailto:contact@lelocal.coop">contact@lelocal.coop</Link>
+              <p>14 rue de la République, Paris 11e</p>
+              <Link to="mailto:contact@lelocal.coop">contact@lelocal.fr</Link>
             </div>
           </div>
 
@@ -70,7 +70,7 @@ function FooterDashboard() {
 
         <section className="footer-dashboard-bottom">
           <p className="footer-dashboard-legal">
-            © 2026 Le Local — Association loi 1901 · Mentions légales
+            © 2019 Le Local — Association loi 1901 · Mentions légales
           </p>
         </section>
       </div>

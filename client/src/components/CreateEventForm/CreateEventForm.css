@@ -160,6 +160,7 @@
     & .create-event-space-field,
     & .create-event-slot-field,
     & .create-event-image-field,
+    & .create-event-price-field,
     & .create-event-description-field {
       display: flex;
       flex-direction: column;
@@ -190,6 +191,7 @@
     & .create-event-date-input,
     & .create-event-participants-input,
     & .create-event-space-select,
+    & .create-event-price-input,
     & .create-event-slot-select {
       width: 100%;
       padding: 1rem 1rem;

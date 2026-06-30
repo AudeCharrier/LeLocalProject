@@ -170,7 +170,7 @@ class DashboardClientRepository {
       JOIN space s ON a.space_id = s.id
       JOIN users u ON b.users_id = u.id
       WHERE b.users_id = ?
-      ORDER BY a.start_date DESC`,
+      ORDER BY b.id DESC`,
       [userId],
     );
     return rows as BookingHistory[];
@@ -206,7 +206,7 @@ class DashboardClientRepository {
   async readStats(userId: number) {
     const [rows] = await databaseClient.query<Rows>(
       `SELECT
-      COUNT(DISTINCT CASE WHEN s.space_type != 'Evenements' THEN b.id END) AS bookings_count,
+      COUNT(DISTINCT b.id) AS bookings_count,
       COUNT(DISTINCT CASE WHEN s.space_type = 'Evenements' THEN b.id END) AS events_count,
       SUM(b.total_price) AS total_spent
     FROM booking b
@@ -271,12 +271,13 @@ class DashboardClientRepository {
     time_slot_id: number;
     url_image: string | null;
     users_id: number;
+    price_unit: number;
   }) {
     const [result] = await databaseClient.query<Result>(
       `INSERT INTO activity (
       name, description, start_date, end_date,
-      space_id, time_slot_id, url_image, users_id, status
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')`,
+      space_id, time_slot_id, url_image, users_id, status, price_unit
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`,
       [
         event.name,
         event.description,
@@ -286,6 +287,7 @@ class DashboardClientRepository {
         event.time_slot_id,
         event.url_image,
         event.users_id,
+        event.price_unit,
       ],
     );
     return result.insertId;

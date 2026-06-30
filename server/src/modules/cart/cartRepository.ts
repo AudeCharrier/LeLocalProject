@@ -1,4 +1,6 @@
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
+// Une connexion "Queryable" peut être soit le pool global, soit une connexion dédiée (utilisée dans une transaction, ex: readForUpdate)
+import type { PoolConnection } from "mysql2/promise";
 import databaseClient from "../../../database/client";
 
 type CartItem = {
@@ -15,12 +17,13 @@ const readAll = async (userId: number) => {
       c.id,
       c.quantity,
       c.price_unit,
+      c.total_price,
       a.id AS id_activity,
       a.name,
       a.description,
       a.start_date,
       a.end_date,
-
+      a.price_unit AS price_unit,
       s.id AS id_space,
       s.space_name,
       s.url_image,
@@ -44,22 +47,25 @@ const readAll = async (userId: number) => {
   return rows;
 };
 
-const create = async (item: Omit<CartItem, "id">) => {
-  const [existing] = await databaseClient.query<RowDataPacket[]>(
+const create = async (
+  connection: PoolConnection,
+  item: Omit<CartItem, "id">,
+) => {
+  const [existing] = await connection.query<RowDataPacket[]>(
     "SELECT id, quantity FROM cart WHERE users_id = ? AND id_activity = ?",
     [item.users_id, item.id_activity],
   );
 
   if (existing.length > 0) {
     const newQuantity = existing[0].quantity + item.quantity;
-    await databaseClient.query<ResultSetHeader>(
+    await connection.query<ResultSetHeader>(
       "UPDATE cart SET quantity = ? WHERE id = ?",
       [newQuantity, existing[0].id],
     );
     return existing[0].id;
   }
 
-  const [result] = await databaseClient.query<ResultSetHeader>(
+  const [result] = await connection.query<ResultSetHeader>(
     "INSERT INTO cart (users_id, id_activity, quantity, total_price) VALUES (?, ?, ?, ?)",
     [item.users_id, item.id_activity, item.quantity, item.total_price],
   );
