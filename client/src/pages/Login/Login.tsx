@@ -125,10 +125,6 @@ export default function Login() {
                 </button>
               </div>
             </div>
-            {/* faire la route et la page  */}
-            <Link to="/forgot-password" className="auth-forgot">
-              Mot de passe oublié ?
-            </Link>
 
             <label className="auth-remember" htmlFor="remember">
               <input

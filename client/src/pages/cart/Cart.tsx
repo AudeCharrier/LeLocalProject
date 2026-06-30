@@ -158,6 +158,7 @@ function Cart() {
                   type="button"
                   className="cart-delete-button"
                   onClick={() => deleteItem(item.id)}
+                  aria-label="Supprimer l'article"
                 >
                   <Trash2 />
                 </button>
