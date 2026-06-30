@@ -66,44 +66,64 @@ function Events() {
 
   return (
     <>
-      <section className="events-section-hero">
+      <header className="events-section-hero">
         <FirstArticle pageData={EventFirstArticle} />
-      </section>
-      <section className="events-section-agenda">
+      </header>
+
+      <section className="events-big-section">
         <div className="events-big-title">
           <h1 className="events-page-title">Nos évènements</h1>
           <hr className="events-page-hr" />
         </div>
         <p className="events-text">
-          Au Local, il se passe toujours quelque chose. Conférences, rencontres,
-          moments conviviaux : notre programmation évolue au fil des envies et
-          des initiatives de chacun. Venez découvrir, apprendre, partager ou
-          simplement passer un bon moment.
+          Conférences, ateliers, concerts, expositions ou rencontres conviviales
+          : découvrez la programmation du Local et trouvez votre prochain
+          rendez-vous.
         </p>
-        <h2 className="events-title">Agenda</h2>
-        <p className="events-text">
-          Consultez notre agenda et choisissez une date pour découvrir les
-          événements prévus. Planifiez votre visite à l'avance ou cherchez une
-          activité de dernière minute, retrouvez facilement ce qui vous attend
-          au Local.
-        </p>
-        <div className="events-calendar-container">
-          {/* Calendrier centré qui ne s'étire plus */}
-          <div className="calendar-wrapper">
-            <Calendar
-              onChange={(value) => {
-                if (value instanceof Date) {
-                  chooseDate(value);
-                }
-              }}
-              value={selectedDate}
-              tileClassName={dynamicTileClassName}
-            />
-            {/*tileClassName est une propriété de calendar pour le css*/}
+        <section className="events-section-agenda">
+          <div className="events-div-icon-title">
+            <span className="events-icon-wrapper events-icon-calendar">
+              blabla
+            </span>
+            <div>
+              <h2 className="events-title">Agenda</h2>
+              <p className="events-text">
+                Choisissez une date pour découvrir les événements. Les jours
+                marqués (*) comportent au moins un événement.
+              </p>
+            </div>
           </div>
-          {/* Structure du Carrousel avec ses contrôles */}
-          <CarrousselEvents events={eventsOfTheDay} />
-        </div>
+          <div className="events-calendar-carrousel-container">
+            {/* Calendrier centré qui ne s'étire plus */}
+            <div className="events-calendar-wrapper">
+              <Calendar
+                onChange={(value) => {
+                  if (value instanceof Date) {
+                    chooseDate(value);
+                  }
+                }}
+                value={selectedDate}
+                tileClassName={dynamicTileClassName}
+              />
+              {/*tileClassName est une propriété de calendar pour le css*/}
+            </div>
+            <div className="events-details-panel">
+              {eventsOfTheDay.length === 0 ? (
+                <div className="events-empty-state">
+                  <span className="events-icon-wrapper events-icon-empty">
+                    Ton icône SVG de calendrier vide
+                  </span>
+                  <p>Aucun événement ce jour.</p>
+                  <p>Sélectionnez une date marquée (*) dans le calendrier.</p>
+                </div>
+              ) : (
+                <div className="carousel-container">
+                  <CarrousselEvents events={eventsOfTheDay} />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
       </section>
       <section className="events-section-upcoming">
         <div className="events-div-upcoming-events">

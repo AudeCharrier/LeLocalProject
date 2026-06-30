@@ -83,9 +83,16 @@
   }
 }
 
-.events-section-agenda {
+.events-big-section {
   padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
+  .events-section-agenda {
+    background-color: var(--color-bg-1);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  }
 }
 .events-section-upcoming {
   padding: var(--space-10) var(--space-20);
@@ -113,17 +120,38 @@
   padding-bottom: var(--space-3);
   line-height: 1.65;
 }
+.events-div-icon-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+  .events-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ebdcd7; /* Fond de l'icône légèrement plus sombre */
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+  }
+}
 
 /* ============== section AGENDA ========== */
 
-.events-calendar-container {
-  display: flex;
+.events-calendar-carroussel-container {
+  /*  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-8); */
   width: 100%;
-  .calendar-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-top: 20px;
+  .events-calendar-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -131,8 +159,31 @@
     width: 100%;
     max-width: 450px;
   }
+  .events-details-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    border: 1px solid #e1d3ce;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 30px;
+    min-height: 350px;
+    .events-empty-state {
+      text-align: center;
+      max-width: 320px;
+      margin: auto;
+      .events-icon-wrapper {
+        width: 70px;
+        height: 70px;
+        background-color: #ebdcd7;
+        margin: 0 auto 20px auto;
+      }
+    }
+  }
 }
-
+/*FATU REGLER EVENTS ICON WRAPPER QUI EST PAS PAREIL SELON
+QUE C POUR LE TITRE OU POUR AUCUN EVENT EMPTY STATE*/
 /* =================== section upcoming events ===================== */
 
 .events-grid-container {
