@@ -5,7 +5,7 @@ import { apiFetch } from "./apiFetch";
 function useWorkshop() {
   const [workshop, setWorkshop] = useState<Space[]>([]);
   useEffect(() => {
-    apiFetch("/api/spaces")
+    apiFetch("/api/spaces?category=Atelier")
 
       .then((res) => res.json())
       .then((data) => setWorkshop(data));
