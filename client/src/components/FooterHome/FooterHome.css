@@ -120,15 +120,6 @@
     font-family: var(--font-body);
     font-size: var(--text-base);
     line-height: var(--leading-normal);
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:hover {
-        color: var(--color-text-on-dark);
-      }
-    }
   }
 
   .footer-home-links {
@@ -155,15 +146,9 @@
 
   .footer-home-link {
     color: rgba(255, 255, 255, 0.62);
-    text-decoration: none;
     font-family: var(--font-body);
     font-size: var(--text-base);
     line-height: var(--leading-normal);
-    transition: var(--transition-color);
-
-    &:hover {
-      color: var(--color-text-on-dark);
-    }
   }
 
   .footer-home-divider-bottom {

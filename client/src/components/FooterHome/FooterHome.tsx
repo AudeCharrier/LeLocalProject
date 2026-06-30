@@ -1,5 +1,3 @@
-import { Link } from "react-router";
-
 import "./FooterHome.css";
 
 function FooterHome() {
@@ -13,18 +11,12 @@ function FooterHome() {
           </h2>
 
           <div className="footer-home-actions">
-            <Link
-              className="footer-home-button footer-home-button-primary"
-              to="/signup"
-            >
+            <span className="footer-home-button footer-home-button-primary">
               Créer un compte
-            </Link>
-            <Link
-              className="footer-home-button footer-home-button-secondary"
-              to="/events"
-            >
+            </span>
+            <span className="footer-home-button footer-home-button-secondary">
               Voir les événements
-            </Link>
+            </span>
           </div>
         </section>
 
@@ -35,48 +27,30 @@ function FooterHome() {
             <h3 className="footer-home-brand-name">Le Local</h3>
             <div className="footer-home-brand-details">
               <p>14 rue de la République, Paris 11e</p>
-              <Link to="mailto:contact@lelocal.coop">contact@lelocal.fr</Link>
+              <p>contact@lelocal.fr</p>
             </div>
           </div>
 
           <div className="footer-home-links">
             <div className="footer-home-column">
               <p className="footer-home-column-title">Espaces</p>
-              <Link className="footer-home-link" to="/spaces/coworking">
-                Coworking
-              </Link>
-              <Link className="footer-home-link" to="/spaces/studios">
-                Studios
-              </Link>
-              <Link className="footer-home-link" to="/spaces/rooms">
-                Salles
-              </Link>
+              <p className="footer-home-link">Coworking</p>
+              <p className="footer-home-link">Studios</p>
+              <p className="footer-home-link">Salles</p>
             </div>
 
             <div className="footer-home-column">
               <p className="footer-home-column-title">Ateliers</p>
-              <Link className="footer-home-link" to="/workshops/3d-printing">
-                Impression 3D
-              </Link>
-              <Link className="footer-home-link" to="/workshops/electronics">
-                Électronique
-              </Link>
-              <Link className="footer-home-link" to="/workshops/woodworking">
-                Menuiserie
-              </Link>
+              <p className="footer-home-link">Impression 3D</p>
+              <p className="footer-home-link">Électronique</p>
+              <p className="footer-home-link">Menuiserie</p>
             </div>
 
             <div className="footer-home-column">
               <p className="footer-home-column-title">Liens</p>
-              <Link className="footer-home-link" to="/about">
-                À propos
-              </Link>
-              <Link className="footer-home-link" to="/membership">
-                Adhésion
-              </Link>
-              <Link className="footer-home-link" to="/contact">
-                Contact
-              </Link>
+              <p className="footer-home-link">À propos</p>
+              <p className="footer-home-link">Adhésion</p>
+              <p className="footer-home-link">Contact</p>
             </div>
           </div>
         </section>
