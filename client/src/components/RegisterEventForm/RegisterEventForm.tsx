@@ -67,23 +67,25 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         body: JSON.stringify(eventBookingPayload),
       });
 
-      if (response.status === 201) {
-        setMessage("Inscription ajoutée au panier !");
-        setIsError(false);
-        form.reset();
-
-        // remettre la quantité à 1 après succès
-        setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
+      if (response.status === 401) {
+        const errorData = await response.json();
+        setMessage(errorData.message);
+        setIsError(true);
         return;
       }
+
+      if (response.status === 404) {
+        setMessage("Impossible de trouver cet évènement.");
+        setIsError(true);
+        return;
+      }
+
       if (response.status === 409) {
         const data = await response.json();
-        // data.remaining_slots contient le nombre réel de places renvoyé par ton back
 
         if (data.remaining_slots === 0) {
           setMessage("Nous sommes désolés, cet évènement est complet.");
           setIsError(true);
-          // mettre à jour le min et max du formulaire en temps réel
           setQuantityConfig((prev) => ({
             ...prev,
             value: data.remaining_slots,
@@ -95,16 +97,22 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             `Désolé, il ne reste plus que ${data.remaining_slots} place(s) disponible(s).`,
           );
           setIsError(true);
-          // mettre à jour le max du formulaire en temps réel
           setQuantityConfig((prev) => ({ ...prev, max: data.remaining_slots }));
         }
         return;
       }
-      if (response.status === 404) {
-        setMessage("Impossible de trouver cet évènement.");
-        setIsError(true);
+
+      if (response.status === 201) {
+        setMessage("Inscription ajoutée au panier !");
+        setIsError(false);
+        form.reset();
+        setQuantityConfig((prev) => ({ ...prev, value: 1, error: null }));
         return;
       }
+
+      // si le back renvoie un code inattendu (ex: 500)
+      setMessage("Une erreur inattendue est survenue.");
+      setIsError(true);
     } catch (err) {
       setMessage("Impossible de contacter le serveur.");
       setIsError(true);
