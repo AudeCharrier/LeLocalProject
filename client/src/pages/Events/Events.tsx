@@ -121,7 +121,7 @@ function Events() {
                   </p>
                 </>
               ) : (
-                <div className="events-carousel-container">
+                <div className="events-carroussel-container">
                   <CarrousselEvents events={eventsOfTheDay} />
                 </div>
               )}

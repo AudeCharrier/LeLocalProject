@@ -1,7 +1,7 @@
 /* =============== CALENDAR ====================*/
 .react-calendar {
-  background: var(--color-bg-card);
-  border: none;
+  background-color: var(--color-bg-light) !important; /*pour forcer le css par défaut de react*/
+  border: 3px solid var(--color-primary) !important;
   border-radius: var(--radius-xl);
   overflow: hidden;
   height: max-content;
@@ -9,7 +9,7 @@
 }
 
 .react-calendar__navigation {
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: var(--color-tag-text);
 }
 .react-calendar__navigation__arrow {
@@ -21,7 +21,16 @@
   font-weight: var(--font-semibold);
   text-transform: uppercase;
 }
-
+.react-calendar__navigation__label__labelText:hover {
+  color: var(--color-primary);
+}
+.react-calendar__navigation__labelText:hover,
+.react-calendar__navigation__next-button:hover,
+.react-calendar__navigation__next2-button:hover,
+.react-calendar__navigation__prev-button:hover,
+.react-calendar__navigation__prev2-button:hover {
+  color: var(--color-primary);
+}
 .react-calendar__month-view__weekdays__day {
   abbr {
     font-family: var(--font-body);
@@ -29,10 +38,18 @@
 }
 
 .react-calendar__month-view__days {
+  .react-calendar__tile {
+    &:enabled:hover {
+      background-color: white;
+    }
+  }
+  .react-calendar__tile--active {
+    background-color: var(--color-tag-bg) !important;
+    color: white;
+  }
   .react-calendar__tile.has-event {
     font-family: var(--font-body);
     font-weight: var(--font-semibold);
-
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,14 +59,11 @@
     &::before {
       content: "*";
       display: inline-block;
-
       width: 14px;
       height: 14px;
       border-radius: 50%;
-
       background-color: rgb(150, 188, 150);
       border: none;
-
       /* Sécurité pour éviter que le flexbox n'écrase le rond */
       flex-shrink: 0;
     }
@@ -88,10 +102,10 @@
   }
   .events-section-agenda {
     background-image: linear-gradient(var(--color-bg-1), var(--color-bg-1));
-    background-color: #ffffff;
+    background-color: var(--color-tag-text);
     border-radius: var(--border-radius);
-    padding: 30px;
-    margin-bottom: 50px;
+    padding: var(--space-8);
+    margin-bottom: var(--space-14);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     .events-agenda-div-title-text {
       .events-text-agenda {
@@ -129,18 +143,20 @@
 .events-div-icon-title {
   display: flex;
   align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 25px;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
   .events-icon-wrapper {
     display: inline-flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    align-self: stretch;
     background-color: var(--color-bg-2);
     color: var(--primary-color);
     border-radius: 50%;
-    width: 45px;
-    height: 45px;
+    width: var(--space-10);
+    height: var(--space-10);
     flex-shrink: 0;
+    line-height: 1;
   }
 }
 
@@ -168,21 +184,20 @@
     align-items: stretch;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.2);
-    padding: 30px;
+    padding: var(--space-8);
     width: 60%;
-    min-height: 350px;
+    min-height: var(--container-xs);
 
     .events-icon-empty {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 70px;
-      height: 70px;
+      width: var(--space-16);
+      height: var(--space-16);
       background-color: var(--color-bg-2);
-      color: var(--text-on-dark); /*marche pas*/
       border-radius: 50%;
       flex-shrink: 0;
-      margin: 0 auto 20px auto;
+      margin: 0 auto var(--space-5) auto;
     }
     .event-empty-day {
       width: 100%;
@@ -197,16 +212,14 @@
   }
 }
 
-/*FATU REGLER EVENTS ICON WRAPPER QUI EST PAS PAREIL SELON
-QUE C POUR LE TITRE OU POUR AUCUN EVENT EMPTY STATE*/
 /* =================== section upcoming events ===================== */
 
 .events-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(24vw, 1fr));
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: var(--space-5);
+  padding: var(--space-5);
 }
 
 .events-btn-see-all {
