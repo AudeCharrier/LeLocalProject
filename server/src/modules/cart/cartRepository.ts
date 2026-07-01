@@ -23,6 +23,10 @@ const readAll = async (userId: number) => {
       a.description,
       a.start_date,
       a.end_date,
+      a.time_slot_id,
+      ts.slot,
+      ts.start_hour,
+      ts.end_hour,
       s.id AS id_space,
       s.space_name,
       s.url_image,
@@ -37,6 +41,9 @@ const readAll = async (userId: number) => {
 
     JOIN space s
       ON a.space_id = s.id
+
+    JOIN time_slot ts
+      ON a.time_slot_id = ts.id
 
     WHERE c.users_id = ?
     `,

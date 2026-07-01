@@ -22,7 +22,7 @@ const updateCartSchema = Joi.object({
 
 // schéma pour la SUPPRESSION d'un item (delete)
 const deleteItemSchema = Joi.object({
-  eventId: Joi.number().integer().positive().required(),
+  id: Joi.number().integer().positive().required(),
 });
 
 // fonction de validation du body (add, edit)
