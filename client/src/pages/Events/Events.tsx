@@ -10,8 +10,10 @@ import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
 import { Calendar, CalendarDays } from "lucide-react";
+import CreateEventForm from "../../components/CreateEventForm/CreateEventForm";
 import CarrousselEvents from "../../components/Event/CarrousselEvents";
 import useEventsOfTheDay from "../../hooks/useEventsOfTheDay";
+
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
     bigtitle: "AGENDA DU TIERS LIEU",
@@ -158,6 +160,9 @@ function Events() {
         >
           Voir tous les évènements
         </button>
+      </section>
+      <section className="events-create-event">
+        <CreateEventForm />
       </section>
       <FooterDashboard />
     </>
