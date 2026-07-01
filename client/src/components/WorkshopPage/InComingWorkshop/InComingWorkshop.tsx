@@ -2,6 +2,7 @@ import "./InComingWorkshop.css";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import useSpaceAvailability from "../../../hooks/useSpaceAvailability";
 import type { Space } from "../../../types/space";
 import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
 import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
@@ -12,6 +13,18 @@ interface WorkshopProps {
 
 function InComingWorkshop({ workshop }: WorkshopProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { availability: availMatin } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "1",
+  );
+  const { availability: availApresMidi } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "2",
+  );
 
   return (
     <div className="incoming-workshop">
@@ -32,14 +45,19 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
         </div>
 
         <div className="incoming-workshop__description">
-          <p>Aujoud'huit</p>
-          <p>Matin</p>
+          <p>Aujourd'hui</p>
+          <span className="workshop-capacity-morning-span">
+            Matin — {availMatin?.available ?? workshop.capacity}/
+            {workshop.capacity} places
+          </span>
+          <span className="workshop-capacity-afternon-span">
+            Après-midi — {availApresMidi?.available ?? workshop.capacity}/
+            {workshop.capacity} places
+          </span>
         </div>
 
         <div className="incoming-workshop__footer">
-          <div className="incoming-workshop__avatar">TC</div>
           <div className="incoming-workshop__teacher-info">
-            <span className="incoming-workshop__teacher-name">Thomas C.</span>
             <span className="incoming-workshop__price">
               {workshop.price_unit}€
             </span>
