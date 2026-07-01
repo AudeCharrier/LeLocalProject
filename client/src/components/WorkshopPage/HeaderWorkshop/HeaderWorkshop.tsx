@@ -2,17 +2,6 @@ import "./HeaderWorkshop.css";
 import type { FirstArticleProps } from "../../../types/firstarticleprops";
 import FirstArticle from "../../SpacesPage/Header/FirstArticle/FirstArticle";
 
-const tags = [
-  "Céramique",
-  "Impression 3D",
-  "Photographie",
-  "Code",
-  "Cuisine",
-  "Podcast",
-  "Sérigraphie",
-  "Soudure",
-];
-
 function HeaderWorkshop() {
   const WorkshopHeaderFirstArticle: FirstArticleProps = {
     bigtitle: "APPRENDRE & CREER ENSEMBLE",
@@ -33,24 +22,6 @@ function HeaderWorkshop() {
     <section className="header-workshop-page-global-section">
       <div className="header-spaces-page-container-articles">
         <FirstArticle pageData={WorkshopHeaderFirstArticle} />
-
-        <div className="search-filter-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Rechercher un atelier, une discipline…"
-            />
-            <button type="button">Rechercher</button>
-          </div>
-
-          <div className="btn-tags-filter">
-            {tags.map((tag) => (
-              <button key={tag} type="button" className="tag">
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

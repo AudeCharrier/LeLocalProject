@@ -16,14 +16,17 @@ const readAll = async (userId: number) => {
     SELECT
       c.id,
       c.quantity,
-      c.price_unit,
       c.total_price,
+      COALESCE(c.price_unit, a.price_unit) AS price_unit,
       a.id AS id_activity,
       a.name,
       a.description,
       a.start_date,
       a.end_date,
-      a.price_unit AS price_unit,
+      a.time_slot_id,
+      ts.slot,
+      ts.start_hour,
+      ts.end_hour,
       s.id AS id_space,
       s.space_name,
       s.url_image,
@@ -38,6 +41,9 @@ const readAll = async (userId: number) => {
 
     JOIN space s
       ON a.space_id = s.id
+
+    JOIN time_slot ts
+      ON a.time_slot_id = ts.id
 
     WHERE c.users_id = ?
     `,

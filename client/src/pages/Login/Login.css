@@ -133,6 +133,45 @@
           font-weight: var(--font-light);
         }
       }
+
+      & .auth-password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+        & input {
+          padding-right: calc(var(--space-10) + var(--space-2));
+        }
+
+        & .auth-password-toggle {
+          position: absolute;
+          right: var(--space-3);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          padding: 0;
+          border: none;
+          border-radius: var(--radius-md);
+          color: var(--color-text-muted);
+          background: transparent;
+          cursor: pointer;
+          transition: color var(--transition-fast), background
+            var(--transition-fast);
+
+          &:hover {
+            color: var(--color-primary);
+            background: rgba(169, 40, 49, 0.08);
+          }
+
+          &:focus-visible {
+            outline: 2px solid var(--color-primary-light);
+            outline-offset: 2px;
+          }
+        }
+      }
     }
 
     /* Lien mot de passe oublié */

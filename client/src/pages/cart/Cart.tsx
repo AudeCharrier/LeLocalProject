@@ -12,6 +12,11 @@ const PROMO_CODES: Record<string, number> = {
   PROMO15: 15,
 };
 
+const formatHour = (hour: string) => {
+  const [hours, minutes = "00"] = hour.split(":");
+  return `${hours.padStart(2, "0")}:${minutes}`;
+};
+
 function Cart() {
   const user = useAuthContext();
   const cart = useCart(user?.id ?? 0);
@@ -158,6 +163,7 @@ function Cart() {
                   type="button"
                   className="cart-delete-button"
                   onClick={() => deleteItem(item.id)}
+                  aria-label="Supprimer l'article"
                 >
                   <Trash2 />
                 </button>
@@ -168,10 +174,12 @@ function Cart() {
               <div className="cart-item-footer">
                 <div className="cart-item-informations">
                   <span>
-                    Du {new Date(item.start_date).toLocaleDateString("fr-FR")}
+                    {new Date(item.start_date).toLocaleDateString("fr-FR")}
                   </span>
+
                   <span>
-                    au {new Date(item.end_date).toLocaleDateString("fr-FR")}
+                    Créneau : {item.slot} ({formatHour(item.start_hour)} -{" "}
+                    {formatHour(item.end_hour)})
                   </span>
                 </div>
 
