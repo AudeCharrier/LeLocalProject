@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Calendar from "react-calendar";
+import CalendarAgenda from "react-calendar";
 import CardEvent from "../../components/Event/CardEvent";
 import FooterDashboard from "../../components/FooterDashboard/FooterDashboard";
 import FirstArticle from "../../components/SpacesPage/Header/FirstArticle/FirstArticle";
@@ -9,9 +9,9 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 import type { FirstArticleProps } from "../../types/firstarticleprops";
 import "./Events.css";
 import "react-calendar/dist/Calendar.css";
+import { Calendar, CalendarDays } from "lucide-react";
 import CarrousselEvents from "../../components/Event/CarrousselEvents";
 import useEventsOfTheDay from "../../hooks/useEventsOfTheDay";
-
 function Events() {
   const EventFirstArticle: FirstArticleProps = {
     bigtitle: "AGENDA DU TIERS LIEU",
@@ -83,20 +83,20 @@ function Events() {
         <section className="events-section-agenda">
           <div className="events-div-icon-title">
             <span className="events-icon-wrapper events-icon-calendar">
-              blabla
+              <CalendarDays size={24} strokeWidth={2} />
             </span>
-            <div>
+            <div className="events-agenda-div-title-text">
               <h2 className="events-title">Agenda</h2>
-              <p className="events-text">
+              <p className="events-text events-text-agenda">
                 Choisissez une date pour découvrir les événements. Les jours
                 marqués (*) comportent au moins un événement.
               </p>
             </div>
           </div>
-          <div className="events-calendar-carrousel-container">
+          <div className="events-calendar-carroussel-container">
             {/* Calendrier centré qui ne s'étire plus */}
             <div className="events-calendar-wrapper">
-              <Calendar
+              <CalendarAgenda
                 onChange={(value) => {
                   if (value instanceof Date) {
                     chooseDate(value);
@@ -109,15 +109,19 @@ function Events() {
             </div>
             <div className="events-details-panel">
               {eventsOfTheDay.length === 0 ? (
-                <div className="events-empty-state">
+                <>
                   <span className="events-icon-wrapper events-icon-empty">
-                    Ton icône SVG de calendrier vide
+                    <Calendar size={40} strokeWidth={1.5} />
                   </span>
-                  <p>Aucun événement ce jour.</p>
-                  <p>Sélectionnez une date marquée (*) dans le calendrier.</p>
-                </div>
+                  <p className="events-text event-empty-day">
+                    Aucun événement ce jour.
+                  </p>
+                  <p className="events-text event-empty-day">
+                    Sélectionnez une date marquée (*) dans le calendrier.
+                  </p>
+                </>
               ) : (
-                <div className="carousel-container">
+                <div className="events-carousel-container">
                   <CarrousselEvents events={eventsOfTheDay} />
                 </div>
               )}

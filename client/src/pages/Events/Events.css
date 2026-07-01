@@ -64,45 +64,51 @@
 .events-section-hero {
   background: var(--color-bg-hero);
 }
-.events-big-title {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-8);
-  .events-page-title {
-    color: var(--color-text-secondary);
-    font-family: var(--font-heading);
-    text-transform: uppercase;
-  }
-  .events-page-hr {
-    flex: 1;
-    height: 1px;
-    border: none;
-    background-color: var(--color-text-secondary);
-  }
-}
 
 .events-big-section {
   padding: var(--space-10) var(--space-20);
   background: var(--color-bg-2);
+  .events-big-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+    .events-page-title {
+      color: var(--color-text-secondary);
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+    }
+    .events-page-hr {
+      flex: 1;
+      height: 1px;
+      border: none;
+      background-color: var(--color-text-secondary);
+    }
+  }
   .events-section-agenda {
-    background-color: var(--color-bg-1);
+    background-image: linear-gradient(var(--color-bg-1), var(--color-bg-1));
+    background-color: #ffffff;
     border-radius: var(--border-radius);
     padding: 30px;
     margin-bottom: 50px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    .events-agenda-div-title-text {
+      .events-text-agenda {
+        padding: 0;
+      }
+    }
   }
 }
 .events-section-upcoming {
   padding: var(--space-10) var(--space-20);
   background-color: var(--color-bg-1);
-}
-.events-div-upcoming-events {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  .events-div-upcoming-events {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .events-title {
@@ -116,8 +122,8 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--color-text-secondary);
-  width: 40%;
-  padding-bottom: var(--space-3);
+  width: 60%;
+  padding-bottom: var(--space-6);
   line-height: 1.65;
 }
 .events-div-icon-title {
@@ -129,7 +135,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #ebdcd7; /* Fond de l'icône légèrement plus sombre */
+    background-color: var(--color-bg-2);
     color: var(--primary-color);
     border-radius: 50%;
     width: 45px;
@@ -141,47 +147,56 @@
 /* ============== section AGENDA ========== */
 
 .events-calendar-carroussel-container {
-  /*  display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: var(--space-8); */
+  align-items: stretch;
+  gap: var(--space-20);
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-  margin-top: 20px;
+
   .events-calendar-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 450px;
+    max-width: 40%;
   }
   .events-details-panel {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     justify-content: center;
-    border: 1px solid #e1d3ce;
-    border-radius: var(--border-radius);
+    align-items: stretch;
+    text-align: center;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 30px;
+    width: 60%;
     min-height: 350px;
-    .events-empty-state {
-      text-align: center;
-      max-width: 320px;
-      margin: auto;
-      .events-icon-wrapper {
-        width: 70px;
-        height: 70px;
-        background-color: #ebdcd7;
-        margin: 0 auto 20px auto;
-      }
+
+    .events-icon-empty {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background-color: var(--color-bg-2);
+      color: var(--text-on-dark); /*marche pas*/
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin: 0 auto 20px auto;
+    }
+    .event-empty-day {
+      width: 100%;
+    }
+    .events-carroussel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
     }
   }
 }
+
 /*FATU REGLER EVENTS ICON WRAPPER QUI EST PAS PAREIL SELON
 QUE C POUR LE TITRE OU POUR AUCUN EVENT EMPTY STATE*/
 /* =================== section upcoming events ===================== */
