@@ -130,16 +130,7 @@ function Events() {
         </section>
       </section>
       <section className="events-section-upcoming">
-        <div className="events-div-upcoming-events">
-          <h2 className="events-title">Prochains évènements</h2>
-          <button
-            type="button"
-            className="events-btn-see-all"
-            onClick={() => setMaxCardsForGrid(50)}
-          >
-            Voir tous les évènements
-          </button>
-        </div>
+        <h2 className="events-title">Prochains évènements</h2>
         <p className="events-text">
           Retrouvez ici l'ensemble des événements programmés dans les prochaines
           semaines. Parcourez les différentes propositions, réservez votre place
@@ -160,6 +151,13 @@ function Events() {
             );
           })}
         </div>
+        <button
+          type="button"
+          className="events-btn-see-all"
+          onClick={() => setMaxCardsForGrid(50)}
+        >
+          Voir tous les évènements
+        </button>
       </section>
       <FooterDashboard />
     </>
