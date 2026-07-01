@@ -19,6 +19,7 @@ interface CardEventProps {
     end_hour: string;
     capacity: number;
   };
+
   participants?: {
     id_activity: number;
     name: string;
@@ -28,9 +29,30 @@ interface CardEventProps {
   };
 }
 
+interface EventFormData {
+  nom: string;
+  prenom: string;
+  email: string;
+}
+
 function RegisterEventForm({ event, participants }: CardEventProps) {
   const user = useAuthContext();
+
   const { setIsForm } = useEventModalContext();
+
+  const [formData, setFormData] = useState<EventFormData>({
+    nom: "",
+    prenom: "",
+    email: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const [quantityConfig, setQuantityConfig] = useState<QuantityConfig>({
     value: 1,
@@ -42,10 +64,9 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
   const { value, min, max, error } = quantityConfig;
   const [message, setMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
-
   const totalPrice = quantityConfig.value * event.price_unit;
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
     // on sauvegarde le formulaire avant le await
@@ -57,7 +78,11 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
       event_id: event.id,
       quantity: quantityConfig.value,
       total_price: totalPrice,
+      last_name: formData.nom,
+      first_name: formData.prenom,
+      email: formData.email,
     };
+
     try {
       const response = await apiFetch("/api/cart", {
         method: "POST",
@@ -74,6 +99,14 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         return;
       }
 
+      if (response.status === 400) {
+        const errorData = await response.json();
+        const messageCombine = errorData.errors.join("\n");
+        setMessage(messageCombine);
+        setIsError(true);
+        return;
+      }
+
       if (response.status === 404) {
         setMessage("Impossible de trouver cet évènement.");
         setIsError(true);
@@ -82,7 +115,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
       if (response.status === 409) {
         const data = await response.json();
-
         if (data.remaining_slots === 0) {
           setMessage("Nous sommes désolés, cet évènement est complet.");
           setIsError(true);
@@ -118,13 +150,13 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
       setIsError(true);
     }
   }
+
   function decreaseQuantity() {
     if (value === min) {
       // Si on est déjà au minimum, on déclenche l'erreur
       setQuantityConfig({ ...quantityConfig, error: "MIN_ERROR" });
       return;
     }
-
     // Sinon, on baisse la quantité et on retire l'erreur éventuelle
     setQuantityConfig({
       ...quantityConfig,
@@ -155,9 +187,11 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         action="#"
         method="post"
         onSubmit={handleSubmit}
+        noValidate
       >
         <div className="register-form-container-title-button">
           <h2 className="register-form-title">S'inscrire à l'évènement</h2>
+
           <button
             type="button"
             className="register-event-modal-close"
@@ -167,27 +201,34 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             ✕
           </button>
         </div>
+
         <ul className="register-form-events-infos-container">
           <li className="register-form-events-infos-row">{event.name}</li>
+
           <li className="register-form-events-infos-row">
             {event.start_date &&
               `${event.start_date.slice(8, 10)}-${event.start_date.slice(5, 7)}-${event.start_date.slice(0, 4)}`}{" "}
             | {event.start_hour?.slice(0, 5)} - {event.end_hour?.slice(0, 5)}
           </li>
+
           <li className="register-form-events-infos-row">
             {event.space_name} -{" "}
             {event.price_unit === 0 ? "Gratuit" : `${event.price_unit} €`}
           </li>
         </ul>
+
         <div className="register-form-customer-infos-container">
           <label htmlFor="lastname" className="register-form-label">
             Nom
           </label>
+
           <input
             type="text"
             id="lastname"
-            name="lastname"
+            name="nom"
             placeholder="Votre nom"
+            value={formData.nom}
+            onChange={handleChange}
             required
             className="register-form-input"
           />
@@ -195,11 +236,14 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           <label htmlFor="firstname" className="register-form-label">
             Prénom
           </label>
+
           <input
             type="text"
             id="firstname"
-            name="firstname"
+            name="prenom"
             placeholder="Votre prénom"
+            value={formData.prenom} // Ajouté et synchronisé !
+            onChange={handleChange}
             required
             className="register-form-input"
           />
@@ -207,11 +251,14 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
           <label htmlFor="email" className="register-form-label">
             Email
           </label>
+
           <input
             type="email"
             id="email"
             name="email"
             placeholder="Votre email"
+            value={formData.email}
+            onChange={handleChange}
             required
             className="register-form-input"
           />
@@ -221,7 +268,9 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               <label htmlFor="quantity" className="register-form-label">
                 Nombre de places
               </label>
+
               {/*bouton -1 */}
+
               <button
                 type="button"
                 onClick={decreaseQuantity}
@@ -231,17 +280,20 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               >
                 -
               </button>
+
               <input
                 type="number"
                 id="quantity"
                 name="quantity"
                 value={quantityConfig.value}
+                onChange={handleChange}
                 min={min}
                 max={max}
                 readOnly
               />
 
               {/*bouton +1 */}
+
               <button
                 type="button"
                 onClick={increaseQuantity}
@@ -258,7 +310,9 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             </p>
           </div>
         </div>
+
         {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
+
         {error === "MIN_ERROR" && (
           <span className="event-form-confirmation-message event-message-error">
             Réservez au moins {min} place.
@@ -279,6 +333,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         >
           Je m'inscris !
         </button>
+
         {message && (
           <span
             className={`event-form-confirmation-message ${isError ? "event-message-error" : "event-message-success"}`}
