@@ -37,20 +37,17 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
               : undefined,
           }}
         >
-          {" "}
-          <span className="incoming-workshop__category">
-            {workshop.space_type}
-          </span>
-          <div className="incoming-workshop__top-row" />
+          <span className="workshop__category">{workshop.space_type}</span>
+          <span className="workshop-price">{workshop.price_unit}</span>
         </div>
 
         <div className="incoming-workshop__description">
           <p>Aujourd'hui</p>
-          <span className="workshop-capacity-morning-span">
+          <span className="workshop-capacity-span">
             Matin — {availMatin?.available ?? workshop.capacity}/
             {workshop.capacity} places
           </span>
-          <span className="workshop-capacity-afternon-span">
+          <span className="workshop-capacity-span">
             Après-midi — {availApresMidi?.available ?? workshop.capacity}/
             {workshop.capacity} places
           </span>
@@ -58,15 +55,12 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
 
         <div className="incoming-workshop__footer">
           <div className="incoming-workshop__teacher-info">
-            <span className="incoming-workshop__price">
-              {workshop.price_unit}€
-            </span>
             <button
               type="button"
               className="card-btn-register"
               onClick={() => setIsModalOpen(true)}
             >
-              S'inscrire
+              Voir l'espace
             </button>
           </div>
         </div>

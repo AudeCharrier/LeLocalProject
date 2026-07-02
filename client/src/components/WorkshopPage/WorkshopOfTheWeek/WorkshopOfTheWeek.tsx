@@ -2,24 +2,40 @@ import "./WorkshopOfTheWeek.css";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import useSpaceAvailability from "../../../hooks/useSpaceAvailability";
 import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
 import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
 
 import type { Space } from "../../../types/space";
 
 interface WorkshopOfTheWeekProps {
-  workshop: Space | undefined;
+  workshop: Space;
 }
 
 function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const today = new Date().toISOString().slice(0, 10);
+
+  const { availability: availMatin } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "1",
+  );
+  const { availability: availApresMidi } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "2",
+  );
 
   if (!workshop) return null;
 
   return (
     <section className="center-of-workshop-page">
       <div className="workshop-of-the-week">
-        <h1 className="title-workshop-section">ATELIER DE LA SEMAINE</h1>
+        <div className="title-workshop-div">
+          <h1 className="title-workshop-h1">NOS ATELIER</h1>
+          <hr className="workshop-page-hr" />
+        </div>
 
         <div className="workshop-of-the-week-card-parent">
           <div
@@ -32,19 +48,25 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
               backgroundPosition: "center",
             }}
           >
-            <span className="badge-level">TOUS NIVEAUX</span>
+            <span className="workshop-price">{workshop.price_unit} €</span>
+            <span className="workshop__category">{workshop.space_type}</span>
           </div>
 
           <div className="info-card-workshop-of-the-week">
             <div className="description-of-the-week-workshop">
-              <span className="category-pill">{workshop.space_type}</span>
               <h1>{workshop.space_name}</h1>
-              <p>{workshop.description}</p>
             </div>
 
             <div className="about-workshop-of-the-week">
-              <span>👤 {workshop.capacity} participants max</span>
-              <span>📍 {workshop.space_name}</span>
+              <p>Aujourd'hui</p>
+              <span className="workshop-capacity-span">
+                Matin — {availMatin?.available ?? workshop.capacity}/
+                {workshop.capacity} places
+              </span>
+              <span className="workshop-capacity-span">
+                Après-midi — {availApresMidi?.available ?? workshop.capacity}/
+                {workshop.capacity} places
+              </span>
             </div>
 
             <div className="btn-and-price-for-workshop-of-the-week">
@@ -57,7 +79,6 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
                   Réserver ma place
                 </button>
               </div>
-              <div className="price">{workshop.price_unit}€</div>
             </div>
           </div>
         </div>

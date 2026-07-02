@@ -5,79 +5,29 @@
   flex-direction: column;
   gap: var(--gap-lg);
 
-  /* ── filter bar ── */
-
-  .filter-bar-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .parent-filter-div-workshop-page {
-      display: flex;
-      align-items: center;
-      gap: var(--gap-xs);
-
-      .btn-filter-workshop-page {
-        display: flex;
-        align-items: center;
-        gap: var(--space-2);
-        background: transparent;
-        border: none;
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
-        color: var(--color-text-secondary);
-        padding: var(--space-2) var(--space-4);
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        transition: var(--transition-fast);
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.06);
-        }
-
-        &.active {
-          background: var(--color-text-primary);
-          color: var(--color-text-on-dark);
-          border-radius: var(--radius-pill);
-        }
-
-        .category-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: var(--radius-pill);
-          display: inline-block;
-          flex-shrink: 0;
-        }
-      }
-    }
-
-    .sort-select {
-      border: 1.5px solid var(--color-border-strong);
-      background: transparent;
-      color: var(--color-text-secondary);
-      font-family: var(--font-ui);
-      font-size: var(--text-sm);
-      padding: var(--space-2) var(--space-4);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      outline: none;
-    }
-  }
-
-  /* ── atelier de la semaine ── */
-
   .workshop-of-the-week {
     display: flex;
     flex-direction: column;
     gap: var(--gap-sm);
 
-    .title-workshop-section {
-      color: var(--color-text-muted);
-      font-size: var(--text-xs);
-      letter-spacing: var(--tracking-wider);
-      font-family: var(--font-ui);
-      font-weight: var(--font-semibold);
-      text-transform: uppercase;
+    .title-workshop-div {
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      gap: var(--space-4);
+
+      .title-workshop-h1 {
+        color: var(--color-text-secondary);
+        font-family: var(--font-heading);
+      }
+
+      .workshop-page-hr {
+        flex: 1;
+        height: 1px;
+        border: none;
+        background-color: var(--color-text-secondary);
+      }
     }
 
     .workshop-of-the-week-card-parent {
@@ -85,89 +35,37 @@
       border-radius: var(--radius-xl);
       overflow: hidden;
       box-shadow: var(--shadow-md);
-
-      /* image gauche */
+      flex-direction: column;
 
       .box-img-card-workshop-of-the-week {
         position: relative;
-        width: 340px;
+        width: 100%;
         min-height: 380px;
         flex-shrink: 0;
-        background: linear-gradient(160deg, #c0552a 0%, #7a2c10 100%);
-        display: flex;
-        align-items: flex-start;
-        padding: var(--space-5);
 
-        .badge-level {
+        .workshop-price {
           position: absolute;
-          top: var(--space-5);
-          left: var(--space-5);
-          background: var(--color-text-primary);
+          top: var(--space-4);
+          right: var(--space-4);
+          background: var(--color-primary);
           color: var(--color-text-on-dark);
-          font-size: var(--text-xs);
+          font-size: var(--text-sm);
           font-weight: var(--font-bold);
-          letter-spacing: var(--tracking-wider);
           padding: var(--space-1) var(--space-3);
           border-radius: var(--radius-md);
           font-family: var(--font-ui);
         }
 
-        .badge-places {
+        .workshop__category {
           position: absolute;
-          top: var(--space-5);
-          left: 78%;
-          width: 41%;
-          transform: translateX(-50%);
-          background: var(--color-bg-white);
-          color: var(--color-text-primary);
-          font-size: var(--text-xs);
-          font-weight: var(--font-semibold);
-          letter-spacing: var(--tracking-wide);
-          padding: var(--space-2) var(--space-3);
-          border-radius: var(--radius-lg);
-          text-align: center;
-          font-family: var(--font-ui);
-
-          strong {
-            display: block;
-            font-size: var(--text-xl);
-            font-weight: var(--font-bold);
-            line-height: 1;
-          }
-        }
-
-        .badge-date {
-          position: absolute;
-          bottom: var(--space-5);
-          left: var(--space-5);
-          background: var(--color-bg-white);
-          border-radius: var(--radius-lg);
-          padding: var(--space-2) var(--space-3);
-          text-align: center;
-          min-width: 64px;
-
-          .badge-date-day {
-            display: block;
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            color: var(--color-text-primary);
-            line-height: 1;
-            font-family: var(--font-display);
-          }
-
-          .badge-date-month {
-            display: block;
-            font-size: var(--text-xs);
-            font-weight: var(--font-semibold);
-            color: var(--color-text-muted);
-            letter-spacing: var(--tracking-wide);
-            margin-top: var(--space-1);
-            font-family: var(--font-ui);
-          }
+          bottom: var(--space-4);
+          left: var(--space-4);
+          color: var(--color-text-on-dark);
+          font-size: var(--text-2xl);
+          font-weight: var(--font-bold);
+          font-family: var(--font-display);
         }
       }
-
-      /* infos droite */
 
       .info-card-workshop-of-the-week {
         background: var(--color-bg-card);
@@ -176,26 +74,11 @@
         display: flex;
         flex-direction: column;
         gap: var(--space-5);
-        justify-content: space-between;
 
         .description-of-the-week-workshop {
           display: flex;
           flex-direction: column;
           gap: var(--space-3);
-
-          .category-pill {
-            display: inline-block;
-            border: 1.5px solid #8a9e7a;
-            background: #edf3e8;
-            color: #4a6a35;
-            font-size: var(--text-xs);
-            font-weight: var(--font-bold);
-            letter-spacing: var(--tracking-wider);
-            padding: var(--space-1) var(--space-3);
-            border-radius: var(--radius-md);
-            font-family: var(--font-ui);
-            width: fit-content;
-          }
 
           h1 {
             font-family: var(--font-display);
@@ -205,68 +88,29 @@
             line-height: var(--leading-tight);
             margin: 0;
           }
+        }
+
+        .about-workshop-of-the-week {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-2);
 
           p {
             font-family: var(--font-body);
             font-size: var(--text-sm);
             color: var(--color-text-secondary);
-            line-height: var(--leading-relaxed);
             margin: 0;
           }
-        }
 
-        .about-workshop-of-the-week {
-          display: flex;
-          align-items: center;
-          gap: var(--gap-md);
-          flex-wrap: wrap;
-
-          span {
-            font-size: var(--text-sm);
-            color: var(--color-text-secondary);
+          .workshop-capacity-span {
+            color: var(--color-text-muted);
             font-family: var(--font-body);
-          }
-        }
-
-        .teacher-for-the-workshop-of-the-week {
-          display: flex;
-          align-items: center;
-          gap: var(--space-4);
-          background: var(--color-bg-white);
-          border-radius: var(--radius-lg);
-          padding: var(--space-4) var(--space-5);
-
-          .teacher-avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: var(--radius-pill);
-            background: var(--color-text-primary);
-            color: var(--color-text-on-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: var(--text-sm);
-            font-weight: var(--font-bold);
-            font-family: var(--font-ui);
-            flex-shrink: 0;
-          }
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--color-border);
 
-          .teacher-info {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-1);
-
-            .name-of-the-teacher-of-the-week {
-              font-family: var(--font-heading);
-              font-size: var(--text-base);
-              font-weight: var(--font-semibold);
-              color: var(--color-text-primary);
-            }
-
-            .job-and-experience-of-the-teacher-of-the-week {
-              font-family: var(--font-body);
-              font-size: var(--text-sm);
-              color: var(--color-text-muted);
+            &:last-of-type {
+              border-bottom: none;
             }
           }
         }
@@ -296,13 +140,6 @@
                 background: var(--color-primary-dark);
               }
             }
-          }
-
-          .price {
-            font-family: var(--font-display);
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            color: var(--color-primary);
           }
         }
       }
