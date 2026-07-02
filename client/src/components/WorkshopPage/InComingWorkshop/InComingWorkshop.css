@@ -1,70 +1,48 @@
 .incoming-workshop {
-  background-color: var(--color-bg-1);
+  background-color: var(--color-bg-card);
   border-radius: var(--radius-xl);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   font-family: var(--font-ui);
   transition: var(--transition-base);
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   &:hover {
-    transform: translateY(-10px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
   }
 
-  .incoming-workshop__inner {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  .incoming-workshop__top {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 180px;
 
-    .incoming-workshop__description {
-      flex: 1; /* prend tout l'espace disponible */
+    .incoming-workshop__category {
+      position: absolute;
+      bottom: var(--space-4);
+      left: var(--space-4);
+      color: var(--color-text-on-dark);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      font-family: var(--font-display);
     }
 
-    .incoming-workshop__top {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 180px;
-      padding: var(--space-4);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-
-      .incoming-workshop__badge-places {
-        background: var(--color-bg-card);
-        color: var(--color-text-primary);
-        font-size: var(--text-xs);
-        font-weight: var(--font-semibold);
-        letter-spacing: var(--tracking-wide);
-        padding: var(--space-1) var(--space-3);
-        border-radius: var(--radius-lg);
-        text-align: center;
-        line-height: 1.4;
-        font-family: var(--font-ui);
-      }
-      .workshop-price {
-        position: absolute;
-        top: var(--space-4);
-        right: var(--space-4);
-        background: var(--color-primary);
-        color: var(--color-text-on-dark);
-        font-size: var(--text-sm);
-        font-weight: var(--font-bold);
-        padding: var(--space-1) var(--space-3);
-        border-radius: var(--radius-md);
-        font-family: var(--font-ui);
-      }
-      .workshop__category {
-        position: absolute;
-        bottom: var(--space-4);
-        left: var(--space-4);
-        color: var(--color-text-on-dark);
-        font-size: var(--text-2xl);
-        font-weight: var(--font-bold);
-        font-family: var(--font-display);
-      }
+    .incoming-workshop__price-badge {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      background: var(--color-primary);
+      color: var(--color-text-on-dark);
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-md);
+      font-family: var(--font-ui);
     }
   }
 
@@ -74,44 +52,25 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    flex: 1;
 
-    .workshop-capacity-span {
-      padding-bottom: var(--space-2);
-      color: var(--color-text-muted);
-      display: block;
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .workshop-capacity-span:last-of-type {
-      border-bottom: none;
-    }
-
-    .incoming-workshop__category {
-      color: var(--color-primary);
-      font-size: var(--text-xs);
-      font-weight: var(--font-bold);
-      letter-spacing: var(--tracking-wider);
-      text-transform: uppercase;
-      font-family: var(--font-ui);
-    }
-
-    h2 {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: var(--font-bold);
-      color: var(--color-text-primary);
-      line-height: var(--leading-snug);
-      margin: 0;
-    }
-
-    p {
+    .incoming-workshop__today {
       font-family: var(--font-body);
       font-size: var(--text-sm);
       color: var(--color-text-secondary);
-      line-height: var(--leading-normal);
       margin: 0;
+    }
+
+    .incoming-workshop__slot {
+      color: var(--color-text-muted);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--color-border);
+
+      &:last-of-type {
+        border-bottom: none;
+      }
     }
   }
 
@@ -119,10 +78,9 @@
     background: var(--color-bg-card);
     padding: var(--space-3) var(--space-5) var(--space-5);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
-    .card-btn-register {
+    .incoming-workshop__btn {
       background: var(--color-primary);
       color: var(--color-text-on-dark);
       border: none;
@@ -138,42 +96,5 @@
         background: var(--color-primary-dark);
       }
     }
-
-    .incoming-workshop__teacher-info {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex: 1;
-      margin-left: var(--space-3);
-
-      .incoming-workshop__teacher-name {
-        font-family: var(--font-heading);
-        font-size: var(--text-sm);
-        font-weight: var(--font-semibold);
-        color: var(--color-text-primary);
-      }
-    }
-  }
-
-  .incoming-workshop__avatar {
-    width: var(--space-10);
-    height: var(--space-10);
-    border-radius: var(--radius-pill);
-    background: var(--color-primary);
-    color: var(--color-text-on-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    font-weight: var(--font-bold);
-    font-family: var(--font-ui);
-    flex-shrink: 0;
-  }
-
-  .incoming-workshop__price {
-    font-family: var(--font-display);
-    font-size: var(--text-xl);
-    font-weight: var(--font-bold);
-    color: var(--color-primary);
   }
 }

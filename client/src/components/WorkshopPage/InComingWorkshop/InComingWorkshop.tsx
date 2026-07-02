@@ -7,13 +7,14 @@ import type { Space } from "../../../types/space";
 import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
 import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
 
+const today = new Date().toISOString().slice(0, 10);
+
 interface WorkshopProps {
   workshop: Space;
 }
 
 function InComingWorkshop({ workshop }: WorkshopProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const today = new Date().toISOString().slice(0, 10);
 
   const { availability: availMatin } = useSpaceAvailability(
     workshop.id,
@@ -27,43 +28,43 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
   );
 
   return (
-    <div className="incoming-workshop">
-      <div className="incoming-workshop__inner">
-        <div
-          className="incoming-workshop__top"
-          style={{
-            backgroundImage: workshop.url_image
-              ? `url(${import.meta.env.VITE_API_URL}${workshop.url_image})`
-              : undefined,
-          }}
+    <article className="incoming-workshop">
+      <div
+        className="incoming-workshop__top"
+        style={{
+          backgroundImage: workshop.url_image
+            ? `url(${import.meta.env.VITE_API_URL}${workshop.url_image})`
+            : undefined,
+        }}
+      >
+        <span className="incoming-workshop__category">
+          {workshop.space_type}
+        </span>
+        <span className="incoming-workshop__price-badge">
+          {workshop.price_unit} €
+        </span>
+      </div>
+
+      <div className="incoming-workshop__description">
+        <p className="incoming-workshop__today">Aujourd'hui</p>
+        <span className="incoming-workshop__slot">
+          Matin — {availMatin?.available ?? workshop.capacity}/
+          {workshop.capacity} places
+        </span>
+        <span className="incoming-workshop__slot">
+          Après-midi — {availApresMidi?.available ?? workshop.capacity}/
+          {workshop.capacity} places
+        </span>
+      </div>
+
+      <div className="incoming-workshop__footer">
+        <button
+          type="button"
+          className="incoming-workshop__btn"
+          onClick={() => setIsModalOpen(true)}
         >
-          <span className="workshop__category">{workshop.space_type}</span>
-          <span className="workshop-price">{workshop.price_unit}</span>
-        </div>
-
-        <div className="incoming-workshop__description">
-          <p>Aujourd'hui</p>
-          <span className="workshop-capacity-span">
-            Matin — {availMatin?.available ?? workshop.capacity}/
-            {workshop.capacity} places
-          </span>
-          <span className="workshop-capacity-span">
-            Après-midi — {availApresMidi?.available ?? workshop.capacity}/
-            {workshop.capacity} places
-          </span>
-        </div>
-
-        <div className="incoming-workshop__footer">
-          <div className="incoming-workshop__teacher-info">
-            <button
-              type="button"
-              className="card-btn-register"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Voir l'espace
-            </button>
-          </div>
-        </div>
+          Voir l'espace
+        </button>
       </div>
 
       {createPortal(
@@ -83,7 +84,7 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
         </AnimatePresence>,
         document.body,
       )}
-    </div>
+    </article>
   );
 }
 
