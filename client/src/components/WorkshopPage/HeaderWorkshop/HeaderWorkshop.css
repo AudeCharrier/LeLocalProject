@@ -6,9 +6,13 @@
   display: flex;
   align-items: flex-start;
 
+  @media (max-width: 768px) {
+    padding: var(--space-8) var(--space-4);
+  }
+
   .header-spaces-page-container-articles {
     display: flex;
     width: 100%;
-    min-height: 35vh;
+    min-height: 50vh;
   }
 }
