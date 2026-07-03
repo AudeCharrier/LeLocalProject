@@ -21,13 +21,18 @@ export default function DashboardClientPage() {
     <section className="dashboard-client-page">
       <div className="dashboard-client-page__header">
         <h1 className="dashboard-client-page__heading">
-          Bonjour {user.firstname} 👋
+          Bonjour {user.firstname}
+          <span aria-hidden="true"> 👋</span>
         </h1>
         <button className="logOutButton" type="button" onClick={logout}>
           Deconexion
         </button>
       </div>
-      <section className="dashboard-client-section">
+      <section
+        className="dashboard-client-section"
+        aria-label="Tableau de bord"
+      >
+        {" "}
         <div className="dashboard-client-part">
           <StatsClient />
         </div>
