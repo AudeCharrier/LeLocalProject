@@ -46,6 +46,7 @@ function InComingWorkshop({ workshop }: WorkshopProps) {
       </div>
 
       <div className="incoming-workshop__description">
+        <h1 className="workshop-featured__name">{workshop.space_name}</h1>
         <p className="incoming-workshop__today">Aujourd'hui</p>
         <span className="incoming-workshop__slot">
           Matin — {availMatin?.available ?? workshop.capacity}/
