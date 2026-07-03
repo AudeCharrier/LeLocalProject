@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
-import dashboardClientRepository from "./dashboardClientRepository";
 import createEventFormRepository from "../createEventForm/createEventFormRepository";
+import dashboardClientRepository from "./dashboardClientRepository";
 
 // The B of BREAD - Browse (Read All) operation
 
