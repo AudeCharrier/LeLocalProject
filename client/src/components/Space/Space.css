@@ -4,9 +4,8 @@
 }
 
 .space-section-eyebrow {
-  color: var(--color-forest);
-  font-size: var(--text-base);
-  font-family: var(--font-ui);
+  color: var(--color-tag-text);
+  font-family: var(--font-display);
   font-weight: var(--font-regular);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -24,21 +23,20 @@
 .space-section-title {
   font-family: var(--font-heading);
   font-size: var(--text-3xl);
-  color: var(--color-text-on-dark);
+  color: var(--color-bg-hero);
   width: auto;
 }
 
 .space-section-see-all {
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
-  color: var(--color-forest);
+  font-family: var(--font-display);
+  color: var(--color-bg-hero);
   background: none;
   border: none;
   cursor: pointer;
   transition: opacity var(--transition-fast);
 
   &:hover {
-    opacity: 0.75;
+    text-decoration: underline;
   }
 }
 

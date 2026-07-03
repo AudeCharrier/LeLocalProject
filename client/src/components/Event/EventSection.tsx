@@ -1,5 +1,6 @@
 import CardEvent from "./CardEvent";
 import "./EventSection.css";
+import { Link } from "react-router";
 
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useParticipants from "../../hooks/useParticipants";
@@ -14,7 +15,9 @@ function EventSection() {
       <h5>Agenda</h5>
       <div className="home-section-title">
         <h2>Evènements à venir</h2>
-        <p>Voir tout</p>
+        <Link to="/evenements" className="home-section_events-page-link">
+          Voir tout
+        </Link>
       </div>
       <div className="home-events">
         {upcomingEvents.slice(0, 3).map((upcomingEvent) => {

@@ -1,4 +1,5 @@
 import "./HeaderImage.css";
+import { Link } from "react-router";
 
 function ImageHautPageAcceuil() {
   return (
@@ -18,10 +19,10 @@ function ImageHautPageAcceuil() {
         </p>
         <div className="hero-buttons-div">
           <button type="button" className="hero-button hero-button-primary">
-            Explorer les espaces →
+            <Link to="/espaces">Explorer les espaces →</Link>
           </button>
           <button type="button" className="hero-button hero-button-secondary">
-            Voir les événements
+            <Link to="/evenements">Voir les événements</Link>
           </button>
         </div>
       </div>

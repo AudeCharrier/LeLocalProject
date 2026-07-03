@@ -1,4 +1,5 @@
 import "./FooterHome.css";
+import { Link } from "react-router";
 
 function FooterHome() {
   return (
@@ -12,10 +13,10 @@ function FooterHome() {
 
           <div className="footer-home-actions">
             <span className="footer-home-button footer-home-button-primary">
-              Créer un compte
+              <Link to="/sign-in">Créer un compte</Link>
             </span>
             <span className="footer-home-button footer-home-button-secondary">
-              Voir les événements
+              <Link to="/evenements">Voir les événements</Link>
             </span>
           </div>
         </section>
