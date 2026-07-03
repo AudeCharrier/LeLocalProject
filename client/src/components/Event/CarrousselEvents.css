@@ -2,7 +2,6 @@
 .carroussel-container {
   position: relative;
   width: 100%;
-  max-width: 100%;
   padding: 0 var(--space-12);
   /* Fenêtre de défilement */
   .events-div-selected-events {
@@ -19,7 +18,7 @@
       /* Gestion de la taille des cartes et de l'effet "aperçu" */
       .carousel-item {
         width: 100%;
-        flex: 0 0 55%;
+        flex: 0 0 65%;
         scroll-snap-align: start;
         box-sizing: border-box;
         scroll-snap-align: start; /* L'aimant se situe au début de la carte */
@@ -95,3 +94,22 @@
     }
   }
 }
+
+@media screen and (max-width: 428px) {
+  .carroussel-container {
+    .events-div-selected-events {
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
+      .events-div-selected-events-container {
+        .carousel-item {
+          flex: 0 0 85%;
+        }
+      }
+    }
+    .carousel-arrow {
+      display: none;
+    }
+  }
+}
+
+/*reprendre claude largeur card dynamique*/
