@@ -27,11 +27,11 @@ export default function DashboardClientPage() {
           Deconexion
         </button>
       </div>
-      <div className="dashboard-client-content">
-        <div className="dashboard-client-section">
+      <section className="dashboard-client-section">
+        <div className="dashboard-client-part">
           <StatsClient />
         </div>
-        <div className="dashboard-client-section">
+        <div className="dashboard-client-part">
           <div className="dashboard-client-grid">
             <UpcomingBookingClient />
             <div className="dashboard-client-past">
@@ -40,16 +40,16 @@ export default function DashboardClientPage() {
             <UpcomingEventClient />
           </div>
         </div>
-        <div className="dashboard-client-section">
+        <div className="dashboard-client-part">
           <EventRequestsClient />
         </div>
-        <div className="dashboard-client-section">
+        <div className="dashboard-client-part">
           <BillingClient />
         </div>
-        <div className="dashboard-client-section">
+        <div className="dashboard-client-part">
           <ClaimClient />
         </div>
-      </div>
+      </section>
       <div className="dashboard-client-footer">
         <FooterDashboard />
       </div>
