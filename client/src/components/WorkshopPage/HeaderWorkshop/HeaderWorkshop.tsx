@@ -2,17 +2,6 @@ import "./HeaderWorkshop.css";
 import type { FirstArticleProps } from "../../../types/firstarticleprops";
 import FirstArticle from "../../SpacesPage/Header/FirstArticle/FirstArticle";
 
-const tags = [
-  "Céramique",
-  "Impression 3D",
-  "Photographie",
-  "Code",
-  "Cuisine",
-  "Podcast",
-  "Sérigraphie",
-  "Soudure",
-];
-
 function HeaderWorkshop() {
   const WorkshopHeaderFirstArticle: FirstArticleProps = {
     bigtitle: "APPRENDRE & CREER ENSEMBLE",
@@ -21,10 +10,10 @@ function HeaderWorkshop() {
     sloganEnd: "qui vous font grandir",
     description:
       "Sérigraphie, code, poterie, podcast, cuisine, photographie… Des formations courtes animées par des experts passionnés, dans nos espaces.",
-    info1: 42,
-    info1text: "Ateliers / trimestre",
-    info2: 18,
-    info2text: "Formateurs",
+    info1: 4,
+    info1text: "Ateliers",
+    info2: 1400,
+    info2text: "M² TOTAL",
     info3: "580+",
     info3text: "Participants / an",
   };
@@ -33,24 +22,6 @@ function HeaderWorkshop() {
     <section className="header-workshop-page-global-section">
       <div className="header-spaces-page-container-articles">
         <FirstArticle pageData={WorkshopHeaderFirstArticle} />
-
-        <div className="search-filter-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Rechercher un atelier, une discipline…"
-            />
-            <button type="button">Rechercher</button>
-          </div>
-
-          <div className="btn-tags-filter">
-            {tags.map((tag) => (
-              <button key={tag} type="button" className="tag">
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

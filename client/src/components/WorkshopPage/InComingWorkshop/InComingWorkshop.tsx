@@ -1,69 +1,90 @@
 import "./InComingWorkshop.css";
-import { useWorkshopModalContext } from "../../../hooks/useWorkshopModalContext";
+import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import useSpaceAvailability from "../../../hooks/useSpaceAvailability";
 import type { Space } from "../../../types/space";
-import RegisterWorkshopForm from "../../RegisterWorkshopForm/RegisterWorkshopForm";
+import SpaceModal from "../../SpacesPage/Body/SpaceModal/SpaceModal";
+import SpaceModalContent from "../../SpacesPage/Body/SpaceModal/SpaceModalContent/SpaceModalContent";
+
+const today = new Date().toISOString().slice(0, 10);
 
 interface WorkshopProps {
   workshop: Space;
 }
 
 function InComingWorkshop({ workshop }: WorkshopProps) {
-  const { selectedWorkshopId, setSelectedWorkshopId } =
-    useWorkshopModalContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { availability: availMatin } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "1",
+  );
+  const { availability: availApresMidi } = useSpaceAvailability(
+    workshop.id,
+    today,
+    "2",
+  );
 
   return (
-    <div className="incoming-workshop">
-      <div className="incoming-workshop__inner">
-        <div
-          className="incoming-workshop__top"
-          style={{
-            backgroundImage: workshop.url_image
-              ? `url(${workshop.url_image})`
-              : undefined,
-          }}
-        >
-          <div className="incoming-workshop__top-row">
-            {/* <span className="incoming-workshop__badge-places">
-              {availability
-                ? `${availability.available} places libres`
-                : `${workshop.capacity} places`}
-            </span> */}
-          </div>
-          {/* <div className="incoming-workshop__badge-date">
-            <span className="incoming-workshop__date-day">{day}</span>
-            <span className="incoming-workshop__date-month">{month}</span>
-          </div> */}
-        </div>
-
-        <div className="incoming-workshop__description">
-          <span className="incoming-workshop__category">
-            {workshop.space_type}
-          </span>
-          <h2>{workshop.space_name}</h2>
-          <p>{workshop.description}</p>
-        </div>
-
-        <div className="incoming-workshop__footer">
-          <div className="incoming-workshop__avatar">TC</div>
-          <div className="incoming-workshop__teacher-info">
-            <span className="incoming-workshop__teacher-name">Thomas C.</span>
-            <span className="incoming-workshop__price">
-              {workshop.price_unit}€
-            </span>
-            <button
-              type="button"
-              className="card-btn-register"
-              onClick={() => setSelectedWorkshopId(workshop.id)}
-            >
-              S'inscrire
-            </button>
-          </div>
-        </div>
+    <article className="incoming-workshop">
+      <div
+        className="incoming-workshop__top"
+        style={{
+          backgroundImage: workshop.url_image
+            ? `url(${import.meta.env.VITE_API_URL}${workshop.url_image})`
+            : undefined,
+        }}
+      >
+        <span className="incoming-workshop__category">
+          {workshop.space_type}
+        </span>
+        <span className="incoming-workshop__price-badge">
+          {workshop.price_unit} €
+        </span>
       </div>
-      {selectedWorkshopId === workshop.id && (
-        <RegisterWorkshopForm workshop={workshop} />
+
+      <div className="incoming-workshop__description">
+        <p className="incoming-workshop__today">Aujourd'hui</p>
+        <span className="incoming-workshop__slot">
+          Matin — {availMatin?.available ?? workshop.capacity}/
+          {workshop.capacity} places
+        </span>
+        <span className="incoming-workshop__slot">
+          Après-midi — {availApresMidi?.available ?? workshop.capacity}/
+          {workshop.capacity} places
+        </span>
+      </div>
+
+      <div className="incoming-workshop__footer">
+        <button
+          type="button"
+          className="incoming-workshop__btn"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Voir l'espace
+        </button>
+      </div>
+
+      {createPortal(
+        <AnimatePresence>
+          {isModalOpen && (
+            <SpaceModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            >
+              <SpaceModalContent
+                spaces={[workshop]}
+                categoryName={workshop.space_category}
+                onClose={() => setIsModalOpen(false)}
+              />
+            </SpaceModal>
+          )}
+        </AnimatePresence>,
+        document.body,
       )}
-    </div>
+    </article>
   );
 }
 
