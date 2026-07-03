@@ -117,6 +117,7 @@
           background: transparent;
           outline: none;
           text-align: center;
+          max-width: var(--space-8);
         }
         /* Pour Chrome, Safari, Edge et Opera */
         input[type="number"]::-webkit-outer-spin-button,
@@ -197,7 +198,7 @@
 @media screen and (max-width: 428px) {
   .register-form-overlay {
     .register-form {
-      width: 75vw;
+      width: 75%;
       .register-form-customer-infos-container {
         .register-form-quantity {
           flex-direction: column;

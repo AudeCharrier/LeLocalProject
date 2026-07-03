@@ -17,7 +17,7 @@
   font-family: var(--font-body);
   font-size: var(--text-base);
   color: var(--color-text-secondary);
-  width: 60%;
+  width: 50%;
   padding-bottom: var(--space-6);
   line-height: 1.65;
 }
@@ -238,28 +238,57 @@
     font-family: var(--font-body);
   }
 }
-@media screen and (max-width: 428px) {
+
+@media screen and (max-width: 1280px) {
   .events-text {
     width: 100%;
   }
+  .events-big-section {
+    padding: var(--space-10) var(--space-14);
+
+    .events-section-agenda {
+      padding: var(--space-10) var(--space-10);
+      .events-agenda-div-title-text {
+        .events-text-agenda {
+          padding-bottom: var(--space-4);
+        }
+      }
+      .events-calendar-carroussel-container {
+        flex-direction: column;
+        gap: var(--space-8);
+        .events-calendar-wrapper {
+          width: 100%;
+        }
+        .events-details-panel {
+          width: 100%;
+          padding: var(--space-6);
+          .events-carroussel-container {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+}
+.events-section-upcoming {
+  padding: var(--space-10) var(--space-14);
+  .events-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    padding: var(--space-6);
+  }
+}
+
+@media screen and (max-width: 428px) {
   .events-big-section {
     padding: var(--space-7) var(--space-10);
 
     .events-section-agenda {
       padding: var(--space-7) var(--space-6);
       .events-calendar-carroussel-container {
-        flex-direction: column;
         gap: var(--space-10);
 
-        .events-calendar-wrapper {
-          width: 100%;
-        }
         .events-details-panel {
-          width: 100%;
           padding: var(--space-4);
-          .events-carroussel-container {
-            padding: 0;
-          }
         }
       }
     }
@@ -268,7 +297,6 @@
     padding: var(--space-7) var(--space-10);
     .events-grid-container {
       grid-template-columns: 1fr;
-
       padding: var(--space-6) var(--space-5);
     }
   }

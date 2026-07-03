@@ -152,9 +152,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
 
   function decreaseQuantity() {
     if (value === min) {
-      // Si on est déjà au minimum, on déclenche l'erreur
-      setIsError(true);
-      setMessage(`Réservez au moins ${quantityConfig.min} place(s).`);
       return;
     }
     // Sinon, on baisse la quantité et on retire l'erreur éventuelle
