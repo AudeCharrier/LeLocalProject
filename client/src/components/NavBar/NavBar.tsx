@@ -55,7 +55,7 @@ function NavBar() {
             </button>
             <button type="button" className="navbar-connection-button-2">
               <Link to="/sign-in" className="navbar-link">
-                Rejoindre
+                Rejoindres
               </Link>
             </button>
           </>
