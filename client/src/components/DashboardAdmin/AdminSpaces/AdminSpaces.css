@@ -260,7 +260,7 @@
     gap: var(--space-5);
 
     .admin-spaces__title {
-      font-size: 1.95rem;
+      font-size: 2rem;
       line-height: 1.05;
     }
 
@@ -289,11 +289,11 @@
 
     .admin-spaces__category {
       margin-bottom: var(--space-1);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
     }
 
     .admin-spaces__occupancy {
-      font-size: 1.45rem;
+      font-size: 1.5rem;
     }
 
     .admin-spaces__name {
@@ -310,7 +310,7 @@
     .admin-spaces__time,
     .admin-spaces__status,
     .admin-spaces__meta {
-      font-size: 0.78rem;
+      font-size: var(--text-xs);
     }
 
     .admin-spaces__meta {

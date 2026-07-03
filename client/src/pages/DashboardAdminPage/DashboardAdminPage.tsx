@@ -34,7 +34,7 @@ function DashboardAdminPage() {
 
         <div className="dashboard-admin-page__header-actions">
           <button className="logOutButton" type="button" onClick={logout}>
-            Deconexion
+            Déconnexion
           </button>
         </div>
       </div>

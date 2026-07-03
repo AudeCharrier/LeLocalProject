@@ -136,15 +136,11 @@
     }
 
     .admin-events__table {
-      min-width: 780px;
+      min-width: 100%;
     }
   }
 
   @media screen and (max-width: 640px) {
-    .admin-events__table {
-      min-width: 720px;
-    }
-
     th,
     td {
       padding: var(--space-3) var(--space-3);
@@ -166,10 +162,6 @@
     th,
     td {
       padding: var(--space-3) var(--space-2);
-    }
-
-    .admin-events__table {
-      min-width: 660px;
     }
 
     .admin-events__event-name,
