@@ -177,7 +177,7 @@
   font-family: var(--font-body);
   font-size: 1rem;
   text-align: center;
-  width: 70%;
+  width: max-content;
   margin: auto;
   padding: var(--space-2);
 
@@ -195,9 +195,35 @@
   }
 }
 
+@media screen and (max-width: 1280px) {
+  .register-form-overlay {
+    .register-form {
+      padding: var(--space-8);
+      width: 60%;
+      .register-form-customer-infos-container {
+        .register-form-quantity {
+          gap: 0;
+          .register-form-quantity-selector {
+            .register-form-quantity-label {
+              width: 50%;
+            }
+            input[type="number"] {
+              max-width: var(--space-8);
+              padding: var(--space-1);
+            }
+            .register-form-total-price {
+              width: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 428px) {
   .register-form-overlay {
     .register-form {
+      padding: var(--space-6);
       width: 75%;
       .register-form-customer-infos-container {
         .register-form-quantity {
@@ -211,10 +237,7 @@
           .register-form-quantity-label {
             width: 60%;
           }
-          input[type="number"] {
-            max-width: var(--space-8);
-            padding: var(--space-1);
-          }
+
           .register-form-total-price {
             width: 50%;
             text-align: left;
