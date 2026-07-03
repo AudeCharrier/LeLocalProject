@@ -178,6 +178,7 @@
   font-size: 1rem;
   text-align: center;
   width: max-content;
+  height: auto;
   margin: auto;
   padding: var(--space-2);
 
@@ -245,5 +246,8 @@
         }
       }
     }
+  }
+  .event-form-confirmation-message {
+    width: 100%;
   }
 }
