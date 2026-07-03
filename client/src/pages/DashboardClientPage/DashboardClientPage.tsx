@@ -24,7 +24,7 @@ export default function DashboardClientPage() {
           Bonjour {user.firstname} 👋
         </h1>
         <button className="logOutButton" type="button" onClick={logout}>
-          Deconexion
+          Deconnexion
         </button>
       </div>
       <div className="dashboard-client-content">
