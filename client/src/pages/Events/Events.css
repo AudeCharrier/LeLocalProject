@@ -290,7 +290,7 @@
         gap: var(--space-10);
 
         .events-details-panel {
-          padding: var(--space-4);
+          padding: var(--space-4) 0;
         }
       }
     }

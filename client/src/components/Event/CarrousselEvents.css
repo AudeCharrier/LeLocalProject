@@ -17,6 +17,7 @@
       width: 100%;
       /* Gestion de la taille des cartes et de l'effet "aperçu" */
       .carousel-item {
+        display: flex;
         width: 100%;
         flex: 0 0 65%;
         scroll-snap-align: start;
