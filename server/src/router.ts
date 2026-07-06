@@ -67,6 +67,7 @@ router.get(
 router.post(
   "/api/dashboard/client/event-requests",
   authMiddleware.requireAuth,
+  upload.single("image"),
   dashboardClientActions.addEventRequest,
 );
 // *************************************************************************

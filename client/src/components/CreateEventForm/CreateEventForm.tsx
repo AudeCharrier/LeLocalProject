@@ -52,19 +52,19 @@ export default function CreateEventForm() {
     }
 
     try {
+      const formData = new FormData();
+      formData.append("name", titre);
+      formData.append("description", description);
+      formData.append("start_date", startDate);
+      formData.append("end_date", startDate);
+      formData.append("space_id", String(Number(selectedSpace)));
+      formData.append("time_slot_id", String(Number(selectedTimeSlot)));
+      formData.append("price_unit", String(priceUnit));
+      if (imageFile) formData.append("image", imageFile);
+
       const response = await apiFetch("/api/dashboard/client/event-requests", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: titre,
-          description,
-          start_date: startDate,
-          end_date: startDate,
-          space_id: Number(selectedSpace),
-          time_slot_id: Number(selectedTimeSlot),
-          url_image: null,
-          price_unit: priceUnit,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -105,7 +105,7 @@ export default function CreateEventForm() {
     <div className="create-event-page">
       <div className="create-event-sidebar">
         <p className="create-event-sidebar-subtitle">Vous avez un projet ?</p>
-        <h1 className="create-event-sidebar-title">Proposez un événement</h1>
+        <h2 className="create-event-sidebar-title">Proposez un événement</h2>
         <p className="create-event-sidebar-description">
           Le Local met ses espaces à disposition de la communauté pour organiser
           des ateliers, conférences, soirées et hackathons. Soumettez votre

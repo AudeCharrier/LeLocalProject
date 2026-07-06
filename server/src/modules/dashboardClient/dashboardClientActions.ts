@@ -161,6 +161,9 @@ const addEventRequest: RequestHandler = async (req, res, next) => {
       });
       return;
     }
+    const imageUrl = req.file
+      ? `/uploads/${req.file.filename}`
+      : "/assets/images/events/default-event.webp";
 
     const insertId = await dashboardClientRepository.createEventRequest({
       name: req.body.name,
@@ -169,8 +172,7 @@ const addEventRequest: RequestHandler = async (req, res, next) => {
       end_date: req.body.end_date,
       space_id: spaceId,
       time_slot_id: timeSlotId,
-      url_image:
-        req.body.url_image ?? "/assets/images/events/default-event.webp",
+      url_image: imageUrl,
       users_id: userId,
       price_unit: Number(req.body.price_unit) ?? 0,
     });
