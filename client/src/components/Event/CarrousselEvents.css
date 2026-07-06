@@ -2,7 +2,7 @@
 .carroussel-container {
   position: relative;
   width: 100%;
-  padding: 0 var(--space-12);
+  padding: 0 var(--space-16);
   /* Fenêtre de défilement */
   .events-div-selected-events {
     width: 100%;
@@ -13,7 +13,7 @@
     scroll-snap-type: x mandatory; /* Force l'aimantation horizontale */
     .events-div-selected-events-container {
       display: flex;
-      gap: var(--space-4);
+      gap: var(--space-6);
       width: 100%;
       /* Gestion de la taille des cartes et de l'effet "aperçu" */
       .carousel-item {
@@ -97,6 +97,7 @@
 
 @media screen and (max-width: 428px) {
   .carroussel-container {
+    padding: var(--space-1);
     .events-div-selected-events {
       -webkit-overflow-scrolling: touch;
       touch-action: pan-x;
@@ -111,5 +112,3 @@
     }
   }
 }
-
-/*reprendre claude largeur card dynamique*/
