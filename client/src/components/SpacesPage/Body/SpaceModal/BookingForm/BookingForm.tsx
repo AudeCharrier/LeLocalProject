@@ -159,6 +159,9 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
     }
   };
 
+  useEffect(() => {
+    console.log("availability reçue:", availability);
+  }, [availability]);
   // Écran de confirmation affiché après une réservation réussie
   if (success) {
     return (
@@ -185,7 +188,6 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
       </div>
     );
   }
-  console.log(availability);
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
       <button type="button" className="booking-form-back" onClick={onBack}>
@@ -271,9 +273,9 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
                 ? isLocal
                   ? "Cette période est disponible"
                   : "Ce créneau est disponible"
-                : isLocal
-                  ? "Cet espace est déjà réservé sur une période qui chevauche ces dates"
-                  : "Ce créneau est déjà réservé pour cet espace"
+                : !isLocal
+                  ? "Ce créneau est déjà réservé pour cet espace"
+                  : "Cet espace est déjà réservé sur une période qui chevauche ces dates"
               : null}
         </p>
       )}
@@ -298,8 +300,8 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
           !isUnavailable &&
           (availability?.available ?? 0) > 0 &&
           `${seats} place${seats > 1 ? "s" : ""} : ${totalPrice}€`}
-        {isLocal && `${months} mois : ${totalPrice}€`}
-        {!isOpenSpace && !isLocal && `${totalPrice}€`}
+        {isLocal && !isUnavailable && `${months} mois : ${totalPrice}€`}
+        {!isOpenSpace && !isLocal && !isUnavailable && `${totalPrice}€`}
       </p>
 
       {errorMsg && <p className="booking-form-error">{errorMsg}</p>}

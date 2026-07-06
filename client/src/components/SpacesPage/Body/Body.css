@@ -42,17 +42,20 @@
       min-height: 0;
     }
   }
+
   @media (max-width: 900px) {
     .body-spaces-page-spaces-list-div {
       display: flex;
       flex-direction: column;
       height: auto;
+      width: 100%;
     }
 
     .body-spaces-page-spaces-list-left-column,
     .body-spaces-page-spaces-list-right-column {
       display: flex;
       flex-direction: column;
+      width: 100%;
     }
 
     .card-space-0-div,
@@ -61,6 +64,21 @@
     .card-space-3-div,
     .card-space-4-div {
       height: 350px;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .body-spaces-page-container-div {
+      padding: var(--space-4);
+    }
+
+    .card-space-0-div,
+    .card-space-1-div,
+    .card-space-2-div,
+    .card-space-3-div,
+    .card-space-4-div {
+      height: 280px;
     }
   }
 }
