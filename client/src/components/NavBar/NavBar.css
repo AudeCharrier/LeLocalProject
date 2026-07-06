@@ -209,9 +209,9 @@
       left: 0;
       width: 100%;
       text-align: right;
-      background-color: var(--color-forest);
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      align-items: flex-end;
       justify-content: flex-end;
       gap: var(--gap-xs);
       padding: 0 var(--space-4);
@@ -229,7 +229,6 @@
       }
 
       .navbar-link-button {
-        width: 100%;
         text-align: right;
       }
     }
