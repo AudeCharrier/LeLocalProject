@@ -1,6 +1,6 @@
 .incoming-workshop {
   background-color: var(--color-bg-card);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   overflow: hidden;
   box-shadow: var(--shadow-card);
   font-family: var(--font-ui);
@@ -36,7 +36,7 @@
       position: absolute;
       top: var(--space-4);
       right: var(--space-4);
-      background: var(--color-primary);
+      background: var(--color-bg-dark);
       color: var(--color-text-on-dark);
       font-size: var(--text-sm);
       font-weight: var(--font-bold);
