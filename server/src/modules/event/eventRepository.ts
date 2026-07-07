@@ -144,6 +144,26 @@ class EventRepository {
     );
     return rows as Activity[];
   }
-}
 
+  async processTotalPrice(quantity: number, id: number) {
+    const [rows] = await databaseLeLocal.query<Rows>(
+      `SELECT
+      a.id,
+      a.price_unit,
+(? * a.price_unit) AS total_price
+    FROM activity AS a
+    INNER JOIN time_slot AS t ON a.time_slot_id = t.id
+    INNER JOIN space AS s ON a.space_id = s.id
+    WHERE a.id = ?
+    AND s.space_type = 'Evenements'
+    AND a.status = 'approved'`,
+      [quantity, id],
+    );
+
+    const row = rows[0];
+    if (!row) return null;
+
+    return Number(row.total_price);
+  }
+}
 export default new EventRepository();
