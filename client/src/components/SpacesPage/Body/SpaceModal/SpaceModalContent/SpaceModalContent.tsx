@@ -28,7 +28,7 @@ function SpaceModalContent({
 
   const isLocal = currentSpace.space_category === "Local vide";
   const isMeetRoom = currentSpace.space_category === "Salle de réunion";
-  const isEmptyLocal = currentSpace.space_category === "Local vide";
+
   const isStudio = ["Studio d'enregistrement", "Studio photo"].includes(
     currentSpace.space_category,
   );
@@ -122,10 +122,16 @@ function SpaceModalContent({
 
                   <p className="space-modal-content-carousel-slide-price">
                     {currentSpace.price_unit}€
-                    {isLocal ? " / mois" : isStudio ? " / séance" : " / place"}
+                    {isLocal
+                      ? " / mois"
+                      : isStudio
+                        ? " / séance"
+                        : isMeetRoom
+                          ? " / séance"
+                          : " / place"}
                   </p>
                   {/* La capacité ne s'affiche que pour les salles de réunion */}
-                  {!isStudio && !isEmptyLocal && isMeetRoom && (
+                  {isMeetRoom && (
                     <p className="space-modal-content-carousel-slide-capacity">
                       Capacité : {currentSpace.capacity} personnes
                     </p>

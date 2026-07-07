@@ -5,3 +5,16 @@
   grid-template-rows: 1fr 1fr;
   width: 50%;
 }
+
+@media (max-width: 900px) {
+  .header-spaces-page-second-article {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-spaces-page-second-article {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+  }
+}

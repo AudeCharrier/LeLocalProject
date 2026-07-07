@@ -17,15 +17,15 @@ type BookingFormProps = {
  * Formulaire de réservation pour un espace donné.
  * Le comportement (champs affichés, calcul du prix, vérification de dispo) varie selon la catégorie de l'espace :
  * - espace "open" (catégorie contenant "open") : on choisit un nombre de places
- * - "Local vide" : réservation sur une durée en mois (pas de créneau horaire)
+ * - "Local vide" : réservation sur une plage de dates (date de début + date de fin choisies par l'utilisateur)
  * - tout le reste (salle de réunion, studio...) : réservation par créneau, un seul occupant possible
  */
 function BookingForm({ space, onBack, userId }: BookingFormProps) {
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [seats, setSeats] = useState(1);
-  // Durée en mois pour un "Local vide". Pas de setter exposé pour l'instant (toujours 1 mois) : le underscore signale que setMonths n'est pas utilisé.
-  const [months, _setMonths] = useState(1);
+  // Date de fin choisie par l'utilisateur, uniquement utilisée pour un "Local vide"
+  const [endDateLocal, setEndDateLocal] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -39,15 +39,26 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
   const isLocal = space.space_category === "Local vide";
   const navigate = useNavigate();
 
-  // Pour un "Local vide", calcule à l'avance la date de fin (date + X mois) afin de pouvoir vérifier la disponibilité de la période avant validation
-  const previewEndDate =
-    isLocal && date
-      ? (() => {
-          const start = new Date(date);
-          start.setMonth(start.getMonth() + months);
-          return start.toISOString().split("T")[0];
-        })()
-      : undefined;
+  // Calcule le nombre de mois entiers entre deux dates (arrondi à l'entier inférieur, jamais négatif)
+  function monthsBetween(start: string, end: string): number {
+    const s = new Date(start);
+    const e = new Date(end);
+    let diff =
+      (e.getFullYear() - s.getFullYear()) * 12 + (e.getMonth() - s.getMonth());
+    if (e.getDate() < s.getDate()) diff -= 1;
+    return Math.max(diff, 0);
+  }
+
+  // Nombre de mois facturés pour un "Local vide", déduit de la plage de dates choisie
+  const monthsCount =
+    isLocal && date && endDateLocal ? monthsBetween(date, endDateLocal) : 0;
+
+  // Une plage de dates valide pour un local vide doit couvrir au moins un mois complet, avec une fin postérieure au début
+  const isDateRangeValid =
+    !isLocal || (date !== "" && endDateLocal !== "" && monthsCount >= 1);
+
+  // Pour un "Local vide", la date de fin est directement celle choisie par l'utilisateur (pour vérifier la disponibilité de la période avant validation)
+  const previewEndDate = isLocal ? endDateLocal || undefined : undefined;
 
   // Interroge l'API de disponibilité :
   // - mode "créneau" (timeSlotId) pour les espaces non-locaux
@@ -97,17 +108,16 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
 
   // Calcul du prix total selon le type d'espace :
   // - open      : prix effectif x nombre de places
-  // - local     : prix unitaire x nombre de mois
+  // - local     : prix unitaire x nombre de mois (déduit de la plage de dates)
   // - exclusif  : prix effectif (créneau unique)
   const totalPrice = isOpenSpace
     ? effectivePrice * seats
     : isLocal
-      ? effectivePrice * months
+      ? effectivePrice * monthsCount
       : effectivePrice;
 
   /**
    * Soumet la réservation à l'API (ajout au panier).
-   * Recalcule la date de fin pour les locaux (date + months) avant l'envoi.
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -115,12 +125,7 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
     setErrorMsg("");
 
     try {
-      let endDate = date;
-      if (isLocal && date) {
-        const start = new Date(date);
-        start.setMonth(start.getMonth() + months);
-        endDate = start.toISOString().split("T")[0];
-      }
+      const endDate = isLocal ? endDateLocal : date;
 
       const payload = {
         space_id: space.id,
@@ -128,7 +133,7 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         start_date: date,
         end_date: endDate,
         seats: isOpenSpace ? seats : null,
-        months: isLocal ? months : null,
+        months: isLocal ? monthsCount : null,
         users_id: userId,
         total_price: totalPrice,
         effective_price: effectivePrice,
@@ -185,7 +190,6 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
       </div>
     );
   }
-  console.log(availability);
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
       <button type="button" className="booking-form-back" onClick={onBack}>
@@ -195,17 +199,39 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
       <h2 className="booking-form-title">Réserver — {space.space_name}</h2>
 
       <label className="booking-form-label">
-        Date
+        {isLocal ? "Date de début" : "Date"}
         <input
           type="date"
           className="booking-form-input"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => {
+            setDate(e.target.value);
+            // Si la nouvelle date de début dépasse la date de fin déjà choisie, on réinitialise la date de fin
+            if (isLocal && endDateLocal && e.target.value >= endDateLocal) {
+              setEndDateLocal("");
+            }
+          }}
           required
         />
       </label>
 
-      {/* Pas de sélection de créneau pour un local vide (réservation à la durée) */}
+      {/* Date de fin, uniquement pour un local vide (réservation sur une plage de dates) */}
+      {isLocal && (
+        <label className="booking-form-label">
+          Date de fin
+          <input
+            type="date"
+            className="booking-form-input"
+            value={endDateLocal}
+            min={date || undefined}
+            onChange={(e) => setEndDateLocal(e.target.value)}
+            required
+            disabled={!date}
+          />
+        </label>
+      )}
+
+      {/* Créneau horaire, pour tous les espaces sauf les locaux vides (réservation à la période, pas au créneau) */}
       {!isLocal && (
         <label className="booking-form-label">
           Créneau
@@ -246,6 +272,13 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         </label>
       )}
 
+      {/* Message d'erreur si la plage de dates d'un local vide est invalide (moins d'un mois, ou fin avant début) */}
+      {isLocal && date && endDateLocal && monthsCount < 1 && (
+        <p className="booking-form-error">
+          La date de fin doit être au moins un mois après la date de début.
+        </p>
+      )}
+
       {/* Message de disponibilité pour les espaces "open" (places restantes) */}
       {date && selectedTimeSlot && (
         <span className="booking-form-availability">
@@ -262,21 +295,23 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
       )}
 
       {/* Message de disponibilité pour les espaces exclusifs (créneau ou période entièrement libre/occupée) */}
-      {isExclusiveSpace && date && (selectedTimeSlot || previewEndDate) && (
-        <p className="booking-form-availability">
-          {availabilityLoading
-            ? "Vérification des disponibilités..."
-            : availability
-              ? (availability?.available ?? 0) > 0
-                ? isLocal
-                  ? "Cette période est disponible"
-                  : "Ce créneau est disponible"
-                : isLocal
-                  ? "Cet espace est déjà réservé sur une période qui chevauche ces dates"
-                  : "Ce créneau est déjà réservé pour cet espace"
-              : null}
-        </p>
-      )}
+      {isExclusiveSpace &&
+        date &&
+        (selectedTimeSlot || (isLocal && isDateRangeValid)) && (
+          <p className="booking-form-availability">
+            {availabilityLoading
+              ? "Vérification des disponibilités..."
+              : availability
+                ? (availability?.available ?? 0) > 0
+                  ? isLocal
+                    ? "Cette période est disponible"
+                    : "Ce créneau est disponible"
+                  : !isLocal
+                    ? "Ce créneau est déjà réservé pour cet espace"
+                    : "Cet espace est déjà réservé sur une période qui chevauche ces dates"
+                : null}
+          </p>
+        )}
 
       {/* Coordonnées du client, affichées seulement si une place est effectivement disponible */}
       {!isUnavailable && (availability?.available ?? 0) > 0 && (
@@ -298,8 +333,11 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
           !isUnavailable &&
           (availability?.available ?? 0) > 0 &&
           `${seats} place${seats > 1 ? "s" : ""} : ${totalPrice}€`}
-        {isLocal && `${months} mois : ${totalPrice}€`}
-        {!isOpenSpace && !isLocal && `${totalPrice}€`}
+        {isLocal &&
+          !isUnavailable &&
+          monthsCount >= 1 &&
+          `${monthsCount} mois : ${totalPrice}€`}
+        {!isOpenSpace && !isLocal && !isUnavailable && `${totalPrice}€`}
       </p>
 
       {errorMsg && <p className="booking-form-error">{errorMsg}</p>}
@@ -310,7 +348,8 @@ function BookingForm({ space, onBack, userId }: BookingFormProps) {
         disabled={
           submitting ||
           (isOpenSpace && availability?.available === 0) ||
-          isUnavailable
+          isUnavailable ||
+          (isLocal && !isDateRangeValid)
         }
       >
         {submitting ? "Envoi..." : "Confirmer la réservation"}
