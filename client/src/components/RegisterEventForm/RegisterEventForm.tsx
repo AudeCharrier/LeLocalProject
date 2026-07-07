@@ -243,7 +243,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             id="firstname"
             name="prenom"
             placeholder="Votre prénom"
-            value={formData.prenom} // Ajouté et synchronisé !
+            value={formData.prenom}
             onChange={handleChange}
             required
             className="register-form-input"
@@ -314,8 +314,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             </p>
           </div>
         </div>
-
-        {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
 
         <button
           type="submit"

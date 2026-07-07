@@ -14,6 +14,7 @@ type Activity = {
   description: string;
   url_image: string;
   price_unit: number;
+  creator_id: number;
 };
 
 type Participants = {
@@ -44,6 +45,7 @@ class EventRepository {
       a.description,
       a.url_image,
       a.price_unit,
+      a.users_id as creator_id,
       s.space_name,
       t.start_hour,
       t.end_hour,
@@ -126,6 +128,7 @@ class EventRepository {
       a.description,
       a.url_image,
       a.price_unit,
+       a.users_id as creator_id,
       s.space_name,
       t.start_hour,
       t.end_hour,

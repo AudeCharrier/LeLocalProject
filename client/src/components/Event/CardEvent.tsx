@@ -2,7 +2,8 @@ import { Calendar, MapPin } from "lucide-react";
 import { useEventModalContext } from "../../hooks/useEventModalContext";
 import RegisterEventForm from "../RegisterEventForm/RegisterEventForm";
 import "./CardEvent.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 
 interface CardEventProps {
   event: {
@@ -16,6 +17,7 @@ interface CardEventProps {
     start_hour: string;
     end_hour: string;
     capacity: number;
+    creator_id: number;
   };
   participants?: {
     id_activity: number;
@@ -27,22 +29,49 @@ interface CardEventProps {
 }
 
 function CardEvent({ event, participants }: CardEventProps) {
+  const user = useAuthContext();
+
   const capacity = event.capacity;
   const sumParticipants = participants?.sum_participants ?? 0;
   const progress = capacity > 0 ? (sumParticipants / capacity) * 100 : 0;
   const remaining = participants?.remaining_slots ?? event.capacity;
 
   const { isForm, setIsForm } = useEventModalContext();
-  const [message, setMessage] = useState<string>("");
+
+  const [showLoginMessage, setShowLoginMessage] = useState(false);
+
+  useEffect(() => {
+    if (user) setShowLoginMessage(false);
+  }, [user]);
+
+  const isFull = remaining === 0;
+  const isCreator = user && user.id === event.creator_id;
+
+  const message =
+    !user && showLoginMessage
+      ? "Veuillez vous connecter pour vous inscrire"
+      : user && isFull
+        ? "Désolé, cet évènement est complet"
+        : isCreator
+          ? "Vous êtes créateur de cet évènement"
+          : "";
+
+  const isVisualDisabled = isFull || isCreator;
+  const isActive = !isVisualDisabled;
 
   function handleRegisterClick() {
-    if (remaining === 0) {
-      setMessage("Désolé, cet évènement est complet");
+    if (!user) {
+      setShowLoginMessage(true);
       setIsForm(false);
-    } else {
-      setMessage("");
-      setIsForm(true);
+      return;
     }
+
+    if (isFull || isCreator) {
+      setIsForm(false);
+      return;
+    }
+
+    setIsForm(true);
   }
   return (
     <>
@@ -96,9 +125,11 @@ function CardEvent({ event, participants }: CardEventProps) {
 
           <button
             type="button"
-            className="card-btn-register"
+            className={`card-btn-register ${isActive ? "" : "card-btn-disabled"}`}
             aria-label={`S'inscrire à ${event.name}`}
-            aria-disabled={remaining === 0}
+            aria-disabled={
+              remaining === 0 || !user || user.id === event.creator_id
+            }
             onClick={handleRegisterClick}
           >
             S'inscrire
