@@ -33,8 +33,26 @@ const readEventsOfTheDay: RequestHandler = async (req, res, next) => {
   }
 };
 
+const processTotalPrice: RequestHandler = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const quantity = Number(req.body.quantity);
+
+    const processPrice = await eventRepository.processTotalPrice(quantity, id);
+    if (processPrice === null) {
+      res.status(404).json({ error: "Évènement introuvable" });
+      return;
+    }
+
+    res.status(200).json(processPrice);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export default {
   browseUpcomingEvents,
   browseParticipantsToEvent,
   readEventsOfTheDay,
+  processTotalPrice,
 };

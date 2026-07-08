@@ -1,5 +1,5 @@
 import "./RegisterEventForm.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { apiFetch } from "../../hooks/apiFetch";
 import { useEventModalContext } from "../../hooks/useEventModalContext";
@@ -63,7 +63,54 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
   const { value, min, max } = quantityConfig;
   const [message, setMessage] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
-  const totalPrice = quantityConfig.value * event.price_unit;
+  const [totalPrice, setTotalPrice] = useState<number>(event.price_unit);
+
+  function decreaseQuantity() {
+    if (value === min) return;
+    setQuantityConfig((prev) => ({ ...prev, value: prev.value - 1 }));
+    setMessage("");
+  }
+
+  function increaseQuantity() {
+    if (value === max) {
+      setIsError(true);
+      setMessage(`Désolé, il ne reste plus que ${max} place(s) disponible(s).`);
+      return;
+    }
+    setQuantityConfig((prev) => ({ ...prev, value: prev.value + 1 }));
+    setMessage("");
+  }
+
+  useEffect(() => {
+    async function fetchTotalPrice() {
+      try {
+        const response = await apiFetch(`/api/events/${event.id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ event_id: event.id, quantity: value }),
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          if (typeof data === "number") {
+            setTotalPrice(data);
+          } else {
+            setMessage("Impossible de calculer le prix pour cet évènement.");
+            setIsError(true);
+          }
+        } else {
+          const errorData = await response.json();
+          setMessage(errorData.error || "Erreur lors du calcul du prix.");
+          setIsError(true);
+        }
+      } catch (err) {
+        setMessage("Une erreur réseau est survenue.");
+        setIsError(true);
+      }
+    }
+
+    fetchTotalPrice();
+  }, [value, event.id]);
 
   async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -150,37 +197,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
     }
   }
 
-  function decreaseQuantity() {
-    if (value === min) {
-      return;
-    }
-    // Sinon, on baisse la quantité et on retire l'erreur éventuelle
-    setQuantityConfig({
-      ...quantityConfig,
-      value: value - 1,
-    });
-    setMessage("");
-  }
-
-  function increaseQuantity() {
-    if (value === max) {
-      // Si on est déjà au maximum, on déclenche l'erreur
-      setIsError(true);
-      setMessage(
-        `Désolé, il ne reste plus que ${quantityConfig.max} place(s) disponible(s).`,
-      );
-
-      return;
-    }
-
-    // Sinon, on augmente la quantité et on retire l'erreur éventuelle
-    setQuantityConfig({
-      ...quantityConfig,
-      value: value + 1,
-    });
-    setMessage("");
-  }
-
   return (
     <article className="register-form-overlay">
       <form
@@ -243,7 +259,7 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             id="firstname"
             name="prenom"
             placeholder="Votre prénom"
-            value={formData.prenom} // Ajouté et synchronisé !
+            value={formData.prenom}
             onChange={handleChange}
             required
             className="register-form-input"
@@ -314,8 +330,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
             </p>
           </div>
         </div>
-
-        {/* affichage conditionnel des messages d'erreur liés au nb de places*/}
 
         <button
           type="submit"

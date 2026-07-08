@@ -122,6 +122,9 @@
         color: var(--color-bg-white);
         cursor: pointer;
       }
+      &.card-btn-disabled {
+        background-color: grey;
+      }
     }
   }
 }

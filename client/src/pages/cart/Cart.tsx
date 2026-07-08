@@ -61,7 +61,6 @@ function Cart() {
     if (!item) return;
 
     const newQuantity = item.quantity + 1;
-    const priceUnit = item.price_unit;
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -76,7 +75,6 @@ function Cart() {
             ? {
                 ...i,
                 quantity: newQuantity,
-                total_price: priceUnit * newQuantity,
               }
             : i,
         ),
@@ -91,7 +89,6 @@ function Cart() {
     if (!item || item.quantity <= 1) return;
 
     const newQuantity = item.quantity - 1;
-    const priceUnit = Number(item.price_unit);
 
     try {
       await apiFetch(`/api/cart/${id}`, {
@@ -106,7 +103,6 @@ function Cart() {
             ? {
                 ...i,
                 quantity: newQuantity,
-                total_price: priceUnit * newQuantity,
               }
             : i,
         ),
@@ -201,7 +197,7 @@ function Cart() {
                   </div>
 
                   <span className="cart-item-price">
-                    {Number(item.total_price)} €
+                    {(Number(item.price_unit) * item.quantity).toFixed(2)} €{" "}
                   </span>
                 </div>
               </div>

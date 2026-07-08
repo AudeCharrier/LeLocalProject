@@ -2,13 +2,14 @@
   padding: 80px;
   background-color: var(--color-bg-2);
 
-  h5 {
+  .home-section-events-subtitle {
     color: var(--color-forest);
     font-size: var(--text-base);
+    font-weight: var(--font-regular);
     letter-spacing: var(--tracking-wide);
     text-transform: uppercase;
     margin-bottom: 20px;
-    font-family: var(--secondary-font);
+    font-family: var(--font-ui);
   }
 
   .home-section-title {
@@ -22,16 +23,7 @@
       font-size: var(--text-3xl);
       color: var(--color-text-on-dark);
       width: auto;
-      font-family: var(--Primary-font);
-    }
-
-    a {
-      text-decoration: none;
-      color: var(--color-bg-white);
-      font-family: var(--font-display);
-      &:hover {
-        text-decoration: underline;
-      }
+      font-family: var(--font-heading);
     }
   }
   .home-events {

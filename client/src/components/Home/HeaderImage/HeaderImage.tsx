@@ -21,9 +21,9 @@ function ImageHautPageAcceuil() {
           <button type="button" className="hero-button hero-button-primary">
             <Link to="/espaces">Explorer les espaces →</Link>
           </button>
-          <button type="button" className="hero-button hero-button-secondary">
-            <Link to="/evenements">Voir les événements</Link>
-          </button>
+          <Link to="/evenements" className="hero-button hero-button-secondary">
+            Voir les événements
+          </Link>
         </div>
       </div>
     </div>

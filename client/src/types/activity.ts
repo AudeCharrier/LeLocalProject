@@ -14,4 +14,5 @@ export type Activity = {
   capacity: number;
   total_price: number;
   quantity: number;
+  creator_id: number;
 };

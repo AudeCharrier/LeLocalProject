@@ -44,6 +44,15 @@ router.get(
   eventActions.readEventsOfTheDay,
 );
 
+// Events (protégé client)
+
+// book an event : process the price with body.quantity
+router.post(
+  "/api/events/:id",
+  authMiddleware.requireAuth,
+  eventActions.processTotalPrice,
+);
+
 /* ************************************************************************* */
 // Dashboard Client (protégé client)
 /* ************************************************************************* */
@@ -67,6 +76,7 @@ router.get(
 router.post(
   "/api/dashboard/client/event-requests",
   authMiddleware.requireAuth,
+  upload.single("image"),
   dashboardClientActions.addEventRequest,
 );
 // *************************************************************************

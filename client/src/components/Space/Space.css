@@ -28,15 +28,17 @@
 }
 
 .space-section-see-all {
-  font-family: var(--font-display);
-  color: var(--color-bg-hero);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  color: var(--color-forest);
   background: none;
   border: none;
   cursor: pointer;
   transition: opacity var(--transition-fast);
 
   &:hover {
-    text-decoration: underline;
+    opacity: 0.75;
   }
 }
 
