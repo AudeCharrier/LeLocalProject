@@ -25,7 +25,7 @@ export default function DashboardClientPage() {
           <span aria-hidden="true"> 👋</span>
         </h1>
         <button className="logOutButton" type="button" onClick={logout}>
-          Deconexion
+          Deconnexion
         </button>
       </div>
       <section

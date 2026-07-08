@@ -4,9 +4,8 @@
 }
 
 .space-section-eyebrow {
-  color: var(--color-forest);
-  font-size: var(--text-base);
-  font-family: var(--font-ui);
+  color: var(--color-tag-text);
+  font-family: var(--font-display);
   font-weight: var(--font-regular);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -24,7 +23,7 @@
 .space-section-title {
   font-family: var(--font-heading);
   font-size: var(--text-3xl);
-  color: var(--color-text-on-dark);
+  color: var(--color-bg-hero);
   width: auto;
 }
 
@@ -56,5 +55,20 @@
 @media (max-width: 768px) {
   .space-section {
     padding: var(--space-10);
+  }
+  .space-section-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .space-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  .space-section-title {
+    font-size: var(--text-2xl);
   }
 }

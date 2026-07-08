@@ -1,6 +1,5 @@
 import CardEvent from "./CardEvent";
 import "./EventSection.css";
-
 import { Link } from "react-router";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useParticipants from "../../hooks/useParticipants";

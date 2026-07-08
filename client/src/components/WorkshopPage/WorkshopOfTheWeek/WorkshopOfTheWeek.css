@@ -32,7 +32,7 @@
   .workshop-featured__card {
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     overflow: hidden;
     box-shadow: var(--shadow-md);
     transition: var(--transition-base);
@@ -57,7 +57,7 @@
         position: absolute;
         top: var(--space-4);
         right: var(--space-4);
-        background: var(--color-primary);
+        background: var(--color-bg-dark);
         color: var(--color-text-on-dark);
         font-size: var(--text-sm);
         font-weight: var(--font-bold);
@@ -130,26 +130,31 @@
         }
       }
 
-      .workshop-featured__btn {
-        align-self: flex-start;
-        background: var(--color-primary);
-        color: var(--color-text-on-dark);
-        border: none;
-        border-radius: var(--radius-lg);
-        padding: var(--space-3) var(--space-6);
-        font-family: var(--font-ui);
-        font-size: var(--text-sm);
-        font-weight: var(--font-semibold);
-        cursor: pointer;
-        transition: var(--transition-fast);
+      .workshop-featured_btn-div {
+        display: flex;
+        justify-content: end;
 
-        @media (max-width: 768px) {
-          align-self: stretch;
-          text-align: center;
-        }
+        .workshop-featured__btn {
+          align-self: flex-start;
+          background: var(--color-primary);
+          color: var(--color-text-on-dark);
+          border: none;
+          border-radius: var(--radius-lg);
+          padding: var(--space-3) var(--space-6);
+          font-family: var(--font-ui);
+          font-size: var(--text-sm);
+          font-weight: var(--font-semibold);
+          cursor: pointer;
+          transition: var(--transition-fast);
 
-        &:hover {
-          background: var(--color-primary-dark);
+          @media (max-width: 768px) {
+            align-self: stretch;
+            text-align: center;
+          }
+
+          &:hover {
+            background: var(--color-primary-dark);
+          }
         }
       }
     }

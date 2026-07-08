@@ -66,13 +66,15 @@ function WorkshopOfTheWeek({ workshop }: WorkshopOfTheWeekProps) {
             </span>
           </div>
 
-          <button
-            type="button"
-            className="workshop-featured__btn"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Réserver ma place
-          </button>
+          <div className="workshop-featured_btn-div">
+            <button
+              type="button"
+              className="workshop-featured__btn"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Voir l'espace
+            </button>
+          </div>
         </div>
       </article>
 

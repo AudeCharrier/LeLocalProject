@@ -62,6 +62,10 @@
         background-color: var(--color-primary);
         color: var(--color-bg-white);
         border: none;
+        a {
+          text-decoration: none;
+          color: var(--color-bg-white);
+        }
         &:hover {
           background-color: var(--color-primary-dark);
         }
@@ -72,6 +76,10 @@
         background-color: transparent;
         color: var(--color-bg-white);
         border: var(--radius-sm) solid var(--color-border);
+        a {
+          text-decoration: none;
+          color: var(--color-bg-white);
+        }
         &:hover {
           background-color: rgba(128, 128, 128, 0.252);
         }
