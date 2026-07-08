@@ -25,11 +25,13 @@
       font-family: var(--Primary-font);
     }
 
-    p {
-      color: var(--color-forest);
-      font-size: var(--text-base);
-      cursor: pointer;
-      font-family: var(--secondary-font);
+    a {
+      text-decoration: none;
+      color: var(--color-bg-white);
+      font-family: var(--font-display);
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   .home-events {
