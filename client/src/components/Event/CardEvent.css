@@ -127,4 +127,18 @@
       }
     }
   }
+  .card-event-message-error {
+    color: #c62828;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid #ef9a9a;
+    border-radius: 0.25rem;
+    width: 90%;
+    height: auto;
+    margin: auto;
+    padding: var(--space-2);
+    white-space: pre-line;
+  }
 }
