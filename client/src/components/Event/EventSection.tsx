@@ -1,5 +1,6 @@
 import CardEvent from "./CardEvent";
 import "./EventSection.css";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { ModalEventProvider } from "../../context/CloseEventModalContext";
 import useParticipants from "../../hooks/useParticipants";
@@ -8,6 +9,22 @@ import useUpcomingEvents from "../../hooks/useUpcomingEvents";
 function EventSection() {
   const upcomingEvents = useUpcomingEvents();
   const participants = useParticipants();
+
+  const [maxCardsforGrid, setMaxCardsForGrid] = useState<number>(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1280 && window.innerWidth > 428) {
+        setMaxCardsForGrid(4);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <section className="home-section-events">
@@ -19,7 +36,7 @@ function EventSection() {
         </Link>
       </div>
       <div className="home-events">
-        {upcomingEvents.slice(0, 3).map((upcomingEvent) => {
+        {upcomingEvents.slice(0, maxCardsforGrid).map((upcomingEvent) => {
           const eventParticipants = participants.find(
             (p) => p.id_activity === upcomingEvent.id,
           );
