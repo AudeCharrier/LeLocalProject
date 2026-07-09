@@ -27,14 +27,11 @@
     }
   }
   .home-events {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-5);
     width: 100%;
-    gap: var(--gap-lg);
-    font-family: var(--secondary-font);
     /* On cible le wrapper direct du map (ModalEventProvider) */
     & > * {
       flex: 1 1 calc(33.333% - var(--gap-lg));
@@ -49,8 +46,7 @@
     .home-events {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-5);
-      padding: var(--space-6);
+      padding: var(--space-6) 0;
     }
   }
 }
@@ -68,6 +64,7 @@
     }
     .home-events {
       grid-template-columns: 1fr;
+      gap: var(--space-5);
       padding: var(--space-6) 0;
     }
   }
