@@ -135,11 +135,7 @@ function CardEvent({ event, participants }: CardEventProps) {
             S'inscrire
           </button>
         </div>
-        {message && (
-          <span className="event-form-confirmation-message event-message-error">
-            {message}
-          </span>
-        )}
+        {message && <span className="card-event-message-error">{message}</span>}
       </article>
       {isForm && (
         <RegisterEventForm event={event} participants={participants} />

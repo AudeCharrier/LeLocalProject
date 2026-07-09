@@ -16,25 +16,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: var(--space-12);
     width: 100%;
 
     h2 {
+      font-family: var(--font-heading);
       font-size: var(--text-3xl);
       color: var(--color-text-on-dark);
       width: auto;
-      font-family: var(--font-heading);
     }
   }
   .home-events {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-5);
     width: 100%;
-    gap: var(--gap-lg);
-    font-family: var(--secondary-font);
     /* On cible le wrapper direct du map (ModalEventProvider) */
     & > * {
       flex: 1 1 calc(33.333% - var(--gap-lg));
@@ -42,8 +39,33 @@
   }
 }
 
-@media (max-width: 768px) {
+/* ================== RESPONSIVE ================== */
+
+@media screen and (max-width: 1280px) {
   .home-section-events {
-    padding: 40px;
+    .home-events {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      padding: var(--space-6) 0;
+    }
+  }
+}
+
+@media screen and (max-width: 428px) {
+  .home-section-events {
+    padding: var(--space-10);
+    .home-section-title {
+      margin-bottom: var(--space-8);
+
+      h2 {
+        font-size: var(--text-2xl);
+        width: 60%;
+      }
+    }
+    .home-events {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+      padding: var(--space-6) 0;
+    }
   }
 }
