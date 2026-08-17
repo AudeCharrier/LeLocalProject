@@ -7,21 +7,38 @@ import "./AdminEventRequests.css";
 function AdminEventRequests() {
   const { requests, setRequests } = useAdminEventRequests();
   const [openId, setOpenId] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   function toggleOpen(id: number) {
     setOpenId(openId === id ? null : id);
   }
 
   async function handleDecision(id: number, status: "approved" | "refused") {
-    await apiFetch(`/api/dashboard/admin/event-requests/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    setRequests((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status } : r)),
-    );
-    setOpenId(null);
+    try {
+      setErrorMessage(null);
+
+      const res = await apiFetch(`/api/dashboard/admin/event-requests/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        console.error("Échec de la requête :", res.status, data);
+        setErrorMessage(data?.message);
+        return;
+      }
+
+      setRequests((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status } : r)),
+      );
+      setOpenId(null);
+    } catch (err) {
+      console.error("Erreur réseau :", err);
+      setErrorMessage("Impossible de joindre le serveur.");
+    }
   }
 
   const pendingCount = requests.filter((r) => r.status === "pending").length;
@@ -111,6 +128,11 @@ function AdminEventRequests() {
               </li>
             );
           })}
+          {errorMessage && (
+            <p className="admin-event-requests__error-message">
+              {errorMessage}
+            </p>
+          )}
         </ul>
       )}
     </section>
