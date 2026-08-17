@@ -72,24 +72,35 @@ const browseAdminEventRequests: RequestHandler = async (_req, res, next) => {
 const updateEventRequest: RequestHandler = async (req, res, next) => {
   try {
     const activityId = Number(req.params.activityId);
-    const status = req.body.status as "approved" | "refused";
+    const { status } = req.body;
 
-    await dashboardAdminRepository.updateEventRequestStatus(activityId, status);
-
-    if (status === "approved") {
-      const request =
-        await dashboardAdminRepository.getEventRequest(activityId);
-      if (request?.users_id) {
-        await dashboardAdminRepository.createBookingForRequest(
-          activityId,
-          request.users_id,
-        );
-      }
+    if (!["approved", "refused"].includes(status)) {
+      return res.status(400).json({ message: "Statut invalide." });
     }
 
-    res.json({ message: "Statut mis à jour." });
+    const updated = await dashboardAdminRepository.handleEventRequest(
+      activityId,
+      status,
+    );
+
+    if (!updated) {
+      return res
+        .status(404)
+        .json({ message: "Demande d'événement introuvable." });
+    }
+
+    return res.status(200).json({
+      message:
+        status === "approved"
+          ? "Événement approuvé et réservation créée."
+          : "Événement refusé.",
+    });
   } catch (err) {
-    next(err);
+    console.error(err);
+    // Au lieu de next(err), tu renvoies directement le statut 500 au front
+    return res
+      .status(500)
+      .json({ message: "Erreur lors du traitement de la demande." });
   }
 };
 
