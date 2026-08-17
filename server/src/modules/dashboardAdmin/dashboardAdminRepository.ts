@@ -1,3 +1,4 @@
+import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import databaseClient from "../../../database/client";
 import type { Rows } from "../../../database/client";
 
@@ -212,39 +213,66 @@ class DashboardAdminRepository {
     return rows;
   }
 
-  async updateEventRequestStatus(
-    activityId: number,
-    status: "approved" | "refused",
-  ) {
-    await databaseClient.query("UPDATE activity SET status = ? WHERE id = ?", [
-      status,
-      activityId,
-    ]);
-  }
+  async handleEventRequest(activityId: number, status: "approved" | "refused") {
+    const connection = await databaseClient.getConnection();
 
-  async createBookingForRequest(activityId: number, userId: number) {
-    const year = new Date().getFullYear();
+    try {
+      await connection.beginTransaction();
 
-    const [priceRows] = await databaseClient.query<Rows>(
-      `SELECT s.price_unit FROM activity a 
-     JOIN space s ON a.space_id = s.id 
-     WHERE a.id = ?`,
-      [activityId],
-    );
-    const priceUnit = (priceRows[0] as { price_unit: number }).price_unit;
+      // 1. Mettre à jour le statut
+      const [result] = await connection.query<ResultSetHeader>(
+        "UPDATE activity SET status = ? WHERE id = ?",
+        [status, activityId],
+      );
 
-    const [rows] = await databaseClient.query<Rows>(
-      "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
-      [`${year}-%`],
-    );
-    const count = (rows as { count: number }[])[0].count;
-    const billsNumber = `${year}-${Number(count) + 1}`;
+      if (result.affectedRows === 0) {
+        await connection.rollback();
+        return false; // L'activité n'existe pas
+      }
 
-    await databaseClient.query(
-      `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity, payment_status)
-     VALUES (?, ?, 1, ?, ?, 'pending')`,
-      [userId, billsNumber, priceUnit, activityId],
-    );
+      // 2. Traitement spécifique si approuvé
+      if (status === "approved") {
+        // Récupération des infos nécessaires + verrouillage (FOR UPDATE)
+        const [rows] = await connection.query<RowDataPacket[]>(
+          `SELECT a.users_id, s.price_unit 
+         FROM activity a 
+         JOIN space s ON a.space_id = s.id 
+         WHERE a.id = ?`,
+          [activityId],
+        );
+
+        const request = rows[0];
+        if (!request || !request.users_id) {
+          throw new Error(
+            "Impossible de récupérer les informations de réservation.",
+          );
+        }
+
+        // Génération du numéro de facture
+        const year = new Date().getFullYear();
+        const [countRows] = await connection.query<RowDataPacket[]>(
+          "SELECT COUNT(*) as count FROM booking WHERE bills_number LIKE ?",
+          [`${year}-%`],
+        );
+        const count = countRows[0].count;
+        const billsNumber = `${year}-${Number(count) + 1}`;
+
+        // Insertion du booking
+        await connection.query(
+          `INSERT INTO booking (users_id, bills_number, quantity, total_price, id_activity, payment_status)
+         VALUES (?, ?, 1, ?, ?, 'pending')`,
+          [request.users_id, billsNumber, request.price_unit, activityId],
+        );
+      }
+
+      await connection.commit();
+      return true;
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
   }
 
   async getEventRequest(activityId: number) {
