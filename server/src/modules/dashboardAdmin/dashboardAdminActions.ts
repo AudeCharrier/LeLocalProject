@@ -97,7 +97,6 @@ const updateEventRequest: RequestHandler = async (req, res, next) => {
     });
   } catch (err) {
     console.error(err);
-    // Au lieu de next(err), tu renvoies directement le statut 500 au front
     return res
       .status(500)
       .json({ message: "Erreur lors du traitement de la demande." });

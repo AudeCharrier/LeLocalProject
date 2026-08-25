@@ -115,10 +115,8 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
   async function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // on sauvegarde le formulaire avant le await
     const form = e.currentTarget;
 
-    // On construit l'objet proprement au moment du clic, avec la quantité à jour
     const eventBookingPayload: CartItem = {
       users_id: user?.id ?? 0,
       event_id: event.id,
@@ -188,7 +186,6 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
         return;
       }
 
-      // si le back renvoie un code inattendu (ex: 500)
       setMessage("Une erreur inattendue est survenue.");
       setIsError(true);
     } catch (err) {
@@ -290,13 +287,12 @@ function RegisterEventForm({ event, participants }: CardEventProps) {
               </label>
 
               {/*bouton -1 */}
-
               <button
                 type="button"
                 onClick={decreaseQuantity}
                 className="btn-quantity"
-                aria-label="Retirer une place" //accessibilité, lit le bouton
-                aria-disabled={value === min} // accessibilité : indique le blocage sans couper le JavaScript
+                aria-label="Retirer une place"
+                aria-disabled={value === min}
               >
                 -
               </button>
