@@ -1,9 +1,23 @@
 import argon2 from "argon2";
-import type { RequestHandler } from "express";
+import type { Request, RequestHandler, Response } from "express";
+import Joi from "joi";
 import authRepository from "./AuthentificationRepository";
 import jwtUtil from "./Jwt";
 
 const SALT_ROUNDS = 12;
+
+const loginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "string.email": "Le format de l'email est invalide.",
+    "string.empty": "L'email est requis.",
+    "any.required": "L'email est requis.",
+  }),
+  password: Joi.string().min(8).required().messages({
+    "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
+    "string.empty": "Le mot de passe est requis.",
+    "any.required": "Le mot de passe est requis.",
+  }),
+});
 
 // Inscription : crée toujours un compte avec le role "client"
 const register: RequestHandler = async (req, res, next) => {
@@ -58,67 +72,73 @@ const register: RequestHandler = async (req, res, next) => {
 
 // Logique de connexion partagée, restreinte à un rôle attendu ("client" ou "admin")
 const loginWithRole = async (
-  req: Parameters<RequestHandler>[0],
-  res: Parameters<RequestHandler>[1],
+  req: Request,
+  res: Response,
   expectedRole: "client" | "admin",
 ) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(400).json({ message: "Email et mot de passe requis." });
-    return;
-  }
-
-  const invalidCredentials = () =>
-    res.status(401).json({ message: "Email ou mot de passe incorrect." });
-
-  const user = await authRepository.findByEmail(email);
-  if (!user) {
-    invalidCredentials();
-    return;
-  }
-
-  const passwordMatches = await argon2.verify(user.password, password);
-  if (!passwordMatches) {
-    invalidCredentials();
-    return;
-  }
-
-  if (user.role !== expectedRole) {
-    res.status(403).json({
-      message:
-        expectedRole === "admin"
-          ? "Ce compte n'a pas les droits administrateur."
-          : "Veuillez utiliser l'espace Admin pour vous connecter.",
+  try {
+    const { error, value } = loginSchema.validate(req.body, {
+      abortEarly: false,
     });
-    return;
+
+    if (error) {
+      res.status(400).json({
+        message: "Données invalides.",
+        details: error.details.map((err) => err.message),
+      });
+      return;
+    }
+
+    /*value = res de joi*/
+    const { email, password } = value;
+
+    const invalidCredentials = () =>
+      res.status(401).json({ message: "Email ou mot de passe incorrect." });
+
+    const user = await authRepository.findByEmail(email);
+    if (!user) {
+      invalidCredentials();
+      return;
+    }
+
+    const passwordMatches = await argon2.verify(user.password, password);
+    if (!passwordMatches) {
+      invalidCredentials();
+      return;
+    }
+
+    if (user.role !== expectedRole) {
+      res.status(403).json({
+        message:
+          expectedRole === "admin"
+            ? "Ce compte n'a pas les droits administrateur."
+            : "Veuillez utiliser l'espace Admin pour vous connecter.",
+      });
+      return;
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      firstname: user.firstname,
+    };
+
+    const token = jwtUtil.signToken(payload);
+
+    res.status(200).json({ token, user: payload });
+  } catch (err) {
+    console.error("Erreur lors de la connexion :", err);
+    res.status(500).json({ message: "Erreur interne du serveur." });
   }
-
-  const { password: _password, fortgot_password: _fortgot, ...safeUser } = user;
-  const token = jwtUtil.signToken({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    firstname: user.firstname,
-  });
-
-  res.status(200).json({ token, user: safeUser });
 };
 
-const loginClient: RequestHandler = async (req, res, next) => {
-  try {
-    await loginWithRole(req, res, "client");
-  } catch (err) {
-    next(err);
-  }
+const loginClient: RequestHandler = async (req, res) => {
+  await loginWithRole(req, res, "client");
 };
 
-const loginAdmin: RequestHandler = async (req, res, next) => {
-  try {
-    await loginWithRole(req, res, "admin");
-  } catch (err) {
-    next(err);
-  }
+const loginAdmin: RequestHandler = async (req, res) => {
+  await loginWithRole(req, res, "admin");
 };
 
 // Profil de l'utilisateur connecté (req.user injecté par le middleware requireAuth)

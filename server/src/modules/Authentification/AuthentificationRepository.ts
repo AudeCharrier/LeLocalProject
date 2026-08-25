@@ -23,7 +23,7 @@ const SAFE_USER_FIELDS =
 
 const findByEmail = async (email: string): Promise<UserRow | null> => {
   const [rows] = await databaseLeLocal.query<Rows>(
-    "SELECT * FROM users WHERE email = ? LIMIT 1",
+    "SELECT * FROM users WHERE email = ?",
     [email],
   );
   return (rows[0] as UserRow) ?? null;
