@@ -219,7 +219,6 @@ class DashboardAdminRepository {
     try {
       await connection.beginTransaction();
 
-      // 1. Mettre à jour le statut
       const [result] = await connection.query<ResultSetHeader>(
         "UPDATE activity SET status = ? WHERE id = ?",
         [status, activityId],
@@ -227,12 +226,10 @@ class DashboardAdminRepository {
 
       if (result.affectedRows === 0) {
         await connection.rollback();
-        return false; // L'activité n'existe pas
+        return false;
       }
 
-      // 2. Traitement spécifique si approuvé
       if (status === "approved") {
-        // Récupération des infos nécessaires + verrouillage (FOR UPDATE)
         const [rows] = await connection.query<RowDataPacket[]>(
           `SELECT a.users_id, s.price_unit 
          FROM activity a 
