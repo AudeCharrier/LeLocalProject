@@ -6,14 +6,43 @@ import jwtUtil from "./Jwt";
 
 const SALT_ROUNDS = 12;
 
+const passwordPattern =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+const registerSchema = Joi.object({
+  firstname: Joi.string().trim().required().messages({
+    "string.empty": "Le prénom est requis.",
+  }),
+  lastname: Joi.string().trim().required().messages({
+    "string.empty": "Le nom est requis.",
+  }),
+  email: Joi.string().email().required().messages({
+    "string.email": "Le format de l'email est invalide.",
+    "string.empty": "L'email est requis.",
+  }),
+  password: Joi.string().pattern(passwordPattern).required().messages({
+    "string.empty": "Le mot de passe est requis.",
+    "string.pattern.base":
+      "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
+  }),
+  phone_number: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .required()
+    .messages({
+      "string.empty": "Le numéro de téléphone est requis.",
+      "string.pattern.base":
+        "Le numéro de téléphone doit contenir 10 chiffres.",
+    }),
+  city: Joi.string().trim().allow("", null),
+  adress: Joi.string().trim().allow("", null),
+});
+
 const loginSchema = Joi.object({
   email: Joi.string().email().required().messages({
     "string.email": "Le format de l'email est invalide.",
     "string.empty": "L'email est requis.",
     "any.required": "L'email est requis.",
   }),
-  password: Joi.string().min(8).required().messages({
-    "string.min": "Le mot de passe doit contenir au moins 8 caractères.",
+  password: Joi.string().required().messages({
     "string.empty": "Le mot de passe est requis.",
     "any.required": "Le mot de passe est requis.",
   }),
@@ -23,13 +52,20 @@ const loginSchema = Joi.object({
 // Inscription : crée toujours un compte avec le role "client"
 const register: RequestHandler = async (req, res, next) => {
   try {
-    const { firstname, lastname, email, password, phone_number, city, adress } =
-      req.body;
+    const { error, value } = registerSchema.validate(req.body, {
+      abortEarly: false,
+    });
 
-    if (!firstname || !lastname || !email || !password || !phone_number) {
-      res.status(400).json({ message: "Champs obligatoires manquants." });
+    if (error) {
+      res.status(400).json({
+        message: "Données invalides.",
+        details: error.details.map((err) => err.message),
+      });
       return;
     }
+
+    const { firstname, lastname, email, password, phone_number, city, adress } =
+      value;
 
     const existing = await authRepository.findByEmail(email);
     if (existing) {

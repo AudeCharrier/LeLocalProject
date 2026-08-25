@@ -15,7 +15,7 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -29,21 +29,14 @@ export default function Login() {
           targetRole: tab,
         }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
-        // Gère à la fois les erreurs Joi (tableau 'details') et les erreurs métiers (401, 403, 500)
-        if (Array.isArray(data.details)) {
-          setError(data.details.join(" "));
-        } else {
-          setError(
-            data.message ?? "Une erreur est survenue lors de la connexion.",
-          );
-        }
+        const errorMessage = data.details
+          ? data.details.join("\n")
+          : data.message;
+        setError(errorMessage);
         return;
       }
-
       if (remember) {
         localStorage.setItem("token", data.token);
       } else {
@@ -79,7 +72,7 @@ export default function Login() {
           </button>
         </div>
 
-        <form className="auth-form-wrapper" onSubmit={handleSubmit}>
+        <form className="auth-form-wrapper" onSubmit={handleSubmit} noValidate>
           <h1 className="auth-title">Saisissez vos identifiants</h1>
 
           {error && <p className="auth-error">{error}</p>}
