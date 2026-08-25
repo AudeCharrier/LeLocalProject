@@ -1,5 +1,5 @@
 import argon2 from "argon2";
-import type { Request, RequestHandler, Response } from "express";
+import type { RequestHandler } from "express";
 import Joi from "joi";
 import authRepository from "./AuthentificationRepository";
 import jwtUtil from "./Jwt";
@@ -17,6 +17,7 @@ const loginSchema = Joi.object({
     "string.empty": "Le mot de passe est requis.",
     "any.required": "Le mot de passe est requis.",
   }),
+  targetRole: Joi.string().valid("client", "admin").required(),
 });
 
 // Inscription : crée toujours un compte avec le role "client"
@@ -71,11 +72,7 @@ const register: RequestHandler = async (req, res, next) => {
 };
 
 // Logique de connexion partagée, restreinte à un rôle attendu ("client" ou "admin")
-const loginWithRole = async (
-  req: Request,
-  res: Response,
-  expectedRole: "client" | "admin",
-) => {
+export const login: RequestHandler = async (req, res) => {
   try {
     const { error, value } = loginSchema.validate(req.body, {
       abortEarly: false,
@@ -90,8 +87,7 @@ const loginWithRole = async (
     }
 
     /*value = res de joi*/
-    const { email, password } = value;
-
+    const { email, password, targetRole } = value;
     const invalidCredentials = () =>
       res.status(401).json({ message: "Email ou mot de passe incorrect." });
 
@@ -107,10 +103,10 @@ const loginWithRole = async (
       return;
     }
 
-    if (user.role !== expectedRole) {
+    if (user.role !== targetRole) {
       res.status(403).json({
         message:
-          expectedRole === "admin"
+          targetRole === "admin"
             ? "Ce compte n'a pas les droits administrateur."
             : "Veuillez utiliser l'espace Admin pour vous connecter.",
       });
@@ -131,14 +127,6 @@ const loginWithRole = async (
     console.error("Erreur lors de la connexion :", err);
     res.status(500).json({ message: "Erreur interne du serveur." });
   }
-};
-
-const loginClient: RequestHandler = async (req, res) => {
-  await loginWithRole(req, res, "client");
-};
-
-const loginAdmin: RequestHandler = async (req, res) => {
-  await loginWithRole(req, res, "admin");
 };
 
 // Profil de l'utilisateur connecté (req.user injecté par le middleware requireAuth)
@@ -162,4 +150,4 @@ const me: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { register, loginClient, loginAdmin, me };
+export default { register, login, me };

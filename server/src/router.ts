@@ -10,8 +10,7 @@ import authActions from "./modules/Authentification/AuthentificationAction";
 // Auth routes (publiques)
 /* ************************************************************************* */
 router.post("/api/auth/register", authActions.register);
-router.post("/api/auth/login/client", authActions.loginClient);
-router.post("/api/auth/login/admin", authActions.loginAdmin);
+router.post("/api/auth/login", authActions.login);
 router.get("/api/auth/me", authMiddleware.requireAuth, authActions.me);
 
 /* ************************************************************************* */

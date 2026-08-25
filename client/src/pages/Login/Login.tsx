@@ -15,24 +15,32 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const endpoint =
-      tab === "admin" ? "/api/auth/login/admin" : "/api/auth/login/client";
-
     try {
-      const res = await apiFetch(endpoint, {
+      const res = await apiFetch("/api/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email,
+          password,
+          targetRole: tab,
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message ?? "Identifiants incorrects.");
+        // Gère à la fois les erreurs Joi (tableau 'details') et les erreurs métiers (401, 403, 500)
+        if (Array.isArray(data.details)) {
+          setError(data.details.join(" "));
+        } else {
+          setError(
+            data.message ?? "Une erreur est survenue lors de la connexion.",
+          );
+        }
         return;
       }
 
