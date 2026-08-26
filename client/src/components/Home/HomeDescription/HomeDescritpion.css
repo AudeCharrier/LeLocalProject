@@ -141,3 +141,27 @@
     }
   }
 }
+
+@media screen and (max-width: 428px) {
+  .mission-global-section {
+    padding: var(--space-10);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "our-mission"
+      "image-div"
+      "features";
+    gap: var(--space-6);
+    .mission-our-mission-div {
+      .mission-title {
+        font-size: var(--text-2xl);
+      }
+    }
+    .mission-features-list-div {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: var(--space-4);
+    }
+  }
+}
