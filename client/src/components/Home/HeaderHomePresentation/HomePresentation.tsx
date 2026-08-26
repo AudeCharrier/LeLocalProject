@@ -13,7 +13,7 @@ function PresentationAcceuil() {
       </div>
       <div className="stats-item-div">
         <span className="stats-number">100+</span>
-        <span className="stats-text">événements / an</span>
+        <span className="stats-text">événements par an</span>
       </div>
       <div className="stats-item-div">
         <span className="stats-number">Paris 11e</span>

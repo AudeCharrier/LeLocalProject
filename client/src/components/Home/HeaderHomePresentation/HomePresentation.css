@@ -7,11 +7,11 @@
 
   .stats-item-div {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: var(--gap-sm);
 
     .stats-number {
-      font-size: clamp(var(--space-text-sm), 2vw, var(--text-2xl));
+      font-size: var(--text-2xl);
       font-weight: var(--font-bold);
       color: var(--color-text-on-dark);
       font-family: var(--font-display);
@@ -20,7 +20,7 @@
     .stats-text {
       color: var(--color-text-on-dark);
       letter-spacing: var(--tracking-wide);
-      font-size: clamp(var(--space-text-sm), 2vw, var(--text-2xl));
+      font-size: var(--text-lg);
       font-family: var(--font-display);
       font-weight: var(--font-regular);
     }
@@ -29,22 +29,36 @@
 
 @media screen and (max-width: 1280px) {
   .stats-global-div {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     gap: var(--space-2);
     padding: var(--space-4);
 
     .stats-item-div {
+      flex: 0 1 auto;
+      min-width: 0;
       gap: var(--gap-sm);
+
+      .stats-number {
+        font-size: var(--text-xl);
+      }
+
+      .stats-text {
+        font-size: var(--text-base);
+        flex-wrap: wrap;
+      }
     }
   }
 }
-
 @media screen and (max-width: 428px) {
   .stats-global-div {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     padding: var(--space-2);
+    padding-left: var(--space-4);
     .stats-item-div {
-      gap: var(--space-2);
+      gap: var(--space-4);
       padding: var(--space-2);
     }
   }

@@ -48,9 +48,9 @@
     max-width: 600px;
 
     .mission-eyebrow {
-      font-size: var(--text-sm);
-      font-family: var(--font-heading);
-      letter-spacing: var(--tracking-widest);
+      font-size: var(--text-base);
+      font-weight: var(--font-regular);
+      font-family: var(--font-ui);
       text-transform: uppercase;
       color: var(--color-bg-hero);
       margin: 0 0 16px 0;
