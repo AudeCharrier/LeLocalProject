@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Login.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { apiFetch } from "../../hooks/apiFetch";
 
 type Tab = "client" | "admin";
@@ -14,25 +15,30 @@ export default function Login() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const endpoint =
-      tab === "admin" ? "/api/auth/login/admin" : "/api/auth/login/client";
-
     try {
-      const res = await apiFetch(endpoint, {
+      const res = await apiFetch("/api/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          email,
+          password,
+          targetRole: tab,
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.message ?? "Identifiants incorrects.");
+        const errorMessage = data.details
+          ? data.details.join("\n")
+          : data.message;
+        setError(errorMessage);
         return;
       }
 
@@ -42,8 +48,9 @@ export default function Login() {
         sessionStorage.setItem("token", data.token);
       }
 
-      window.location.href =
+      const targetPath =
         tab === "admin" ? "/dashboard-admin" : "/dashboard-client";
+      navigate(targetPath, { replace: true });
     } catch {
       setError("Impossible de contacter le serveur.");
     } finally {
@@ -71,7 +78,7 @@ export default function Login() {
           </button>
         </div>
 
-        <form className="auth-form-wrapper" onSubmit={handleSubmit}>
+        <form className="auth-form-wrapper" onSubmit={handleSubmit} noValidate>
           <h1 className="auth-title">Saisissez vos identifiants</h1>
 
           {error && <p className="auth-error">{error}</p>}

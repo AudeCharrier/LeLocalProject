@@ -1,20 +1,71 @@
 import argon2 from "argon2";
 import type { RequestHandler } from "express";
+import Joi from "joi";
 import authRepository from "./AuthentificationRepository";
 import jwtUtil from "./Jwt";
 
 const SALT_ROUNDS = 12;
 
+const passwordPattern =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+const registerSchema = Joi.object({
+  firstname: Joi.string().trim().required().messages({
+    "string.empty": "Le prénom est requis.",
+  }),
+  lastname: Joi.string().trim().required().messages({
+    "string.empty": "Le nom est requis.",
+  }),
+  email: Joi.string().email().required().messages({
+    "string.email": "Le format de l'email est invalide.",
+    "string.empty": "L'email est requis.",
+  }),
+  password: Joi.string().pattern(passwordPattern).required().messages({
+    "string.empty": "Le mot de passe est requis.",
+    "string.pattern.base":
+      "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
+  }),
+  phone_number: Joi.string()
+    .pattern(/^[0-9]{10}$/)
+    .required()
+    .messages({
+      "string.empty": "Le numéro de téléphone est requis.",
+      "string.pattern.base":
+        "Le numéro de téléphone doit contenir 10 chiffres.",
+    }),
+  city: Joi.string().trim().allow("", null),
+  adress: Joi.string().trim().allow("", null),
+});
+
+const loginSchema = Joi.object({
+  email: Joi.string().email().required().messages({
+    "string.email": "Le format de l'email est invalide.",
+    "string.empty": "L'email est requis.",
+    "any.required": "L'email est requis.",
+  }),
+  password: Joi.string().required().messages({
+    "string.empty": "Le mot de passe est requis.",
+    "any.required": "Le mot de passe est requis.",
+  }),
+  targetRole: Joi.string().valid("client", "admin").required(),
+});
+
 // Inscription : crée toujours un compte avec le role "client"
 const register: RequestHandler = async (req, res, next) => {
   try {
-    const { firstname, lastname, email, password, phone_number, city, adress } =
-      req.body;
+    const { error, value } = registerSchema.validate(req.body, {
+      abortEarly: false,
+    });
 
-    if (!firstname || !lastname || !email || !password || !phone_number) {
-      res.status(400).json({ message: "Champs obligatoires manquants." });
+    if (error) {
+      res.status(400).json({
+        message: "Données invalides.",
+        details: error.details.map((err) => err.message),
+      });
       return;
     }
+
+    const { firstname, lastname, email, password, phone_number, city, adress } =
+      value;
 
     const existing = await authRepository.findByEmail(email);
     if (existing) {
@@ -56,68 +107,60 @@ const register: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Logique de connexion partagée, restreinte à un rôle attendu ("client" ou "admin")
-const loginWithRole = async (
-  req: Parameters<RequestHandler>[0],
-  res: Parameters<RequestHandler>[1],
-  expectedRole: "client" | "admin",
-) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(400).json({ message: "Email et mot de passe requis." });
-    return;
-  }
-
-  const invalidCredentials = () =>
-    res.status(401).json({ message: "Email ou mot de passe incorrect." });
-
-  const user = await authRepository.findByEmail(email);
-  if (!user) {
-    invalidCredentials();
-    return;
-  }
-
-  const passwordMatches = await argon2.verify(user.password, password);
-  if (!passwordMatches) {
-    invalidCredentials();
-    return;
-  }
-
-  if (user.role !== expectedRole) {
-    res.status(403).json({
-      message:
-        expectedRole === "admin"
-          ? "Ce compte n'a pas les droits administrateur."
-          : "Veuillez utiliser l'espace Admin pour vous connecter.",
+const login: RequestHandler = async (req, res) => {
+  try {
+    const { error, value } = loginSchema.validate(req.body, {
+      abortEarly: false,
     });
-    return;
-  }
 
-  const { password: _password, fortgot_password: _fortgot, ...safeUser } = user;
-  const token = jwtUtil.signToken({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    firstname: user.firstname,
-  });
+    if (error) {
+      res.status(400).json({
+        message: "Données invalides.",
+        details: error.details.map((err) => err.message),
+      });
+      return;
+    }
 
-  res.status(200).json({ token, user: safeUser });
-};
+    /*value = res de joi*/
+    const { email, password, targetRole } = value;
+    const invalidCredentials = () =>
+      res.status(401).json({ message: "Email ou mot de passe incorrect." });
 
-const loginClient: RequestHandler = async (req, res, next) => {
-  try {
-    await loginWithRole(req, res, "client");
+    const user = await authRepository.findByEmail(email);
+    if (!user) {
+      invalidCredentials();
+      return;
+    }
+
+    const passwordMatches = await argon2.verify(user.password, password);
+    if (!passwordMatches) {
+      invalidCredentials();
+      return;
+    }
+
+    if (user.role !== targetRole) {
+      res.status(403).json({
+        message:
+          targetRole === "admin"
+            ? "Ce compte n'a pas les droits administrateur."
+            : "Veuillez utiliser l'espace Admin pour vous connecter.",
+      });
+      return;
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      firstname: user.firstname,
+    };
+
+    const token = jwtUtil.signToken(payload);
+
+    res.status(200).json({ token, user: payload });
   } catch (err) {
-    next(err);
-  }
-};
-
-const loginAdmin: RequestHandler = async (req, res, next) => {
-  try {
-    await loginWithRole(req, res, "admin");
-  } catch (err) {
-    next(err);
+    console.error("Erreur lors de la connexion :", err);
+    res.status(500).json({ message: "Erreur interne du serveur." });
   }
 };
 
@@ -142,4 +185,4 @@ const me: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { register, loginClient, loginAdmin, me };
+export default { register, login, me };
