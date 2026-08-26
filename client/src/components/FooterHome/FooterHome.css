@@ -1,7 +1,7 @@
 .footer-home-section {
   background: var(--color-bg-dark);
   color: var(--color-text-on-dark);
-  padding: var(--space-16) var(--container-padding-x) var(--space-6);
+  padding: var(--space-6) var(--container-padding-x);
 
   .footer-home-container {
     max-width: var(--container-2xl);
@@ -15,7 +15,7 @@
     justify-content: center;
     text-align: center;
     gap: var(--space-5);
-    padding: var(--space-4) 0 var(--space-10);
+    padding: var(--space-12) 0;
   }
 
   .footer-home-title {
@@ -99,8 +99,8 @@
   .footer-home-content {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-8);
+    justify-content: flex-start;
+    gap: var(--space-40);
     padding: var(--space-6) 0;
   }
 
@@ -131,7 +131,7 @@
   .footer-home-links {
     display: grid;
     grid-template-columns: repeat(3, minmax(120px, 1fr));
-    gap: var(--space-6);
+    gap: var(--space-28);
   }
 
   .footer-home-column {
@@ -158,7 +158,7 @@
   }
 
   .footer-home-divider-bottom {
-    margin-top: var(--space-2);
+    margin: var(--space-2);
   }
 
   .footer-home-bottom {
@@ -171,28 +171,26 @@
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
   }
+}
 
-  @media screen and (max-width: 900px) {
-    padding: var(--space-10) var(--container-padding-x-sm) var(--space-5);
-
-    .footer-home-cta {
-      padding: var(--space-2) 0 var(--space-6);
-    }
+@media screen and (max-width: 1280px) {
+  .footer-home-section {
+    padding-top: 0;
 
     .footer-home-content {
-      flex-direction: column;
-      gap: var(--space-6);
-      padding: var(--space-5) 0;
+      flex-direction: row;
+      gap: var(--space-20);
+      padding: var(--space-4);
     }
-
     .footer-home-links {
       width: 100%;
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
-      gap: var(--space-5);
+      grid-template-columns: repeat(3, minmax(140px, 1fr));
+      gap: var(--space-4);
     }
   }
-
-  @media screen and (max-width: 640px) {
+}
+@media screen and (max-width: 428px) {
+  .footer-home-section {
     .footer-home-title {
       font-size: clamp(1.7rem, 8vw, 2.5rem);
     }
@@ -210,10 +208,12 @@
       min-height: 36px;
       font-size: var(--text-sm);
     }
-
+    .footer-home-content {
+      flex-direction: column;
+      gap: var(--space-6);
+    }
     .footer-home-links {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
+      gap: 0;
     }
 
     .footer-home-brand-name {
