@@ -33,25 +33,25 @@ function DescriptifAccueil() {
           pensé pour que vous puissiez travailler, créer et rencontrer des gens
           qui font des choses intéressantes.
         </p>
-        <div className="mission-features-list-div">
-          <div className="mission-feature-div">
-            <span className="mission-feature-icon">☕</span>
-            <span className="mission-feature-text">
-              Espace détente & café bio
-            </span>
-          </div>
-          <div className="mission-feature-div">
-            <span className="mission-feature-icon">⚡</span>
-            <span className="mission-feature-text">Internet fibre 1Gb</span>
-          </div>
-          <div className="mission-feature-div">
-            <span className="mission-feature-icon">⭐</span>
-            <span className="mission-feature-text">Tarifs solidaires</span>
-          </div>
-          <div className="mission-feature-div">
-            <span className="mission-feature-icon">👥</span>
-            <span className="mission-feature-text">Communauté active</span>
-          </div>
+      </div>
+      <div className="mission-features-list-div">
+        <div className="mission-feature-div">
+          <span className="mission-feature-icon">☕</span>
+          <span className="mission-feature-text">
+            Espace détente & café bio
+          </span>
+        </div>
+        <div className="mission-feature-div">
+          <span className="mission-feature-icon">⚡</span>
+          <span className="mission-feature-text">Internet fibre 1Gb</span>
+        </div>
+        <div className="mission-feature-div">
+          <span className="mission-feature-icon">⭐</span>
+          <span className="mission-feature-text">Tarifs solidaires</span>
+        </div>
+        <div className="mission-feature-div">
+          <span className="mission-feature-icon">👥</span>
+          <span className="mission-feature-text">Communauté active</span>
         </div>
       </div>
     </section>

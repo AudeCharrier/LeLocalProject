@@ -11,7 +11,7 @@
     gap: var(--gap-sm);
 
     .stats-number {
-      font-size: clamp(var(--space-text-sm), 5vw, var(--text-2xl));
+      font-size: clamp(var(--space-text-sm), 2vw, var(--text-2xl));
       font-weight: var(--font-bold);
       color: var(--color-text-on-dark);
       font-family: var(--font-display);
@@ -20,7 +20,7 @@
     .stats-text {
       color: var(--color-text-on-dark);
       letter-spacing: var(--tracking-wide);
-      font-size: clamp(var(--space-text-sm), 5vw, var(--text-2xl));
+      font-size: clamp(var(--space-text-sm), 2vw, var(--text-2xl));
       font-family: var(--font-display);
       font-weight: var(--font-regular);
     }
