@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Login.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { apiFetch } from "../../hooks/apiFetch";
 
 type Tab = "client" | "admin";
@@ -14,8 +15,9 @@ export default function Login() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -29,7 +31,9 @@ export default function Login() {
           targetRole: tab,
         }),
       });
+
       const data = await res.json();
+
       if (!res.ok) {
         const errorMessage = data.details
           ? data.details.join("\n")
@@ -37,14 +41,16 @@ export default function Login() {
         setError(errorMessage);
         return;
       }
+
       if (remember) {
         localStorage.setItem("token", data.token);
       } else {
         sessionStorage.setItem("token", data.token);
       }
 
-      window.location.href =
+      const targetPath =
         tab === "admin" ? "/dashboard-admin" : "/dashboard-client";
+      navigate(targetPath, { replace: true });
     } catch {
       setError("Impossible de contacter le serveur.");
     } finally {

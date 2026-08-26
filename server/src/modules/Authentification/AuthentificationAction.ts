@@ -107,8 +107,7 @@ const register: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Logique de connexion partagée, restreinte à un rôle attendu ("client" ou "admin")
-export const login: RequestHandler = async (req, res) => {
+const login: RequestHandler = async (req, res) => {
   try {
     const { error, value } = loginSchema.validate(req.body, {
       abortEarly: false,
