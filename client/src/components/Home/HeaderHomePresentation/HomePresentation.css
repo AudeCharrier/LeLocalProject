@@ -11,7 +11,7 @@
     gap: var(--gap-sm);
 
     .stats-number {
-      font-size: var(--text-2xl);
+      font-size: clamp(var(--space-text-sm), 5vw, var(--text-2xl));
       font-weight: var(--font-bold);
       color: var(--color-text-on-dark);
       font-family: var(--font-display);
@@ -20,9 +20,32 @@
     .stats-text {
       color: var(--color-text-on-dark);
       letter-spacing: var(--tracking-wide);
-      font-size: var(--text-lg);
+      font-size: clamp(var(--space-text-sm), 5vw, var(--text-2xl));
       font-family: var(--font-display);
       font-weight: var(--font-regular);
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .stats-global-div {
+    gap: var(--space-2);
+    padding: var(--space-4);
+
+    .stats-item-div {
+      gap: var(--gap-sm);
+    }
+  }
+}
+
+@media screen and (max-width: 428px) {
+  .stats-global-div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: var(--space-2);
+    .stats-item-div {
+      gap: var(--space-2);
+      padding: var(--space-2);
     }
   }
 }
