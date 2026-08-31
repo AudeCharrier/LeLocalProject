@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { apiFetch } from "../../hooks/apiFetch";
-
+import { setToken } from "../../context/AuthContext";
 type Tab = "client" | "admin";
 
 export default function Login() {
@@ -47,7 +47,7 @@ export default function Login() {
       } else {
         sessionStorage.setItem("token", data.token);
       }
-
+      setToken(data.token, remember);
       const targetPath =
         tab === "admin" ? "/dashboard-admin" : "/dashboard-client";
       navigate(targetPath, { replace: true });
