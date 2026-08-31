@@ -1,7 +1,7 @@
 .footer-dashboard-section {
   background: var(--color-bg-dark);
   color: var(--color-text-on-dark);
-  padding: var(--space-12) var(--container-padding-x) var(--space-8);
+  padding: var(--space-6) var(--container-padding-x);
 
   .footer-dashboard-container {
     max-width: var(--container-2xl);
@@ -11,9 +11,9 @@
   .footer-dashboard-content {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-10);
-    padding-bottom: var(--space-6);
+    justify-content: flex-start;
+    gap: var(--space-40);
+    padding: var(--space-6) 0;
   }
 
   .footer-dashboard-brand {
@@ -25,7 +25,7 @@
 
   .footer-dashboard-brand-name {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-lg);
     font-weight: var(--font-semibold);
     color: var(--color-bg-light);
   }
@@ -33,23 +33,23 @@
   .footer-dashboard-brand-details {
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    gap: var(--space-2);
     color: rgba(255, 255, 255, 0.62);
     font-family: var(--font-body);
     font-size: var(--text-base);
-    line-height: 1.2;
+    line-height: var(--leading-normal);
   }
 
   .footer-dashboard-links {
     display: grid;
     grid-template-columns: repeat(3, minmax(120px, 1fr));
-    gap: var(--space-10);
+    gap: var(--space-28);
   }
 
   .footer-dashboard-column {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: var(--space-1);
   }
 
   .footer-dashboard-column-title {
@@ -59,24 +59,25 @@
     font-weight: var(--font-semibold);
     letter-spacing: var(--tracking-widest);
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.7);
   }
 
   .footer-dashboard-link {
     color: rgba(255, 255, 255, 0.62);
     font-family: var(--font-body);
     font-size: var(--text-base);
-    line-height: 1.3;
+    line-height: var(--leading-normal);
   }
 
   .footer-dashboard-divider {
     width: 100%;
     height: 1px;
     background: rgba(255, 255, 255, 0.14);
+    margin: var(--space-2);
   }
 
   .footer-dashboard-bottom {
-    padding-top: var(--space-4);
+    padding-top: var(--space-3);
   }
 
   .footer-dashboard-legal {
@@ -85,37 +86,35 @@
     font-size: var(--text-sm);
     line-height: var(--leading-normal);
   }
+}
 
-  @media screen and (max-width: 900px) {
-    padding: var(--space-10) var(--container-padding-x-sm) var(--space-7);
+@media screen and (max-width: 1280px) {
+  .footer-dashboard-section {
+    .footer-dashboard-content {
+      flex-direction: row;
+      gap: var(--space-20);
+      padding: var(--space-4);
+    }
+    .footer-dashboard-links {
+      width: 100%;
+      grid-template-columns: repeat(3, minmax(140px, 1fr));
+      gap: var(--space-4);
+    }
+  }
+}
 
+@media screen and (max-width: 428px) {
+  .footer-dashboard-section {
     .footer-dashboard-content {
       flex-direction: column;
       gap: var(--space-6);
     }
-
     .footer-dashboard-links {
-      width: 100%;
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
-      gap: var(--space-6);
+      gap: 0;
     }
 
     .footer-dashboard-brand-name {
-      font-size: var(--text-lg);
-    }
-  }
-
-  @media screen and (max-width: 640px) {
-    padding: var(--space-8) var(--container-padding-x-sm) var(--space-6);
-
-    .footer-dashboard-content {
-      gap: var(--space-5);
-      padding-bottom: var(--space-5);
-    }
-
-    .footer-dashboard-links {
-      grid-template-columns: 1fr;
-      gap: var(--space-4);
+      font-size: var(--text-base);
     }
 
     .footer-dashboard-brand-details,
@@ -123,16 +122,9 @@
       font-size: var(--text-sm);
     }
 
-    .footer-dashboard-column-title {
-      font-size: var(--text-xs);
-    }
-
     .footer-dashboard-bottom {
-      padding-top: var(--space-3);
-    }
-
-    .footer-dashboard-legal {
-      font-size: var(--text-xs);
+      padding-top: var(--space-2);
+      padding-bottom: var(--space-12);
     }
   }
 }
