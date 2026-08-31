@@ -3,8 +3,8 @@ import "./Login.css";
 import { Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
-import { apiFetch } from "../../hooks/apiFetch";
 import { setToken } from "../../context/AuthContext";
+import { apiFetch } from "../../hooks/apiFetch";
 type Tab = "client" | "admin";
 
 export default function Login() {
